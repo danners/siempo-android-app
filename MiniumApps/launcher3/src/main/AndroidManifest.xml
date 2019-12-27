@@ -310,9 +310,6 @@
             android:name=".activities.EnableTempoActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activities.InAppItemListActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".activities.ChooseBackgroundActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
