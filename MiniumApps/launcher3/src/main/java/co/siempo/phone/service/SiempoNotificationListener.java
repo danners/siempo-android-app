@@ -6,8 +6,6 @@ import android.app.NotificationManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.media.AudioManager;
 import android.os.Build;
@@ -297,17 +295,12 @@ public class SiempoNotificationListener extends NotificationListenerService {
     }
 
     private void printLog(StatusBarNotification notification) {
-        String strName;
-        char[] array;
-        long time;
-        byte[] userImage;
 
 
         Bundle bundle = notification.getNotification().extras;
         String strKey;
         String strValue;
         StringBuilder finalString = new StringBuilder();
-        String strTitle;
         if (bundle != null) {
             for (String key : bundle.keySet()) {
                 Object value = bundle.get(key);
@@ -422,12 +415,6 @@ public class SiempoNotificationListener extends NotificationListenerService {
         try {
             if (statusBarNotification.getNotification().extras.getCharSequence(NotificationCompat.EXTRA_SUMMARY_TEXT) != null) {
                 strCount = statusBarNotification.getNotification().extras.getCharSequence(NotificationCompat.EXTRA_SUMMARY_TEXT).toString();
-                if (strCount != null && Character.isDigit(strCount.charAt(0))) {
-                    String str[] = strCount.split(" ");
-                    int count = Integer.parseInt(str[0]);
-                    logFirebaseCount(strPackageName, count);
-                }
-
             }
 
         } catch (Exception e) {
@@ -473,18 +460,6 @@ public class SiempoNotificationListener extends NotificationListenerService {
         } else {
             Tracer.d("SiempoNotificationListener:parseOtherMessages");
             parseOtherMessages(statusBarNotification, strPackageName, strTitle, strText, date, strBigText, icon, largeIcon, strCount);
-            try {
-                if (strCount == null || !Character.isDigit(strCount.charAt(0))) {
-                    List<TableNotificationSms> notificationSms
-                            = DBUtility.getNotificationDao().queryBuilder()
-                            .where(TableNotificationSmsDao.Properties.PackageName.eq(strPackageName),
-                                    TableNotificationSmsDao.Properties.Notification_type.eq(NotificationUtility.NOTIFICATION_TYPE_EVENT))
-                            .list();
-                    logFirebaseCount(strPackageName, notificationSms.size());
-                }
-            } catch (Exception e) {
-                CoreApplication.getInstance().logException(e);
-            }
         }
     }
 
@@ -501,15 +476,9 @@ public class SiempoNotificationListener extends NotificationListenerService {
                 !statusBarNotification.getNotification().category.equalsIgnoreCase(Notification.CATEGORY_TRANSPORT) &&
                 !statusBarNotification.getNotification().category.equalsIgnoreCase(Notification.CATEGORY_SERVICE) &&
                 !statusBarNotification.getPackageName().equalsIgnoreCase("com.google.android.talk")
-                //&& !statusBarNotification.getPackageName().equalsIgnoreCase("com.google.android.apps.messaging")
                 && !statusBarNotification.getPackageName().trim().equalsIgnoreCase("android"))) {
 
 
-//            if (launcherPrefs.getSharedPreferences().getBoolean(Constants.CALL_RUNNING, false)) {
-//            if (PrefSiempo.getInstance(context).read(PrefSiempo.CALL_RUNNING, false)) {
-//                Log.d(TAG, "OnGoing Call is Running.. no need to generate notification");
-//                return;
-//            }
             try {
                 DaoSession daoSession = ((Launcher3App) CoreApplication.getInstance()).getDaoSession();
                 TableNotificationSmsDao smsDao = daoSession.getTableNotificationSmsDao();
@@ -583,7 +552,6 @@ public class SiempoNotificationListener extends NotificationListenerService {
             DaoSession daoSession = ((Launcher3App) CoreApplication.getInstance()).getDaoSession();
             TableNotificationSmsDao smsDao = daoSession.getTableNotificationSmsDao();
             if (!strTitle.trim().endsWith("new messages")) {
-                String groupname = "";
                 if (strTitle.contains(":")) {
                     String[] separated = strTitle.split(":");
                     strTitle = separated[0];
@@ -715,7 +683,6 @@ public class SiempoNotificationListener extends NotificationListenerService {
             for (TableNotificationSms tableNotificationSms : notificationSms) {
                 count = count + tableNotificationSms.get_message().split("\n").length;
             }
-            logFirebaseCount(strPackageName, count);
         } catch (Exception e) {
             Tracer.d("SiempoNotificationListener:parseHangOutMessage" + e.getMessage());
             e.printStackTrace();
@@ -1185,38 +1152,6 @@ public class SiempoNotificationListener extends NotificationListenerService {
         }
     }
 
-    /**
-     * For getting the application name from package name.
-     *
-     * @param packageName
-     * @return
-     */
-    private String getAppName(String packageName) {
-        ApplicationInfo ai;
-        try {
-            ai = getPackageManager().getApplicationInfo(packageName, 0);
-        } catch (final PackageManager.NameNotFoundException e) {
-            CoreApplication.getInstance().logException(e);
-            ai = null;
-        }
-        return (String) (ai != null ? getPackageManager().getApplicationLabel(ai) : "(unknown)");
-    }
-
-    /**
-     * Send the suppressed notification count to firebase analytics.
-     *
-     * @param strPackageName
-     * @param count
-     */
-    private void logFirebaseCount(String strPackageName, int count) {
-        try {
-            Log.d("Count Suppressed", "PackageName:" + strPackageName + " " + count);
-        } catch (Exception e) {
-            e.printStackTrace();
-            CoreApplication.getInstance().logException(e);
-        }
-    }
-
     @Override
     public void onNotificationRemoved(StatusBarNotification notification) {
         super.onNotificationRemoved(notification);
@@ -1273,8 +1208,6 @@ public class SiempoNotificationListener extends NotificationListenerService {
         if (title == null || !title.contains("(") || !title.contains(")")) {
             return title;
         }
-        int lastParenthesiIndex = title.lastIndexOf("(");
-        int lastEndParenthesisIndex = title.lastIndexOf(")");
         return "CODE_IGNORE_ME";
     }
 

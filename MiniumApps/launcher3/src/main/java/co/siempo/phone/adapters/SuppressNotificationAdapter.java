@@ -57,7 +57,6 @@ public class SuppressNotificationAdapter extends RecyclerView.Adapter<SuppressNo
 
     private Context mContext;
     private List<Notification> notificationList;
-    //= new ArrayList<>();
 
     private String defSMSApp;
 
@@ -82,7 +81,6 @@ public class SuppressNotificationAdapter extends RecyclerView.Adapter<SuppressNo
     public void onBindViewHolder(final ItemViewHolder holder, int position) {
         Notification notification = notificationList.get(position);
         if (notification.getNotificationType() == NotificationUtility.NOTIFICATION_TYPE_EVENT) {
-//            Drawable drawable = CoreApplication.getInstance().getApplicationIconFromPackageName(notification.getPackageName());
             holder.imgAppIcon.setBackground(null);
             holder.imgAppIcon.setImageBitmap(null);
 
@@ -90,7 +88,7 @@ public class SuppressNotificationAdapter extends RecyclerView.Adapter<SuppressNo
             if (bitmap != null) {
                 holder.imgAppIcon.setImageBitmap(bitmap);
             } else {
-                ApplicationInfo appInfo = null;
+                ApplicationInfo appInfo;
                 try {
                     appInfo = mContext.getPackageManager().getApplicationInfo(notification.getPackageName(), PackageManager.GET_META_DATA);
                     BitmapWorkerTask bitmapWorkerTask = new BitmapWorkerTask(appInfo, mContext.getPackageManager());

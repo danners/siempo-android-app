@@ -2,13 +2,10 @@ package co.siempo.phone.adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +15,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import co.siempo.phone.R;
@@ -26,9 +22,7 @@ import co.siempo.phone.activities.CoreActivity;
 import co.siempo.phone.activities.FavoriteAppsPositionActivity;
 import co.siempo.phone.app.CoreApplication;
 import co.siempo.phone.helper.ActivityHelper;
-import co.siempo.phone.models.AppMenu;
 import co.siempo.phone.models.MainListItem;
-import co.siempo.phone.utils.DrawableProvider;
 import co.siempo.phone.utils.PrefSiempo;
 
 /**
@@ -39,17 +33,12 @@ public class FavoritesPaneAdapter extends RecyclerView.Adapter<FavoritesPaneAdap
 
     private final Context context;
     private List<MainListItem> mainListItemList;
-    private boolean isBottomDoc = false, isHideIconBranding;
-    private HashMap<Integer, AppMenu> map;
-    private DrawableProvider mProvider;
+    private boolean isHideIconBranding;
 
-    public FavoritesPaneAdapter(Context context, boolean isHideIconBranding, boolean isBottomDoc, List<MainListItem> mainListItemList) {
+    public FavoritesPaneAdapter(Context context, boolean isHideIconBranding, List<MainListItem> mainListItemList) {
         this.context = context;
         this.mainListItemList = mainListItemList;
         this.isHideIconBranding = isHideIconBranding;
-        this.isBottomDoc = isBottomDoc;
-        mProvider = new DrawableProvider(context);
-        map = CoreApplication.getInstance().getToolsSettings();
     }
 
     @Override
@@ -155,22 +144,6 @@ public class FavoritesPaneAdapter extends RecyclerView.Adapter<FavoritesPaneAdap
     @Override
     public int getItemCount() {
         return mainListItemList.size();
-    }
-
-    public Drawable getAppIconByPackageName(String ApkTempPackageName, Context context) {
-
-        Drawable drawable;
-
-        try {
-            drawable = context.getPackageManager().getApplicationIcon(ApkTempPackageName);
-
-        } catch (PackageManager.NameNotFoundException e) {
-
-            e.printStackTrace();
-
-            drawable = ContextCompat.getDrawable(context, R.mipmap.ic_launcher);
-        }
-        return drawable;
     }
 
     public void setMainListItemList(ArrayList<MainListItem> mainListItemList, boolean hideIconBranding) {

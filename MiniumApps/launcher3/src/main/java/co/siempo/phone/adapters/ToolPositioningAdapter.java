@@ -40,7 +40,7 @@ import co.siempo.phone.models.MainListItem;
 public class ToolPositioningAdapter extends RecyclerView.Adapter<ToolPositioningAdapter.ItemViewHolder> implements ItemTouchHelperAdapter {
     private final Activity context;
     private final HashMap<Integer, AppMenu> map;
-    private boolean isHideIconBranding = true;
+    private boolean isHideIconBranding;
     private ArrayList<MainListItem> arrayList;
     private OnStartDragListener mDragStartListener;
     private OnToolItemListChangedListener mListChangedListener;
@@ -123,7 +123,7 @@ public class ToolPositioningAdapter extends RecyclerView.Adapter<ToolPositioning
                     holder.imgAppIcon.setVisibility(View.VISIBLE);
                     holder.imgAppIcon.setImageBitmap(bitmap);
                 } else {
-                    ApplicationInfo appInfo = null;
+                    ApplicationInfo appInfo;
                     try {
                         appInfo = context.getPackageManager().getApplicationInfo(appMenu.getApplicationName(), PackageManager.GET_META_DATA);
                         BitmapWorkerTask bitmapWorkerTask = new BitmapWorkerTask(appInfo, context.getPackageManager());

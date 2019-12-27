@@ -148,28 +148,25 @@ public abstract class SectionedRecyclerViewAdapter<H extends RecyclerView.ViewHo
             setupIndices();
         }
 
-        int section = sectionForPosition[position];
-        int index = positionWithinSection[position];
-
         if (isSectionHeaderPosition(position)) {
-            return getSectionHeaderViewType(section);
+            return getSectionHeaderViewType();
         } else if (isSectionFooterPosition(position)) {
-            return getSectionFooterViewType(section);
+            return getSectionFooterViewType();
         } else {
-            return getSectionItemViewType(section, index);
+            return getSectionItemViewType();
         }
 
     }
 
-    protected int getSectionHeaderViewType(int section) {
+    protected int getSectionHeaderViewType() {
         return TYPE_SECTION_HEADER;
     }
 
-    protected int getSectionFooterViewType(int section) {
+    protected int getSectionFooterViewType() {
         return TYPE_SECTION_FOOTER;
     }
 
-    protected int getSectionItemViewType(int section, int position) {
+    protected int getSectionItemViewType() {
         return TYPE_ITEM;
     }
 

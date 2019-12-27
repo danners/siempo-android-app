@@ -40,15 +40,13 @@ public class JunkFoodPaneAdapter extends RecyclerView.Adapter<JunkFoodPaneAdapte
 
     private final Context context;
     private List<String> mainListItemList;
-    private boolean isHideIconBranding = false;
-    private DrawableProvider mProvider;
+    private boolean isHideIconBranding;
 
 
     public JunkFoodPaneAdapter(Context context, ArrayList<String> mainListItemList, boolean isHideIconBranding) {
         this.context = context;
         this.mainListItemList = mainListItemList;
         this.isHideIconBranding = isHideIconBranding;
-        mProvider = new DrawableProvider(context);
     }
 
     public void setMainListItemList(List<String> mainListItemList, boolean isHideIconBranding) {
@@ -98,7 +96,7 @@ public class JunkFoodPaneAdapter extends RecyclerView.Adapter<JunkFoodPaneAdapte
             if (bitmap != null) {
                 holder.imgAppIcon.setImageBitmap(bitmap);
             } else {
-                ApplicationInfo appInfo = null;
+                ApplicationInfo appInfo;
                 try {
                     appInfo = context.getPackageManager().getApplicationInfo(item, PackageManager.GET_META_DATA);
                     BitmapWorkerTask bitmapWorkerTask = new BitmapWorkerTask(appInfo, context.getPackageManager());

@@ -384,7 +384,6 @@ public class MainListAdapter extends ArrayAdapter<MainListItem> {
 
                 for (int i = 0; i < count; i++) {
                     String filterableString;
-                    String[] splits;
 
 
                     switch (originalData.get(i).getItemType()) {

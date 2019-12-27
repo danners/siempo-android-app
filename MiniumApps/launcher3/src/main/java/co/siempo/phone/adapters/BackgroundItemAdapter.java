@@ -16,7 +16,6 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 
 import co.siempo.phone.R;
@@ -25,7 +24,7 @@ import co.siempo.phone.models.ImageItem;
 
 public final class BackgroundItemAdapter extends BaseAdapter {
     private final LayoutInflater mInflater;
-    private List<ImageItem> mItems = new ArrayList<ImageItem>();
+    private List<ImageItem> mItems;
     private Context context;
 
     public BackgroundItemAdapter(Context context, List<ImageItem> mItems) {
@@ -55,8 +54,8 @@ public final class BackgroundItemAdapter extends BaseAdapter {
 
         if (convertView == null) {
             convertView = mInflater.inflate(R.layout.choose_background_grid_item, viewGroup, false);
-            viewHolder.mImage = (ImageView) convertView.findViewById(R.id.gridImage);
-            viewHolder.imageText = (TextView) convertView.findViewById(R.id.text);
+            viewHolder.mImage = convertView.findViewById(R.id.gridImage);
+            viewHolder.imageText = convertView.findViewById(R.id.text);
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();

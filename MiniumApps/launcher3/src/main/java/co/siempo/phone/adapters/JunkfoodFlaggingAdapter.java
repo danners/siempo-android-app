@@ -46,7 +46,6 @@ public class JunkfoodFlaggingAdapter extends BaseAdapter implements Filterable {
     private LayoutInflater mInflater;
     private List<AppListInfo> filterList;
     private ItemFilter mFilter = new ItemFilter();
-    private PopupMenu popup;
 
     public JunkfoodFlaggingAdapter(JunkfoodFlaggingActivity context, ArrayList<AppListInfo> mData) {
         this.context = context;
@@ -95,7 +94,6 @@ public class JunkfoodFlaggingAdapter extends BaseAdapter implements Filterable {
             holder = (ViewHolder) convertView.getTag();
         }
 
-//        holder.linTop.setTag(filterList.get(position));
         try {
             final AppListInfo resolveInfo = filterList.get(position);
             Log.d("Tetsing ", resolveInfo.toString());

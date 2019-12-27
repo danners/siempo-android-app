@@ -1,14 +1,8 @@
 package co.siempo.phone.adapters;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
-import android.os.Build;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.PopupMenu;
 import android.text.TextUtils;
 import android.view.Gravity;
@@ -48,15 +42,10 @@ public class TempoNotificationSectionAdapter extends SectionedRecyclerViewAdapte
         TempoNotificationItemViewHolder,
         NoticationFooterViewHolder> {
 
-    protected Context context = null;
-    private ArrayList<String> pref_helpfulRobots = new ArrayList<>();
-    private Set<String> pref_blockedList = new HashSet<>();
-    private ArrayList<String> pref_headerSectionList = new ArrayList<>();
-    private SharedPreferences launcherPrefs;
-    private AlertDialog alertDialog;
+    protected Context context;
+    private Set<String> pref_blockedList;
     private PopupMenu popup;
-    private List<String> pref_messengerList = new ArrayList<>();
-    private PackageManager packageManager;
+    private List<String> pref_messengerList;
     private List<AppListInfo> helpfulRobot_List, blockedList, messengerList;
     private List<AppListInfo> headerList;
 
@@ -67,26 +56,9 @@ public class TempoNotificationSectionAdapter extends SectionedRecyclerViewAdapte
         this.blockedList = blockedList;
         this.headerList = headerList;
         this.messengerList = messengerList;
-        this.packageManager = context.getPackageManager();
-
-        String pref_helpfulRobots = PrefSiempo.getInstance(context).read(PrefSiempo.HELPFUL_ROBOTS,
-                "");
-        if (!TextUtils.isEmpty(pref_helpfulRobots)) {
-            Type type = new TypeToken<ArrayList<String>>() {
-            }.getType();
-            this.pref_helpfulRobots = new Gson().fromJson(pref_helpfulRobots, type);
-        }
 
 
         pref_blockedList = PrefSiempo.getInstance(context).read(PrefSiempo.BLOCKED_APPLIST, new HashSet<String>());
-
-
-        String headerAppList = PrefSiempo.getInstance(context).read(PrefSiempo.HEADER_APPLIST, "");
-        if (!TextUtils.isEmpty(headerAppList)) {
-            Type type = new TypeToken<ArrayList<String>>() {
-            }.getType();
-            pref_headerSectionList = new Gson().fromJson(headerAppList, type);
-        }
 
         pref_messengerList = new ArrayList<>();
         Intent intent = new Intent(android.content.Intent.ACTION_SEND);
@@ -98,18 +70,6 @@ public class TempoNotificationSectionAdapter extends SectionedRecyclerViewAdapte
                 pref_messengerList.add(resolveInfo.activityInfo.packageName);
             }
         }
-    }
-
-    public List<AppListInfo> getHelpfulRobot_List() {
-        return helpfulRobot_List;
-    }
-
-    public List<AppListInfo> getBlockedList() {
-        return blockedList;
-    }
-
-    public List<AppListInfo> getMessengerList() {
-        return messengerList;
     }
 
     @Override
@@ -193,7 +153,7 @@ public class TempoNotificationSectionAdapter extends SectionedRecyclerViewAdapte
                 holder.render(otherAppsItems.errorMessage);
                 holder.disableViews();
             }
-            holder.displayImage(otherAppsItems.packageName, packageManager, otherAppsItems.errorMessage);
+            holder.displayImage(otherAppsItems.packageName, otherAppsItems.errorMessage);
             holder.getLinearList().setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -231,7 +191,7 @@ public class TempoNotificationSectionAdapter extends SectionedRecyclerViewAdapte
                                                         .MESSENGER_DISABLE_COUNT, disableCount - 1);
                                     }
 
-                                    changeHeaderNotification(section, pref_headerSectionList, context);
+                                    changeHeaderNotification(context);
                                 return true;
 
                             }
@@ -258,7 +218,7 @@ public class TempoNotificationSectionAdapter extends SectionedRecyclerViewAdapte
                 holder.render(messengerAppsItem.errorMessage);
                 holder.disableViews();
             }
-            holder.displayImage(messengerAppsItem.packageName, packageManager, messengerAppsItem.errorMessage);
+            holder.displayImage(messengerAppsItem.packageName, messengerAppsItem.errorMessage);
 
             holder.getLinearList().setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -289,7 +249,7 @@ public class TempoNotificationSectionAdapter extends SectionedRecyclerViewAdapte
                                         (PrefSiempo
                                                         .MESSENGER_DISABLE_COUNT,
                                                 disableCount + 1);
-                                changeHeaderNotification(section, pref_headerSectionList, context);
+                                changeHeaderNotification(context);
                                 return true;
                             }
                         });
@@ -309,7 +269,7 @@ public class TempoNotificationSectionAdapter extends SectionedRecyclerViewAdapte
             String appName = CoreApplication.getInstance().getListApplicationName().get(appListItem.packageName);
             holder.render(appName);
 
-            holder.displayImage(appListItem.packageName, packageManager, appListItem.errorMessage);
+            holder.displayImage(appListItem.packageName, appListItem.errorMessage);
             if (!TextUtils.isEmpty(appListItem.errorMessage)) {
                 holder.render(appListItem.errorMessage);
                 holder.disableViews();
@@ -341,7 +301,7 @@ public class TempoNotificationSectionAdapter extends SectionedRecyclerViewAdapte
                                 PrefSiempo.getInstance(context).write(
                                         PrefSiempo
                                                 .APP_DISABLE_COUNT, disableCount + 1);
-                                changeHeaderNotification(section, pref_headerSectionList, context);
+                                changeHeaderNotification(context);
                                 return true;
                             }
                         });
@@ -376,13 +336,9 @@ public class TempoNotificationSectionAdapter extends SectionedRecyclerViewAdapte
      * This method is used to remove apps from Open Category to Blocked List - true
      * Or to move Blocked app to normal open app - false
      *
-     * @param position
-     * @param disableHeaderApps
      * @param context
      */
-    private void changeHeaderNotification(int position, ArrayList<String> disableHeaderApps, Context context) {
-
-        AppListInfo headerAppList = headerList.get(position);
+    private void changeHeaderNotification(Context context) {
 
 
         try {

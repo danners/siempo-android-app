@@ -46,7 +46,6 @@ public class AppAssignmentAdapter extends RecyclerView.Adapter<AppAssignmentAdap
     private final AppAssignmentActivity context;
     private List<ResolveInfo> filterList;
     private List<ResolveInfo> resolveInfoList;
-    private HashMap<Integer, AppMenu> map;
     private DrawableProvider mProvider;
     private int id;
     private String class_name;
@@ -57,7 +56,6 @@ public class AppAssignmentAdapter extends RecyclerView.Adapter<AppAssignmentAdap
         this.resolveInfoList = resolveInfoList;
         this.id = id;
         filterList = resolveInfoList;
-        map = CoreApplication.getInstance().getToolsSettings();
         mProvider = new DrawableProvider(context);
         this.class_name = class_name;
     }

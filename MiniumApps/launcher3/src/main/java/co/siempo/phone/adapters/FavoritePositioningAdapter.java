@@ -36,7 +36,6 @@ import co.siempo.phone.models.MainListItem;
 
 public class FavoritePositioningAdapter extends RecyclerView.Adapter<FavoritePositioningAdapter.ItemViewHolder> implements ItemTouchHelperAdapter {
     private final Activity context;
-    private final HashMap<Integer, AppMenu> map;
     private ArrayList<MainListItem> arrayList;
     private OnStartDragListener mDragStartListener;
     private boolean isHideIconBranding;
@@ -50,7 +49,6 @@ public class FavoritePositioningAdapter extends RecyclerView.Adapter<FavoritePos
         this.isHideIconBranding = isHideIconBranding;
         mDragStartListener = dragListener;
         mListChangedListener = listChangedListener;
-        map = CoreApplication.getInstance().getToolsSettings();
     }
 
     @Override

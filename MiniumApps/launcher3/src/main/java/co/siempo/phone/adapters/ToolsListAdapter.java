@@ -70,7 +70,7 @@ public class ToolsListAdapter extends RecyclerView.Adapter<ToolsListAdapter
         notifyDataSetChanged();
     }
 
-    public void changeClickble(boolean clickable) {
+    public void changeClickable(boolean clickable) {
         this.clickable = clickable;
     }
 
@@ -134,35 +134,9 @@ public class ToolsListAdapter extends RecyclerView.Adapter<ToolsListAdapter
                     if (holder.checkbox.isChecked()) {
                         if (getCountOfCheckTools() > 1) {
                             mainListItem.setVisable(false);
-//                            map.get(mainListItem.getId()).setVisible(false);
                             bindView(mainListItem, holder, false);
-//                            boolean isItemAlreadyContainsInArray = (
-//                                    (ToolSelectionActivity) context)
-//                                    .checkItemContains(mainListItem.getId());
-//                            if (isItemAlreadyContainsInArray) {
-//                                ((ToolSelectionActivity) context)
-//                                        .hideItemInSortedList(mainListItem
-//                                                .getId(), false);
-//                            }
                         }
                     } else {
-//                        if (getCountOfCheckTools() < 16) {
-//
-//                            boolean isItemAlreadyContainsInArray = (
-//                                    (ToolSelectionActivity) context)
-//                                    .checkItemContains(mainListItem.getId());
-//                            if (!isItemAlreadyContainsInArray) {
-//                                int id = ((ToolSelectionActivity) context)
-//                                        .invisibleItemId();
-//                                ((ToolSelectionActivity) context)
-//                                        .replaceData(id, mainListItem.getId());
-//                            } else {
-//                                ((ToolSelectionActivity) context)
-//                                        .hideItemInSortedList(mainListItem
-//                                                .getId(), true);
-//                            }
-
-//                            map.get(mainListItem.getId()).setVisible(true);
                             mainListItem.setVisable(true);
                             bindView(mainListItem, holder, true);
                         if (map.get(mainListItem.getId()).getApplicationName().equalsIgnoreCase("")) {
@@ -1182,24 +1156,6 @@ public class ToolsListAdapter extends RecyclerView.Adapter<ToolsListAdapter
         for (MainListItem mainListItem : listItems) {
             if (mainListItem.isVisable())
                 count++;
-        }
-        return count;
-    }
-
-    private int getCountOfAssignTools() {
-        int count = 0;
-        for (Map.Entry<Integer, AppMenu> entry : map.entrySet()) {
-            if (entry.getValue().isVisible() && !entry.getValue().getApplicationName().equalsIgnoreCase(""))
-                count++;
-        }
-        return count;
-    }
-
-    private int getAssignToolsId() {
-        int count = -1;
-        for (Map.Entry<Integer, AppMenu> entry : map.entrySet()) {
-            if (entry.getValue().isVisible() && !entry.getValue().getApplicationName().equalsIgnoreCase(""))
-                return entry.getKey();
         }
         return count;
     }

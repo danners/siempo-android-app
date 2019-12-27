@@ -22,7 +22,7 @@ import co.siempo.phone.R;
 public class FavoritesAppsFlagAdapter extends ArrayAdapter<ResolveInfo> {
     private final Context context;
     boolean isFlagList;
-    private List<ResolveInfo> resolveInfoList = null;
+    private List<ResolveInfo> resolveInfoList;
 
     public FavoritesAppsFlagAdapter(Context context, List<ResolveInfo> resolveInfoList, boolean isFlagList) {
         super(context, 0);

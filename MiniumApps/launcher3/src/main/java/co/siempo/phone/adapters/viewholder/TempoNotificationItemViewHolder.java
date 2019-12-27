@@ -12,9 +12,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
-
-import java.util.ArrayList;
 import java.util.Set;
 
 import butterknife.BindView;
@@ -60,16 +57,12 @@ public class TempoNotificationItemViewHolder extends RecyclerView.ViewHolder {
     }
 
 
-    public ImageView getToggle() {
-        return img_block_unblock;
-    }
-
     public LinearLayout getLinearList() {
         return linearList;
     }
 
 
-    public void displayImage(String packageName, PackageManager packageManager, String errormessage) {
+    public void displayImage(String packageName, String errormessage) {
         if (TextUtils.isEmpty(errormessage)) {
 
             Bitmap bitmap = CoreApplication.getInstance().getBitmapFromMemCache(packageName);
@@ -77,7 +70,7 @@ public class TempoNotificationItemViewHolder extends RecyclerView.ViewHolder {
                 imv_appicon.setImageBitmap(bitmap);
             } else {
 
-                ApplicationInfo appInfo = null;
+                ApplicationInfo appInfo;
                 try {
                     appInfo = context.getPackageManager().getApplicationInfo(packageName, PackageManager.GET_META_DATA);
                     BitmapWorkerTask bitmapWorkerTask = new BitmapWorkerTask(appInfo, context.getPackageManager());
@@ -100,29 +93,14 @@ public class TempoNotificationItemViewHolder extends RecyclerView.ViewHolder {
     public void disableViews() {
         imv_appicon.setVisibility(View.INVISIBLE);
         img_block_unblock.setVisibility(View.INVISIBLE);
-//        txt_app_name.setTextColor(Color.parseColor("#777777"));
         txt_app_name.setTextSize(12);
 
     }
 
     public void enableViews() {
         txt_app_name.setTextSize(16);
-//        txt_app_name.setTextColor(Color.parseColor("#000000"));
         img_block_unblock.setVisibility(View.VISIBLE);
         imv_appicon.setVisibility(View.VISIBLE);
-    }
-
-    public void changeNotification(ApplicationInfo applicationInfo, boolean ischecked, ArrayList<String> disableNotificationApps, Context context) {
-        if (ischecked && disableNotificationApps.contains(applicationInfo.packageName)) {
-            disableNotificationApps.remove(applicationInfo.packageName);
-        }
-        if (!ischecked && !disableNotificationApps.contains(applicationInfo.packageName)) {
-            disableNotificationApps.add(applicationInfo.packageName);
-        }
-        String disableList = new Gson().toJson(disableNotificationApps);
-        PrefSiempo.getInstance(context).write(PrefSiempo.HELPFUL_ROBOTS,
-                disableList);
-//        launcherPrefs.edit().putString(Constants.HELPFUL_ROBOTS, disableList).commit();
     }
 
 
