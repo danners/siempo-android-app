@@ -67,7 +67,6 @@ import co.siempo.phone.helper.ActivityHelper;
 import co.siempo.phone.helper.FirebaseHelper;
 import co.siempo.phone.log.Tracer;
 import co.siempo.phone.models.UserModel;
-import co.siempo.phone.service.ApiClient_;
 import co.siempo.phone.service.LoadFavoritePane;
 import co.siempo.phone.service.LoadJunkFoodPane;
 import co.siempo.phone.service.LoadToolPane;
@@ -522,7 +521,6 @@ public class DashboardActivity extends CoreActivity {
                 .getCurrentVersionCode(this))) {
             PrefSiempo.getInstance(this).write(PrefSiempo
                     .INSTALLED_APP_VERSION_CODE, UIUtils.getCurrentVersionCode(this));
-            checkUpgradeVersion();
         }
 
 
@@ -579,26 +577,6 @@ public class DashboardActivity extends CoreActivity {
         }
     }
 
-    public void checkUpgradeVersion() {
-        Log.d(TAG, "Active network..");
-        connectivityManager = (ConnectivityManager) getSystemService(Context
-                .CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetwork = null;
-        if (connectivityManager != null) {
-            activeNetwork = connectivityManager.getActiveNetworkInfo();
-        }
-        if (activeNetwork != null) {
-            if (BuildConfig.FLAVOR.equalsIgnoreCase(getString(R.string.alpha))) {
-                ApiClient_.getInstance_(DashboardActivity.this)
-                        .checkAppVersion(CheckVersionEvent.ALPHA);
-            } else if (BuildConfig.FLAVOR.equalsIgnoreCase(getString(R.string.beta))) {
-                ApiClient_.getInstance_(DashboardActivity.this)
-                        .checkAppVersion(CheckVersionEvent.BETA);
-            }
-        } else {
-            Log.d(TAG, getString(R.string.nointernetconnection));
-        }
-    }
 
     @Override
     protected void onStop() {
@@ -621,56 +599,6 @@ public class DashboardActivity extends CoreActivity {
                     }
                 })
                 .show();
-    }
-
-    @Subscribe
-    public void checkVersionEvent(CheckVersionEvent event) {
-        Log.d(TAG, "Check Version event...");
-        if (event.getVersion() == -1000) {
-            Toast.makeText(this, getString(R.string.msg_internet), Toast.LENGTH_SHORT).show();
-        } else {
-            if (event.getVersionName() != null && event.getVersionName().equalsIgnoreCase(CheckVersionEvent.ALPHA)) {
-                if (event.getVersion() > UIUtils.getCurrentVersionCode(this)) {
-                    Tracer.i("Installed version: " + UIUtils.getCurrentVersionCode(this) + " Found: " + event.getVersion());
-                    showUpdateDialog(CheckVersionEvent.ALPHA);
-                    appUpdaterUtils = null;
-                } else {
-                    ApiClient_.getInstance_(this).checkAppVersion(CheckVersionEvent.BETA);
-                }
-            } else {
-                if (event.getVersion() > UIUtils.getCurrentVersionCode(this)) {
-                    Tracer.i("Installed version: " + UIUtils.getCurrentVersionCode(this) + " Found: " + event.getVersion());
-                    showUpdateDialog(CheckVersionEvent.BETA);
-                    appUpdaterUtils = null;
-                } else {
-                    Tracer.i("Installed version: " + "Up to date.");
-                }
-            }
-        }
-    }
-
-    private void showUpdateDialog(String str) {
-        NetworkInfo activeNetwork = connectivityManager.getActiveNetworkInfo();
-        if (activeNetwork != null) { // connected to the internet
-            UIUtils.confirmWithCancel(this, "", str.equalsIgnoreCase(CheckVersionEvent.ALPHA) ? "New alpha version found! Would you like to update Siempo?" : "New beta version found! Would you like to update Siempo?", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    if (which == DialogInterface.BUTTON_POSITIVE) {
-                        PrefSiempo.getInstance(DashboardActivity.this).write
-                                (PrefSiempo
-                                        .UPDATE_PROMPT, false);
-                        new ActivityHelper(DashboardActivity.this).openBecomeATester();
-                    }
-                }
-            }, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    isApplicationLaunch = false;
-                }
-            });
-        } else {
-            Log.d(TAG, getString(R.string.nointernetconnection));
-        }
     }
 
     @Override

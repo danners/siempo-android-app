@@ -4,35 +4,22 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import co.siempo.phone.BuildConfig;
 import co.siempo.phone.R;
 import co.siempo.phone.activities.CoreActivity;
 import co.siempo.phone.activities.HelpActivity;
-import co.siempo.phone.event.CheckVersionEvent;
-import co.siempo.phone.helper.ActivityHelper;
-import co.siempo.phone.log.Tracer;
-import co.siempo.phone.service.ApiClient_;
 import co.siempo.phone.utils.DeviceUtil;
-import co.siempo.phone.utils.PrefSiempo;
-import co.siempo.phone.utils.UIUtils;
 import de.greenrobot.event.EventBus;
-import de.greenrobot.event.Subscribe;
 
 /**
  * Created by hardik on 5/1/18.
@@ -150,9 +137,6 @@ public class HelpFragment extends Fragment implements View.OnClickListener {
             case R.id.relFeedback:
                 txtSendFeedback();
                 break;
-            case R.id.relVersion:
-                checkUpgradeVersion();
-                break;
             case R.id.relLeaveReview:
                 if (getActivity() != null) {
                     final String appPackageName = getActivity().getPackageName(); // getPackageName() from Context or Activity object
@@ -169,124 +153,6 @@ public class HelpFragment extends Fragment implements View.OnClickListener {
     }
 
 
-    public void checkUpgradeVersion() {
-        Log.d(TAG, "Active network..");
-        ConnectivityManager connectivityManager = (ConnectivityManager)
-                getActivity().getSystemService(Context
-                        .CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetwork = null;
-        if (connectivityManager != null) {
-            activeNetwork = connectivityManager.getActiveNetworkInfo();
-        }
-        if (activeNetwork != null) {
-
-            if (null != progressDialog) {
-                progressDialog.setMessage("Loading...");
-                progressDialog.show();
-            }
-            if (BuildConfig.FLAVOR.equalsIgnoreCase(getString(R.string.alpha))) {
-                ApiClient_.getInstance_(getActivity())
-                        .checkAppVersion(CheckVersionEvent.ALPHA);
-            } else if (BuildConfig.FLAVOR.equalsIgnoreCase(getString(R.string.beta))) {
-                ApiClient_.getInstance_(getActivity())
-                        .checkAppVersion(CheckVersionEvent.BETA);
-            }
-        } else {
-            Log.d(TAG, getString(R.string.nointernetconnection));
-        }
-
-    }
-
-
-    @Subscribe
-    public void checkVersionEvent(CheckVersionEvent event) {
-        Log.d(TAG, "Check Version event...");
-        if (null != mActivity) {
-            if (event.getVersion() == -1000) {
-                Toast.makeText(mActivity, getString(R.string.msg_internet), Toast.LENGTH_SHORT)
-                        .show();
-                if (progressDialog != null && progressDialog.isShowing()) {
-                    progressDialog.dismiss();
-
-                }
-            } else {
-
-                if (event.getVersionName() != null && event.getVersionName().equalsIgnoreCase(CheckVersionEvent.ALPHA)) {
-
-                    if (event.getVersion() > UIUtils.getCurrentVersionCode(mActivity)) {
-                        Tracer.d("Installed version: " + UIUtils
-                                .getCurrentVersionCode(mActivity) + " Found: " + event
-                                .getVersion());
-                        if (null != progressDialog && progressDialog.isShowing()) {
-                            progressDialog.dismiss();
-                        }
-                        showUpdateDialog(CheckVersionEvent.ALPHA);
-
-                    } else {
-                        ApiClient_.getInstance_(mActivity).checkAppVersion(CheckVersionEvent
-                                .BETA);
-                    }
-
-                } else {
-                    if (event.getVersion() > UIUtils.getCurrentVersionCode(mActivity)) {
-                        Tracer.d("Installed version: " + UIUtils
-                                .getCurrentVersionCode(mActivity) + " Found: " + event
-                                .getVersion());
-                        if (null != progressDialog && progressDialog.isShowing()) {
-                            progressDialog.dismiss();
-                        }
-                        showUpdateDialog(CheckVersionEvent.BETA);
-                    } else {
-                        if (null != progressDialog && progressDialog.isShowing()) {
-                            progressDialog.dismiss();
-                        }
-                        Tracer.d("Installed version: " + "Up to date.");
-                        if (null != mActivity) {
-                            Toast.makeText(mActivity, "App is up to date", Toast
-                                    .LENGTH_SHORT).show();
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    private void showUpdateDialog(String str) {
-
-        if (null != mActivity) {
-            ConnectivityManager connectivityManager = (ConnectivityManager)
-                    mActivity.
-                            getSystemService(Context
-                                    .CONNECTIVITY_SERVICE);
-            NetworkInfo activeNetwork = null;
-            if (connectivityManager != null) {
-                activeNetwork = connectivityManager
-                        .getActiveNetworkInfo();
-            }
-            if (activeNetwork != null) {
-                UIUtils.confirmWithCancel(mActivity, "", str.equalsIgnoreCase(CheckVersionEvent.ALPHA) ? "New alpha version found! Would you like to update Siempo?" : "New beta version found! Would you like to update Siempo?", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        if (which == DialogInterface.BUTTON_POSITIVE) {
-                            PrefSiempo.getInstance(mActivity).write
-                                    (PrefSiempo
-                                            .UPDATE_PROMPT, false);
-                            new ActivityHelper(mActivity).openBecomeATester();
-                        }
-                    }
-                }, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                    }
-                });
-
-            } else {
-                Log.d(TAG, getString(R.string.nointernetconnection));
-            }
-
-        }
-    }
-
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
@@ -296,7 +162,6 @@ public class HelpFragment extends Fragment implements View.OnClickListener {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        EventBus.getDefault().register(this);
 
 
     }
@@ -304,6 +169,5 @@ public class HelpFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onDetach() {
         super.onDetach();
-        EventBus.getDefault().unregister(this);
     }
 }
