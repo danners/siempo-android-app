@@ -5,6 +5,7 @@ import android.app.DownloadManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
+import android.content.pm.LauncherActivityInfo;
 import android.content.pm.LauncherApps;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
@@ -14,7 +15,9 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Environment;
+import android.os.UserHandle;
 import android.os.UserManager;
 import android.provider.AlarmClock;
 import android.provider.CalendarContract;
@@ -1226,10 +1229,22 @@ public abstract class CoreApplication extends MultiDexApplication {
 
         @Override
         protected Set<String> doInBackground(Object... params) {
+            Set<String> applist = new HashSet<>();
+
+            if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                LoadApplicationThroughLauncherApps(applist);
+            }
+            else {
+                LoadApplicationThroughQueryIntent(applist);
+            }
+
+            return applist;
+        }
+
+        private void LoadApplicationThroughQueryIntent(Set<String> applist) {
             Intent mainIntent = new Intent(Intent.ACTION_MAIN, null);
             mainIntent.addCategory(Intent.CATEGORY_LAUNCHER);
             List<ResolveInfo> pkgAppsList = getPackageManager().queryIntentActivities(mainIntent, 0);
-            Set<String> applist = new HashSet<>();
             for (ResolveInfo appInfo : pkgAppsList) {
                 try {
                     String packageName = appInfo.activityInfo.packageName;
@@ -1266,9 +1281,44 @@ public abstract class CoreApplication extends MultiDexApplication {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+            }
+        }
+
+        private void LoadApplicationThroughLauncherApps(Set<String> applist) {
+            UserManager manager = (UserManager) getSystemService(Context.USER_SERVICE);
+            LauncherApps launcher = (LauncherApps) getSystemService(Context.LAUNCHER_APPS_SERVICE);
+            for (UserHandle profile : manager.getUserProfiles()) {
+                for (LauncherActivityInfo activityInfo : launcher.getActivityList(null, profile)) {
+                    ApplicationInfo appInfo = activityInfo.getApplicationInfo();
+                    String packageName = appInfo.packageName;
+                    Bitmap bitmap = getBitmap(appInfo);
+                    if (bitmap != null) {
+                        addBitmapToMemoryCache(packageName, bitmap);
+                    }
+
+                    applist.add(packageName);
+
+                    String applicationName = appInfo.loadLabel(getPackageManager()).toString() + profile.toString();
+                    getListApplicationName().put(packageName, applicationName);
+
+                }
 
             }
-            return applist;
+        }
+
+        private Bitmap getBitmap(ApplicationInfo appInfo) {
+            Drawable drawable;
+            try {
+                drawable = appInfo.loadIcon(getPackageManager());
+                if (drawable == null) {
+                    return null;
+                }
+                Bitmap bitmap = PackageUtil.drawableToBitmap(drawable);
+                return bitmap;
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
+            }
         }
 
 
