@@ -19,7 +19,6 @@ import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
 
 import co.siempo.phone.R;
-import co.siempo.phone.helper.FirebaseHelper;
 import co.siempo.phone.launcher.FakeLauncherActivity;
 
 @EFragment(R.layout.fragment_tempo_account_settings)
@@ -72,7 +71,6 @@ public class AccountSettingFragment extends CoreFragment {
     @Override
     public void onPause() {
         super.onPause();
-        FirebaseHelper.getInstance().logScreenUsageTime(this.getClass().getSimpleName(), startTime);
     }
 
     /**

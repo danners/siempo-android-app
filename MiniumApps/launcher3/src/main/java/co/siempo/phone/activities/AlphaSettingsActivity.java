@@ -44,7 +44,6 @@ import co.siempo.phone.app.CoreApplication;
 import co.siempo.phone.event.LocationUpdateEvent;
 import co.siempo.phone.event.StartLocationEvent;
 import co.siempo.phone.helper.ActivityHelper;
-import co.siempo.phone.helper.FirebaseHelper;
 import co.siempo.phone.utils.PermissionUtil;
 import co.siempo.phone.utils.PrefSiempo;
 import de.greenrobot.event.EventBus;
@@ -226,7 +225,6 @@ public class AlphaSettingsActivity extends CoreActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        FirebaseHelper.getInstance().logScreenUsageTime(AlphaSettingsActivity.this.getClass().getSimpleName(), startTime);
         unregisterReceiver(gpsLocationReceiver);
     }
 

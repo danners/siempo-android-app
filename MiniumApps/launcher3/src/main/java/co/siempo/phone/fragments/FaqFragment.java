@@ -10,7 +10,6 @@ import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
 
 import co.siempo.phone.R;
-import co.siempo.phone.helper.FirebaseHelper;
 
 /**
  * This screen is use to display FAQ link.
@@ -54,6 +53,5 @@ public class FaqFragment extends CoreFragment {
     @Override
     public void onPause() {
         super.onPause();
-        FirebaseHelper.getInstance().logScreenUsageTime(this.getClass().getSimpleName(), startTime);
     }
 }

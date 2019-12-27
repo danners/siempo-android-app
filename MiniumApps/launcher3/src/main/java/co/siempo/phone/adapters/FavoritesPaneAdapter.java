@@ -26,7 +26,6 @@ import co.siempo.phone.activities.CoreActivity;
 import co.siempo.phone.activities.FavoriteAppsPositionActivity;
 import co.siempo.phone.app.CoreApplication;
 import co.siempo.phone.helper.ActivityHelper;
-import co.siempo.phone.helper.FirebaseHelper;
 import co.siempo.phone.models.AppMenu;
 import co.siempo.phone.models.MainListItem;
 import co.siempo.phone.utils.DrawableProvider;
@@ -136,7 +135,6 @@ public class FavoritesPaneAdapter extends RecyclerView.Adapter<FavoritesPaneAdap
                 int id = item.getId();
                 if (holder.linearLayout.getVisibility() == View.VISIBLE) {
                     if (!TextUtils.isEmpty(item.getPackageName())) {
-                        FirebaseHelper.getInstance().logSiempoMenuUsage(1, "", CoreApplication.getInstance().getApplicationNameFromPackageName(item.getPackageName().trim()));
                         new ActivityHelper(context).openAppWithPackageName(item.getPackageName().trim());
                     }
                 }

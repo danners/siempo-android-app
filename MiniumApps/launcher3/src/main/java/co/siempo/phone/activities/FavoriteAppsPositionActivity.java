@@ -22,7 +22,6 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.gson.Gson;
-import com.jaeger.library.StatusBarUtil;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -31,7 +30,6 @@ import co.siempo.phone.R;
 import co.siempo.phone.adapters.FavoritePositioningAdapter;
 import co.siempo.phone.app.CoreApplication;
 import co.siempo.phone.customviews.ItemOffsetDecoration;
-import co.siempo.phone.helper.FirebaseHelper;
 import co.siempo.phone.interfaces.OnFavoriteItemListChangedListener;
 import co.siempo.phone.main.OnStartDragListener;
 import co.siempo.phone.main.SimpleItemTouchHelperCallback;
@@ -148,7 +146,6 @@ public class FavoriteAppsPositionActivity extends CoreActivity implements OnFavo
     protected void onPause() {
         super.onPause();
         new LoadFavoritePane(PrefSiempo.getInstance(this)).execute();
-        FirebaseHelper.getInstance().logScreenUsageTime(FavoriteAppsPositionActivity.this.getClass().getSimpleName(), startTime);
     }
 
     @Override

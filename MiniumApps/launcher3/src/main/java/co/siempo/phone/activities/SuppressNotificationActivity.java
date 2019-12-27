@@ -38,7 +38,6 @@ import co.siempo.phone.db.DBUtility;
 import co.siempo.phone.db.MultipleItemDelete;
 import co.siempo.phone.db.TableNotificationSms;
 import co.siempo.phone.db.TableNotificationSmsDao;
-import co.siempo.phone.helper.FirebaseHelper;
 import co.siempo.phone.models.CustomNotification;
 import co.siempo.phone.models.DeleteItem;
 import co.siempo.phone.models.Notification;
@@ -71,7 +70,6 @@ public class SuppressNotificationActivity extends CoreActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        FirebaseHelper.getInstance().logScreenUsageTime(this.getClass().getSimpleName(), startTime);
     }
 
     @Override

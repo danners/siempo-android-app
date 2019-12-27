@@ -30,7 +30,6 @@ import co.siempo.phone.app.CoreApplication;
 import co.siempo.phone.colorpicker.ColorPickerDialog;
 import co.siempo.phone.colorpicker.ColorPickerSwatch;
 import co.siempo.phone.event.HomePress;
-import co.siempo.phone.helper.FirebaseHelper;
 import co.siempo.phone.log.Tracer;
 import co.siempo.phone.managers.EvernoteManager;
 import co.siempo.phone.utils.UIUtils;
@@ -584,7 +583,6 @@ public class NotesEditActivity extends CoreActivity implements Toolbar.OnMenuIte
     @Override
     protected void onPause() {
         super.onPause();
-        FirebaseHelper.getInstance().logScreenUsageTime(NotesEditActivity.this.getClass().getSimpleName(), startTime);
     }
 
     @Override

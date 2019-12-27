@@ -37,7 +37,6 @@ import java.util.ArrayList;
 import co.siempo.phone.R;
 import co.siempo.phone.adapters.NoteAdapter;
 import co.siempo.phone.app.CoreApplication;
-import co.siempo.phone.helper.FirebaseHelper;
 import co.siempo.phone.log.Tracer;
 import co.siempo.phone.managers.EvernoteManager;
 
@@ -1105,7 +1104,6 @@ public class NoteListActivity extends CoreActivity implements AdapterView.OnItem
     @Override
     protected void onPause() {
         super.onPause();
-        FirebaseHelper.getInstance().logScreenUsageTime(NoteListActivity.this.getClass().getSimpleName(), startTime);
     }
 
     @Override

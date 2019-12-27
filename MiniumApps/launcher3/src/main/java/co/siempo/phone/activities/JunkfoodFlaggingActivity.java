@@ -49,7 +49,6 @@ import co.siempo.phone.app.Constants;
 import co.siempo.phone.app.CoreApplication;
 import co.siempo.phone.event.AppInstalledEvent;
 import co.siempo.phone.event.NotifySearchRefresh;
-import co.siempo.phone.helper.FirebaseHelper;
 import co.siempo.phone.models.AppListInfo;
 import co.siempo.phone.models.AppMenu;
 import co.siempo.phone.service.LoadFavoritePane;
@@ -258,7 +257,6 @@ public class JunkfoodFlaggingActivity extends CoreActivity implements AdapterVie
 
                         new LoadToolPane().execute();
                         EventBus.getDefault().postSticky(new NotifySearchRefresh(true));
-                        FirebaseHelper.getInstance().logScreenUsageTime(this.getClass().getSimpleName(), startTime);
 
                         finish();
                         JunkfoodFlaggingActivity.this.overridePendingTransition(R

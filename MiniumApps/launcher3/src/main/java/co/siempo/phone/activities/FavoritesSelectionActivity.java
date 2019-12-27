@@ -39,7 +39,6 @@ import co.siempo.phone.R;
 import co.siempo.phone.adapters.FavoriteFlaggingAdapter;
 import co.siempo.phone.app.CoreApplication;
 import co.siempo.phone.event.AppInstalledEvent;
-import co.siempo.phone.helper.FirebaseHelper;
 import co.siempo.phone.models.AppListInfo;
 import co.siempo.phone.service.LoadFavoritePane;
 import co.siempo.phone.service.LoadJunkFoodPane;
@@ -350,11 +349,6 @@ public class FavoritesSelectionActivity extends CoreActivity implements AdapterV
         loadApps();
     }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        FirebaseHelper.getInstance().logScreenUsageTime(this.getClass().getSimpleName(), startTime);
-    }
 
     public void setToolBarText(int count) {
         int remainapps = 12 - count;

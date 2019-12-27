@@ -30,7 +30,6 @@ import co.siempo.phone.app.CoreApplication;
 import co.siempo.phone.event.NotifyBottomView;
 import co.siempo.phone.event.NotifySearchRefresh;
 import co.siempo.phone.event.NotifyToolView;
-import co.siempo.phone.helper.FirebaseHelper;
 import co.siempo.phone.main.MainListItemLoader;
 import co.siempo.phone.models.AppMenu;
 import co.siempo.phone.models.MainListItem;
@@ -120,7 +119,6 @@ public class ToolSelectionActivity extends CoreActivity {
         }
         new LoadToolPane().execute();
         EventBus.getDefault().postSticky(new NotifySearchRefresh(true));
-        FirebaseHelper.getInstance().logScreenUsageTime(this.getClass().getSimpleName(), startTime);
     }
 
     private void initView() {

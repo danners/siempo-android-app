@@ -47,7 +47,6 @@ import co.siempo.phone.db.DaoSession;
 import co.siempo.phone.db.TableNotificationSms;
 import co.siempo.phone.db.TableNotificationSmsDao;
 import co.siempo.phone.event.NewNotificationEvent;
-import co.siempo.phone.helper.FirebaseHelper;
 import co.siempo.phone.log.Tracer;
 import co.siempo.phone.receivers.PhoneCallReceiver;
 import co.siempo.phone.utils.NotificationUtility;
@@ -1212,7 +1211,6 @@ public class SiempoNotificationListener extends NotificationListenerService {
     private void logFirebaseCount(String strPackageName, int count) {
         try {
             Log.d("Count Suppressed", "PackageName:" + strPackageName + " " + count);
-            FirebaseHelper.getInstance().logSuppressedNotification(getAppName(strPackageName), count);
         } catch (Exception e) {
             e.printStackTrace();
             CoreApplication.getInstance().logException(e);

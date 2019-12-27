@@ -1,10 +1,8 @@
 package co.siempo.phone.fragments;
 
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.ActivityInfo;
@@ -47,13 +45,11 @@ import android.widget.ViewFlipper;
 
 import com.eyeem.chips.ChipsEditText;
 import com.eyeem.chips.Utils;
-import com.google.gson.Gson;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
@@ -75,15 +71,10 @@ import co.siempo.phone.event.NotifySearchRefresh;
 import co.siempo.phone.event.OnBackPressedEvent;
 import co.siempo.phone.event.SearchLayoutEvent;
 import co.siempo.phone.event.SendSmsEvent;
-import co.siempo.phone.helper.FirebaseHelper;
 import co.siempo.phone.log.Tracer;
 import co.siempo.phone.main.MainFragmentMediator;
 import co.siempo.phone.main.MainListAdapterEvent;
-import co.siempo.phone.models.AppMenu;
 import co.siempo.phone.models.MainListItem;
-import co.siempo.phone.service.LoadFavoritePane;
-import co.siempo.phone.service.LoadJunkFoodPane;
-import co.siempo.phone.service.LoadToolPane;
 import co.siempo.phone.token.TokenCompleteType;
 import co.siempo.phone.token.TokenItem;
 import co.siempo.phone.token.TokenItemType;
@@ -111,7 +102,6 @@ import static co.siempo.phone.utils.UIUtils.hasUsageStatsPermission;
 public class PaneFragment extends CoreFragment {
 
     public static boolean isSearchVisable = false;
-    final int MIN_KEYBOARD_HEIGHT_PX = 150;
     public SiempoViewPager pagerPane;
     public View linSearchList;
     PanePagerAdapter mPagerAdapter;
@@ -406,18 +396,7 @@ public class PaneFragment extends CoreFragment {
                 pagerPane.setCurrentItem(DashboardActivity.currentIndexPaneFragment, true);
             }
         }
-        if (DashboardActivity.currentIndexDashboard == 1) {
-            if (DashboardActivity.currentIndexPaneFragment == 0) {
-                Log.d("Firebase", "Junkfood Start");
-                DashboardActivity.startTime = System.currentTimeMillis();
-            } else if (DashboardActivity.currentIndexPaneFragment == 1) {
-                Log.d("Firebase", "Favorite Start");
-                DashboardActivity.startTime = System.currentTimeMillis();
-            } else if (DashboardActivity.currentIndexPaneFragment == 2) {
-                Log.d("Firebase", "Tools Start");
-                DashboardActivity.startTime = System.currentTimeMillis();
-            }
-        }
+
         setToolsPaneDate();
         if (searchLayout != null && searchLayout.getVisibility() == View.VISIBLE) {
             updateListViewLayout(false);
@@ -652,27 +631,7 @@ public class PaneFragment extends CoreFragment {
                             // application, the sliding dots retain the shape as previous
                             indicator.setViewPager(pagerPane);
 
-                            if (DashboardActivity.currentIndexPaneFragment == 0 && i == 1) {
-                                Log.d("Firebase ", "JunkFood End");
-                                Log.d("Firebase ", "Favorite Start");
-                                FirebaseHelper.getInstance().logScreenUsageTime(JunkFoodPaneFragment.class.getSimpleName(), DashboardActivity.startTime);
-                                DashboardActivity.startTime = System.currentTimeMillis();
-                            } else if (DashboardActivity.currentIndexPaneFragment == 1 && i == 2) {
-                                Log.d("Firebase ", "Favorite End");
-                                Log.d("Firebase ", "Tools Start");
-                                FirebaseHelper.getInstance().logScreenUsageTime(FavoritePaneFragment.class.getSimpleName(), DashboardActivity.startTime);
-                                DashboardActivity.startTime = System.currentTimeMillis();
-                            } else if (DashboardActivity.currentIndexPaneFragment == 2 && i == 1) {
-                                Log.d("Firebase ", "Tools End");
-                                Log.d("Firebase ", "Favorite Start");
-                                FirebaseHelper.getInstance().logScreenUsageTime(ToolsPaneFragment.class.getSimpleName(), DashboardActivity.startTime);
-                                DashboardActivity.startTime = System.currentTimeMillis();
-                            } else if (DashboardActivity.currentIndexPaneFragment == 1 && i == 0) {
-                                Log.d("Firebase ", "Favorite End");
-                                Log.d("Firebase ", "JunkFood Start");
-                                FirebaseHelper.getInstance().logScreenUsageTime(FavoritePaneFragment.class.getSimpleName(), DashboardActivity.startTime);
-                                DashboardActivity.startTime = System.currentTimeMillis();
-                            }
+
                             DashboardActivity.currentIndexPaneFragment = i;
                             //Make the junk food pane visible
                         }
@@ -792,57 +751,18 @@ public class PaneFragment extends CoreFragment {
         theme.resolveAttribute(R.attr.top_doc, typedValue, true);
         int color = typedValue.resourceId;
         linTopDoc.setBackgroundResource(color);
-        FirebaseHelper.getInstance().logScreenUsageTime(FirebaseHelper.SEARCH_PANE, DashboardActivity.startTime);
         DashboardActivity.startTime = System.currentTimeMillis();
     }
 
-    private void showViews(boolean wantToShow, ArrayList<View> viewArrayList) {
-        for (View view : viewArrayList) {
-            if (wantToShow) {
-                if (view.getVisibility() == View.GONE) {
-                    view.setVisibility(View.VISIBLE);
-                }
-            } else {
-                if (view.getVisibility() == View.VISIBLE) {
-                    view.setVisibility(View.GONE);
-                }
-            }
-        }
-    }
-
-    public void searchListVisible(Context context) {
+     public void searchListVisible(Context context) {
         linSearchList.setVisibility(View.VISIBLE);
 
         linSearchList.setBackgroundColor(getResources().getColor(backGroundColor));
         isSearchVisable = true;
         imageClear.setVisibility(View.VISIBLE);
-        if (DashboardActivity.currentIndexDashboard == 0) {
-            if (DashboardActivity.currentIndexPaneFragment == 1) {
-                FirebaseHelper.getInstance().logScreenUsageTime("FavoritePaneFragment", DashboardActivity.startTime);
-            } else if (DashboardActivity.currentIndexPaneFragment == 2) {
-                FirebaseHelper.getInstance().logScreenUsageTime("ToolsPaneFragment", DashboardActivity.startTime);
-            }
-        }
+
         DashboardActivity.startTime = System.currentTimeMillis();
 
-    }
-
-    private void logSearchViewShow() {
-        DashboardActivity.startTime = System.currentTimeMillis();
-    }
-
-    private void logSearchViewEnd() {
-        if (DashboardActivity.currentIndexDashboard == 0) {
-            if (DashboardActivity.currentIndexPaneFragment == 1) {
-                Log.d("Firebase", "Favorite Start");
-                FirebaseHelper.getInstance().logScreenUsageTime("SearchPaneFragment", DashboardActivity.startTime);
-                DashboardActivity.startTime = System.currentTimeMillis();
-            } else if (DashboardActivity.currentIndexPaneFragment == 2) {
-                Log.d("Firebase", "Tools Start");
-                FirebaseHelper.getInstance().logScreenUsageTime("SearchPaneFragment", DashboardActivity.startTime);
-                DashboardActivity.startTime = System.currentTimeMillis();
-            }
-        }
     }
 
 

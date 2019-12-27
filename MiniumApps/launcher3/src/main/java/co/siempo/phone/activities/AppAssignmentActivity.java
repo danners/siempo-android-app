@@ -2,10 +2,7 @@ package co.siempo.phone.activities;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.DividerItemDecoration;
@@ -13,9 +10,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
-import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -25,23 +20,11 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.select.Elements;
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.Executor;
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
 
 import co.siempo.phone.R;
 import co.siempo.phone.adapters.viewholder.AppAssignmentAdapter;
@@ -49,10 +32,8 @@ import co.siempo.phone.app.Constants;
 import co.siempo.phone.app.CoreApplication;
 import co.siempo.phone.event.AppInstalledEvent;
 import co.siempo.phone.event.NotifySearchRefresh;
-import co.siempo.phone.helper.FirebaseHelper;
 import co.siempo.phone.models.CategoryAppList;
 import co.siempo.phone.models.MainListItem;
-import co.siempo.phone.utils.CategoryUtils;
 import co.siempo.phone.utils.NetworkUtil;
 import co.siempo.phone.utils.PrefSiempo;
 import co.siempo.phone.utils.Sorting;
@@ -66,7 +47,6 @@ public class AppAssignmentActivity extends CoreActivity {
     MenuItem item_tools;
     //8 Photos
     List<Integer> idList = Arrays.asList(2, 4, 6, 9, 10, 12, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44);
-    ArrayList<String> connectedAppsList = new ArrayList<>();
     Set<String> set = new HashSet<>();
     List<ResolveInfo> appListAll = new ArrayList<>();
     ArrayList<ResolveInfo> mimeList = new ArrayList<>();
@@ -76,7 +56,6 @@ public class AppAssignmentActivity extends CoreActivity {
     private AppAssignmentAdapter appAssignmentAdapter;
     private TextView showallAppBtn;
     private long startTime = 0;
-    private CardView cardView;
     private ImageView imgClear;
     private EditText edtSearch;
     private String class_name;
@@ -134,7 +113,6 @@ public class AppAssignmentActivity extends CoreActivity {
     protected void onPause() {
         super.onPause();
         EventBus.getDefault().postSticky(new NotifySearchRefresh(true));
-        FirebaseHelper.getInstance().logScreenUsageTime(AppAssignmentActivity.this.getClass().getSimpleName(), startTime);
     }
 
     @Override
@@ -289,10 +267,6 @@ public class AppAssignmentActivity extends CoreActivity {
         }
     }
 
-    private List<ResolveInfo> getAllapp() {
-        return appListAll;
-    }
-
     private ArrayList<ResolveInfo> getMimeList() {
         ArrayList<ResolveInfo> mimeListLocal = new ArrayList<>();
         for (int i = 1; i <= 20; i++) {
@@ -340,7 +314,7 @@ public class AppAssignmentActivity extends CoreActivity {
         });
 
         //Added for searchbar
-        cardView = findViewById(R.id.cardView);
+        CardView cardView = findViewById(R.id.cardView);
         imgClear = findViewById(R.id.imgClear);
         edtSearch = findViewById(R.id.edtSearch);
         edtSearch.addTextChangedListener(new TextWatcher() {

@@ -36,7 +36,6 @@ import co.siempo.phone.R;
 import co.siempo.phone.adapters.ToolPositioningAdapter;
 import co.siempo.phone.app.CoreApplication;
 import co.siempo.phone.customviews.ItemOffsetDecoration;
-import co.siempo.phone.helper.FirebaseHelper;
 import co.siempo.phone.interfaces.OnToolItemListChangedListener;
 import co.siempo.phone.main.MainListItemLoader;
 import co.siempo.phone.main.OnStartDragListener;
@@ -160,7 +159,6 @@ public class ToolPositioningActivity extends CoreActivity implements OnToolItemL
         String hashMapToolSettings = new Gson().toJson(map);
         PrefSiempo.getInstance(this).write(PrefSiempo.TOOLS_SETTING, hashMapToolSettings);
         new LoadToolPane().execute();
-        FirebaseHelper.getInstance().logScreenUsageTime(this.getClass().getSimpleName(), startTime);
 
     }
 

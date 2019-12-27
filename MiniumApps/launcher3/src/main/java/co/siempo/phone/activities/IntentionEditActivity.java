@@ -20,7 +20,6 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -31,7 +30,6 @@ import android.widget.ViewFlipper;
 
 import co.siempo.phone.R;
 import co.siempo.phone.customviews.LockEditText;
-import co.siempo.phone.helper.FirebaseHelper;
 import co.siempo.phone.utils.PrefSiempo;
 import co.siempo.phone.utils.UIUtils;
 
@@ -63,7 +61,6 @@ public class IntentionEditActivity extends CoreActivity implements View.OnClickL
         getWindow().setReturnTransition(returnTrans);
         setContentView(R.layout.activity_intention_edit);
         Window window = getWindow();
-        //window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         window.setStatusBarColor(getResources().getColor(R.color.bg_permissionscreenstatusbar));
         View decor = window.getDecorView();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -343,9 +340,4 @@ public class IntentionEditActivity extends CoreActivity implements View.OnClickL
         startTime = System.currentTimeMillis();
     }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        FirebaseHelper.getInstance().logScreenUsageTime(this.getClass().getSimpleName(), startTime);
-    }
 }

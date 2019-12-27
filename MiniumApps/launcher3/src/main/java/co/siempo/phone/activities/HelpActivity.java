@@ -5,7 +5,6 @@ import android.support.annotation.Nullable;
 
 import co.siempo.phone.R;
 import co.siempo.phone.fragments.HelpFragment;
-import co.siempo.phone.helper.FirebaseHelper;
 
 
 public class HelpActivity extends CoreActivity {
@@ -28,7 +27,6 @@ public class HelpActivity extends CoreActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        FirebaseHelper.getInstance().logScreenUsageTime(this.getClass().getSimpleName(), startTime);
     }
 
 }

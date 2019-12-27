@@ -22,7 +22,6 @@ import butterknife.ButterKnife;
 import co.siempo.phone.R;
 import co.siempo.phone.app.BitmapWorkerTask;
 import co.siempo.phone.app.CoreApplication;
-import co.siempo.phone.helper.FirebaseHelper;
 import co.siempo.phone.utils.PrefSiempo;
 
 
@@ -131,11 +130,9 @@ public class TempoNotificationItemViewHolder extends RecyclerView.ViewHolder {
 
         if (ischecked && blockedApps.contains(applicationInfo)) {
             blockedApps.remove(applicationInfo);
-            FirebaseHelper.getInstance().logBlockUnblockApplication(applicationInfo, 0);
         }
         if (!ischecked && !blockedApps.contains(applicationInfo)) {
             blockedApps.add(applicationInfo);
-            FirebaseHelper.getInstance().logBlockUnblockApplication(applicationInfo, 1);
         }
         PrefSiempo.getInstance(context).write(PrefSiempo.BLOCKED_APPLIST, blockedApps);
 

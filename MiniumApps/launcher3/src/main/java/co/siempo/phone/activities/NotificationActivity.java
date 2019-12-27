@@ -28,7 +28,6 @@ import co.siempo.phone.R;
 import co.siempo.phone.adapters.TempoNotificationSectionAdapter;
 import co.siempo.phone.app.CoreApplication;
 import co.siempo.phone.event.AppInstalledEvent;
-import co.siempo.phone.helper.FirebaseHelper;
 import co.siempo.phone.models.AppListInfo;
 import co.siempo.phone.utils.PrefSiempo;
 import co.siempo.phone.utils.Sorting;
@@ -62,6 +61,9 @@ public class NotificationActivity extends CoreActivity {
     private PackageManager packageManager;
     private ProgressBar loading_progress;
 
+    public NotificationActivity() {
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -71,7 +73,6 @@ public class NotificationActivity extends CoreActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        FirebaseHelper.getInstance().logScreenUsageTime(NotificationActivity.class.getSimpleName(), startTime);
     }
 
     @Override

@@ -28,7 +28,6 @@ import co.siempo.phone.app.BitmapWorkerTask;
 import co.siempo.phone.app.CoreApplication;
 import co.siempo.phone.event.JunkAppOpenEvent;
 import co.siempo.phone.helper.ActivityHelper;
-import co.siempo.phone.helper.FirebaseHelper;
 import co.siempo.phone.utils.DrawableProvider;
 import co.siempo.phone.utils.PrefSiempo;
 import de.greenrobot.event.EventBus;
@@ -127,7 +126,6 @@ public class JunkFoodPaneAdapter extends RecyclerView.Adapter<JunkFoodPaneAdapte
         holder.linearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FirebaseHelper.getInstance().logSiempoMenuUsage(2, "", CoreApplication.getInstance().getApplicationNameFromPackageName(item));
                 new ActivityHelper(context).openAppWithPackageName(item);
                 //Show blocking overlay after onclick
                 EventBus.getDefault().post(new JunkAppOpenEvent(true));

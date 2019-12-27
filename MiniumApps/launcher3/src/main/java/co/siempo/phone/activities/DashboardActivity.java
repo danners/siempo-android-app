@@ -44,12 +44,7 @@ import co.siempo.phone.event.HomePress;
 import co.siempo.phone.event.NotifyBackgroundChange;
 import co.siempo.phone.event.OnBackPressedEvent;
 import co.siempo.phone.event.ThemeChangeEvent;
-import co.siempo.phone.fragments.FavoritePaneFragment;
-import co.siempo.phone.fragments.IntentionFragment;
-import co.siempo.phone.fragments.JunkFoodPaneFragment;
 import co.siempo.phone.fragments.PaneFragment;
-import co.siempo.phone.fragments.ToolsPaneFragment;
-import co.siempo.phone.helper.FirebaseHelper;
 import co.siempo.phone.service.LoadFavoritePane;
 import co.siempo.phone.service.LoadJunkFoodPane;
 import co.siempo.phone.service.LoadToolPane;
@@ -348,44 +343,8 @@ public class DashboardActivity extends CoreActivity {
                         swipeCount = swipeCount + 1;
                         PrefSiempo.getInstance(DashboardActivity.this).write(PrefSiempo.TOGGLE_LEFTMENU, swipeCount);
                     }
-                    FirebaseHelper.getInstance().logScreenUsageTime(IntentionFragment.class.getSimpleName(), startTime);
-                    if (DashboardActivity.currentIndexPaneFragment == 0) {
-                        Log.d("Firebase", "Junkfood Start");
-                        startTime = System.currentTimeMillis();
-                    } else if (DashboardActivity.currentIndexPaneFragment == 1) {
-                        Log.d("Firebase", "Favorite Start");
-                        startTime = System.currentTimeMillis();
-                    } else if (DashboardActivity.currentIndexPaneFragment == 2) {
-                        Log.d("Firebase", "Tools Start");
-                        startTime = System.currentTimeMillis();
-                    }
 
 
-                } else if (currentIndexDashboard == 0 && i == 1) {
-
-
-                    if (DashboardActivity.currentIndexPaneFragment == 0) {
-                        Log.d("Firebase", "Junkfood End");
-                        FirebaseHelper.getInstance().logScreenUsageTime(JunkFoodPaneFragment.class.getSimpleName(), startTime);
-                    } else if (DashboardActivity.currentIndexPaneFragment == 1) {
-                        if (PaneFragment.isSearchVisable) {
-                            Log.d("Firebase", "Search End");
-                            FirebaseHelper.getInstance().logScreenUsageTime("SearchPaneFragment", startTime);
-                        } else {
-                            Log.d("Firebase", "Favorite End");
-                            FirebaseHelper.getInstance().logScreenUsageTime(FavoritePaneFragment.class.getSimpleName(), startTime);
-                        }
-                    } else if (DashboardActivity.currentIndexPaneFragment == 2) {
-                        if (PaneFragment.isSearchVisable) {
-                            Log.d("Firebase", "Search End");
-                            FirebaseHelper.getInstance().logScreenUsageTime("SearchPaneFragment", startTime);
-                        } else {
-                            Log.d("Firebase", "Tools End");
-                            FirebaseHelper.getInstance().logScreenUsageTime(ToolsPaneFragment.class.getSimpleName(), startTime);
-                        }
-                    }
-                    Log.d("Firebase", "Intention Start");
-                    startTime = System.currentTimeMillis();
                 }
                 currentIndexDashboard = i;
             }
@@ -418,26 +377,6 @@ public class DashboardActivity extends CoreActivity {
 
     }
 
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        if (currentIndexDashboard == 1) {
-            Log.d("Firebase", "Intention End");
-            FirebaseHelper.getInstance().logScreenUsageTime(IntentionFragment.class.getSimpleName(), startTime);
-        } else if (currentIndexDashboard == 0) {
-            if (DashboardActivity.currentIndexPaneFragment == 0) {
-                Log.d("Firebase", "Junkfood End");
-                FirebaseHelper.getInstance().logScreenUsageTime(JunkFoodPaneFragment.class.getSimpleName(), startTime);
-            } else if (DashboardActivity.currentIndexPaneFragment == 1) {
-                Log.d("Firebase", "Favorite End");
-                FirebaseHelper.getInstance().logScreenUsageTime(FavoritePaneFragment.class.getSimpleName(), startTime);
-            } else if (DashboardActivity.currentIndexPaneFragment == 2) {
-                Log.d("Firebase", "Tools End");
-                FirebaseHelper.getInstance().logScreenUsageTime(ToolsPaneFragment.class.getSimpleName(), startTime);
-            }
-        }
-    }
 
     @Override
     public void onBackPressed() {

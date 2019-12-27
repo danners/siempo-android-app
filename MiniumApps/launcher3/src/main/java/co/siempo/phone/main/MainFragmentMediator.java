@@ -25,7 +25,6 @@ import co.siempo.phone.app.CoreApplication;
 import co.siempo.phone.event.SendSmsEvent;
 import co.siempo.phone.fragments.PaneFragment;
 import co.siempo.phone.helper.ActivityHelper;
-import co.siempo.phone.helper.FirebaseHelper;
 import co.siempo.phone.log.Tracer;
 import co.siempo.phone.models.MainListItem;
 import co.siempo.phone.models.MainListItemType;
@@ -162,7 +161,6 @@ public class MainFragmentMediator {
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
-                            FirebaseHelper.getInstance().logIFAction(FirebaseHelper.ACTION_CONTACT_PICK, "", data);
                         }
                         break;
                     case ACTION:
@@ -180,7 +178,6 @@ public class MainFragmentMediator {
                                 DashboardActivity.isTextLenghGreater = "";
                                 UIUtils.hideSoftKeyboard(fragment.getActivity(), fragment.getActivity().getWindow().getDecorView().getWindowToken());
                                 boolean status = new ActivityHelper(fragment.getActivity()).openAppWithPackageName(getAdapter().getItem(position).getPackageName());
-                                FirebaseHelper.getInstance().logIFAction(FirebaseHelper.ACTION_APPLICATION_PICK, getAdapter().getItem(position).getPackageName(), "");
                                 if (status) {
                                     PackageUtil.addRecentItemList(getAdapter().getItem(position), context);
                                     EventBus.getDefault().post(new SendSmsEvent(true));
@@ -202,8 +199,6 @@ public class MainFragmentMediator {
                                     loadContacts();
                                     if (router != null && fragment != null) {
                                         router.sendText(fragment.getActivity());
-                                        FirebaseHelper.getInstance().logIFAction(FirebaseHelper
-                                                .ACTION_SMS, "", data);
                                     }
                                 }
 
@@ -217,7 +212,6 @@ public class MainFragmentMediator {
                                         if (PrefSiempo.getInstance(context).read(PrefSiempo
                                                 .IS_ALPHA_SETTING_ENABLE, false)) {
                                             router.createNote(fragment.getActivity());
-                                            FirebaseHelper.getInstance().logIFAction(FirebaseHelper.ACTION_SAVE_NOTE, "", data);
                                             new ActivityHelper(context).openNotesApp(true);
                                             EventBus.getDefault().post(new SendSmsEvent(true));
                                         } else {
@@ -228,7 +222,6 @@ public class MainFragmentMediator {
                                         }
                                     } else {
                                         router.createNote(fragment.getActivity());
-                                        FirebaseHelper.getInstance().logIFAction(FirebaseHelper.ACTION_SAVE_NOTE, "", data);
                                         new ActivityHelper(context).openNotesApp(true);
                                         EventBus.getDefault().post(new SendSmsEvent(true));
                                     }
@@ -245,7 +238,6 @@ public class MainFragmentMediator {
                                 if (router != null && fragment != null) {
                                     router.call(fragment.getActivity());
                                     DashboardActivity.isTextLenghGreater = "";
-                                    FirebaseHelper.getInstance().logIFAction(FirebaseHelper.ACTION_CALL, "", data);
                                     EventBus.getDefault().post(new SendSmsEvent(true, "", ""));
                                 }
                                 break;
@@ -259,7 +251,6 @@ public class MainFragmentMediator {
                             try {
                                 fragment.startActivity(new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + TokenManager.getInstance().getCurrent().getExtra2())));
                                 DashboardActivity.isTextLenghGreater = "";
-                                FirebaseHelper.getInstance().logIFAction(FirebaseHelper.ACTION_CALL, "", data);
                                 EventBus.getDefault().post(new SendSmsEvent(true, "", ""));
                             } catch (Exception e) {
                                 CoreApplication.getInstance().logException(e);
@@ -268,7 +259,6 @@ public class MainFragmentMediator {
                         } else {
                             if (router != null) {
                                 router.contactNumberPicked(getAdapter().getItem(position));
-                                FirebaseHelper.getInstance().logIFAction(FirebaseHelper.ACTION_CONTACT_PICK, "", data);
                             }
                         }
                         break;

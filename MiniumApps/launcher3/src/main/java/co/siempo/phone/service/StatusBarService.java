@@ -81,7 +81,6 @@ import co.siempo.phone.event.OnBackPressedEvent;
 import co.siempo.phone.event.ReduceOverUsageEvent;
 import co.siempo.phone.event.StartLocationEvent;
 import co.siempo.phone.helper.ActivityHelper;
-import co.siempo.phone.helper.FirebaseHelper;
 import co.siempo.phone.log.Tracer;
 import co.siempo.phone.main.MainListItemLoader;
 import co.siempo.phone.models.AppMenu;
@@ -3383,12 +3382,10 @@ public class StatusBarService extends Service {
                             long spentTimeWithCover = PrefSiempo.getInstance(context).read(PrefSiempo.JUNKFOOD_USAGE_COVER_TIME, 0L);
 
                             if (spentTime != 0) {
-                                FirebaseHelper.getInstance().logJunkFoodUsageTime(spentTime);
                                 PrefSiempo.getInstance(context).write(PrefSiempo.JUNKFOOD_USAGE_TIME, 0L);
                             }
 
                             if (spentTimeWithCover != 0) {
-                                FirebaseHelper.getInstance().logJunkFoodUsageTimeWithCover(spentTimeWithCover);
                                 PrefSiempo.getInstance(context).write(PrefSiempo.JUNKFOOD_USAGE_COVER_TIME, 0L);
                             }
 
@@ -3399,7 +3396,6 @@ public class StatusBarService extends Service {
                                 }
                                 for (Map.Entry<String, Long> entry : mapAsDefault.entrySet()) {
                                     Log.d("UsageTime", entry.getKey() + "/" + entry.getValue());
-                                    FirebaseHelper.getInstance().logTimeThirdPartyUsageAppAsLauncher(entry.getKey(), entry.getValue());
                                 }
                                 PrefSiempo.getInstance(context).read(PrefSiempo.THIRD_PARTY_APP_LOG_AS_LAUNCHER, "");
                             }
@@ -3415,7 +3411,6 @@ public class StatusBarService extends Service {
                             }
                             for (Map.Entry<String, Long> entry : mapNotDefault.entrySet()) {
                                 Log.d("UsageTime", entry.getKey() + "/" + entry.getValue());
-                                FirebaseHelper.getInstance().logTimeThirdPartyUsageAppNotAsLauncher(entry.getKey(), entry.getValue());
                             }
                             PrefSiempo.getInstance(context).read(PrefSiempo.THIRD_PARTY_APP_LOG_NOT_AS_LAUNCHER, "");
                         }

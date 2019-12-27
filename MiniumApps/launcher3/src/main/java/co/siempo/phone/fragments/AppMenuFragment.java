@@ -38,7 +38,6 @@ import co.siempo.phone.event.NotifyFavortieView;
 import co.siempo.phone.event.NotifyJunkFoodView;
 import co.siempo.phone.event.NotifyToolView;
 import co.siempo.phone.event.ReduceOverUsageEvent;
-import co.siempo.phone.helper.FirebaseHelper;
 import co.siempo.phone.utils.PrefSiempo;
 import co.siempo.phone.utils.UIUtils;
 import de.greenrobot.event.EventBus;
@@ -201,13 +200,11 @@ public class AppMenuFragment extends CoreFragment implements View.OnClickListene
                 if (switchJunkFoodmize.isChecked()) {
                     switchJunkFoodmize.setChecked(false);
                     PrefSiempo.getInstance(context).write(PrefSiempo.IS_RANDOMIZE_JUNKFOOD, false);
-                    FirebaseHelper.getInstance().logIntention_IconBranding_Randomize(FirebaseHelper.RANDOMIZED_JUNK_FOOD, 0);
                     CoreApplication.getInstance().setRandomize(false);
                 } else {
                     switchJunkFoodmize.setChecked(true);
                     PrefSiempo.getInstance(context).write(PrefSiempo.IS_RANDOMIZE_JUNKFOOD, true);
                     CoreApplication.getInstance().setRandomize(true);
-                    FirebaseHelper.getInstance().logIntention_IconBranding_Randomize(FirebaseHelper.RANDOMIZED_JUNK_FOOD, 1);
                 }
                 EventBus.getDefault().postSticky(new NotifyJunkFoodView(true));
                 break;
@@ -217,7 +214,6 @@ public class AppMenuFragment extends CoreFragment implements View.OnClickListene
                 } else {
                     switchHideIcon.setChecked(true);
                     PrefSiempo.getInstance(context).write(PrefSiempo.IS_ICON_BRANDING, true);
-                    FirebaseHelper.getInstance().logIntention_IconBranding_Randomize(FirebaseHelper.HIDE_ICON_BRANDING, 1);
                     CoreApplication.getInstance().setHideIconBranding(true);
                     EventBus.getDefault().postSticky(new NotifyJunkFoodView(true));
                     EventBus.getDefault().postSticky(new NotifyFavortieView(true));
@@ -319,7 +315,6 @@ public class AppMenuFragment extends CoreFragment implements View.OnClickListene
                             switchOveruseFlagged.setChecked(true);
                             dialog.dismiss();
                             PrefSiempo.getInstance(context).write(PrefSiempo.DETER_AFTER, 0);
-                            FirebaseHelper.getInstance().logDeterUseEvent(0);
                             txtOverUseFlag = String.format(getResources().getString(R.string
                                     .reduce_overuse_Flagged_description_setting), "<font color='#42A4FF'>" + deter_after_list[which] + "</font>");
                         } else if (which == 1) {
@@ -327,42 +322,36 @@ public class AppMenuFragment extends CoreFragment implements View.OnClickListene
                             dialog.dismiss();
                             PrefSiempo.getInstance(context).write(PrefSiempo
                                     .DETER_AFTER, 1);
-                            FirebaseHelper.getInstance().logDeterUseEvent(1);
                             txtOverUseFlag = String.format(getResources().getString(R.string
                                     .reduce_overuse_Flagged_description_setting), "<font color='#42A4FF'>" + deter_after_list[which] + "</font>");
                         } else if (which == 2) {
                             switchOveruseFlagged.setChecked(true);
                             dialog.dismiss();
                             PrefSiempo.getInstance(context).write(PrefSiempo.DETER_AFTER, 2);
-                            FirebaseHelper.getInstance().logDeterUseEvent(2);
                             txtOverUseFlag = String.format(getResources().getString(R.string
                                     .reduce_overuse_Flagged_description_setting), "<font color='#42A4FF'>" + deter_after_list[which] + "</font>");
                         } else if (which == 3) {
                             switchOveruseFlagged.setChecked(true);
                             dialog.dismiss();
                             PrefSiempo.getInstance(context).write(PrefSiempo.DETER_AFTER, 5);
-                            FirebaseHelper.getInstance().logDeterUseEvent(5);
                             txtOverUseFlag = String.format(getResources().getString(R.string
                                     .reduce_overuse_Flagged_description_setting), "<font color='#42A4FF'>" + deter_after_list[which] + "</font>");
                         } else if (which == 4) {
                             switchOveruseFlagged.setChecked(true);
                             dialog.dismiss();
                             PrefSiempo.getInstance(context).write(PrefSiempo.DETER_AFTER, 10);
-                            FirebaseHelper.getInstance().logDeterUseEvent(10);
                             txtOverUseFlag = String.format(getResources().getString(R.string
                                     .reduce_overuse_Flagged_description_setting), "<font color='#42A4FF'>" + deter_after_list[which] + "</font>");
                         } else if (which == 5) {
                             switchOveruseFlagged.setChecked(true);
                             dialog.dismiss();
                             PrefSiempo.getInstance(context).write(PrefSiempo.DETER_AFTER, 15);
-                            FirebaseHelper.getInstance().logDeterUseEvent(15);
                             txtOverUseFlag = String.format(getResources().getString(R.string
                                     .reduce_overuse_Flagged_description_setting), "<font color='#42A4FF'>" + deter_after_list[which] + "</font>");
                         } else if (which == 6) {
                             switchOveruseFlagged.setChecked(false);
                             dialog.dismiss();
                             PrefSiempo.getInstance(context).write(PrefSiempo.DETER_AFTER, -1);
-                            FirebaseHelper.getInstance().logDeterUseEvent(-1);
                             txtOverUseFlag = String.format(getResources().getString(R.string
                                     .reduce_overuse_Flagged_description_setting), "<font " +
                                     "color='#42A4FF'>" + deter_after_list[3]
@@ -387,7 +376,6 @@ public class AppMenuFragment extends CoreFragment implements View.OnClickListene
     @Override
     public void onPause() {
         super.onPause();
-        FirebaseHelper.getInstance().logScreenUsageTime(this.getClass().getSimpleName(), startTime);
     }
 
     private void showDialogOnHideIconBranding() {
@@ -400,7 +388,6 @@ public class AppMenuFragment extends CoreFragment implements View.OnClickListene
                 dialog.dismiss();
                 switchHideIcon.setChecked(false);
                 PrefSiempo.getInstance(context).write(PrefSiempo.IS_ICON_BRANDING, false);
-                FirebaseHelper.getInstance().logIntention_IconBranding_Randomize(FirebaseHelper.HIDE_ICON_BRANDING, 0);
                 CoreApplication.getInstance().setHideIconBranding(false);
                 EventBus.getDefault().postSticky(new NotifyJunkFoodView(true));
                 EventBus.getDefault().postSticky(new NotifyFavortieView(true));

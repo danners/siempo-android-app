@@ -32,14 +32,12 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 
 import co.siempo.phone.R;
-import co.siempo.phone.activities.ChooseBackgroundActivity;
 import co.siempo.phone.activities.CoreActivity;
 import co.siempo.phone.activities.UpdateBackgroundActivity;
 import co.siempo.phone.app.CoreApplication;
 import co.siempo.phone.event.NotifyBackgroundChange;
 import co.siempo.phone.event.NotifyBackgroundToService;
 import co.siempo.phone.event.ThemeChangeEvent;
-import co.siempo.phone.helper.FirebaseHelper;
 import co.siempo.phone.service.ScreenFilterService;
 import co.siempo.phone.util.AppUtils;
 import co.siempo.phone.utils.PermissionUtil;
@@ -120,7 +118,6 @@ public class TempoHomeFragment extends CoreFragment {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 PrefSiempo.getInstance(getActivity()).write(PrefSiempo
                         .IS_INTENTION_ENABLE, isChecked);
-                FirebaseHelper.getInstance().logIntention_IconBranding_Randomize(FirebaseHelper.INTENTIONS, isChecked ? 1 : 0);
 
             }
         });

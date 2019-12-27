@@ -30,7 +30,6 @@ import co.siempo.phone.app.BitmapWorkerTask;
 import co.siempo.phone.app.Constants;
 import co.siempo.phone.app.CoreApplication;
 import co.siempo.phone.helper.ActivityHelper;
-import co.siempo.phone.helper.FirebaseHelper;
 import co.siempo.phone.models.AppMenu;
 import co.siempo.phone.models.MainListItem;
 import co.siempo.phone.utils.PrefSiempo;
@@ -139,7 +138,6 @@ public class ToolsMenuAdapter extends RecyclerView.Adapter<ToolsMenuAdapter.View
                         if (!appMenu.getApplicationName().equalsIgnoreCase("")) {
                             if (appMenu.getApplicationName().equalsIgnoreCase("Notes")) {
                                 new ActivityHelper(context).openNotesApp(false);
-                                FirebaseHelper.getInstance().logSiempoMenuUsage(0, item.getTitle(), "Notes");
                             } else {
                                 if (UIUtils.isInstalled(context, appMenu.getApplicationName().trim())) {
                                     if (UIUtils.isAppEnabled(context, appMenu.getApplicationName().trim())) {
@@ -148,7 +146,6 @@ public class ToolsMenuAdapter extends RecyclerView.Adapter<ToolsMenuAdapter.View
                                             openAppAssignmentScreen(item);
                                         } else {
 //                                If a 3rd party app is already assigned to this tool
-                                            FirebaseHelper.getInstance().logSiempoMenuUsage(0, item.getTitle(), CoreApplication.getInstance().getApplicationNameFromPackageName(appMenu.getApplicationName()));
                                             if (id == 13) {
                                                 try {
                                                     Intent intent = new Intent(Intent.ACTION_DIAL);
@@ -192,7 +189,6 @@ public class ToolsMenuAdapter extends RecyclerView.Adapter<ToolsMenuAdapter.View
                                         } else {
                                             new ActivityHelper(context).openAppWithPackageName(strPackageName);
                                         }
-                                        FirebaseHelper.getInstance().logSiempoMenuUsage(0, item.getTitle(), CoreApplication.getInstance().getApplicationNameFromPackageName(appMenu.getApplicationName()));
                                     } else {
                                         openAppAssignmentScreen(item);
                                     }
@@ -239,7 +235,6 @@ public class ToolsMenuAdapter extends RecyclerView.Adapter<ToolsMenuAdapter.View
      * @param item
      */
     private void openAppAssignmentScreen(MainListItem item) {
-        FirebaseHelper.getInstance().logSiempoMenuUsage(0, item.getTitle(), "");
         Intent intent = new Intent(context, AppAssignmentActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
         intent.putExtra(Constants.INTENT_MAINLISTITEM, item);
@@ -251,13 +246,6 @@ public class ToolsMenuAdapter extends RecyclerView.Adapter<ToolsMenuAdapter.View
     public int getItemCount() {
         return mainListItemList.size();
 
-    }
-
-    public void setMainListItemList(List<MainListItem> mainListItemList, boolean isBottomDoc, boolean isHideIconBranding) {
-        this.mainListItemList = mainListItemList;
-        this.isHideIconBranding = isHideIconBranding;
-        map = CoreApplication.getInstance().getToolsSettings();
-        notifyDataSetChanged();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

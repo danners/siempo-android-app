@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.Application;
 import android.app.Dialog;
 import android.app.NotificationManager;
-import android.content.pm.ResolveInfo;
 import android.media.AudioManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -18,13 +17,11 @@ import org.androidannotations.annotations.SystemService;
 import org.androidannotations.annotations.Trace;
 import org.greenrobot.greendao.database.Database;
 
-import java.util.ArrayList;
 
 import co.siempo.phone.BuildConfig;
 import co.siempo.phone.db.DaoMaster;
 import co.siempo.phone.db.DaoSession;
 import co.siempo.phone.db.GreenDaoOpenHelper;
-import co.siempo.phone.helper.FirebaseHelper;
 import co.siempo.phone.log.LogConfig;
 import co.siempo.phone.log.Tracer;
 import co.siempo.phone.utils.PackageUtil;
@@ -36,7 +33,6 @@ import co.siempo.phone.utils.PrefSiempo;
 @EApplication
 public class Launcher3App extends CoreApplication {
 
-    public static final String DND_START_STOP_ACTION = "siempo.intent.action.DND_START_STOP";
     private final String TRACE_TAG = LogConfig.TRACE_TAG + "Launcher3App";
     private final String TAG = "SiempoActivityLifeCycle";
     public Dialog dialog;
@@ -50,7 +46,6 @@ public class Launcher3App extends CoreApplication {
     private FirebaseAnalytics mFirebaseAnalytics;
     private boolean isSiempoLauncher = false;
     private long startTime;
-    private ResolveInfo resolveInfo;
 
 
     @Trace(tag = TRACE_TAG)
@@ -80,10 +75,8 @@ public class Launcher3App extends CoreApplication {
         Database db = helper2.getWritableDb();
         DaoMaster daoMaster = new DaoMaster(db);
         daoSession = daoMaster.newSession();
-        //setAllDefaultMenusApplication();
         AppLifecycleTracker handler = new AppLifecycleTracker();
         registerActivityLifecycleCallbacks(handler);
-//        PackageUtil.enableAlarm(this);
 
     }
 
@@ -154,7 +147,6 @@ public class Launcher3App extends CoreApplication {
                 isSiempoLauncher = true;
                 if (startTime == 0) {
                     startTime = System.currentTimeMillis();
-                    FirebaseHelper.getInstance().logSiempoAsDefault("On", 0);
                 }
             } else {
                 isSiempoLauncher = false;
@@ -167,7 +159,6 @@ public class Launcher3App extends CoreApplication {
                 isSiempoLauncher = true;
             } else {
                 if (isSiempoLauncher && startTime != 0) {
-                    FirebaseHelper.getInstance().logSiempoAsDefault("Off", startTime);
                     startTime = 0;
                 }
                 isSiempoLauncher = false;

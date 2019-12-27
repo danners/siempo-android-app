@@ -9,7 +9,6 @@ import com.gun0912.tedpermission.TedPermission;
 import java.util.ArrayList;
 
 import co.siempo.phone.R;
-import co.siempo.phone.helper.FirebaseHelper;
 import co.siempo.phone.main.MainFragmentMediator;
 import co.siempo.phone.token.TokenItem;
 import co.siempo.phone.token.TokenItemType;
@@ -39,10 +38,6 @@ public class ContactSmsPermissionHelper {
                 mediator.loadContacts();
                 if (router != null) {
                     router.sendText(context);
-                    FirebaseHelper.getInstance()
-                            .logIFAction
-                                    (FirebaseHelper
-                                            .ACTION_SMS, "", messageData);
                 }
             }
 
@@ -82,8 +77,6 @@ public class ContactSmsPermissionHelper {
                 mediator.loadContacts();
                 if (router != null) {
                     router.sendText(context);
-                    FirebaseHelper.getInstance().logIFAction(FirebaseHelper
-                            .ACTION_SMS, "", messageData);
                 }
 
 
