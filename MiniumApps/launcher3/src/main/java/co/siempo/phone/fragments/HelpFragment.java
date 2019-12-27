@@ -22,7 +22,6 @@ import android.widget.Toast;
 
 import co.siempo.phone.BuildConfig;
 import co.siempo.phone.R;
-import co.siempo.phone.activities.ContributeActivity;
 import co.siempo.phone.activities.CoreActivity;
 import co.siempo.phone.activities.HelpActivity;
 import co.siempo.phone.event.CheckVersionEvent;
@@ -52,7 +51,6 @@ public class HelpFragment extends Fragment implements View.OnClickListener {
     private RelativeLayout relPrivacyPolicy;
     private RelativeLayout relFaq;
     private RelativeLayout relTermsOfCondition;
-    private RelativeLayout relContribute;
     private RelativeLayout relFeedback;
     private RelativeLayout relLeaveReview;
 
@@ -86,7 +84,6 @@ public class HelpFragment extends Fragment implements View.OnClickListener {
         relFaq = view.findViewById(R.id.relFaq);
         relTermsOfCondition = view.findViewById(R.id.relTermsOfCondition);
         relFeedback = view.findViewById(R.id.relFeedback);
-        relContribute = view.findViewById(R.id.relContribute);
         txtVersionValue = view.findViewById(R.id.txtVersionValue);
         relVersion = view.findViewById(R.id.relVersion);
         relLeaveReview = view.findViewById(R.id.relLeaveReview);
@@ -97,7 +94,6 @@ public class HelpFragment extends Fragment implements View.OnClickListener {
         relFeedback.setOnClickListener(this);
         relFeedback.setOnClickListener(this);
         relTermsOfCondition.setOnClickListener(this);
-        relContribute.setOnClickListener(this);
         relVersion.setOnClickListener(this);
         relLeaveReview.setOnClickListener(this);
 
@@ -153,9 +149,6 @@ public class HelpFragment extends Fragment implements View.OnClickListener {
                 break;
             case R.id.relFeedback:
                 txtSendFeedback();
-                break;
-            case R.id.relContribute:
-                startActivity(new Intent(getActivity(), ContributeActivity.class));
                 break;
             case R.id.relVersion:
                 checkUpgradeVersion();
