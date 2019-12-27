@@ -50,7 +50,6 @@ public class DialogTempoSetting extends Dialog implements View.OnClickListener {
     private FloatingActionButton fabPlay;
     private String strMessage;
     private boolean isCancelButton = false;
-    private long startTime = 0;
     private AudioManager audioManager;
     private ArrayList<Integer> everyTwoHourList = new ArrayList<>();
     private ArrayList<Integer> everyFourHoursList = new ArrayList<>();
@@ -83,7 +82,6 @@ public class DialogTempoSetting extends Dialog implements View.OnClickListener {
             initView();
             setCancelable(true);
             setCanceledOnTouchOutside(true);
-            startTime = System.currentTimeMillis();
             everyTwoHourList.addAll(Arrays.asList(0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22));
             everyFourHoursList.addAll(Arrays.asList(0, 4, 8, 12, 16, 20));
 
@@ -532,7 +530,6 @@ public class DialogTempoSetting extends Dialog implements View.OnClickListener {
             txtAdd.setVisibility(View.VISIBLE);
 
             Calendar calendar1 = Calendar.getInstance();
-            Calendar currentTime = Calendar.getInstance();
             String str1 = strTime[0];
             int setMinute, setHours;
 

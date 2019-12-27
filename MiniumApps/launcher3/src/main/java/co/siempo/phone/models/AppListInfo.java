@@ -26,13 +26,6 @@ public class AppListInfo {
     public boolean isFlagApp = false;
     public String applicationName;
 
-    public AppListInfo(String packageName, boolean isShowHeader, boolean isShowTitle, boolean isFlagApp) {
-        this.packageName = packageName;
-        this.isShowHeader = isShowHeader;
-        this.isShowTitle = isShowTitle;
-        this.isFlagApp = isFlagApp;
-    }
-
     public AppListInfo(String packageName, String applicationName, boolean isShowHeader, boolean isShowTitle, boolean isFlagApp) {
         this.packageName = packageName;
         this.applicationName = applicationName;

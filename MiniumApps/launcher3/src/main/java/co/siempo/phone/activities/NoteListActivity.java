@@ -62,7 +62,6 @@ public class NoteListActivity extends CoreActivity implements AdapterView.OnItem
         Toolbar.OnMenuItemClickListener, AbsListView.MultiChoiceModeListener,
         SearchView.OnQueryTextListener, EvernoteLoginFragment.ResultCallback {
 
-//    private static File localPath, backupPath;
 
     public static final String EXTRA_OPEN_LATEST = "open_latest";
     // Array of selected positions for deletion
@@ -649,40 +648,7 @@ public class NoteListActivity extends CoreActivity implements AdapterView.OnItem
             return true;
         }
 
-        /*
-        // 'Rate app' pressed -> create new dialog to ask the user if he wants to go to the PlayStore
-        // If yes -> start PlayStore and go to app link < If Exception thrown, open in Browser >
-        if (id == R.id.action_rate_app) {
-            final String appPackageName = getPackageName();
 
-            new AlertDialog.Builder(this)
-                    .setTitle(R.string.title_rateApp)
-                    .setMessage(R.string.msg_rate)
-                    .setPositiveButton(R.string.label_yes, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            try {
-                                startActivity(new Intent(Intent.ACTION_VIEW,
-                                        Uri.parse("market://details?id=" + appPackageName)));
-
-                            } catch (android.content.ActivityNotFoundException e) {
-                            CoreApplication.getInstance().logException(e);
-                                startActivity(new Intent(Intent.ACTION_VIEW,
-                                        Uri.parse("http://play.google.com/store/apps/details?id="
-                                                + appPackageName)));
-                            }
-                        }
-                    })
-                    .setNegativeButton(R.string.label_no, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    })
-                    .show();
-
-            return true;
-        }*/
 
         return false;
     }
@@ -1081,23 +1047,12 @@ public class NoteListActivity extends CoreActivity implements AdapterView.OnItem
     }
 
 
-//    // Static method to return File at localPath
-//    public static File getLocalPath() {
-//        return localPath;
-//    }
-//
-//    // Static method to return File at backupPath
-//    public static File getBackupPath() {
-//        return backupPath;
-//    }
-
     @Override
     public void onLoginFinished(boolean successful) {
         if (successful) {
 
             new EvernoteManager().createSiempoNotebook();
             new EvernoteManager().listNoteBooks("");
-            //new EvernoteManager().listNoteBooks(this);
         }
     }
 

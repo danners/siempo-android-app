@@ -39,7 +39,6 @@ import org.androidannotations.annotations.EActivity;
 import java.util.ArrayList;
 
 import co.siempo.phone.R;
-import co.siempo.phone.app.CoreApplication;
 import co.siempo.phone.event.LocationUpdateEvent;
 import co.siempo.phone.event.StartLocationEvent;
 import co.siempo.phone.helper.ActivityHelper;

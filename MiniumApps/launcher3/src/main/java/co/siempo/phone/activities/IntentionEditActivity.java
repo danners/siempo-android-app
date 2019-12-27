@@ -49,7 +49,6 @@ public class IntentionEditActivity extends CoreActivity implements View.OnClickL
     private LinearLayout linHelpWindow;
     private RelativeLayout pauseContainer;
     private String strIntentField;
-    private long startTime = 0;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -169,11 +168,9 @@ public class IntentionEditActivity extends CoreActivity implements View.OnClickL
         top.setCardElevation(0);
         top.setRadius(0);
         toolbar.animate().alpha(0.0f).setDuration(200);
-//        hint.animate().alpha(0.0f).setDuration(200);
         imgClear.animate().alpha(0.0f).setDuration(200);
         linHelpWindow.animate().alpha(0.0f).setDuration(200);
         hint.setText(getString(R.string.your_intention));
-//        hint.setVisibility(View.GONE);
 
         imgClear.setVisibility(View.GONE);
         edtIntention.setFocusable(false);
@@ -337,7 +334,6 @@ public class IntentionEditActivity extends CoreActivity implements View.OnClickL
     @Override
     protected void onResume() {
         super.onResume();
-        startTime = System.currentTimeMillis();
     }
 
 }

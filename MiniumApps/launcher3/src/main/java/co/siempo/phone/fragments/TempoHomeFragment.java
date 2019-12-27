@@ -74,15 +74,6 @@ public class TempoHomeFragment extends CoreFragment {
     Switch switchScreenOverlay;
 
 
-   /* @ViewById
-    Switch switchIconToolsVisibility;
-
-    @ViewById
-    Switch switchIconFavoriteVisibility;
-
-    @ViewById
-    Switch switchIconJunkFoodVisibility;*/
-
     @ViewById
     RelativeLayout relDarkTheme;
 
@@ -173,44 +164,7 @@ public class TempoHomeFragment extends CoreFragment {
             }
         });
 
-        /*switchIconToolsVisibility.setChecked(PrefSiempo.getInstance(getActivity()).read(PrefSiempo.DEFAULT_ICON_TOOLS_TEXT_VISIBILITY_ENABLE, false));
-        switchIconToolsVisibility.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Switch sb = (Switch) v;
-                if (sb.isChecked()) {
-                    PrefSiempo.getInstance(getActivity()).write(PrefSiempo.DEFAULT_ICON_TOOLS_TEXT_VISIBILITY_ENABLE, true);
-                } else  {
-                    PrefSiempo.getInstance(getActivity()).write(PrefSiempo.DEFAULT_ICON_TOOLS_TEXT_VISIBILITY_ENABLE, false);
-                }
-            }
-        });
 
-        switchIconFavoriteVisibility.setChecked(PrefSiempo.getInstance(getActivity()).read(PrefSiempo.DEFAULT_ICON_FAVORITE_TEXT_VISIBILITY_ENABLE, false));
-        switchIconFavoriteVisibility.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Switch sb = (Switch) v;
-                if (sb.isChecked()) {
-                    PrefSiempo.getInstance(getActivity()).write(PrefSiempo.DEFAULT_ICON_FAVORITE_TEXT_VISIBILITY_ENABLE, true);
-                } else  {
-                    PrefSiempo.getInstance(getActivity()).write(PrefSiempo.DEFAULT_ICON_FAVORITE_TEXT_VISIBILITY_ENABLE, false);
-                }
-            }
-        });
-
-        switchIconJunkFoodVisibility.setChecked(PrefSiempo.getInstance(getActivity()).read(PrefSiempo.DEFAULT_ICON_JUNKFOOD_TEXT_VISIBILITY_ENABLE, false));
-        switchIconJunkFoodVisibility.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Switch sb = (Switch) v;
-                if (sb.isChecked()) {
-                    PrefSiempo.getInstance(getActivity()).write(PrefSiempo.DEFAULT_ICON_JUNKFOOD_TEXT_VISIBILITY_ENABLE, true);
-                } else  {
-                    PrefSiempo.getInstance(getActivity()).write(PrefSiempo.DEFAULT_ICON_JUNKFOOD_TEXT_VISIBILITY_ENABLE, false);
-                }
-            }
-        });*/
 
 
         rel_icon_label.setOnClickListener(new View.OnClickListener() {
@@ -219,10 +173,6 @@ public class TempoHomeFragment extends CoreFragment {
                 ((CoreActivity) getActivity()).loadChildFragment(IconLabelsFragment_.builder().build(), R.id.tempoView);
             }
         });
-
-        final View decorView = getActivity().getWindow().getDecorView();
-        final int uiOptions = decorView.getSystemUiVisibility();
-        final int[] newUiOptions = {uiOptions};
 
         switchNotification.setChecked(PrefSiempo.getInstance(getActivity()).read(PrefSiempo.DEFAULT_NOTIFICATION_ENABLE, true));
         switchNotification.setOnClickListener(new View.OnClickListener() {
@@ -298,26 +248,6 @@ public class TempoHomeFragment extends CoreFragment {
         }
     }
 
-
-    private void notificationVisibility() {
-
-        if (PrefSiempo.getInstance(getActivity()).read(PrefSiempo.DEFAULT_NOTIFICATION_ENABLE, true))
-        {
-            View decorView = getActivity().getWindow().getDecorView();
-            decorView.setFitsSystemWindows(false);
-            decorView.setSystemUiVisibility(
-                    View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                            | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                            | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                            | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                            | View.SYSTEM_UI_FLAG_FULLSCREEN
-                            | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
-        }else
-        {
-            View decorView = getActivity().getWindow().getDecorView();
-            decorView.setFitsSystemWindows(true);
-        }
-    }
 
     @Click
     void relAllowSpecificApps() {

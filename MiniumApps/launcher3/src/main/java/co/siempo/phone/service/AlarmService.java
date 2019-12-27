@@ -65,10 +65,6 @@ public class AlarmService extends IntentService {
     private ArrayList<Integer> everyFourHoursList = new ArrayList<>();
     private Vibrator vibrator;
 
-    public AlarmService() {
-        super("MyServerOrWhatever");
-    }
-
 
     public AlarmService(String name) {
         super(name);

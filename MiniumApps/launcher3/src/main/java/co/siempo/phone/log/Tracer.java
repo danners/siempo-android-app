@@ -42,17 +42,8 @@ public class Tracer {
     }
 
 
-    public static void wtf(String message, Object... args) {
-        Logger.wtf(message, args);
-    }
-
     public static void json(String message) {
         Logger.json(message);
-    }
-
-    private static void writeLog(Throwable thr, String message, Object... args) {
-        message = args.length == 0 ? message : String.format(message, args);
-        FileLogger.log(message, thr);
     }
 
     public static void init() {

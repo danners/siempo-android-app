@@ -41,7 +41,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
@@ -53,8 +52,6 @@ import co.siempo.phone.models.AppMenu;
 import co.siempo.phone.models.CategoryAppList;
 import co.siempo.phone.models.MainListItem;
 import co.siempo.phone.service.CategoriesApp;
-import co.siempo.phone.service.ReminderService;
-import co.siempo.phone.utils.LifecycleHandler;
 import co.siempo.phone.utils.PackageUtil;
 import co.siempo.phone.utils.PrefSiempo;
 import co.siempo.phone.utils.UIUtils;
@@ -118,10 +115,8 @@ public abstract class CoreApplication extends MultiDexApplication {
     private static CoreApplication sInstance;
     UserManager userManager;
     LauncherApps launcherApps;
-    String base64EncodedPublicKey = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA1WmJ9sNAoO5o5QGJkZXfqLm8Py95ASb7XCY1NewZF7puJcWMGlv269AY2lqJuR0o/dzMnzo20D259NHPN6zF3TCsXcF8+jhRH5gAqKcNJCoc1p0tZ+rxZ5ETVYjR/OQ90MKStXa8MsArhfL+R6E27IuUELObkjS3XIwcjBj7EhBNVPv2ipj8t7w3bNorql8qPEHhgbc/v54krCMSEF1p82nIbZSvOFcJwLGg/wzmv6YfgsLD5fndoaNPiRLQ1nkWNASOryvgUDZAKqYjAtHY7WAV57FtQGgsViPTE4exzCp9t018GEeI5tbo4+RSw23nygSqmNBZkxv9Ee4jxpw7CQIDAQAB";
     private ArrayMap<String, String> listApplicationName = new ArrayMap<>();
     private Set<String> packagesList = new HashSet<>();
-    private ArrayList<String> disableNotificationApps = new ArrayList<>();
     private Set<String> blockedApps = new HashSet<>();
     private LruCache<String, Bitmap> mMemoryCache;
     private ArrayList<String> junkFoodList = new ArrayList<>();
@@ -135,10 +130,6 @@ public abstract class CoreApplication extends MultiDexApplication {
     private List<String> runningDownloadigFileList = new ArrayList<>();
 
 
-
-    public List<CategoryAppList> getCategoryAppList(){
-        return categoryAppList;
-    }
     /**
      *
      * Retrieving the third party app usage time when siempo set as launcher.
@@ -170,14 +161,6 @@ public abstract class CoreApplication extends MultiDexApplication {
 
     public List<String> getRunningDownloadigFileList() {
         return runningDownloadigFileList;
-    }
-
-    public void setRunningDownloadigFileList(List<String> runningDownloadigFileList) {
-        this.runningDownloadigFileList = runningDownloadigFileList;
-    }
-
-    public String getBase64EncodedPublicKey() {
-        return base64EncodedPublicKey;
     }
 
     public boolean isHideIconBranding() {
@@ -232,10 +215,6 @@ public abstract class CoreApplication extends MultiDexApplication {
         return listApplicationName;
     }
 
-    public void setListApplicationName(ArrayMap<String, String> listApplicationName) {
-        this.listApplicationName = listApplicationName;
-    }
-
     @Override
     public void onCreate() {
         super.onCreate();
@@ -255,26 +234,11 @@ public abstract class CoreApplication extends MultiDexApplication {
         new LoadApplications().execute();
     }
 
-    @SuppressLint("HardwareIds")
-    public String getDeviceId() {
-        String strDeviceId = "";
-        try {
-            strDeviceId = Settings.Secure.getString(getContentResolver(),
-                    Settings.Secure.ANDROID_ID);
-            return strDeviceId;
-        } catch (Exception e) {
-            strDeviceId = android.provider.Settings.Secure.ANDROID_ID;
-            return strDeviceId;
-        }
-    }
-
     protected void init() {
         // set initial configurations here
         configTracer();
-//        configCalligraphy();
         configFabric();
         configIconify();
-        configureLifecycle();
         configureNetworking();
         if (PrefSiempo.getInstance(this).read(PrefSiempo.INSTALLED_APP_VERSION_CODE, 0) == 0) {
             PrefSiempo.getInstance(this).write(PrefSiempo.INSTALLED_APP_VERSION_CODE,
@@ -580,21 +544,12 @@ public abstract class CoreApplication extends MultiDexApplication {
         AndroidNetworking.initialize(getApplicationContext());
     }
 
-    private void configureLifecycle() {
-        registerActivityLifecycleCallbacks(new LifecycleHandler());
-    }
+
 
     private void configTracer() {
         Tracer.init();
     }
 
-    private void configCalligraphy() {
-//        CalligraphyConfig
-//                .initDefault(new CalligraphyConfig.Builder()
-//                        .setDefaultFontPath(getString(FontUtils.DEFAULT_FONT_PATH_RES))
-//                        .setFontAttrId(R.attr.fontPath)
-//                        .build());
-    }
 
     private void configFabric() {
         crashlyticsCore = new CrashlyticsCore.Builder()
@@ -1254,7 +1209,7 @@ public abstract class CoreApplication extends MultiDexApplication {
                     String[] list = getResources().getStringArray(R.array.siempo_images);
                     DownloadManager downloadManager = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
                     for (String strUrl : list) {
-                        String fileName = strUrl.substring(strUrl.lastIndexOf('/') + 1, strUrl.length());
+                        String fileName = strUrl.substring(strUrl.lastIndexOf('/') + 1);
                         if (listImageName.contains(fileName)) {
                             Log.d("File Exists", fileName);
                         } else {

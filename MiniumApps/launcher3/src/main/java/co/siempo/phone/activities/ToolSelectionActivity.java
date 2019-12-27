@@ -2,27 +2,16 @@ package co.siempo.phone.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.ColorRes;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.text.SpannableString;
-import android.text.style.ForegroundColorSpan;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
 
-import java.text.DateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
-import java.util.ListIterator;
 
 import co.siempo.phone.R;
 import co.siempo.phone.adapters.ToolsListAdapter;
@@ -47,17 +36,12 @@ public class ToolSelectionActivity extends CoreActivity {
     private LinearLayoutManager mLayoutManager;
     private RecyclerView recyclerView;
     private ToolsListAdapter mAdapter;
-    private long startTime = 0;
-    private ArrayList<MainListItem> topItems = new ArrayList<>(12);
-    private ArrayList<MainListItem> bottomItems = new ArrayList<>(4);
     private ArrayList<MainListItem> adapterList;
-    private List<Long> listOfSortedUpdatedCustomersId = new ArrayList<>();
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.app_assignment_list, menu);
         MenuItem menuItem = menu.findItem(R.id.item_save);
-//        setTextColorForMenuItem(menuItem, R.color.colorAccent);
         menuItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
@@ -79,25 +63,11 @@ public class ToolSelectionActivity extends CoreActivity {
     }
 
 
-    /**
-     * change text color of Menuitem
-     *
-     * @param menuItem
-     * @param color
-     */
-    private void setTextColorForMenuItem(MenuItem menuItem, @ColorRes int color) {
-        SpannableString spanString = new SpannableString(menuItem.getTitle().toString());
-        spanString.setSpan(new ForegroundColorSpan(ContextCompat.getColor(this, color)), 0, spanString.length(), 0);
-        menuItem.setTitle(spanString);
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tool_selection);
         map = CoreApplication.getInstance().getToolsSettings();
-//        topItems = (ArrayList<MainListItem>) getIntent().getExtras().getSerializable("TopList");
-//        bottomItems = (ArrayList<MainListItem>) getIntent().getExtras().getSerializable("BottomList");
 
         initView();
     }
@@ -106,7 +76,6 @@ public class ToolSelectionActivity extends CoreActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        startTime = System.currentTimeMillis();
     }
 
     @Override
@@ -164,86 +133,6 @@ public class ToolSelectionActivity extends CoreActivity {
                 mAdapter.notifyDataSetChanged();
             }
         }
-    }
-
-
-    /**
-     * Check items already exists in tool position array list.
-     *
-     * @param id
-     * @return
-     */
-    public boolean checkItemContains(int id) {
-
-        Log.d("Rajesh", "Un Check::-" + listOfSortedUpdatedCustomersId);
-//        for (MainListItem mainListItem : ToolPositioningActivity.sortedList) {
-//            if (mainListItem.getId() == id) {
-//                return true;
-//            }
-//        }
-        return false;
-    }
-
-    /**
-     * return first invisible items from list.
-     *
-     * @return
-     */
-    public int invisibleItemId() {
-        ArrayList<MainListItem> itemsLocal = new ArrayList<>();
-        new MainListItemLoader().loadItemsDefaultApp(itemsLocal);
-//        for (MainListItem mainListItem : ToolPositioningActivity.sortedList) {
-//            if (!mainListItem.isVisable()) {
-//                return mainListItem.getId();
-//            }
-//        }
-        return -1;
-    }
-
-    public void hideItemInSortedList(int id, boolean isVisible) {
-//        ListIterator listIterator = ToolPositioningActivity.sortedList.listIterator();
-//        while (listIterator.hasNext()) {
-//            MainListItem next = (MainListItem) listIterator.next();
-//            if (next.getId() == id) {
-//                next.setVisable(isVisible);
-//            }
-//        }
-    }
-
-
-    public boolean replaceData(int oldId, int newId) {
-        ListIterator<Long> iterator = listOfSortedUpdatedCustomersId.listIterator();
-        while (iterator.hasNext()) {
-            long next = iterator.next();
-            if (next == oldId) {
-                //Replace element
-                iterator.set((long) newId);
-            }
-        }
-
-//        int idToRemove = -1;
-//        MainListItem mainListItemAdd = null;
-//        for (int i = 0; i < ToolPositioningActivity.sortedList.size(); i++) {
-//            if (ToolPositioningActivity.sortedList.get(i).getId() == oldId) {
-//                idToRemove = i;
-//            }
-//            if (ToolPositioningActivity.sortedList.get(i).getId() == newId) {
-//                mainListItemAdd = ToolPositioningActivity.sortedList.get(i);
-//            }
-//
-//
-//        }
-//
-//        if (idToRemove != -1) {
-//            ToolPositioningActivity.sortedList.remove(idToRemove);
-//        }
-//
-//        if (mainListItemAdd != null) {
-//            ToolPositioningActivity.sortedList.add(mainListItemAdd);
-//        }
-//        Log.d("Rajesh", "oldId:" + oldId + "   " + "newId:" + newId);
-//        Log.d("Rajesh", "Replace::-" + listOfSortedUpdatedCustomersId);
-        return false;
     }
 
 

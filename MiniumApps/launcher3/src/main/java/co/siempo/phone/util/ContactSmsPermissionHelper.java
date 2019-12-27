@@ -28,7 +28,6 @@ public class ContactSmsPermissionHelper {
     private Context context;
     private PermissionUtil permissionUtil;
     private MainFragmentMediator mediator;
-    private String messageData;
     PermissionListener permissionlistener = new PermissionListener() {
         @Override
         public void onPermissionGranted() {
@@ -60,7 +59,6 @@ public class ContactSmsPermissionHelper {
         this.context = context;
         this.mediator = mediator;
         this.isFromTokenParser = isFromTokenParser;
-        this.messageData = data;
 
         permissionUtil = new PermissionUtil(context);
 
@@ -121,25 +119,7 @@ public class ContactSmsPermissionHelper {
                 }
 
 
-            }/* else if (!permissionUtil.hasGiven(PermissionUtil.SEND_SMS_PERMISSION)
-                    *//*&& permissionUtil.hasGiven(PermissionUtil.CONTACT_PERMISSION)*//*
-                    ) {
-
-                try {
-                    TedPermission.with(context)
-                            .setPermissionListener(permissionlistener)
-                            .setDeniedMessage(R.string.msg_permission_denied)
-                            .setPermissions(new String[]{
-                                    Manifest.permission.RECEIVE_SMS,
-                                    Manifest.permission.SEND_SMS,
-                                    Manifest.permission.READ_SMS})
-                            .check();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-
-            }*/
+            }
         }
     }
 }

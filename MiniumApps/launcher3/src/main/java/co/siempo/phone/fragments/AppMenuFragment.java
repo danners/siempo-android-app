@@ -59,12 +59,10 @@ public class AppMenuFragment extends CoreFragment implements View.OnClickListene
     private Switch switchJunkFoodmize, switchHideIcon, switchOveruseFlagged;
     private TextView mTxtReduceOveruseFlaggedDes;
     private Context context;
-    private long startTime = 0;
     private int deterTime;
     private String[] deter_after_list;
     private int index;
     private String txtOverUseFlag;
-    private Dialog overlayDialogPermission;
 
     public AppMenuFragment() {
         // Required empty public constructor
@@ -369,7 +367,6 @@ public class AppMenuFragment extends CoreFragment implements View.OnClickListene
     @Override
     public void onResume() {
         super.onResume();
-        startTime = System.currentTimeMillis();
         mRelOverUseFlaggedApp.setClickable(true);
     }
 
@@ -405,81 +402,6 @@ public class AppMenuFragment extends CoreFragment implements View.OnClickListene
         dialog.show();
         dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(ContextCompat.getColor(getActivity(), R.color.dialog_blue));
         dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(ContextCompat.getColor(getActivity(), R.color.dialog_red));
-    }
-
-    private void showOverLayForDrawingPermission() {
-        if (null != getActivity()) {
-            try {
-                getActivity().setRequestedOrientation(ActivityInfo
-                        .SCREEN_ORIENTATION_PORTRAIT);
-                overlayDialogPermission = new Dialog(getActivity(), 0);
-                if (overlayDialogPermission.getWindow() != null)
-                    overlayDialogPermission.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-                overlayDialogPermission.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                overlayDialogPermission.setContentView(R.layout
-                        .layout_appland_draw_permission);
-                Window window = overlayDialogPermission.getWindow();
-                // set "origin" to bottom
-                window.setGravity(Gravity.BOTTOM);
-                WindowManager.LayoutParams params = window.getAttributes();
-                window.setAttributes(params);
-                overlayDialogPermission.getWindow().setLayout(WindowManager
-                        .LayoutParams.MATCH_PARENT, WindowManager
-                        .LayoutParams.WRAP_CONTENT);
-                overlayDialogPermission.setCancelable(true);
-                overlayDialogPermission.setCanceledOnTouchOutside(true);
-                overlayDialogPermission.show();
-
-                final ViewFlipper viewFlipperOverlay = overlayDialogPermission
-                        .findViewById(R.id.viewFlipperPermissionDrawOverlay);
-                final Button btnEnable = overlayDialogPermission.findViewById
-                        (R.id.btnEnable);
-
-                final Button btnGotIt = overlayDialogPermission.findViewById
-                        (R.id.btnGotIt);
-                final Button btnLater = overlayDialogPermission.findViewById(R.id.btnLater);
-                btnLater.setText(getString(R.string.cancel));
-                btnLater.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        overlayDialogPermission.dismiss();
-                    }
-                });
-
-                btnEnable.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        viewFlipperOverlay.setInAnimation(context, R.anim
-                                .in_from_right_email);
-                        viewFlipperOverlay.setOutAnimation(context, R.anim
-                                .out_to_left_email);
-                        viewFlipperOverlay.setDisplayedChild(1);
-
-
-                    }
-                });
-
-                btnGotIt.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        overlayDialogPermission.dismiss();
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                            if (!Settings.canDrawOverlays(context)) {
-                                Intent intent = new Intent(Settings
-                                        .ACTION_MANAGE_OVERLAY_PERMISSION,
-                                        Uri.parse("package:" +
-                                                context.getPackageName()));
-                                startActivityForResult(intent, 1000);
-                            }
-                        }
-                    }
-                });
-
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
     }
 
 

@@ -128,11 +128,8 @@ public class StatusBarService extends Service {
     private WindowManager wm;
     private View bottomView;
     private int heightWindow;
-    private int maxHeightWindow;
     private int heightWindowLandscape;
-    private int maxHeightWindowLandscape;
     private View topView;
-    private Runnable runnableViewBottom;
     private int minusculeHeight;
     private int minusculeHeightLandscape;
     private WindowManager.LayoutParams paramsTop;
@@ -355,14 +352,12 @@ public class StatusBarService extends Service {
 
         heightWindowLandscape = (size.x) * 6 / 9;
         heightWindowLandscapeExclusive = (size.x);
-        maxHeightWindowLandscape = heightWindowLandscape;
         paramsTop = new WindowManager
                 .LayoutParams();
 
         paramsBottom = new WindowManager
                 .LayoutParams();
 
-        maxHeightWindow = heightWindow;
         minusculeHeight = screenHeightExclusive / 9;
         minusculeHeightLandscape = heightWindowLandscapeExclusive / 9;
         paramsBottom.width = ViewGroup.LayoutParams.MATCH_PARENT;

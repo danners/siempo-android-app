@@ -17,7 +17,7 @@ import co.siempo.phone.R;
 public class NotificationUtils extends ContextWrapper {
 
     public static final String ANDROID_CHANNEL_ID = "co.siempo.phone.ANDROID";
-    public static final String ANDROID_CHANNEL_NAME = "ANDROID CHANNEL";
+    private static final String ANDROID_CHANNEL_NAME = "ANDROID CHANNEL";
     private NotificationManager mManager;
 
     public NotificationUtils(Context base) {
@@ -42,15 +42,7 @@ public class NotificationUtils extends ContextWrapper {
             androidChannel.setLockscreenVisibility(Notification.VISIBILITY_PRIVATE);
 
             getManager().createNotificationChannel(androidChannel);
-//
-//            // create ios channel
-//            NotificationChannel iosChannel = new NotificationChannel(IOS_CHANNEL_ID,
-//                    IOS_CHANNEL_NAME, NotificationManager.IMPORTANCE_HIGH);
-//            iosChannel.enableLights(true);
-//            iosChannel.enableVibration(true);
-//            iosChannel.setLightColor(Color.GRAY);
-//            iosChannel.setLockscreenVisibility(Notification.VISIBILITY_PUBLIC);
-//            getManager().createNotificationChannel(iosChannel);
+
         }
     }
 
@@ -61,17 +53,4 @@ public class NotificationUtils extends ContextWrapper {
         return mManager;
     }
 
-    public Notification.Builder getAndroidChannelNotification(String title, String body) {
-        Notification.Builder builder = null;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            builder = new Notification.Builder(getApplicationContext(), ANDROID_CHANNEL_ID)
-                    .setContentTitle(title)
-                    .setSortKey(getResources().getString(R.string.lock_screen_label))
-                    .setContentText(body)
-                    .setSmallIcon(android.R.drawable.stat_notify_more)
-                    .setAutoCancel(true);
-        }
-        return builder;
-
-    }
 }

@@ -13,12 +13,9 @@ public class GreenDaoOpenHelper extends co.siempo.phone.db.DaoMaster.OpenHelper 
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        // MigrationHelper.migrate(db,TableNotificationSmsDao.class);
         switch (oldVersion) {
             case 1:
-                // no statement
             case 2:
-//                MigrationHelper.migrate(db, StatusBarNotificationStorageDao.class);
             case 3:
                 MigrationHelper.migrate(db, TableNotificationSmsDao.class);
                 break;

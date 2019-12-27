@@ -1,33 +1,16 @@
 package co.siempo.phone.fragments;
 
-import android.app.Activity;
 import android.app.FragmentManager;
-import android.app.NotificationManager;
-import android.app.admin.DevicePolicyManager;
-import android.content.ComponentName;
-import android.content.Context;
-import android.content.Intent;
-import android.os.Build;
-import android.provider.Settings;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.CompoundButton;
-import android.widget.RelativeLayout;
 import android.widget.Switch;
-import android.widget.Toast;
 
 import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
 
 import co.siempo.phone.R;
-import co.siempo.phone.activities.CoreActivity;
-import co.siempo.phone.receivers.ScreenOffAdminReceiver;
-import co.siempo.phone.utils.PermissionUtil;
 import co.siempo.phone.utils.PrefSiempo;
-
-import static android.content.Context.NOTIFICATION_SERVICE;
 
 @EFragment(R.layout.fragment_icon_labels)
 public class IconLabelsFragment extends CoreFragment {

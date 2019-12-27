@@ -67,19 +67,6 @@ public class SettingsActivity extends CoreActivity {
             int uiOptions = View.SYSTEM_UI_FLAG_VISIBLE;
             decorView.setSystemUiVisibility(uiOptions);
         }
-        statusBarColor();
-    }
-
-    private void statusBarColor() {
-
-       /* new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                Window window = getWindow();
-                window.setStatusBarColor(ContextCompat.getColor(SettingsActivity.this ,R.color.green_solid));
-                window.setNavigationBarColor(ContextCompat.getColor(SettingsActivity.this ,R.color.green_solid));
-            }
-        },1000);*/
     }
 
 }

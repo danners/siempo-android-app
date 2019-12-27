@@ -105,7 +105,6 @@ public class JunkfoodFlaggingAdapter extends BaseAdapter implements Filterable {
                 holder.linTop.setVisibility(View.GONE);
                 if (resolveInfo.isFlagApp) {
                     holder.txtHeader.setBackgroundColor(ContextCompat.getColor(context, R.color.flageapp_header));
-//                    holder.txtHeader.setText(context.getString(R.string.flag_app));
                     holder.txtHeader.setText(context.getString(R.string.flag_app));
 
                     holder.txtNoAppsMessage.setBackground(new

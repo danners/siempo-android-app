@@ -13,7 +13,6 @@ import co.siempo.phone.utils.PrefSiempo;
  */
 
 public class BootReceiver extends BroadcastReceiver {
-    SharedPreferences sharedPref;
     private String TAG = "BootReceiver";
 
     @Override
@@ -21,9 +20,6 @@ public class BootReceiver extends BroadcastReceiver {
         Log.d(TAG, "Boot complete");
         try {
             PrefSiempo.getInstance(context).write(PrefSiempo.CALL_RUNNING, false);
-//            Intent myService = new Intent(context, StatusBarService.class);
-//            context.startService(myService);
-//            EventBus.getDefault().post(new ReduceOverUsageEvent(false));
         } catch (Exception e) {
             e.printStackTrace();
         }

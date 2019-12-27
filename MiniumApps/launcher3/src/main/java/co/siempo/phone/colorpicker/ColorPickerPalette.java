@@ -87,7 +87,6 @@ public class ColorPickerPalette extends TableLayout {
             return;
 
         this.removeAllViews();
-        int tableElements = 0;
         int rowElements = 0;
         int rowNumber = 0;
 
@@ -98,7 +97,6 @@ public class ColorPickerPalette extends TableLayout {
             View colorSwatch = createColorSwatch(color, selectedColor);
             addSwatchToRow(row, colorSwatch, rowNumber);
 
-            tableElements++;
             rowElements++;
 
             if (rowElements == mNumColumns) {

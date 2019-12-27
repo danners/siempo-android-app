@@ -31,7 +31,6 @@ public class OverlayService extends Service {
     private WindowManager wm;
     private View bottomView;
     private Handler handler;
-    private int delay;
     private int heightWindow;
     private int maxHeightWindow;
     private int variableMaxHeightPortrait;
@@ -40,7 +39,6 @@ public class OverlayService extends Service {
     private int heightWindowLandscape;
     private int maxHeightWindowLandscape;
     private View topView;
-    private Runnable runnableViewBottom;
     private int minusculeHeight;
     private int minusculeHeightLandscape;
     private WindowManager.LayoutParams paramsBottom;
@@ -124,7 +122,6 @@ public class OverlayService extends Service {
             handler = new Handler();
 //            handlerTop = new Handler();
             //milliseconds
-            delay = 1000;
 
             //Code for timer to increase the height of cover
             final CountDownTimer countDownTimer = new CountDownTimer(10000,

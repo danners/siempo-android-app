@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.evernote.client.android.EvernoteSession;
-import com.google.firebase.analytics.FirebaseAnalytics;
 
 import org.androidannotations.annotations.EApplication;
 import org.androidannotations.annotations.SystemService;
@@ -36,14 +35,11 @@ public class Launcher3App extends CoreApplication {
     private final String TRACE_TAG = LogConfig.TRACE_TAG + "Launcher3App";
     private final String TAG = "SiempoActivityLifeCycle";
     public Dialog dialog;
-    //    @Pref
-//    Launcher3Prefs_ launcherPrefs;
     @SystemService
     AudioManager audioManager;
     @SystemService
     NotificationManager notificationManager;
     private DaoSession daoSession;
-    private FirebaseAnalytics mFirebaseAnalytics;
     private boolean isSiempoLauncher = false;
     private long startTime;
 
@@ -69,8 +65,6 @@ public class Launcher3App extends CoreApplication {
 
         loadConfigurationValues();
         configureEverNote();
-        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
-        mFirebaseAnalytics.setUserId(getDeviceId());
         GreenDaoOpenHelper helper2 = new GreenDaoOpenHelper(this, "noti-db", null);
         Database db = helper2.getWritableDb();
         DaoMaster daoMaster = new DaoMaster(db);
@@ -114,10 +108,6 @@ public class Launcher3App extends CoreApplication {
                 .build(EverNoteConfig.CONSUMER_KEY, EverNoteConfig.CONSUMER_SECRET)
                 .asSingleton();
 
-    }
-
-    public FirebaseAnalytics getFirebaseAnalytics() {
-        return mFirebaseAnalytics;
     }
 
     class AppLifecycleTracker implements Application.ActivityLifecycleCallbacks {

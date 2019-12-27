@@ -52,28 +52,22 @@ public class ToolPositioningActivity extends CoreActivity implements OnToolItemL
     HashMap<Integer, AppMenu> map = new HashMap<>();
     LinearLayout linMain;
     private ArrayList<MainListItem> items = new ArrayList<>();
-    private ArrayList<MainListItem> topItems = new ArrayList<>();
-    private ArrayList<MainListItem> bottomItems = new ArrayList<>();
     private ArrayList<MainListItem> sortedList = new ArrayList<>();
     private ToolPositioningAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private ItemOffsetDecoration itemDecoration;
     private ItemTouchHelper mItemTouchHelper;
-    private Parcelable mListState;
     private RecyclerView recyclerView;
     private Toolbar toolbar;
     private TextView txtSelectTools;
     private RelativeLayout relTop;
     private LinearLayout linearTop;
-    private long startTime = 0;
-    private RelativeLayout relMain;
     private ImageView imgBackground;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tool_positioning);
-        relMain = findViewById(R.id.relMain);
         linMain = findViewById(R.id.linMain);
         imgBackground = findViewById(R.id.imgBackground);
         String filePath = PrefSiempo.getInstance(this).read(PrefSiempo
@@ -99,16 +93,7 @@ public class ToolPositioningActivity extends CoreActivity implements OnToolItemL
         } catch (Exception e) {
             e.printStackTrace();
         }
-        /*StatusBarUtil.setTranslucent(this);
-        boolean read = PrefSiempo.getInstance(this).read(PrefSiempo.IS_DARK_THEME, false);
-        if (read) {
-            getWindow().setStatusBarColor(getResources().getColor(R.color.black));
-        } else {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                getWindow().setStatusBarColor(getResources().getColor(R.color.white));
-                getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
-            }
-        }*/
+
         AppUtils.notificationBarManaged(this, null);
         AppUtils.statusBarManaged(this);
         AppUtils.statusbarColor0(this, 1);
@@ -117,22 +102,15 @@ public class ToolPositioningActivity extends CoreActivity implements OnToolItemL
     @Override
     protected void onResume() {
         super.onResume();
-        startTime = System.currentTimeMillis();
         map = CoreApplication.getInstance().getToolsSettings();
         initView();
-    }
-
-    private void setTextColorForMenuItem(MenuItem menuItem, @ColorRes int color) {
-        SpannableString spanString = new SpannableString(menuItem.getTitle().toString());
-        spanString.setSpan(new ForegroundColorSpan(ContextCompat.getColor(this, color)), 0, spanString.length(), 0);
-        menuItem.setTitle(spanString);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.app_junkfood_flagging, menu);
         MenuItem menuItem = menu.findItem(R.id.item_save);
-//        setTextColorForMenuItem(menuItem, R.color.colorAccent);
+
         menuItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
@@ -197,8 +175,6 @@ public class ToolPositioningActivity extends CoreActivity implements OnToolItemL
             public void onClick(View v) {
                 Intent intent = new Intent(ToolPositioningActivity.this, ToolSelectionActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-//                intent.putExtra("TopList", topItems);
-//                intent.putExtra("BottomList", bottomItems);
                 startActivity(intent);
             }
         });

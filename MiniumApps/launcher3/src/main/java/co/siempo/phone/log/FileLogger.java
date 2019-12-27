@@ -24,15 +24,6 @@ public class FileLogger {
 
     private static ExecutorService executor = null;
 
-    /**
-     * Get the ExecutorService
-     *
-     * @return the ExecutorService
-     */
-    protected static ExecutorService getExecutor() {
-        return executor;
-    }
-
 
     private static void log2file(final String path, final String str) {
         if (executor == null) {

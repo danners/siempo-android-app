@@ -145,9 +145,6 @@
         </receiver>
 
         <activity
-            android:name=".ui.UpdateActivity_"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".activities.AlphaSettingsActivity_"
             android:screenOrientation="portrait" />
 

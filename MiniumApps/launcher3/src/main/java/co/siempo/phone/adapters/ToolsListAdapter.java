@@ -175,10 +175,6 @@ public class ToolsListAdapter extends RecyclerView.Adapter<ToolsListAdapter
                             ((ToolSelectionActivity) context).startActivityForResult(intent, ToolSelectionActivity.TOOL_SELECTION);
                         }
 
-//                        } else {
-//                            UIUtils.toastShort(context, "You cannot select " +
-//                                    "more than 16 tools");
-//                        }
 
                     }
 

@@ -36,7 +36,6 @@ public class AccountSettingFragment extends CoreFragment {
 
     @ViewById
     RelativeLayout relChangeHome;
-    private long startTime = 0;
 
 
     public AccountSettingFragment() {
@@ -65,7 +64,6 @@ public class AccountSettingFragment extends CoreFragment {
     @Override
     public void onResume() {
         super.onResume();
-        startTime = System.currentTimeMillis();
     }
 
     @Override

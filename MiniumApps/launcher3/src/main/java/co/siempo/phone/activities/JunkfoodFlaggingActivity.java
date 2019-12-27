@@ -75,9 +75,7 @@ public class JunkfoodFlaggingActivity extends CoreActivity implements AdapterVie
     private List<AppListInfo> flagAppList = new ArrayList<>();
     private List<AppListInfo> unflageAppList = new ArrayList<>();
     private ArrayList<AppListInfo> bindingList = new ArrayList<>();
-    private long startTime = 0;
     private boolean isFromAppMenu;
-    private CardView cardView;
     private ImageView imgClear;
     private EditText edtSearch;
     private int positionPopUP;
@@ -116,7 +114,6 @@ public class JunkfoodFlaggingActivity extends CoreActivity implements AdapterVie
         toolbar.setTitle(R.string.title_flagging_screen);
         setSupportActionBar(toolbar);
         listAllApps = findViewById(R.id.listAllApps);
-        cardView = findViewById(R.id.cardView);
         imgClear = findViewById(R.id.imgClear);
         edtSearch = findViewById(R.id.edtSearch);
         try {
@@ -176,12 +173,10 @@ public class JunkfoodFlaggingActivity extends CoreActivity implements AdapterVie
 
         //Adding for ToolAppList
         if (toolsAppList != null && favoriteList != null) {
-//            appList.removeAll(toolsAppList);
             appList.removeAll(favoriteList);
         }
 
         installedPackageList = appList;
-//        new FilterApps(false).execute();
 
         bindData();
 
@@ -311,22 +306,6 @@ public class JunkfoodFlaggingActivity extends CoreActivity implements AdapterVie
 
     }
 
-
-    void updateFavoriteSortedMenu() {
-
-    }
-
-    /**
-     * change text color of menuitem
-     *
-     * @param menuItem
-     * @param color
-     */
-    private void setTextColorForMenuItem(MenuItem menuItem, @ColorRes int color) {
-        SpannableString spanString = new SpannableString(menuItem.getTitle().toString());
-        spanString.setSpan(new ForegroundColorSpan(ContextCompat.getColor(this, color)), 0, spanString.length(), 0);
-        menuItem.setTitle(spanString);
-    }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -585,7 +564,6 @@ public class JunkfoodFlaggingActivity extends CoreActivity implements AdapterVie
     @Override
     protected void onResume() {
         super.onResume();
-        startTime = System.currentTimeMillis();
         loadApps();
 
     }

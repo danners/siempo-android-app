@@ -8,25 +8,17 @@ import java.util.ArrayList;
 
 public class ImageItem {
     public final String name;
-    public boolean isVisable = false;
-    public ArrayList<String> drawableId = new ArrayList<>();
+    public boolean isVisable;
+    public ArrayList<String> drawableId;
 
-    public ImageItem(String name, ArrayList<String> drawableId, boolean isVisable) {
+    public ImageItem(String name, ArrayList<String> drawableId, boolean isVisible) {
         this.name = name;
         this.drawableId = drawableId;
-        this.isVisable = isVisable;
+        this.isVisable = isVisible;
     }
 
     public String getName() {
         return name;
-    }
-
-    public boolean isVisable() {
-        return isVisable;
-    }
-
-    public void setVisable(boolean visable) {
-        isVisable = visable;
     }
 
     public ArrayList<String> getDrawableId() {

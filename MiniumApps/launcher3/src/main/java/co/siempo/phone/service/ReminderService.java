@@ -24,7 +24,6 @@ public class ReminderService extends IntentService {
     protected void onHandleIntent(Intent intent) {
         NotificationManager notificationManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
 
-        //int notificationId = 1;
         String channelId = "channel-01";
         String channelName = "Channel Name";
         int importance = NotificationManager.IMPORTANCE_HIGH;
@@ -34,12 +33,6 @@ public class ReminderService extends IntentService {
                     channelId, channelName, importance);
             notificationManager.createNotificationChannel(mChannel);
         }
-
-        /////
-        //Intent intent = new Intent(this, SplashActivity.class);
-        //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        // PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent,
-        //       PendingIntent.FLAG_ONE_SHOT);
 
         Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 
@@ -58,7 +51,6 @@ public class ReminderService extends IntentService {
                 .setStyle(bigStyle);
 
 
-        //  .setContentIntent(pendingIntent);
         if(intent.getStringExtra("type").equals("2")){
             Intent intent1 = new Intent(Intent.ACTION_VIEW, Uri.parse("http://wefunder.com/siempo"));
             PendingIntent pendingIntent = PendingIntent.getActivity(this,

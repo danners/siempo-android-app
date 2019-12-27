@@ -68,11 +68,9 @@ public class SimpleItemTouchHelperCallback extends ItemTouchHelper.Callback {
         // Set movement flags based on the layout manager
         if (recyclerView.getLayoutManager() instanceof GridLayoutManager) {
             final int dragFlags = ItemTouchHelper.UP | ItemTouchHelper.DOWN | ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT;
-            final int swipeFlags = 0;
             return makeMovementFlags(dragFlags, 0);
         } else {
             final int dragFlags = ItemTouchHelper.UP | ItemTouchHelper.DOWN | ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT;
-            final int swipeFlags = ItemTouchHelper.START | ItemTouchHelper.END;
             return makeMovementFlags(dragFlags, 0);
         }
     }
@@ -152,10 +150,6 @@ public class SimpleItemTouchHelperCallback extends ItemTouchHelper.Callback {
         viewHolder.itemView.setAlpha(ALPHA_FULL);
 
         if (viewHolder instanceof ItemTouchHelperViewHolder) {
-            // Tell the view holder it's time to restore the idle state
-            if (dragFrom != -1 && dragTo != -1 && dragFrom != dragTo) {
-                reallyMoved(dragFrom, dragTo);
-            }
 
             dragFrom = dragTo = -1;
             ItemTouchHelperViewHolder itemViewHolder = (ItemTouchHelperViewHolder) viewHolder;
@@ -163,8 +157,6 @@ public class SimpleItemTouchHelperCallback extends ItemTouchHelper.Callback {
         }
     }
 
-    private void reallyMoved(int from, int to) {
-        // I guessed this was what you want...
-    }
+
 
 }

@@ -55,7 +55,6 @@ public class AppAssignmentActivity extends CoreActivity {
     private TextView txtErrorMessage;
     private AppAssignmentAdapter appAssignmentAdapter;
     private TextView showallAppBtn;
-    private long startTime = 0;
     private ImageView imgClear;
     private EditText edtSearch;
     private String class_name;
@@ -103,7 +102,6 @@ public class AppAssignmentActivity extends CoreActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        startTime = System.currentTimeMillis();
         //Added to refresh if app is marked as non-junk by navigating to Flag
         // Junk Apps directly from this screen
         filterList();
@@ -158,7 +156,7 @@ public class AppAssignmentActivity extends CoreActivity {
                 if (resolveInfo.activityInfo.packageName != null && !resolveInfo.activityInfo.packageName.equalsIgnoreCase(getPackageName())) {
 
                     for (String googleAppPackages: googleApps) {
-                        if ((mainListItem != null && resolveInfo.activityInfo.packageName.equalsIgnoreCase(googleAppPackages.toString().toLowerCase()))){
+                        if ((mainListItem != null && resolveInfo.activityInfo.packageName.equalsIgnoreCase(googleAppPackages.toLowerCase()))){
                             isCategoryAvailable = true;
                             appList.add(resolveInfo);
                         }
@@ -288,7 +286,7 @@ public class AppAssignmentActivity extends CoreActivity {
     }
 
     private void initView() {
-        context = (Context)AppAssignmentActivity.this;
+        context = AppAssignmentActivity.this;
         toolbar = findViewById(R.id.toolbar);
         toolbar.setNavigationIcon(R.drawable.ic_arrow_back_blue_24dp);
         if (mainListItem != null) {
@@ -314,7 +312,6 @@ public class AppAssignmentActivity extends CoreActivity {
         });
 
         //Added for searchbar
-        CardView cardView = findViewById(R.id.cardView);
         imgClear = findViewById(R.id.imgClear);
         edtSearch = findViewById(R.id.edtSearch);
         edtSearch.addTextChangedListener(new TextWatcher() {

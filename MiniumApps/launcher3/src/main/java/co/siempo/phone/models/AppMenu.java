@@ -5,9 +5,9 @@ package co.siempo.phone.models;
  */
 
 public class AppMenu {
-    private boolean isVisible = false;
-    private boolean isBottomDoc = false;
-    private String applicationName = "";
+    private boolean isVisible;
+    private boolean isBottomDoc;
+    private String applicationName;
 
     public AppMenu(boolean isVisible, boolean isBottomDoc, String applicationName) {
         this.isVisible = isVisible;

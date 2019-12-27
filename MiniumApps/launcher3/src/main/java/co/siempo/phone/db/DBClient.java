@@ -7,33 +7,6 @@ import co.siempo.phone.log.Tracer;
 
 public class DBClient {
 
-    public void deleteMsgByType(int type) {
-        Tracer.i("Deleting Msg by type");
-        try {
-            List<TableNotificationSms> notificationSmsesList = DBUtility.getNotificationDao().queryBuilder()
-                    .where(TableNotificationSmsDao.Properties.Notification_type.eq(type))
-                    .list();
-
-            DBUtility.getNotificationDao().deleteInTx(notificationSmsesList);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-    }
-
-    public void deleteMsgById(int type) {
-        Tracer.i("Deleting Msg by type");
-        try {
-            List<TableNotificationSms> notificationSmsesList = DBUtility.getNotificationDao().queryBuilder()
-                    .where(TableNotificationSmsDao.Properties.Id.eq(type))
-                    .list();
-
-            DBUtility.getNotificationDao().deleteInTx(notificationSmsesList);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
     public void deleteMsgByPackageName(String packageName) {
         try {
             List<TableNotificationSms> tableNotificationSms = DBUtility.getNotificationDao().queryBuilder()

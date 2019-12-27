@@ -8,8 +8,6 @@ import co.siempo.phone.fragments.HelpFragment;
 
 
 public class HelpActivity extends CoreActivity {
-    private String TAG = "HelpActivity";
-    private long startTime;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -21,7 +19,6 @@ public class HelpActivity extends CoreActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        startTime = System.currentTimeMillis();
     }
 
     @Override

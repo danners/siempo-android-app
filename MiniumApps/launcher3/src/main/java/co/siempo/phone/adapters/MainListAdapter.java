@@ -52,22 +52,17 @@ import de.greenrobot.event.EventBus;
  */
 public class MainListAdapter extends ArrayAdapter<MainListItem> {
 
-    private static final int HIGHLIGHT_COLOR = 0x999be6ff;
     private final Context context;
     private boolean isHideIconBranding;
     private List<MainListItem> originalData = null;
     private List<MainListItem> filteredData = null;
     private ItemFilter filter = new ItemFilter();
-    private ColorGenerator mColorGenerator = ColorGenerator.MATERIAL;
     private DrawableProvider mProvider;
-    private TextDrawable.IBuilder mDrawableBuilder;
     private PopupMenu popup;
 
     public MainListAdapter(Context context, List<MainListItem> items) {
         super(context, 0);
         this.context = context;
-        mDrawableBuilder = TextDrawable.builder()
-                .round();
         mProvider = new DrawableProvider(context);
 
         loadData(items);

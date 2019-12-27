@@ -2,7 +2,6 @@ package co.siempo.phone.utils;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Random;
 
 /**
  * @author amulya
@@ -48,19 +47,13 @@ public class ColorGenerator {
     }
 
     private final List<Integer> mColors;
-    private final Random mRandom;
 
     private ColorGenerator(List<Integer> colorList) {
         mColors = colorList;
-        mRandom = new Random(System.currentTimeMillis());
     }
 
     public static ColorGenerator create(List<Integer> colorList) {
         return new ColorGenerator(colorList);
-    }
-
-    public int getRandomColor() {
-        return mColors.get(mRandom.nextInt(mColors.size()));
     }
 
     public int getColor(Object key) {

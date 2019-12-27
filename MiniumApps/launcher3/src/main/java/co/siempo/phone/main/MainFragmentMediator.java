@@ -2,19 +2,13 @@ package co.siempo.phone.main;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.text.TextUtils;
 
-import com.evernote.client.android.helper.Cat;
-
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 import co.siempo.phone.BuildConfig;
 import co.siempo.phone.R;
@@ -47,7 +41,6 @@ import de.greenrobot.event.EventBus;
 
 public class MainFragmentMediator {
 
-    private SharedPreferences launcher3Prefs;
     private Context context;
     private PaneFragment fragment;
     private List<MainListItem> items;
@@ -117,18 +110,14 @@ public class MainFragmentMediator {
             if (fragment != null) {
 
                 if (fragment.getManager().hasCompleted(TokenItemType.CONTACT) && fragment.getManager().has(TokenItemType.DATA) && !fragment.getManager().get(TokenItemType.DATA).getTitle().isEmpty()) {
-                    //items.add(new MainListItem(1, fragment.getString(R.string.title_sendAsSMS), R.drawable.ic_messages_tool, MainListItemType.DEFAULT));
                     items.add(new MainListItem(3, fragment.getString(R.string.title_swipe), R.drawable.ic_default_swipe, MainListItemType.DEFAULT, CategoryUtils.EMPTY));
                 } else if (fragment.getManager().hasCompleted(TokenItemType.CONTACT)) {
-                    //items.add(new MainListItem(1, fragment.getString(R.string.title_sendAsSMS), R.drawable.ic_messages_tool, MainListItemType.DEFAULT));
                     items.add(new MainListItem(3, fragment.getString(R.string.title_swipe), R.drawable.ic_default_swipe, MainListItemType.DEFAULT, CategoryUtils.EMPTY));
                 } else if (fragment.getManager().hasCompleted(TokenItemType.DATA)) {
-                    //items.add(new MainListItem(1, fragment.getString(R.string.title_sendAsSMS), R.drawable.ic_messages_tool,MainListItemType.DEFAULT));
                     items.add(new MainListItem(2, fragment.getString(R
                             .string.title_saveNote), R.drawable.ic_notes_tool, MainListItemType.DEFAULT,CategoryUtils.EMPTY));
                     items.add(new MainListItem(3, fragment.getString(R.string.title_swipe), R.drawable.ic_default_swipe, MainListItemType.DEFAULT,CategoryUtils.EMPTY));
                 } else {
-                    //items.add(new MainListItem(1, fragment.getString(R.string.title_sendAsSMS), R.drawable.ic_messages_tool, MainListItemType.DEFAULT));
                     items.add(new MainListItem(2, fragment.getString(R.string.title_saveNote), R.drawable.ic_notes_tool, MainListItemType.DEFAULT,CategoryUtils.EMPTY));
                     items.add(new MainListItem(3, fragment.getString(R.string.title_swipe), R.drawable.ic_default_swipe, MainListItemType.DEFAULT,CategoryUtils.EMPTY));
                 }
@@ -165,9 +154,6 @@ public class MainFragmentMediator {
                         break;
                     case ACTION:
                         if (getAdapter() != null && TextUtils.isEmpty(getAdapter().getItem(position).getPackageName())) {
-                            SimpleDateFormat sdf = (SimpleDateFormat) DateFormat.getDateInstance
-                                    (DateFormat.FULL, Locale
-                                            .getDefault());
                             PackageUtil.addRecentItemList(getAdapter().getItem(position), context);
                             position = getAdapter().getItem(position).getId();
                             new MainListItemLoader().listItemClicked(position);
@@ -238,7 +224,7 @@ public class MainFragmentMediator {
                                 if (router != null && fragment != null) {
                                     router.call(fragment.getActivity());
                                     DashboardActivity.isTextLenghGreater = "";
-                                    EventBus.getDefault().post(new SendSmsEvent(true, "", ""));
+                                    EventBus.getDefault().post(new SendSmsEvent());
                                 }
                                 break;
                             default:
@@ -251,7 +237,7 @@ public class MainFragmentMediator {
                             try {
                                 fragment.startActivity(new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + TokenManager.getInstance().getCurrent().getExtra2())));
                                 DashboardActivity.isTextLenghGreater = "";
-                                EventBus.getDefault().post(new SendSmsEvent(true, "", ""));
+                                EventBus.getDefault().post(new SendSmsEvent());
                             } catch (Exception e) {
                                 CoreApplication.getInstance().logException(e);
                                 e.printStackTrace();

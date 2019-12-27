@@ -42,8 +42,6 @@ public class NotificationActivity extends CoreActivity {
     long startTime = 0;
     Toolbar toolbar;
     private RecyclerView lst_appList;
-    private TextView titleActionBar;
-    private ImageView imgBack;
 
     private List<String> pref_messengerList = new ArrayList<>();
     private Set<String> pref_helpfulRobots = new HashSet<>();
@@ -58,7 +56,6 @@ public class NotificationActivity extends CoreActivity {
 
     private List<String> systemAppList = new ArrayList<>();
 
-    private PackageManager packageManager;
     private ProgressBar loading_progress;
 
     public NotificationActivity() {
@@ -103,7 +100,6 @@ public class NotificationActivity extends CoreActivity {
 
     public void bindView() {
         // Initialize components
-        packageManager = getPackageManager();
 
         pref_messengerList = new ArrayList<>();
         pref_helpfulRobots = new HashSet<>();
@@ -150,8 +146,6 @@ public class NotificationActivity extends CoreActivity {
         String disableList = new Gson().toJson(pref_helpfulRobots);
         PrefSiempo.getInstance(this).write(PrefSiempo.HELPFUL_ROBOTS, disableList);
 
-
-//        launcherPrefs.edit().putString(Constants.HELPFUL_ROBOTS, disableList).commit();
 
         String str_Header_AppList = PrefSiempo.getInstance(this).read(PrefSiempo.HEADER_APPLIST, "");
         if (!TextUtils.isEmpty(str_Header_AppList)) {

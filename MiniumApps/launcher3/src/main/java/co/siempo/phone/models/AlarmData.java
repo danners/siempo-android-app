@@ -15,23 +15,17 @@ public class AlarmData {
         return hours;
     }
 
-    public void setHours(int hours) {
-        this.hours = hours;
-    }
+
 
     public int getMinute() {
         return minute;
     }
 
-    public void setMinute(int minute) {
-        this.minute = minute;
-    }
+
 
     public String getIndex() {
         return index;
     }
 
-    public void setIndex(String index) {
-        this.index = index;
-    }
+
 }

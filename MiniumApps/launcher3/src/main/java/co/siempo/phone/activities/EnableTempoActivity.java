@@ -78,13 +78,9 @@ public class EnableTempoActivity extends CoreActivity {
                         startActivityForResult(new Intent(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS), PermissionUtil.NOTIFICATION_ACCESS);
                     } else if (btnSubmit.getText().toString().equalsIgnoreCase(getString(R.string.enable_setting_b))) {
                         askForPermission(new String[]{
-                                /*Manifest.permission.CALL_PHONE,*/
-                                /*Manifest.permission.READ_PHONE_STATE,*/
                                 Manifest.permission.READ_CONTACTS,
                                 Manifest.permission.WRITE_CONTACTS
-                                /*Manifest.permission.RECEIVE_SMS,*/
-                                /*Manifest.permission.SEND_SMS,*/
-                                /*Manifest.permission.READ_SMS*/});
+                          });
                     } else if (btnSubmit.getText().toString().equalsIgnoreCase(getString(R.string.enable_setting_c))) {
                         startActivity(new Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS));
                     } else if (btnSubmit.getText().toString().equalsIgnoreCase(getString(R.string.enable_setting_d))) {

@@ -13,11 +13,6 @@ public class CustomNotification {
     public CustomNotification() {
     }
 
-    public CustomNotification(Date date, ArrayList<TableNotificationSms> notificationSms) {
-        this.date = date;
-        this.notificationSms = notificationSms;
-    }
-
     public String getPackagename() {
         return packagename;
     }

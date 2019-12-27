@@ -34,11 +34,9 @@ public class SearchLayout extends CardView {
     private static final String TAG = "SearchLayout";
     public ChipsEditText txtSearchBox;
     ImageView btnClear;
-    private SharedPreferences launcherPrefs;
     private View inflateLayout;
     private StringBuilder formattedTxt = new StringBuilder();
     private boolean isWatching = true;
-    private Handler handler;
 
     public SearchLayout(Context context) {
         super(context);
@@ -82,7 +80,6 @@ public class SearchLayout extends CardView {
         theme.resolveAttribute(R.attr.theme_base_color, typedValue, true);
         int color = typedValue.data;
         setCardBackgroundColor(color);
-        handler = new Handler();
     }
 
     @Override
@@ -124,22 +121,6 @@ public class SearchLayout extends CardView {
         });
     }
 
-
-    public void askFocus() {
-
-        if (DashboardActivity.isTextLenghGreater.length() > 0) {
-            DashboardActivity.isTextLenghGreater = DashboardActivity.isTextLenghGreater.trim();
-            handleAfterTextChanged(DashboardActivity.isTextLenghGreater);
-        } else {
-            if (launcherPrefs.getBoolean("isKeyBoardDisplay", false) && txtSearchBox != null)
-                txtSearchBox.requestFocus();
-            if (btnClear != null)
-                btnClear.setVisibility(INVISIBLE);
-            if (txtSearchBox != null)
-                txtSearchBox.setText("");
-        }
-
-    }
 
     private void handleAfterTextChanged(String s) {
         if (isWatching) {
@@ -195,7 +176,6 @@ public class SearchLayout extends CardView {
     }
 
     private void buildFormattedText() {
-        formattedTxt .append("");
 
         for (TokenItem item : TokenManager.getInstance().getItems()) {
             if (item.getCompleteType() == TokenCompleteType.FULL) {

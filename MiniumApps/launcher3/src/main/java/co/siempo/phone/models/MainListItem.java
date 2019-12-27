@@ -15,7 +15,7 @@ import co.siempo.phone.R;
 public class MainListItem implements Serializable {
 
     private int id;
-    private String title = "";
+    private String title;
     private int drawable;
     private String subTitle;
     private String packageName = "";
@@ -23,7 +23,6 @@ public class MainListItem implements Serializable {
     private MainListItemType itemType = MainListItemType.ACTION;
     private String icon;
     private int iconRes;
-    private ApplicationInfo applicationInfo = null;
     private boolean isVisable;
     private String category="";
 
@@ -107,17 +106,13 @@ public class MainListItem implements Serializable {
         this.title = title;
         this.drawable = drawable;
         this.category=category;
-//        this.currentDateTime = GregorianCalendar.getInstance().getTime();
 
     }
 
     public String getPackageName() {
         return packageName;
     }
-//
-//    public Date getCurrentDateTime() {
-//        return currentDateTime;
-////    }
+
 
 
     public String getCategory(){
@@ -133,14 +128,6 @@ public class MainListItem implements Serializable {
 
     public void setTitle(String title) {
         this.title = title;
-    }
-
-    public String getSubTitle() {
-        return subTitle;
-    }
-
-    public void setSubTitle(String subTitle) {
-        this.subTitle = subTitle;
     }
 
     public boolean isEnabled() {
@@ -163,30 +150,11 @@ public class MainListItem implements Serializable {
         this.icon = icon;
     }
 
-    public int getIconRes() {
-        return iconRes;
-    }
-
-
-    public void setApplicationInfo(ApplicationInfo applicationInfo) {
-        this.applicationInfo = applicationInfo;
-    }
 
     public int getDrawable() {
         return drawable;
     }
 
-    {
-        this.drawable = drawable;
-    }
-//
-//    public Date getDate() {
-//        return currentDateTime;
-//    }
-//
-//    public void setDate(Date date) {
-//        this.currentDateTime = date;
-//    }
 
     public boolean isVisable() {
         return isVisable;

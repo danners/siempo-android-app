@@ -23,8 +23,6 @@ import android.database.Cursor;
 import android.graphics.PixelFormat;
 import android.media.AudioManager;
 import android.net.Uri;
-import android.nfc.NdefRecord;
-import android.nfc.Tag;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
@@ -64,11 +62,8 @@ import java.util.Calendar;
 import co.siempo.phone.R;
 import co.siempo.phone.app.Config;
 import co.siempo.phone.app.CoreApplication;
-import co.siempo.phone.event.DownloadApkEvent;
 import co.siempo.phone.event.JunkAppOpenEvent;
 import co.siempo.phone.helper.Validate;
-import co.siempo.phone.interfaces.NFCInterface;
-import co.siempo.phone.log.Tracer;
 import co.siempo.phone.receivers.ScreenOffAdminReceiver;
 import co.siempo.phone.service.ReminderService;
 import co.siempo.phone.util.AppUtils;
@@ -85,16 +80,12 @@ import de.greenrobot.event.Subscribe;
  */
 
 @EActivity
-public abstract class CoreActivity extends AppCompatActivity implements NFCInterface, GestureDetector.OnGestureListener,
+public abstract class CoreActivity extends AppCompatActivity implements GestureDetector.OnGestureListener,
         GestureDetector.OnDoubleTapListener {
 
     public static File localPath, backupPath;
-    public int currentIndex = 0;
-    public View mTestView = null;
     public WindowManager windowManager = null;
     public boolean isOnStopCalled = false;
-    int onStartCount = 0;
-    SharedPreferences launcherPrefs;
     UserPresentBroadcastReceiver userPresentBroadcastReceiver;
     IInAppBillingService mService;
     ServiceConnection mServiceConn = new ServiceConnection() {
@@ -110,7 +101,7 @@ public abstract class CoreActivity extends AppCompatActivity implements NFCInter
         }
     };
     private IntentFilter mFilter;
-    private InnerRecevier mRecevier;
+    private InnerRecevier mReceiver;
     private String state = "";
     private String TAG = "CoreActivity";
     private DownloadReceiver mDownloadReceiver;
@@ -153,7 +144,7 @@ public abstract class CoreActivity extends AppCompatActivity implements NFCInter
         this.setVolumeControlStream(AudioManager.STREAM_SYSTEM);
         windowManager = (WindowManager) getBaseContext().getSystemService(Context.WINDOW_SERVICE);
 
-        mRecevier = new InnerRecevier();
+        mReceiver = new InnerRecevier();
         mFilter = new IntentFilter(Intent.ACTION_CLOSE_SYSTEM_DIALOGS);
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(Intent.ACTION_USER_PRESENT);
@@ -166,7 +157,7 @@ public abstract class CoreActivity extends AppCompatActivity implements NFCInter
             setTheme(PrefSiempo.getInstance(this).read(PrefSiempo.SELECTED_THEME_ID, 0));
         }
         try {
-            registerReceiver(mRecevier, mFilter);
+            registerReceiver(mReceiver, mFilter);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -204,10 +195,8 @@ public abstract class CoreActivity extends AppCompatActivity implements NFCInter
             editor[0].putString("reminder_flag_new","1");
             editor[0].apply();
             AlarmManager alarmManager = (AlarmManager) this.getSystemService(this.ALARM_SERVICE);
-            long when = System.currentTimeMillis();         // notification time
             Calendar cal;
             cal = Calendar.getInstance();
-            //cal.add(Calendar.HOUR, 24);
             cal.add(Calendar.MINUTE, 3);
             Intent intent = new Intent(this, ReminderService.class);
             intent.putExtra("title","Welcome to Siempo! Thank you for your trust.");
@@ -215,9 +204,8 @@ public abstract class CoreActivity extends AppCompatActivity implements NFCInter
             intent.putExtra("type","0");
             PendingIntent pendingIntent = PendingIntent.getService(this, 0, intent, 0);
             alarmManager.set(AlarmManager.RTC, cal.getTimeInMillis(), pendingIntent);
-//
+
             cal = Calendar.getInstance();
-        //cal.add(Calendar.HOUR, 24);
         cal.add(Calendar.DAY_OF_MONTH, 7);
         Intent intent1 = new Intent(this, ReminderService.class);
         intent1.putExtra("title","Congratulations on sticking with Siempo for a week!");
@@ -225,14 +213,7 @@ public abstract class CoreActivity extends AppCompatActivity implements NFCInter
         intent1.putExtra("type","1");
         PendingIntent pendingIntent1 = PendingIntent.getService(this, 1, intent1, 0);
         alarmManager.set(AlarmManager.RTC, cal.getTimeInMillis(), pendingIntent1);
-//        cal = Calendar.getInstance();
-//        cal.set(2019, 5, 19);
-//        Intent intent2 = new Intent(this, ReminderService.class);
-//        intent2.putExtra("title","Special opportunity: how would you like to become an owner in Siempo?");
-//        intent2.putExtra("body","Please consider participating in our crowd equity campaign!");
-//        intent2.putExtra("type","2");
-//        PendingIntent pendingIntent2 = PendingIntent.getService(this, 2, intent2, 0);
-//        alarmManager.set(AlarmManager.RTC, cal.getTimeInMillis(), pendingIntent2);
+
 
           }
     }
@@ -252,13 +233,6 @@ public abstract class CoreActivity extends AppCompatActivity implements NFCInter
     protected void onResume() {
         super.onResume();
         isOnStopCalled = false;
-//        EventBus.getDefault().post(new ReduceOverUsageEvent(false));
-//        try {
-//            Intent intent = new Intent(this, OverlayService.class);
-//            stopService(intent);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
         AppUtils.notificationBarManaged(this, null);
     }
 
@@ -267,100 +241,6 @@ public abstract class CoreActivity extends AppCompatActivity implements NFCInter
         boolean read = PrefSiempo.getInstance(this).read(PrefSiempo.IS_DARK_THEME, false);
         setTheme(read ? R.style.SiempoAppThemeDark : R.style.SiempoAppTheme);
         super.onNewIntent(intent);
-//        EventBus.getDefault().post(new ReduceOverUsageEvent(false));
-//        try {
-//            stopService(new Intent(this, OverlayService.class));
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-    }
-
-    public void loadDialog() {
-        if (mTestView == null) {
-            WindowManager.LayoutParams layoutParams;
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                layoutParams = new WindowManager.LayoutParams(
-                        WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY);
-            } else {
-                //noinspection deprecation
-                layoutParams = new WindowManager.LayoutParams(
-                        WindowManager.LayoutParams.TYPE_SYSTEM_ERROR);
-            }
-            layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT;
-            layoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT;
-            layoutParams.format = PixelFormat.RGBA_8888;
-            layoutParams.gravity = Gravity.TOP | Gravity.START;
-            layoutParams.flags =
-                    WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN
-                            | WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED;
-            mTestView = View.inflate(CoreActivity.this, R.layout.tooltip_launcher, null);
-            if (currentIndex == 0) {
-                mTestView.findViewById(R.id.linSiempoApp).setVisibility(View.VISIBLE);
-                mTestView.findViewById(R.id.linDefaultApp).setVisibility(View.GONE);
-                mTestView.findViewById(R.id.txtTitle).setVisibility(View.VISIBLE);
-            } else {
-                mTestView.findViewById(R.id.linSiempoApp).setVisibility(View.GONE);
-                mTestView.findViewById(R.id.linDefaultApp).setVisibility(View.VISIBLE);
-                mTestView.findViewById(R.id.txtTitle).setVisibility(View.GONE);
-            }
-            //Must wire up back button, otherwise it's not sent to our activity
-            mTestView.setOnKeyListener(new View.OnKeyListener() {
-                @Override
-                public boolean onKey(View v, int keyCode, KeyEvent event) {
-                    if (keyCode == KeyEvent.KEYCODE_BACK) {
-                        if (mTestView != null)
-                            windowManager.removeView(mTestView);
-                        mTestView = null;
-                        onBackPressed();
-                    }
-                    return true;
-                }
-            });
-            mTestView.findViewById(R.id.linSecond).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (mTestView != null)
-                        windowManager.removeView(mTestView);
-                    mTestView = null;
-                }
-            });
-
-            mTestView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (mTestView != null)
-                        windowManager.removeView(mTestView);
-                    mTestView = null;
-                }
-            });
-            if (Build.VERSION.SDK_INT >= 23) {
-                if (Settings.canDrawOverlays(this)) {
-                    windowManager.addView(mTestView, layoutParams);
-                }
-            } else {
-                windowManager.addView(mTestView, layoutParams);
-            }
-
-        }
-
-    }
-
-    private void onCreateAnimation(Bundle savedInstanceState) {
-        onStartCount = 1;
-        if (savedInstanceState == null) {
-            this.overridePendingTransition(R.anim.anim_slide_in_left, R.anim.anim_slide_out_left);
-        } else {
-            onStartCount = 2;
-        }
-    }
-
-    private void onStartAnimation() {
-        if (onStartCount > 1) {
-            this.overridePendingTransition(R.anim.anim_slide_in_right,
-                    R.anim.anim_slide_out_right);
-        } else if (onStartCount == 1) {
-            onStartCount++;
-        }
     }
 
     @Override
@@ -400,9 +280,9 @@ public abstract class CoreActivity extends AppCompatActivity implements NFCInter
         if (userPresentBroadcastReceiver != null) {
             unregisterReceiver(userPresentBroadcastReceiver);
         }
-        if (mRecevier != null) {
+        if (mReceiver != null) {
             try {
-                unregisterReceiver(mRecevier);
+                unregisterReceiver(mReceiver);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -488,58 +368,6 @@ public abstract class CoreActivity extends AppCompatActivity implements NFCInter
         }
     }
 
-    @Subscribe
-    public void downloadApkEvent(DownloadApkEvent event) {
-        try {
-            Intent installIntent = new Intent(Intent.ACTION_VIEW);
-            installIntent.setDataAndType(Uri.fromFile(new File(event.getPath())),
-                    "application/vnd.android.package-archive");
-            installIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(installIntent);
-        } catch (Exception e) {
-            CoreApplication.getInstance().logException(e);
-            Tracer.e(e, e.getMessage());
-        }
-    }
-
-    @Override
-    public String nfcRead(Tag t) {
-        return null;
-    }
-
-    @Override
-    public String readText(NdefRecord record) {
-        return null;
-    }
-
-    @Override
-    public void nfcReader(Tag tag) {
-
-    }
-
-    @Subscribe()
-    public void onEvent(JunkAppOpenEvent junkAppOpenEvent) {
-        if (junkAppOpenEvent != null && junkAppOpenEvent.isNotify()) {
-            try {
-//                if (PackageUtil.isSiempoLauncher(this) && PrefSiempo
-//                        .getInstance(this).read
-//                                (PrefSiempo.JUNK_RESTRICTED,
-//                                        false)) {
-//                    Intent intent = new Intent(this, OverlayService.class);
-//                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && Settings
-//                            .canDrawOverlays(this)) {
-//                        startService(intent);
-//                    } else if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-//                        startService(intent);
-//                    }
-//                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-
-
-    }
 
 
     /**
@@ -712,8 +540,6 @@ public abstract class CoreActivity extends AppCompatActivity implements NFCInter
         shortcutWallpaper.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                CoreApplication.getInstance().downloadSiempoImages();
-//                startActivity(new Intent(CoreActivity.this, ChooseBackgroundActivity.class));
                 showWallPaperSelection();
                 mBottomSheetDialog.closeOptionsMenu();
                 mBottomSheetDialog.hide();

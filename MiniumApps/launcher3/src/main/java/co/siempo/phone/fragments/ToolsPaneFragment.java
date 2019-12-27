@@ -32,7 +32,6 @@ public class ToolsPaneFragment extends CoreFragment {
     private ArrayList<MainListItem> items = new ArrayList<>();
     private ToolsMenuAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-    private Parcelable mListState;
     private ItemOffsetDecoration itemDecoration;
 
     public ToolsPaneFragment() {

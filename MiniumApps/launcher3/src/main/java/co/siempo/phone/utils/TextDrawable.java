@@ -15,11 +15,9 @@ import android.graphics.drawable.shapes.RoundRectShape;
 
 public class TextDrawable extends ShapeDrawable {
 
-    private static final float SHADE_FACTOR = 0.9f;
     private final Paint textPaint;
     private final Paint borderPaint;
     private final String text;
-    private final int color;
     private final RectShape shape;
     private final int height;
     private final int width;
@@ -38,7 +36,6 @@ public class TextDrawable extends ShapeDrawable {
 
         // text and color
         text = builder.toUpperCase ? builder.text.toUpperCase() : builder.text;
-        color = builder.color;
 
         // text paint settings
         fontSize = builder.fontSize;
@@ -66,12 +63,6 @@ public class TextDrawable extends ShapeDrawable {
 
     public static IShapeBuilder builder() {
         return new Builder();
-    }
-
-    private int getDarkerShade(int color) {
-        return Color.rgb((int) (SHADE_FACTOR * Color.red(color)),
-                (int) (SHADE_FACTOR * Color.green(color)),
-                (int) (SHADE_FACTOR * Color.blue(color)));
     }
 
     @Override
@@ -144,15 +135,11 @@ public class TextDrawable extends ShapeDrawable {
 
         IConfigBuilder textColor(int color);
 
-        IConfigBuilder withBorder(int thickness);
-
         IConfigBuilder useFont(Typeface font);
 
         IConfigBuilder fontSize(int size);
 
         IConfigBuilder bold();
-
-        IConfigBuilder toUpperCase();
 
         IShapeBuilder endConfig();
     }
@@ -166,15 +153,7 @@ public class TextDrawable extends ShapeDrawable {
 
         IConfigBuilder beginConfig();
 
-        IBuilder rect();
-
         IBuilder round();
-
-        IBuilder roundRect(int radius);
-
-        TextDrawable buildRect(String text, int color);
-
-        TextDrawable buildRoundRect(String text, int color, int radius);
 
         TextDrawable buildRound(String text, int color);
     }
@@ -184,7 +163,6 @@ public class TextDrawable extends ShapeDrawable {
         public int textColor;
         public float radius;
         private String text;
-        private int color;
         private int borderThickness;
         private int width;
         private int height;
@@ -196,7 +174,6 @@ public class TextDrawable extends ShapeDrawable {
 
         private Builder() {
             text = "";
-            color = Color.WHITE;
             textColor = Color.BLACK;
             borderThickness = 0;
             width = -1;
@@ -223,11 +200,6 @@ public class TextDrawable extends ShapeDrawable {
             return this;
         }
 
-        public IConfigBuilder withBorder(int thickness) {
-            this.borderThickness = thickness;
-            return this;
-        }
-
         public IConfigBuilder useFont(Typeface font) {
             this.font = font;
             return this;
@@ -243,11 +215,6 @@ public class TextDrawable extends ShapeDrawable {
             return this;
         }
 
-        public IConfigBuilder toUpperCase() {
-            this.toUpperCase = true;
-            return this;
-        }
-
         @Override
         public IConfigBuilder beginConfig() {
             return this;
@@ -259,35 +226,9 @@ public class TextDrawable extends ShapeDrawable {
         }
 
         @Override
-        public IBuilder rect() {
-            this.shape = new RectShape();
-            return this;
-        }
-
-        @Override
         public IBuilder round() {
             this.shape = new OvalShape();
             return this;
-        }
-
-        @Override
-        public IBuilder roundRect(int radius) {
-            this.radius = radius;
-            float[] radii = {radius, radius, radius, radius, radius, radius, radius, radius};
-            this.shape = new RoundRectShape(radii, null, null);
-            return this;
-        }
-
-        @Override
-        public TextDrawable buildRect(String text, int color) {
-            rect();
-            return build(text, color);
-        }
-
-        @Override
-        public TextDrawable buildRoundRect(String text, int color, int radius) {
-            roundRect(radius);
-            return build(text, color);
         }
 
         @Override
@@ -298,7 +239,6 @@ public class TextDrawable extends ShapeDrawable {
 
         @Override
         public TextDrawable build(String text, int color) {
-            this.color = color;
             this.text = text;
             return new TextDrawable(this);
         }

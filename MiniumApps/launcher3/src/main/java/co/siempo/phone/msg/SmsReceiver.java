@@ -68,7 +68,7 @@ public class SmsReceiver extends BroadcastReceiver {
                     mBody = bodyText.toString();
                 }
 
-                mAddress = sms.getDisplayOriginatingAddress(); // sms..getOriginatingAddress();
+                mAddress = sms.getDisplayOriginatingAddress();
                 mDate = new Date(sms.getTimestampMillis());
 
 

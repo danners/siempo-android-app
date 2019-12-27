@@ -22,9 +22,6 @@ public class PrefSiempo {
     public static final String DEFAULT_INTENTION = "defaultIntention";
 
     // This field is used to store check application installed first time or not.
-    public static final String IS_APP_INSTALLED_FIRSTTIME = "is_app_installed_firsttime";
-
-    // This field is used to store check application installed first time or not.
     public static final String IS_AUTOSCROLL = "is_autoscroll";
 
     // This field is used to store check application installed first time or not.
@@ -68,8 +65,6 @@ public class PrefSiempo {
 
     public static final String IS_ASK_HINT = "IS_ASK_HINT";
 
-    //Launcher 3 preferences
-    public static final String UPDATE_PROMPT = "updatePrompt";
     public static final String CALL_RUNNING = "CALLRUNNING";
     public static final String IS_APP_DEFAULT_OR_FRONT = "isAppDefaultOrFront";
     //DroidPrefs
@@ -80,8 +75,6 @@ public class PrefSiempo {
             "flowSegmentDurationMillis";
     public static final String IS_APP_UPDATED = "isAppUpdated";
     public static final String IS_ALPHA_SETTING_ENABLE = "isAlphaSettingEnable";
-    public static final String IS_FIREBASE_ANALYTICS_ENABLE =
-            "isFireBaseAnalyticsEnable";
     public static final String TEMPO_TYPE = "tempoType";
     public static final String BATCH_TIME = "batchTime";
     public static final String ONLY_AT = "onlyAt";
@@ -123,7 +116,7 @@ public class PrefSiempo {
     public static final String DEFAULT_NOTIFICATION_ENABLE = "default_notification";
     public static final String DEFAULT_SCREEN_OVERLAY = "default_screen_overlay";
 
-    /*This preferences are for double tap coontrols*/
+    /*This preferences are for double tap controls*/
     public static final String IS_SLEEP_ENABLE = "isSleepEnable";
     public static final String IS_DND_ENABLE = "isDnDEnable";
     
@@ -296,16 +289,6 @@ public class PrefSiempo {
         editor.remove(key);
         editor.commit();
     }
-
-    /**
-     * User to clear all local preference data.
-     * e.g PrefSiempo.getInstance(this).clearAll();
-     */
-    public void clearAll() {
-        editor.clear();
-        editor.commit();
-    }
-
 
 
 }

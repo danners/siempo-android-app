@@ -6,7 +6,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.ColorRes;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
@@ -61,13 +60,9 @@ public class FavoritesSelectionActivity extends CoreActivity implements AdapterV
     private Toolbar toolbar;
     private ListView listAllApps;
     private PopupMenu popup;
-    private boolean isLoadFirstTime = true;
     private List<AppListInfo> favoriteList = new ArrayList<>();
     private List<AppListInfo> unfavoriteList = new ArrayList<>();
     private ArrayList<AppListInfo> bindingList = new ArrayList<>();
-    private long startTime = 0;
-    private boolean isClickOnView;
-    private CardView cardView;
     private ImageView imgClear;
     private EditText edtSearch;
 
@@ -93,10 +88,7 @@ public class FavoritesSelectionActivity extends CoreActivity implements AdapterV
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//        if (bindingList != null && bindingList.get(position) != null
-//                && !bindingList.get(position).packageName.equalsIgnoreCase("")) {
-//            showPopUp(view, bindingList.get(position).isFlagApp, position);
-//        }
+
     }
 
     /**
@@ -108,7 +100,6 @@ public class FavoritesSelectionActivity extends CoreActivity implements AdapterV
         setSupportActionBar(toolbar);
         listAllApps = findViewById(R.id.lst_OtherApps);
 
-        cardView = findViewById(R.id.cardView);
         imgClear = findViewById(R.id.imgClear);
         edtSearch = findViewById(R.id.edtSearch);
         listAllApps.setOnItemClickListener(FavoritesSelectionActivity.this);
@@ -303,13 +294,11 @@ public class FavoritesSelectionActivity extends CoreActivity implements AdapterV
                             public void run() {
                                 if (adapterList.contains(packagename)) {
                                     adapterList.remove(packagename);
-                                    isLoadFirstTime = false;
                                     //setToolBarText(favoriteList.size());
                                 } else {
 
                                     if (favoriteList != null && favoriteList.size() < 13) {
                                         adapterList.add(packagename);
-                                        isLoadFirstTime = false;
                                     }
                                     // setToolBarText(favoriteList.size());
                                 }
@@ -345,7 +334,6 @@ public class FavoritesSelectionActivity extends CoreActivity implements AdapterV
     @Override
     protected void onResume() {
         super.onResume();
-        startTime = System.currentTimeMillis();
         loadApps();
     }
 
@@ -388,7 +376,6 @@ public class FavoritesSelectionActivity extends CoreActivity implements AdapterV
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            isClickOnView = false;
             favoriteList = new ArrayList<>();
             unfavoriteList = new ArrayList<>();
             bindingList = new ArrayList<>();
@@ -429,10 +416,6 @@ public class FavoritesSelectionActivity extends CoreActivity implements AdapterV
                 }
                 favoriteList = Sorting.sortApplication(favoriteList);
                 bindingList.addAll(favoriteList);
-               /* if(bindingList.size()==0){
-                    bindingList.add(new AppListInfo(Constants.SETTINGS_APP_PACKAGE,"Settings",
-                            true,false,false));
-                }*/
 
                 if (unfavoriteList.size() == 0) {
                     unfavoriteList.add(new AppListInfo("", "", true, true, false));
@@ -465,7 +448,6 @@ public class FavoritesSelectionActivity extends CoreActivity implements AdapterV
                         listAllApps.setSelection(firstPosition);
                     }
                 }
-                isClickOnView = true;
             } catch (Exception e) {
                 e.printStackTrace();
             }

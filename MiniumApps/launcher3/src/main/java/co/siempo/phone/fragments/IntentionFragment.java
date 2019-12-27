@@ -72,7 +72,6 @@ public class IntentionFragment extends CoreFragment implements View.OnClickListe
     private PopupWindow mPopupWindow;
     private RelativeLayout relRootLayout;
     private Window mWindow;
-    private int defaultStatusBarColor;
     private PermissionUtil permissionUtil;
     private DialogTempoSetting dialogTempo;
     final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 102;
@@ -112,30 +111,6 @@ public class IntentionFragment extends CoreFragment implements View.OnClickListe
         } else {
             if (imgPullTab != null) imgPullTab.setVisibility(View.VISIBLE);
         }
-
-        if (mWindow != null) {
-            //mWindow.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-            //mWindow.clearFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
-        }
-
-
-
-//        boolean isEnable = PrefSiempo.getInstance(getActivity()).read(PrefSiempo
-//                .DEFAULT_BAG_ENABLE, false);
-//        if(isEnable){
-//            if (mWindow != null) {
-//                //mWindow.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-//                // add FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS flag to the window
-//                //mWindow.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-//                TypedValue typedValue = new TypedValue();
-//                Resources.Theme theme = context.getTheme();
-//                theme.resolveAttribute(R.attr.transparent, typedValue, true);
-//                int transparentcolor= typedValue.data;
-//                // finally change the color
-//                //mWindow.setStatusBarColor(transparentcolor);
-//                //mWindow.setNavigationBarColor(transparentcolor);
-//            }
-//        }
 
     }
 
@@ -215,17 +190,6 @@ public class IntentionFragment extends CoreFragment implements View.OnClickListe
 
     }
 
-
-    private void setWindowFlag(final int bits, boolean on) {
-        Window win = getActivity().getWindow();
-        WindowManager.LayoutParams winParams = win.getAttributes();
-        if (on) {
-            winParams.flags |= bits;
-        } else {
-            winParams.flags &= ~bits;
-        }
-        win.setAttributes(winParams);
-    }
 
     @Override
     public void onClick(View v) {

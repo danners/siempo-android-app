@@ -41,10 +41,6 @@ public class SiempoPermissionActivity extends CoreActivity {
     Toolbar toolbar;
     @ViewById
     Switch switchContactPermission;
-    //@ViewById
-    //Switch switchCallPermission;
-    //@ViewById
-    //Switch switchSmsPermission;
     @ViewById
     Switch switchFilePermission;
     @ViewById
@@ -59,12 +55,8 @@ public class SiempoPermissionActivity extends CoreActivity {
     TextView txtPermissionLabel;
     @ViewById
     TableRow tblLocation;
-    //@ViewById
-    //TableRow tblCalls;
     @ViewById
     TableRow tblContact;
-    //@ViewById
-    //TableRow tblSMS;
     @ViewById
     TableRow tblNotification;
     @ViewById
@@ -91,21 +83,11 @@ public class SiempoPermissionActivity extends CoreActivity {
         public void onClick(View v) {
 
             switch (v.getId()) {
-                /*case R.id.tblCalls:
-                    askForPermission(new String[]{
-                            Manifest.permission.CALL_PHONE});
-                    break;*/
                 case R.id.tblContact:
                     askForPermission(new String[]{
                             Manifest.permission.READ_CONTACTS,
                             Manifest.permission.WRITE_CONTACTS});
                     break;
-                /*case R.id.tblSMS:
-                    askForPermission(new String[]{
-                            Manifest.permission.RECEIVE_SMS,
-                            Manifest.permission.SEND_SMS,
-                            Manifest.permission.READ_SMS});
-                    break;*/
                 case R.id.tblStorage:
                     askForPermission(new String[]{
                             Manifest.permission.WRITE_EXTERNAL_STORAGE,
@@ -136,14 +118,10 @@ public class SiempoPermissionActivity extends CoreActivity {
         permissionUtil = new PermissionUtil(this);
         setSupportActionBar(toolbar);
 
-        //tblSMS.setOnClickListener(onClickListener);
         tblContact.setOnClickListener(onClickListener);
-        //tblCalls.setOnClickListener(onClickListener);
         tblStorage.setOnClickListener(onClickListener);
 
-        //switchSmsPermission.setClickable(false);
         switchContactPermission.setClickable(false);
-        //switchCallPermission.setClickable(false);
         switchFilePermission.setClickable(false);
         switchNotificationAccess.setClickable(false);
 
@@ -180,16 +158,6 @@ public class SiempoPermissionActivity extends CoreActivity {
     protected void onResume() {
         super.onResume();
 
-        /*if (permissionUtil.hasGiven(PermissionUtil.CALL_PHONE_PERMISSION)) {
-            switchCallPermission.setChecked(true);
-        } else {
-            switchCallPermission.setChecked(false);
-        }
-        if (permissionUtil.hasGiven(PermissionUtil.SEND_SMS_PERMISSION)) {
-            switchSmsPermission.setChecked(true);
-        } else {
-            switchSmsPermission.setChecked(false);
-        }*/
         if (permissionUtil.hasGiven(PermissionUtil.NOTIFICATION_ACCESS)) {
             switchNotificationAccess.setChecked(true);
         } else {
@@ -224,19 +192,13 @@ public class SiempoPermissionActivity extends CoreActivity {
             }
         } else {
             switchContactPermission.setVisibility(View.GONE);
-            //switchCallPermission.setVisibility(View.GONE);
-            //switchSmsPermission.setVisibility(View.GONE);
             switchFilePermission.setVisibility(View.GONE);
             switchNotificationAccess.setVisibility(View.GONE);
             switchOverlayAccess.setVisibility(View.GONE);
             btnContinue.setVisibility(View.GONE);
             switchControlAccessUsage.setVisibility(View.GONE);
 
-//            if (permissionUtil.hasGiven(PermissionUtil.LOCATION_PERMISSION)) {
-//                tblLocation.setVisibility(View.VISIBLE);
-//            } else {
-//                tblLocation.setVisibility(View.GONE);
-//            }
+
             txtPermissionLabel.setText(getString(R.string.permission_siempo_alpha_title));
 
 
@@ -247,12 +209,6 @@ public class SiempoPermissionActivity extends CoreActivity {
                 if (permissionUtil.hasGiven(PermissionUtil.DRAWING_OVER_OTHER_APPS)) {
                     tblDrawOverlay.setVisibility(View.VISIBLE);
                 }
-                /*if (permissionUtil.hasGiven(PermissionUtil.CALL_PHONE_PERMISSION)) {
-                    tblCalls.setVisibility(View.VISIBLE);
-                }
-                if (permissionUtil.hasGiven(PermissionUtil.SEND_SMS_PERMISSION)) {
-                    tblSMS.setVisibility(View.VISIBLE);
-                }*/
                 if (permissionUtil.hasGiven(PermissionUtil.WRITE_EXTERNAL_STORAGE_PERMISSION)) {
                     tblStorage.setVisibility(View.VISIBLE);
                 }
@@ -270,8 +226,6 @@ public class SiempoPermissionActivity extends CoreActivity {
 
         }
         if (isFromHome &&
-                /*permissionUtil.hasGiven(PermissionUtil.CALL_PHONE_PERMISSION)
-                &&*/
                 permissionUtil.hasGiven(PermissionUtil.NOTIFICATION_ACCESS)) {
             finish();
         }
@@ -303,8 +257,7 @@ public class SiempoPermissionActivity extends CoreActivity {
 
     @Click(R.id.btnContinue)
     void myButtonWasClicked() {
-        if (/*permissionUtil.hasGiven(PermissionUtil.CALL_PHONE_PERMISSION) &&*/
-                        permissionUtil.hasGiven(PermissionUtil.NOTIFICATION_ACCESS)) {
+        if (permissionUtil.hasGiven(PermissionUtil.NOTIFICATION_ACCESS)) {
             finish();
         } else {
             UIUtils.toastShort(SiempoPermissionActivity.this, R.string.grant_all_to_proceed_text);

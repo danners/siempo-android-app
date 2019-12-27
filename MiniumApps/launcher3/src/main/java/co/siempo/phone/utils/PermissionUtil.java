@@ -24,8 +24,6 @@ public class PermissionUtil {
     public static final int DRAWING_OVER_OTHER_APPS = 2;
     public static final int APP_PERMISSION = 3;
     public static final int CONTACT_PERMISSION = 4;
-    public static final int CALL_PHONE_PERMISSION = 5;
-    public static final int SEND_SMS_PERMISSION = 6;
     public static final int CAMERA_PERMISSION = 7;
     public static final int WRITE_EXTERNAL_STORAGE_PERMISSION = 8;
     public static final int LOCATION_PERMISSION = 9;
@@ -36,14 +34,6 @@ public class PermissionUtil {
 
     public PermissionUtil(Context context) {
         this.context = context;
-    }
-
-    public boolean isAllPermissionGiven() {
-
-        return hasAppPermissions()
-                && canDrawOverlays()
-                && isEnabled()
-                && checkUserStatPermission();
     }
 
     public boolean hasGiven(int permission) {
@@ -59,13 +49,6 @@ public class PermissionUtil {
             case CONTACT_PERMISSION:
                 return hasAppPermissions(Manifest.permission.READ_CONTACTS)
                         && hasAppPermissions(Manifest.permission.WRITE_CONTACTS);
-            /*case CALL_PHONE_PERMISSION:
-                return hasAppPermissions(Manifest.permission.CALL_PHONE) &&
-                        hasAppPermissions(Manifest.permission.READ_PHONE_STATE);*/
-            /*case SEND_SMS_PERMISSION:
-                return hasAppPermissions(Manifest.permission.RECEIVE_SMS) &&
-                        hasAppPermissions(Manifest.permission.SEND_SMS)
-                        && hasAppPermissions(Manifest.permission.READ_SMS);*/
             case CAMERA_PERMISSION:
                 return hasAppPermissions(Manifest.permission.CAMERA);
             case ACCOUNT_PERMISSION:
@@ -89,10 +72,6 @@ public class PermissionUtil {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             appPermissions = context.checkSelfPermission(Manifest.permission.READ_CONTACTS) +
                     context.checkSelfPermission(Manifest.permission.WRITE_CONTACTS) +
-                    //context.checkSelfPermission(Manifest.permission.READ_CALL_LOG) +
-                    //context.checkSelfPermission(Manifest.permission.WRITE_CALL_LOG) +
-                    //context.checkSelfPermission(Manifest.permission.CALL_PHONE) +
-                    //context.checkSelfPermission(Manifest.permission.SEND_SMS) +
                     context.checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE);
         }
 
@@ -134,7 +113,6 @@ public class PermissionUtil {
             }
         }
         return false;
-//        return ServiceUtils.isNotificationListenerServiceRunning(context, SiempoNotificationListener_.class);
     }
 
     private boolean checkUserStatPermission() {

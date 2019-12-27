@@ -63,7 +63,7 @@ public class DataUtils {
      * @return true if successfully saved, false otherwise
      */
     public static boolean saveData(File toFile, JSONArray notes) {
-        Boolean successful = false;
+        Boolean successful;
 
         JSONObject root = new JSONObject();
 

@@ -98,25 +98,6 @@ public class FitsSystemWindowConstraintLayout extends ConstraintLayout {
         requestLayout();
     }
 
-    public void setStatusBarBackground(Drawable bg) {
-        mStatusBarBackground = bg;
-        invalidate();
-    }
-
-    public Drawable getStatusBarBackgroundDrawable() {
-        return mStatusBarBackground;
-    }
-
-    public void setStatusBarBackground(int resId) {
-        mStatusBarBackground = resId != 0 ? ContextCompat.getDrawable(getContext(), resId) : null;
-        invalidate();
-    }
-
-    public void setStatusBarBackgroundColor(@ColorInt int color) {
-        mStatusBarBackground = new ColorDrawable(color);
-        invalidate();
-    }
-
     @Override
     public void onDraw(Canvas canvas) {
         super.onDraw(canvas);

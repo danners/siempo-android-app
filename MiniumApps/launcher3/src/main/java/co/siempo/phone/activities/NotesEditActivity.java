@@ -70,7 +70,6 @@ public class NotesEditActivity extends CoreActivity implements Toolbar.OnMenuIte
 
     private AlertDialog fontDialog, saveChangesDialog;
     private ColorPickerDialog colorPickerDialog;
-    private long startTime;
 
     /**
      * Check if current device has tablet screen size or not
@@ -588,6 +587,5 @@ public class NotesEditActivity extends CoreActivity implements Toolbar.OnMenuIte
     @Override
     protected void onResume() {
         super.onResume();
-        startTime = System.currentTimeMillis();
     }
 }

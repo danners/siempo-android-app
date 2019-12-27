@@ -5,7 +5,6 @@ package co.siempo.phone.app;
  */
 public class Config {
 
-    // RELEASE: false
     public static final Boolean DEBUG = true;
     public static boolean isNotificationAlive = false;
 

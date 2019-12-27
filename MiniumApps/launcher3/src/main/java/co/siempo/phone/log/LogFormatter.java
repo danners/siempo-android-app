@@ -42,13 +42,6 @@ public abstract class LogFormatter {
             this.levelString = levelString;
         }
 
-        public String getLevelString() {
-            return this.levelString;
-        }
-
-        public int getLevel() {
-            return this.level;
-        }
     }
 
     /**
@@ -59,14 +52,6 @@ public abstract class LogFormatter {
 
         public EclipseFormatter() {
             formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSSZ", Locale.US);
-        }
-
-        public EclipseFormatter(String formatOfTime) {
-            if (TextUtils.isEmpty(formatOfTime)) {
-                formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSSZ", Locale.US);
-            } else {
-                formatter = new SimpleDateFormat(formatOfTime, Locale.US);
-            }
         }
 
         @Override

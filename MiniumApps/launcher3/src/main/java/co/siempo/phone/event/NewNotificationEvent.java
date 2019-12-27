@@ -8,15 +8,9 @@ import co.siempo.phone.db.TableNotificationSms;
  */
 
 public class NewNotificationEvent {
-    private TableNotificationSms topTableNotificationSmsDao;
 
 
     public NewNotificationEvent(TableNotificationSms topTableNotificationSmsDao) {
-        this.topTableNotificationSmsDao = topTableNotificationSmsDao;
-    }
-
-    public TableNotificationSms getTopTableNotificationSmsDao() {
-        return topTableNotificationSmsDao;
     }
 
 }

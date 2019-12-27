@@ -24,7 +24,6 @@ import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewConfiguration;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -77,7 +76,6 @@ public class DashboardActivity extends CoreActivity {
      * and next wizard steps.
      */
     private SiempoViewPager mPager;
-    private String TAG = "DashboardActivity";
     /**
      * The pager adapter, which provides the pages to the view pager widget.
      */
@@ -114,9 +112,7 @@ public class DashboardActivity extends CoreActivity {
         setTheme(read ? R.style.SiempoAppThemeDark : R.style.SiempoAppTheme);
 
         Window w = getWindow(); // in Activity's onCreate() for instance
-        //w.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION, WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
-//        w.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-//        w.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+
 
 
         super.onCreate(savedInstanceState);
@@ -125,7 +121,6 @@ public class DashboardActivity extends CoreActivity {
 
 
         imgBackground = findViewById(R.id.imgBackground);
-        //linMain.setPadding(0, getStatusBarHeight(), 0, 0);
         swipeCount = PrefSiempo.getInstance(DashboardActivity.this).read(PrefSiempo.TOGGLE_LEFTMENU, 0);
         loadViews();
         Log.d("Test", "P1");
@@ -212,29 +207,12 @@ public class DashboardActivity extends CoreActivity {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-            } else {
-                //AppUtils.statusBarManaged(DashboardActivity.this);
             }
         }
 
         AppUtils.notificationBarManaged(this, linMain);
     }
 
-
-
-    private void setBackground() {
-        String filePath = PrefSiempo.getInstance(this).read(PrefSiempo
-                .DEFAULT_BAG, "");
-        boolean isEnable = PrefSiempo.getInstance(this).read(PrefSiempo
-                .DEFAULT_BAG_ENABLE, false);
-        if (!TextUtils.isEmpty(filePath) && isEnable) {
-            Glide.with(this)
-                    .load(Uri.fromFile(new File(filePath))) // Uri of the
-                    // picture
-                    .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .into(imgBackground);
-        }
-    }
 
     private void showOverlayOfDefaultLauncher() {
         if (!PackageUtil.isSiempoLauncher(this) && !overlayDialog.isShowing()) {
@@ -265,22 +243,13 @@ public class DashboardActivity extends CoreActivity {
         currentIndexDashboard = 1;
         currentIndexPaneFragment = 2;
         mPager.setCurrentItem(currentIndexDashboard, false);
-        EventBus.getDefault().postSticky(new HomePress(1, 2));
+        EventBus.getDefault().postSticky(new HomePress(2));
         loadPane();
         //In case of home press, when app is launched again we need to show
         // this overlay of default launcher if siempo is not set as default
         // launcher
         showOverlayOfDefaultLauncher();
-        if (read) {
-            //getWindow().setNavigationBarColor(getResources().getColor(R.color.transparent));
-        } else {
-            //getWindow().setNavigationBarColor(getResources().getColor(R.color.black));
-        }
-    }
 
-    public boolean hasNavBar(Resources resources) {
-        int id = resources.getIdentifier("config_showNavigationBar", "bool", "android");
-        return id > 0 && resources.getBoolean(id);
     }
 
     public void loadViews() {
@@ -306,19 +275,14 @@ public class DashboardActivity extends CoreActivity {
                             //The user "clicked" certain point in the screen or just returned to the same position an raised the finger
                         }
                 }
-                ((CoreActivity) DashboardActivity.this).gestureDetector.onTouchEvent(event);
+                DashboardActivity.this.gestureDetector.onTouchEvent(event);
                 return false;
             }
 
         });
 
         linMain = findViewById(R.id.linMain);
-        boolean hasMenuKey = ViewConfiguration.get(this).hasPermanentMenuKey();
-        /*if (hasNavBar(getResources())) {
-            mPager.setPadding(0, getStatusBarHeight(), 0, getNavigationBarHeight());
-        } else {
-            mPager.setPadding(0, getStatusBarHeight(), 0, 0);
-        }*/
+
         mPagerAdapter = new DashboardPagerAdapter(getFragmentManager());
         loadPane();
         mPager.setAdapter(mPagerAdapter);
@@ -406,7 +370,7 @@ public class DashboardActivity extends CoreActivity {
         super.onStop();
     }
 
-    public void notificatoinAccessDialog() {
+    public void notificationAccessDialog() {
         notificationDialog = new AlertDialog.Builder(DashboardActivity.this)
                 .setTitle(null)
                 .setMessage(getString(R.string.msg_noti_service_dialog))
@@ -438,7 +402,7 @@ public class DashboardActivity extends CoreActivity {
                 }
 
             } else {
-                notificatoinAccessDialog();
+                notificationAccessDialog();
             }
         }
         if (requestCode == 102) {

@@ -6,16 +6,10 @@ package co.siempo.phone.event;
 
 public class HomePress {
 
-    private int currentIndexDashboard;
     private int currentIndexPaneFragment;
 
-    public HomePress(int currentIndexDashboard, int currentIndexPaneFragment) {
-        this.currentIndexDashboard = currentIndexDashboard;
+    public HomePress(int currentIndexPaneFragment) {
         this.currentIndexPaneFragment = currentIndexPaneFragment;
-    }
-
-    public int getCurrentIndexDashboard() {
-        return currentIndexDashboard;
     }
 
     public int getCurrentIndexPaneFragment() {

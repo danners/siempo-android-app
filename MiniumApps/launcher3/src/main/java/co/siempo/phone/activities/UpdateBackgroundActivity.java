@@ -14,13 +14,11 @@ import android.support.v4.widget.CircularProgressDrawable;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
@@ -141,12 +139,6 @@ public class UpdateBackgroundActivity extends CoreActivity {
     }
 
     private void displayImageAsPhoto(String strImage) {
-        /*Glide.with(this)
-                .load(Uri.fromFile(new File(strImage)))
-                .placeholder(circularProgressDrawable)
-                .diskCacheStrategy(DiskCacheStrategy.NONE)
-                .skipMemoryCache(true)
-                .into(imageView);*/
 
         Glide.with(getApplicationContext())
                 .load(Uri.fromFile(new File(strImage)))
@@ -186,7 +178,7 @@ public class UpdateBackgroundActivity extends CoreActivity {
         photoView.buildDrawingCache();
         Bitmap bitmap = photoView.getDrawingCache();
         String path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)+"/"+getString(R.string.app_name)+"_"+System.currentTimeMillis()+".png";
-        OutputStream out = null;
+        OutputStream out;
         File file=new File(path);
         try {
             out = new FileOutputStream(file);
