@@ -15,7 +15,6 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
@@ -24,7 +23,6 @@ import android.media.AudioManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
@@ -44,8 +42,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
-
-import com.android.vending.billing.IInAppBillingService;
 
 import org.androidannotations.annotations.EActivity;
 
@@ -83,19 +79,7 @@ public abstract class CoreActivity extends AppCompatActivity implements GestureD
     public WindowManager windowManager = null;
     public boolean isOnStopCalled = false;
     UserPresentBroadcastReceiver userPresentBroadcastReceiver;
-    IInAppBillingService mService;
-    ServiceConnection mServiceConn = new ServiceConnection() {
-        @Override
-        public void onServiceDisconnected(ComponentName name) {
-            mService = null;
-        }
 
-        @Override
-        public void onServiceConnected(ComponentName name,
-                                       IBinder service) {
-            mService = IInAppBillingService.Stub.asInterface(service);
-        }
-    };
     private IntentFilter mFilter;
     private InnerRecevier mReceiver;
     private String state = "";
@@ -136,7 +120,6 @@ public abstract class CoreActivity extends AppCompatActivity implements GestureD
         boolean read = PrefSiempo.getInstance(this).read(PrefSiempo.IS_DARK_THEME, false);
         setTheme(read ? R.style.SiempoAppThemeDark : R.style.SiempoAppTheme);
         super.onCreate(savedInstanceState);
-        connectInAppService();
         this.setVolumeControlStream(AudioManager.STREAM_SYSTEM);
         windowManager = (WindowManager) getBaseContext().getSystemService(Context.WINDOW_SERVICE);
 
@@ -214,16 +197,6 @@ public abstract class CoreActivity extends AppCompatActivity implements GestureD
           }
     }
 
-    void connectInAppService() {
-        try {
-            Intent serviceIntent =
-                    new Intent("com.android.vending.billing.InAppBillingService.BIND");
-            serviceIntent.setPackage("com.android.vending");
-            bindService(serviceIntent, mServiceConn, Context.BIND_AUTO_CREATE);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 
     @Override
     protected void onResume() {
@@ -270,9 +243,7 @@ public abstract class CoreActivity extends AppCompatActivity implements GestureD
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (mService != null) {
-            unbindService(mServiceConn);
-        }
+
         if (userPresentBroadcastReceiver != null) {
             unregisterReceiver(userPresentBroadcastReceiver);
         }

@@ -24,7 +24,6 @@ public class MainListItem implements Serializable {
     private boolean isVisable;
     private String category="";
 
-//    private Date currentDateTime;
     /**
      * Contact Information
      */

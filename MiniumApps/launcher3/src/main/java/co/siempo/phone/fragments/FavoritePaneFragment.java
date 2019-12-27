@@ -20,7 +20,7 @@ import co.siempo.phone.activities.FavoritesSelectionActivity;
 import co.siempo.phone.adapters.FavoritesPaneAdapter;
 import co.siempo.phone.app.CoreApplication;
 import co.siempo.phone.customviews.ItemOffsetDecoration;
-import co.siempo.phone.event.NotifyFavortieView;
+import co.siempo.phone.event.NotifyFavoriteView;
 import co.siempo.phone.models.MainListItem;
 import co.siempo.phone.util.AppUtils;
 import de.greenrobot.event.EventBus;
@@ -81,12 +81,12 @@ public class FavoritePaneFragment extends CoreFragment {
 
 
     @Subscribe(sticky = true, threadMode = ThreadMode.MainThread)
-    public void onEvent(NotifyFavortieView notifyFavortieView) {
-        if (notifyFavortieView != null && notifyFavortieView.isNotify()) {
+    public void onEvent(NotifyFavoriteView notifyFavoriteView) {
+        if (notifyFavoriteView != null && notifyFavoriteView.isNotify()) {
             items = CoreApplication.getInstance().getFavoriteItemsList();
             mAdapter.setMainListItemList(items, CoreApplication.getInstance().isHideIconBranding());
             checkSize();
-            EventBus.getDefault().removeStickyEvent(notifyFavortieView);
+            EventBus.getDefault().removeStickyEvent(notifyFavoriteView);
         }
     }
 

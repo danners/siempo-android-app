@@ -25,7 +25,7 @@ import co.siempo.phone.R;
 import co.siempo.phone.activities.JunkfoodFlaggingActivity;
 import co.siempo.phone.app.CoreApplication;
 import co.siempo.phone.event.NotifyBottomView;
-import co.siempo.phone.event.NotifyFavortieView;
+import co.siempo.phone.event.NotifyFavoriteView;
 import co.siempo.phone.event.NotifyJunkFoodView;
 import co.siempo.phone.event.NotifyToolView;
 import co.siempo.phone.event.ReduceOverUsageEvent;
@@ -205,7 +205,7 @@ public class AppMenuFragment extends CoreFragment implements View.OnClickListene
                     PrefSiempo.getInstance(context).write(PrefSiempo.IS_ICON_BRANDING, true);
                     CoreApplication.getInstance().setHideIconBranding(true);
                     EventBus.getDefault().postSticky(new NotifyJunkFoodView(true));
-                    EventBus.getDefault().postSticky(new NotifyFavortieView(true));
+                    EventBus.getDefault().postSticky(new NotifyFavoriteView(true));
                     EventBus.getDefault().postSticky(new NotifyToolView(true));
                     EventBus.getDefault().postSticky(new NotifyBottomView(true));
                 }
@@ -378,7 +378,7 @@ public class AppMenuFragment extends CoreFragment implements View.OnClickListene
                 PrefSiempo.getInstance(context).write(PrefSiempo.IS_ICON_BRANDING, false);
                 CoreApplication.getInstance().setHideIconBranding(false);
                 EventBus.getDefault().postSticky(new NotifyJunkFoodView(true));
-                EventBus.getDefault().postSticky(new NotifyFavortieView(true));
+                EventBus.getDefault().postSticky(new NotifyFavoriteView(true));
                 EventBus.getDefault().postSticky(new NotifyToolView(true));
                 EventBus.getDefault().postSticky(new NotifyBottomView(true));
             }

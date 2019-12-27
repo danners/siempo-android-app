@@ -78,14 +78,12 @@ public class AppUtils
         View decorView = activity.getWindow().getDecorView();
         int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN;
         decorView.setSystemUiVisibility(uiOptions);
-        //decorView.setFitsSystemWindows(false);
     }
 
     private static void showNotification(Activity activity) {
         View decorView = activity.getWindow().getDecorView();
         int uiOptions = View.SYSTEM_UI_FLAG_VISIBLE;
         decorView.setSystemUiVisibility(uiOptions);
-        //decorView.setFitsSystemWindows(true);
     }
 
     public static void statusbarColor0(Activity activity, int i)

@@ -45,9 +45,6 @@ public class ContactSmsPermissionHelper {
         @Override
         public void onPermissionDenied(ArrayList<String> deniedPermissions) {
             UIUtils.toast(context, "Permission denied");
-            //If needed to call the permission again on deny, uncomment the
-            // below code
-            //askForPermission(Constants.PERMISSIONS);
         }
     };
 
@@ -67,7 +64,6 @@ public class ContactSmsPermissionHelper {
     public void checkForContactAndSMSPermission() {
 
         if (permissionUtil.hasGiven(PermissionUtil.CONTACT_PERMISSION)
-                /*&& permissionUtil.hasGiven(PermissionUtil.SEND_SMS_PERMISSION)*/
                 ) {
             if (isFromTokenParser) {
                 router.setCurrent(new TokenItem(TokenItemType.CONTACT));
@@ -83,7 +79,6 @@ public class ContactSmsPermissionHelper {
         } else {
 
             if (!permissionUtil.hasGiven(PermissionUtil.CONTACT_PERMISSION)
-                    /*&& !permissionUtil.hasGiven(PermissionUtil.SEND_SMS_PERMISSION)*/
                     ) {
                 try {
                     TedPermission.with(context)
@@ -92,9 +87,7 @@ public class ContactSmsPermissionHelper {
                             .setPermissions(new String[]{
                                     Manifest.permission.READ_CONTACTS,
                                     Manifest.permission.WRITE_CONTACTS
-                                    /*Manifest.permission.RECEIVE_SMS,
-                                    Manifest.permission.SEND_SMS,
-                                    Manifest.permission.READ_SMS*/})
+                            })
                             .check();
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -102,7 +95,6 @@ public class ContactSmsPermissionHelper {
 
 
             } else if (!permissionUtil.hasGiven(PermissionUtil.CONTACT_PERMISSION)
-                    /*&& permissionUtil.hasGiven(PermissionUtil.SEND_SMS_PERMISSION)*/
                     ) {
 
 

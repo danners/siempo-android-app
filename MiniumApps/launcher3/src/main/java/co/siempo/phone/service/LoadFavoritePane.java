@@ -6,7 +6,7 @@ import android.text.TextUtils;
 import java.util.ArrayList;
 
 import co.siempo.phone.app.CoreApplication;
-import co.siempo.phone.event.NotifyFavortieView;
+import co.siempo.phone.event.NotifyFavoriteView;
 import co.siempo.phone.models.MainListItem;
 import co.siempo.phone.utils.PackageUtil;
 import co.siempo.phone.utils.PrefSiempo;
@@ -52,6 +52,6 @@ public class LoadFavoritePane extends AsyncTask<String, String, ArrayList<MainLi
     protected void onPostExecute(ArrayList<MainListItem> s) {
         super.onPostExecute(s);
         CoreApplication.getInstance().setFavoriteItemsList(s);
-        EventBus.getDefault().postSticky(new NotifyFavortieView(true));
+        EventBus.getDefault().postSticky(new NotifyFavoriteView(true));
     }
 }
