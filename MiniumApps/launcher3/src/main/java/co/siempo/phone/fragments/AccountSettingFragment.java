@@ -10,9 +10,7 @@ import android.content.pm.PackageManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.CompoundButton;
 import android.widget.RelativeLayout;
-import android.widget.Switch;
 import android.widget.TextView;
 
 import org.androidannotations.annotations.AfterViews;
@@ -21,34 +19,20 @@ import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
 
 import co.siempo.phone.R;
-import co.siempo.phone.activities.CoreActivity;
 import co.siempo.phone.helper.FirebaseHelper;
 import co.siempo.phone.launcher.FakeLauncherActivity;
-import co.siempo.phone.utils.PrefSiempo;
 
 @EFragment(R.layout.fragment_tempo_account_settings)
 public class AccountSettingFragment extends CoreFragment {
 
 
-    @ViewById
-    TextView txt_privacyPolicy;
+
 
     @ViewById
     Toolbar toolbar;
 
     @ViewById
     TextView titleActionBar;
-
-    @ViewById
-    Switch swtch_analytics;
-
-
-    @ViewById
-    RelativeLayout relUpdateEmail;
-
-
-    @ViewById
-    RelativeLayout relAnalytics;
 
 
     @ViewById
@@ -70,48 +54,9 @@ public class AccountSettingFragment extends CoreFragment {
                 fm.popBackStack();
             }
         });
-
-        txt_privacyPolicy.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ((CoreActivity) getActivity()).loadChildFragment(PrivacyPolicyFragment_.builder().build(), R.id.tempoView);
-            }
-        });
-
-
-        if (PrefSiempo.getInstance(context).read(PrefSiempo
-                .IS_FIREBASE_ANALYTICS_ENABLE, true)) {
-            swtch_analytics.setChecked(true);
-        } else {
-            swtch_analytics.setChecked(false);
-        }
-        swtch_analytics.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    PrefSiempo.getInstance(context).write(PrefSiempo
-                            .IS_FIREBASE_ANALYTICS_ENABLE, true);
-                    FirebaseHelper.getInstance().getFirebaseAnalytics().setAnalyticsCollectionEnabled(true);
-                } else {
-
-                    FirebaseHelper.getInstance().getFirebaseAnalytics().setAnalyticsCollectionEnabled(false);
-                    PrefSiempo.getInstance(context).write(PrefSiempo
-                            .IS_FIREBASE_ANALYTICS_ENABLE, false);
-                }
-            }
-        });
-    }
-
-    @Click
-    void relUpdateEmail() {
-        ((CoreActivity) getActivity()).loadChildFragment(TempoUpdateEmailFragment_.builder().build(), R.id.tempoView);
     }
 
 
-    @Click
-    void relAnalytics() {
-        swtch_analytics.performClick();
-    }
 
     @Click
     void relChangeHome() {
@@ -136,7 +81,6 @@ public class AccountSettingFragment extends CoreFragment {
     private void showAlertForFirstTime() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle(getString(R.string.exiting_siempo));
-        builder.setMessage(R.string.exiting_siempo_msg);
         builder.setPositiveButton(getString(R.string.exit), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {

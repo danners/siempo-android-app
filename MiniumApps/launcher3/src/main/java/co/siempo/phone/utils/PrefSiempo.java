@@ -85,7 +85,6 @@ public class PrefSiempo {
     public static final String TEMPO_TYPE = "tempoType";
     public static final String BATCH_TIME = "batchTime";
     public static final String ONLY_AT = "onlyAt";
-    public static final String USER_EMAILID = "userEmailId";
     public static final String IS_CONTACT_UPDATE = "isContactUpdate";
 
 
@@ -106,7 +105,6 @@ public class PrefSiempo {
     public static String APP_DISABLE_COUNT = "APP_DISABLE_COUNT";
     public static String HEADER_APPLIST = "HEADER_APPLIST";
     public static String TOGGLE_LEFTMENU = "toggle_leftmenu";
-    public static String USER_SEEN_EMAIL_REQUEST = "user_seen_email_request";
     public static String APPLAND_TOUR_SEEN = "appland_tour_seen";
     public static String JUNK_RESTRICTED = "junk_restricted";
     public static String USER_VOLUME = "user_volume";

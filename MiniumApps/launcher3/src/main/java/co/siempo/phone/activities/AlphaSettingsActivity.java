@@ -11,7 +11,6 @@ import android.location.LocationManager;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -30,11 +29,6 @@ import com.google.android.gms.location.SettingsClient;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 import com.joanzapata.iconify.IconDrawable;
@@ -44,8 +38,6 @@ import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 import co.siempo.phone.R;
 import co.siempo.phone.app.CoreApplication;
@@ -53,7 +45,6 @@ import co.siempo.phone.event.LocationUpdateEvent;
 import co.siempo.phone.event.StartLocationEvent;
 import co.siempo.phone.helper.ActivityHelper;
 import co.siempo.phone.helper.FirebaseHelper;
-import co.siempo.phone.models.UserModel;
 import co.siempo.phone.utils.PermissionUtil;
 import co.siempo.phone.utils.PrefSiempo;
 import de.greenrobot.event.EventBus;
@@ -150,7 +141,6 @@ public class AlphaSettingsActivity extends CoreActivity {
         } catch (Exception e) {
             //Todo log exception to fabric
             e.printStackTrace();
-//            Crashlytics.logException(e);
         }
         icon_UserId.setImageDrawable(new IconDrawable(context, "fa-user-secret")
                 .colorRes(R.color.text_primary)
@@ -353,9 +343,8 @@ public class AlphaSettingsActivity extends CoreActivity {
             longitude.setText("longitude: " + event.getLongitude());
             latitude.setText("latitude: " + event.getLatitude());
 
-            String userEmail = PrefSiempo.getInstance(this).read(PrefSiempo
-                    .USER_EMAILID, "");
-            storeDataToFirebase(CoreApplication.getInstance().getDeviceId(), userEmail, event.getLatitude(), event.getLongitude());
+
+
             switch_location.setChecked(true);
             longitude.setVisibility(View.VISIBLE);
             latitude.setVisibility(View.VISIBLE);
@@ -363,40 +352,6 @@ public class AlphaSettingsActivity extends CoreActivity {
         EventBus.getDefault().removeStickyEvent(event);
     }
 
-    private void storeDataToFirebase(String userId, String emailId, double latitude, double longitude) {
-        try {
-
-            DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("users");
-            UserModel user = new UserModel(userId, emailId, latitude, longitude);
-            String key = mDatabase.child(userId).getKey();
-            if (key != null) {
-                Map map = new HashMap();
-                map.put("emailId",emailId);
-                map.put("userId",userId);
-                map.put("latitude", latitude);
-                map.put("longitude", longitude);
-                mDatabase.child(userId).updateChildren(map);
-            } else {
-                mDatabase.child(userId).setValue(user);
-                mDatabase.child(userId).addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        Log.d("Firebase", dataSnapshot.getKey() + "  " + dataSnapshot.getValue(UserModel.class)
-                                .toString());
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError error) {
-                        Log.w("Firebase RealTime", "Failed to read value.", error.toException());
-                    }
-                });
-            }
-            Log.d("Key", mDatabase.child(userId).getKey());
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

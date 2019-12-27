@@ -177,16 +177,7 @@ public class UpdateBackgroundActivity extends CoreActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.update_email_menu, menu);
-        MenuItem menuItem = menu.findItem(R.id.tick);
-        menuItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                setWall();
-
-                return false;
-            }
-        });
+        setWall();
         return super.onCreateOptionsMenu(menu);
     }
 

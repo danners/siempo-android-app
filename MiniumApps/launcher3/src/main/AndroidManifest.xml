@@ -300,13 +300,6 @@
             android:name=".activities.ToolSelectionActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activities.PrivacyPolicyActivity"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".activities.EmailRequestActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".activities.EnableTempoActivity"
             android:screenOrientation="portrait" />
         <activity
