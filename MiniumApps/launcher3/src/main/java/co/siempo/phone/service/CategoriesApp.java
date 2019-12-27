@@ -1,9 +1,8 @@
 package co.siempo.phone.service;
 
 import android.app.IntentService;
-import android.content.Intent;
 import android.content.Context;
-import android.content.pm.PackageManager;
+import android.content.Intent;
 import android.content.pm.ResolveInfo;
 import android.os.AsyncTask;
 import android.text.TextUtils;
@@ -13,7 +12,6 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Executor;
@@ -21,10 +19,8 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
-import co.siempo.phone.activities.AppAssignmentActivity;
 import co.siempo.phone.app.CoreApplication;
 import co.siempo.phone.models.CategoryAppList;
-import co.siempo.phone.utils.CategoryUtils;
 import co.siempo.phone.utils.NetworkUtil;
 
 /**

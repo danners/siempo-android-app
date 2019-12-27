@@ -19,7 +19,6 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 
 import co.siempo.phone.R;
 import co.siempo.phone.app.CoreApplication;
@@ -27,7 +26,6 @@ import co.siempo.phone.interfaces.ItemTouchHelperAdapter;
 import co.siempo.phone.interfaces.ItemTouchHelperViewHolder;
 import co.siempo.phone.interfaces.OnFavoriteItemListChangedListener;
 import co.siempo.phone.main.OnStartDragListener;
-import co.siempo.phone.models.AppMenu;
 import co.siempo.phone.models.MainListItem;
 
 /**

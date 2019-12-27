@@ -1,6 +1,5 @@
 package co.siempo.phone.service;
 
-import android.content.Context;
 import android.os.AsyncTask;
 
 import java.util.ArrayList;

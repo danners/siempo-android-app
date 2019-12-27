@@ -16,7 +16,6 @@ import org.androidannotations.annotations.SystemService;
 import org.androidannotations.annotations.Trace;
 import org.greenrobot.greendao.database.Database;
 
-
 import co.siempo.phone.BuildConfig;
 import co.siempo.phone.db.DaoMaster;
 import co.siempo.phone.db.DaoSession;

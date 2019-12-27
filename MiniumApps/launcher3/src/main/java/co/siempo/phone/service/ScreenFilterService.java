@@ -13,10 +13,14 @@ import android.util.Log;
 import android.view.WindowManager;
 
 import co.siempo.phone.receivers.OrientationChangeReceiver;
+import co.siempo.phone.screenfilter.FilterCommandFactory;
+import co.siempo.phone.screenfilter.FilterCommandParser;
 import co.siempo.phone.screenfilter.ScreenFilterPresenter;
+import co.siempo.phone.screenfilter.ScreenFilterView;
 import co.siempo.phone.screenfilter.ScreenManager;
+import co.siempo.phone.screenfilter.ServiceLifeCycleController;
 import co.siempo.phone.screenfilter.SettingsModel;
-import co.siempo.phone.screenfilter.*;
+import co.siempo.phone.screenfilter.WindowViewManager;
 
 public class ScreenFilterService extends Service implements ServiceLifeCycleController {
     public static final int VALID_COMMAND_START = 0;

@@ -2,7 +2,6 @@ package co.siempo.phone.fragments;
 
 import android.app.Fragment;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;

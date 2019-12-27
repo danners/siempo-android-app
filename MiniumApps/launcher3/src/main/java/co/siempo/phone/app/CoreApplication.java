@@ -1,6 +1,5 @@
 package co.siempo.phone.app;
 
-import android.annotation.SuppressLint;
 import android.app.Application;
 import android.app.DownloadManager;
 import android.content.Context;
@@ -20,7 +19,6 @@ import android.os.UserManager;
 import android.provider.AlarmClock;
 import android.provider.CalendarContract;
 import android.provider.MediaStore;
-import android.provider.Settings;
 import android.support.multidex.MultiDexApplication;
 import android.text.TextUtils;
 import android.util.ArrayMap;

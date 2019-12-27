@@ -42,9 +42,7 @@ import co.siempo.phone.models.MainListItemType;
 import co.siempo.phone.token.TokenItem;
 import co.siempo.phone.token.TokenItemType;
 import co.siempo.phone.token.TokenManager;
-import co.siempo.phone.utils.ColorGenerator;
 import co.siempo.phone.utils.DrawableProvider;
-import co.siempo.phone.utils.TextDrawable;
 import de.greenrobot.event.EventBus;
 
 /**

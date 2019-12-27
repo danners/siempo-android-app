@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.pm.ResolveInfo;
 import android.text.TextUtils;
 
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

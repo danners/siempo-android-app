@@ -4,15 +4,11 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.ColorRes;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
-import android.text.SpannableString;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.text.style.ForegroundColorSpan;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -148,7 +144,6 @@ public class FavoritesSelectionActivity extends CoreActivity implements AdapterV
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.app_assignment_list, menu);
         MenuItem menuItem = menu.findItem(R.id.item_save);
-//        setTextColorForMenuItem(menuItem, R.color.colorAccent);
         menuItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
@@ -188,18 +183,6 @@ public class FavoritesSelectionActivity extends CoreActivity implements AdapterV
         return super.onCreateOptionsMenu(menu);
     }
 
-
-    /**
-     * change text color of menuitem
-     *
-     * @param menuItem
-     * @param color
-     */
-    private void setTextColorForMenuItem(MenuItem menuItem, @ColorRes int color) {
-        SpannableString spanString = new SpannableString(menuItem.getTitle().toString());
-        spanString.setSpan(new ForegroundColorSpan(ContextCompat.getColor(this, color)), 0, spanString.length(), 0);
-        menuItem.setTitle(spanString);
-    }
 
     /**
      * bind the list view of flag app and all apps.

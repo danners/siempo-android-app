@@ -1,7 +1,5 @@
 package co.siempo.phone.models;
 
-import android.content.pm.ApplicationInfo;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;

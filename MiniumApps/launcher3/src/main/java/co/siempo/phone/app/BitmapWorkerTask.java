@@ -1,6 +1,5 @@
 package co.siempo.phone.app;
 
-import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;

@@ -1,6 +1,5 @@
 package co.siempo.phone.fragments;
 
-import android.Manifest;
 import android.app.Activity;
 import android.app.FragmentManager;
 import android.app.NotificationManager;
@@ -11,7 +10,6 @@ import android.content.Intent;
 import android.os.Build;
 import android.provider.Settings;
 import android.support.v7.widget.Toolbar;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.RelativeLayout;

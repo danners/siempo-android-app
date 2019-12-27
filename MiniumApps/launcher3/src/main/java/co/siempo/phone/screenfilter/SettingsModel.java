@@ -2,7 +2,6 @@ package co.siempo.phone.screenfilter;
 
 import android.content.SharedPreferences;
 import android.content.res.Resources;
-
 import android.util.Log;
 
 public class SettingsModel  implements SharedPreferences.OnSharedPreferenceChangeListener {
