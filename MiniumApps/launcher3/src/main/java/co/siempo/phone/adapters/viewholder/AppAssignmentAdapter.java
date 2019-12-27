@@ -62,14 +62,6 @@ public class AppAssignmentAdapter extends RecyclerView.Adapter<AppAssignmentAdap
         this.class_name = class_name;
     }
 
-    public void setdata(ArrayList<ResolveInfo> appListAll) {
-        resolveInfoList.clear();
-        filterList.clear();
-        resolveInfoList = appListAll;
-        filterList = resolveInfoList;
-        notifyDataSetChanged();
-    }
-
     public Filter getFilter() {
         return mFilter;
     }
@@ -130,7 +122,6 @@ public class AppAssignmentAdapter extends RecyclerView.Adapter<AppAssignmentAdap
                     holder.imgIcon.setImageDrawable(drawable);
                 }
                 holder.btnHideApps.setVisibility(View.GONE);
-//                holder.txtAppName.setTextColor(ContextCompat.getColor(context, R.color.app_assignment_normal));
 
             }
         }
