@@ -35,7 +35,6 @@ import com.joanzapata.iconify.IconDrawable;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
-import org.androidannotations.annotations.ViewById;
 
 import java.util.ArrayList;
 
@@ -59,20 +58,16 @@ import static co.siempo.phone.activities.DashboardActivity.IS_FROM_HOME;
 public class AlphaSettingsActivity extends CoreActivity {
     private static final int REQUEST_CHECK_SETTINGS = 0x1;
     private static final String BROADCAST_ACTION = "android.location.PROVIDERS_CHANGED";
-    @ViewById
-    ImageView icon_UserId;
-    @ViewById
-    TextView txt_UserId;
+
     PermissionUtil permissionUtil;
     ProgressDialog dialog;
     private Context context;
-    private long startTime = 0;
     private LinearLayout ln_suppressedNotifications;
     private RelativeLayout rel_restrictions;
     private Switch switch_alphaRestriction;
     private ImageView icon_SuppressedNotifications;
     private LinearLayout ln_permissions;
-    private ImageView icon_permissions, icon_in_app;
+    private ImageView icon_permissions;
     private Toolbar toolbar;
     private RelativeLayout rel_location;
     private Switch switch_location;
@@ -133,21 +128,12 @@ public class AlphaSettingsActivity extends CoreActivity {
         switch_location = findViewById(R.id.switch_location);
         icon_SuppressedNotifications = findViewById(R.id.icon_SuppressedNotifications);
         icon_permissions = findViewById(R.id.icon_permissions);
-        icon_in_app = findViewById(R.id.icon_in_app);
         icon_permissions.setImageDrawable(new IconDrawable(context, "fa-bell").colorRes(R.color.text_primary).sizeDp(18));
         try {
             icon_SuppressedNotifications.setImageDrawable(new IconDrawable(context, "fa-exclamation").colorRes(R.color.text_primary).sizeDp(18));
         } catch (Exception e) {
-            //Todo log exception to fabric
             e.printStackTrace();
         }
-        icon_UserId.setImageDrawable(new IconDrawable(context, "fa-user-secret")
-                .colorRes(R.color.text_primary)
-                .sizeDp(18));
-        icon_in_app.setImageDrawable(new IconDrawable(context, "fa-shopping-cart")
-                .colorRes(R.color.text_primary)
-                .sizeDp(18));
-        txt_UserId.setText(String.format("UserId: %s", CoreApplication.getInstance().getDeviceId()));
         if (PrefSiempo.getInstance(this).read(PrefSiempo.JUNK_RESTRICTED, false)) {
             switch_alphaRestriction.setChecked(true);
         } else {
@@ -236,7 +222,6 @@ public class AlphaSettingsActivity extends CoreActivity {
                     .LOCATION_SERVICE);
         }
         registerReceiver(gpsLocationReceiver, new IntentFilter(BROADCAST_ACTION));
-        startTime = System.currentTimeMillis();
         if (!permissionUtil.hasGiven(PermissionUtil.LOCATION_PERMISSION) || (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) && !locationManager
                 .isProviderEnabled(LocationManager.NETWORK_PROVIDER))) {
             if (dialog != null && dialog.isShowing()) {
