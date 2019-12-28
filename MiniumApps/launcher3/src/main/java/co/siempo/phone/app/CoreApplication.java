@@ -1227,7 +1227,7 @@ public abstract class CoreApplication extends MultiDexApplication {
                                 request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_HIDDEN);
                                 request.setDestinationInExternalPublicDir("/Siempo images", fileName);
                                 if (downloadManager != null) {
-                                    long refid = downloadManager.enqueue(request);
+                                    downloadManager.enqueue(request);
                                 }
                             }
                         }

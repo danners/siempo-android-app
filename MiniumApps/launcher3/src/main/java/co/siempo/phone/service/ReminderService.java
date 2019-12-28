@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.media.RingtoneManager;
 import android.net.Uri;
+import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 
 import co.siempo.phone.R;
@@ -28,7 +29,7 @@ public class ReminderService extends IntentService {
         String channelName = "Channel Name";
         int importance = NotificationManager.IMPORTANCE_HIGH;
 
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel mChannel = new NotificationChannel(
                     channelId, channelName, importance);
             notificationManager.createNotificationChannel(mChannel);

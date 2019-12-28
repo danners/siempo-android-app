@@ -243,7 +243,6 @@ public class AlarmService extends IntentService {
             if (notificationList.size() >= 1) {
                 Tracer.d("AlarmService: deleteAll");
                 playNotificationSoundVibrate();
-//                DBUtility.getNotificationDao().deleteAll();
                 for (TableNotificationSms tableNotificationSms : notificationList) {
                     tableNotificationSms.set_is_read(true);
                     DBUtility.getNotificationDao().update(tableNotificationSms);
@@ -284,7 +283,6 @@ public class AlarmService extends IntentService {
                 .setLargeIcon(bitmap)
                 .setGroupSummary(true)
                 .setAutoCancel(true)
-                //  .setDefaults(Notification.DEFAULT_SOUND)
                 .setGroup(applicationName)
                 .setGroupAlertBehavior(NotificationCompat.GROUP_ALERT_SUMMARY)
                 .build();
@@ -330,7 +328,6 @@ public class AlarmService extends IntentService {
                 .setCustomBigContentView(contentView)
                 .setStyle(new NotificationCompat.DecoratedCustomViewStyle())
                 .setLights(Color.MAGENTA, 500, 500)
-                //.setDefaults(Notification.DEFAULT_SOUND)
                 .setContentInfo("Info");
 
         if (isGrouped) {
@@ -381,7 +378,6 @@ public class AlarmService extends IntentService {
                     .setAutoCancel(true)
                     .setContentIntent(contentIntent)
                     .setLights(Color.MAGENTA, 500, 500)
-                    //.setDefaults(Notification.DEFAULT_SOUND)
                     .setCustomContentView(collapsedViews)
                     .setCustomBigContentView(contentView);
             n.notify(notificationSms.get(0).getId().intValue(), builder.build());
@@ -408,7 +404,6 @@ public class AlarmService extends IntentService {
                     .setAutoCancel(true)
                     .setPriority(priority)
                     .setLights(Color.MAGENTA, 500, 500)
-//                    .setDefaults(Notification.DEFAULT_SOUND)
                     .setGroupAlertBehavior(NotificationCompat.GROUP_ALERT_SUMMARY)
                     .build();
             n.notify(notificationSms.get(0).getApp_icon(), newMessageNotification);

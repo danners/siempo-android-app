@@ -270,7 +270,6 @@ public class OverlayService extends Service {
                             } else {
                                 wm.addView(bottomView, paramsBottom);
                             }
-//                        handler.postDelayed(runnableViewBottom, delay);
                             variableMaxHeightPortrait = heightWindow / 2;
                             variableMaxHeightLandscape = heightWindowLandscape / 2;
                         } else if (paramsTop.height == minusculeHeight) {
