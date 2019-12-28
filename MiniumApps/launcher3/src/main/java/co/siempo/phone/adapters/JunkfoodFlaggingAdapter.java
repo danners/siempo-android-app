@@ -145,14 +145,8 @@ public class JunkfoodFlaggingAdapter extends BaseAdapter implements Filterable {
                     if (bitmap != null) {
                         holder.imgAppIcon.setImageBitmap(bitmap);
                     } else {
-                        ApplicationInfo appInfo = null;
-                        try {
-                            appInfo = context.getPackageManager().getApplicationInfo(resolveInfo.packageName, PackageManager.GET_META_DATA);
-                            BitmapWorkerTask bitmapWorkerTask = new BitmapWorkerTask(appInfo, context.getPackageManager());
-                            CoreApplication.getInstance().includeTaskPool(bitmapWorkerTask, null);
-                        } catch (PackageManager.NameNotFoundException e) {
-                            e.printStackTrace();
-                        }
+                        BitmapWorkerTask bitmapWorkerTask = new BitmapWorkerTask(context.getPackageManager(), resolveInfo.packageName);
+                        CoreApplication.getInstance().includeTaskPool(bitmapWorkerTask, null);
                         Drawable drawable = CoreApplication.getInstance().getApplicationIconFromPackageName(resolveInfo.packageName);
                         holder.imgAppIcon.setImageDrawable(drawable);
                     }

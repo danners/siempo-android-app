@@ -121,14 +121,8 @@ public class ToolPositioningAdapter extends RecyclerView.Adapter<ToolPositioning
                     holder.imgAppIcon.setVisibility(View.VISIBLE);
                     holder.imgAppIcon.setImageBitmap(bitmap);
                 } else {
-                    ApplicationInfo appInfo;
-                    try {
-                        appInfo = context.getPackageManager().getApplicationInfo(appMenu.getApplicationName(), PackageManager.GET_META_DATA);
-                        BitmapWorkerTask bitmapWorkerTask = new BitmapWorkerTask(appInfo, context.getPackageManager());
-                        CoreApplication.getInstance().includeTaskPool(bitmapWorkerTask, null);
-                    } catch (PackageManager.NameNotFoundException e) {
-                        e.printStackTrace();
-                    }
+                    BitmapWorkerTask bitmapWorkerTask = new BitmapWorkerTask(context.getPackageManager(), appMenu.getApplicationName());
+                    CoreApplication.getInstance().includeTaskPool(bitmapWorkerTask, null);
                     holder.icon.setVisibility(View.VISIBLE);
                     holder.imgAppIcon.setVisibility(View.GONE);
                     holder.icon.setImageResource(item.getDrawable());

@@ -99,14 +99,8 @@ public class ToolsMenuAdapter extends RecyclerView.Adapter<ToolsMenuAdapter.View
                     } else {
                         Log.d("Test", "bitmap  not null");
                         if (!appMenu.getApplicationName().equalsIgnoreCase("")) {
-                            ApplicationInfo appInfo = null;
-                            try {
-                                appInfo = context.getPackageManager().getApplicationInfo(appMenu.getApplicationName(), PackageManager.GET_META_DATA);
-                                BitmapWorkerTask bitmapWorkerTask = new BitmapWorkerTask(appInfo, context.getPackageManager());
-                                CoreApplication.getInstance().includeTaskPool(bitmapWorkerTask, null);
-                            } catch (PackageManager.NameNotFoundException e) {
-                                e.printStackTrace();
-                            }
+                            BitmapWorkerTask bitmapWorkerTask = new BitmapWorkerTask(context.getPackageManager(), appMenu.getApplicationName());
+                            CoreApplication.getInstance().includeTaskPool(bitmapWorkerTask, null);
                         }
                         holder.icon.setVisibility(View.VISIBLE);
                         holder.imgAppIcon.setVisibility(View.GONE);

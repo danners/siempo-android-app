@@ -108,15 +108,56 @@ import static co.siempo.phone.main.MainListItemLoader.TOOLS_WELLNESS;
  * Created by shahab on 3/17/16.
  */
 
+
+
+
 public abstract class CoreApplication extends MultiDexApplication {
 
     private static CoreApplication sInstance;
     UserManager userManager;
     LauncherApps launcherApps;
+
+
     private ArrayMap<String, String> listApplicationName = new ArrayMap<>();
+    public ArrayMap<String, String> getListApplicationName() {
+        return listApplicationName;
+    }
     private Set<String> packagesList = new HashSet<>();
-    private Set<String> blockedApps = new HashSet<>();
+    public List<String> getPackagesList() {
+        return new ArrayList<>(packagesList);
+    }
+
     private LruCache<String, Bitmap> mMemoryCache;
+
+
+
+    public void addOrRemoveApplicationInfo(boolean addingOrDelete, String
+            packageName) {
+        try {
+            if (addingOrDelete) {
+                ApplicationInfo appInfo = getPackageManager().getApplicationInfo(packageName, PackageManager.GET_META_DATA);
+                if (!packagesList.contains(appInfo.packageName)) {
+                    packagesList.add(appInfo.packageName);
+                    getListApplicationName().put(packageName, "" + getPackageManager().getApplicationLabel(appInfo));
+                    EventBus.getDefault().post(new AppInstalledEvent(true));
+                }
+
+            } else {
+                if (packagesList.contains(packageName)) {
+                    packagesList.remove(packageName);
+                    getListApplicationName().remove(packageName);
+                    EventBus.getDefault().post(new AppInstalledEvent(true));
+                }
+            }
+
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
+    private Set<String> blockedApps = new HashSet<>();
     private ArrayList<String> junkFoodList = new ArrayList<>();
     private ArrayList<MainListItem> toolItemsList = new ArrayList<>();
     private ArrayList<MainListItem> toolBottomItemsList = new ArrayList<>();
@@ -208,9 +249,7 @@ public abstract class CoreApplication extends MultiDexApplication {
         this.toolBottomItemsList = toolBottomItemsList;
     }
 
-    public ArrayMap<String, String> getListApplicationName() {
-        return listApplicationName;
-    }
+
 
     @Override
     public void onCreate() {
@@ -559,9 +598,7 @@ public abstract class CoreApplication extends MultiDexApplication {
         Iconify.with(new FontAwesomeModule());
     }
 
-    public List<String> getPackagesList() {
-        return new ArrayList<>(packagesList);
-    }
+
 
     public void setPackagesList(Set<String> packagesList) {
         try {
@@ -1120,29 +1157,7 @@ public abstract class CoreApplication extends MultiDexApplication {
         return list;
     }
 
-    public void addOrRemoveApplicationInfo(boolean addingOrDelete, String
-            packageName) {
-        try {
-            if (addingOrDelete) {
-                ApplicationInfo appInfo = getPackageManager().getApplicationInfo(packageName, PackageManager.GET_META_DATA);
-                if (!packagesList.contains(appInfo.packageName)) {
-                    packagesList.add(appInfo.packageName);
-                    getListApplicationName().put(packageName, "" + getPackageManager().getApplicationLabel(appInfo));
-                    EventBus.getDefault().post(new AppInstalledEvent(true));
-                }
 
-            } else {
-                if (packagesList.contains(packageName)) {
-                    packagesList.remove(packageName);
-                    getListApplicationName().remove(packageName);
-                    EventBus.getDefault().post(new AppInstalledEvent(true));
-                }
-            }
-
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-        }
-    }
 
     private void initMemoryCatch() {
         final int maxMemory = (int) (Runtime.getRuntime().maxMemory() / 1024);
@@ -1249,17 +1264,6 @@ public abstract class CoreApplication extends MultiDexApplication {
                 try {
                     String packageName = appInfo.activityInfo.packageName;
                     if (!packageName.equalsIgnoreCase(getPackageName())) {
-                        Drawable drawable = null;
-                        try {
-                            drawable = appInfo.loadIcon
-                                    (getPackageManager());
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                        if (drawable != null) {
-                            Bitmap bitmap = PackageUtil.drawableToBitmap(drawable);
-                            addBitmapToMemoryCache(packageName, bitmap);
-                        }
                         applist.add(packageName);
 
                         PackageManager packageManager = getPackageManager();
@@ -1287,37 +1291,25 @@ public abstract class CoreApplication extends MultiDexApplication {
         private void LoadApplicationThroughLauncherApps(Set<String> applist) {
             UserManager manager = (UserManager) getSystemService(Context.USER_SERVICE);
             LauncherApps launcher = (LauncherApps) getSystemService(Context.LAUNCHER_APPS_SERVICE);
+
             for (UserHandle profile : manager.getUserProfiles()) {
+                boolean isCurrentUser = android.os.Process.myUserHandle().equals(profile);
+
                 for (LauncherActivityInfo activityInfo : launcher.getActivityList(null, profile)) {
                     ApplicationInfo appInfo = activityInfo.getApplicationInfo();
                     String packageName = appInfo.packageName;
-                    Bitmap bitmap = getBitmap(appInfo);
-                    if (bitmap != null) {
-                        addBitmapToMemoryCache(packageName, bitmap);
+
+                    String applicationName = appInfo.loadLabel(getPackageManager()).toString();
+                    if (!isCurrentUser) {
+                        // we should only get associated profiles, which i think they should only be work profiles
+                        // https://developer.android.com/reference/android/os/UserManager.html#getUserProfiles()
+                        applicationName +=  " Work";
                     }
-
                     applist.add(packageName);
-
-                    String applicationName = appInfo.loadLabel(getPackageManager()).toString() + profile.toString();
                     getListApplicationName().put(packageName, applicationName);
 
                 }
 
-            }
-        }
-
-        private Bitmap getBitmap(ApplicationInfo appInfo) {
-            Drawable drawable;
-            try {
-                drawable = appInfo.loadIcon(getPackageManager());
-                if (drawable == null) {
-                    return null;
-                }
-                Bitmap bitmap = PackageUtil.drawableToBitmap(drawable);
-                return bitmap;
-            } catch (Exception e) {
-                e.printStackTrace();
-                return null;
             }
         }
 

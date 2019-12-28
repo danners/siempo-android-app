@@ -94,14 +94,8 @@ public class JunkFoodPaneAdapter extends RecyclerView.Adapter<JunkFoodPaneAdapte
             if (bitmap != null) {
                 holder.imgAppIcon.setImageBitmap(bitmap);
             } else {
-                ApplicationInfo appInfo;
-                try {
-                    appInfo = context.getPackageManager().getApplicationInfo(item, PackageManager.GET_META_DATA);
-                    BitmapWorkerTask bitmapWorkerTask = new BitmapWorkerTask(appInfo, context.getPackageManager());
-                    CoreApplication.getInstance().includeTaskPool(bitmapWorkerTask, null);
-                } catch (PackageManager.NameNotFoundException e) {
-                    e.printStackTrace();
-                }
+                BitmapWorkerTask bitmapWorkerTask = new BitmapWorkerTask(context.getPackageManager(), item);
+                CoreApplication.getInstance().includeTaskPool(bitmapWorkerTask, null);
                 Drawable drawable = CoreApplication.getInstance().getApplicationIconFromPackageName(item);
                 holder.imgAppIcon.setImageDrawable(drawable);
             }

@@ -108,14 +108,8 @@ public class AppAssignmentAdapter extends RecyclerView.Adapter<AppAssignmentAdap
                 if (bitmap != null) {
                     holder.imgIcon.setImageBitmap(bitmap);
                 } else {
-                    ApplicationInfo appInfo = null;
-                    try {
-                        appInfo = context.getPackageManager().getApplicationInfo(item.activityInfo.packageName, PackageManager.GET_META_DATA);
-                        BitmapWorkerTask bitmapWorkerTask = new BitmapWorkerTask(appInfo, context.getPackageManager());
-                        CoreApplication.getInstance().includeTaskPool(bitmapWorkerTask, null);
-                    } catch (PackageManager.NameNotFoundException e) {
-                        e.printStackTrace();
-                    }
+                    BitmapWorkerTask bitmapWorkerTask = new BitmapWorkerTask(context.getPackageManager(), item.activityInfo.packageName);
+                    CoreApplication.getInstance().includeTaskPool(bitmapWorkerTask, null);
                     Drawable drawable = CoreApplication.getInstance().getApplicationIconFromPackageName(item.activityInfo.packageName);
                     holder.imgIcon.setImageDrawable(drawable);
                 }
