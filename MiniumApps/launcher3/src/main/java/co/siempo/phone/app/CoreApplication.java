@@ -654,8 +654,8 @@ public abstract class CoreApplication extends MultiDexApplication {
      */
     public ArrayList<ResolveInfo> getApplicationByCategory(int id) {
         ArrayList<ResolveInfo> list = new ArrayList<>();
-        HashSet<String> packageNames = new HashSet<>();
-        ArrayList<ResolveInfo> listTemp = new ArrayList<ResolveInfo>(0);
+        HashSet<String> packageNames;
+        ArrayList<ResolveInfo> listTemp;
         switch (id) {
             case TOOLS_MAP:// Map
                 Double myLatitude = 44.433106;
@@ -664,8 +664,8 @@ public abstract class CoreApplication extends MultiDexApplication {
                 String urlAddress = "http://maps.google.com/maps?q=" + myLatitude + "," + myLongitude + "(" + labelLocation + ")&iwloc=A&hl=es";
                 Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(urlAddress));
                 list.addAll(getPackageManager().queryIntentActivities(intent, 0));
-                packageNames = new HashSet<String>(0);
-                listTemp = new ArrayList<ResolveInfo>(0);
+                packageNames = new HashSet<>(0);
+                listTemp = new ArrayList<>(0);
                 for (ResolveInfo resolveInfo : list) {
                     if (!packageNames.contains(resolveInfo.activityInfo.packageName)) {
                         packageNames.add(resolveInfo.activityInfo.packageName);
@@ -684,8 +684,8 @@ public abstract class CoreApplication extends MultiDexApplication {
                 Intent calenderIntent =
                         new Intent(Intent.ACTION_VIEW, builder.build());
                 list.addAll(getPackageManager().queryIntentActivities(calenderIntent, 0));
-                packageNames = new HashSet<String>(0);
-                listTemp = new ArrayList<ResolveInfo>(0);
+                packageNames = new HashSet<>(0);
+                listTemp = new ArrayList<>(0);
                 for (ResolveInfo resolveInfo : list) {
                     if (!packageNames.contains(resolveInfo.activityInfo.packageName)) {
                         packageNames.add(resolveInfo.activityInfo.packageName);
@@ -847,8 +847,8 @@ public abstract class CoreApplication extends MultiDexApplication {
             case TOOLS_CAMERA://Camera
                 Intent intentCamera = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
                 list.addAll(getPackageManager().queryIntentActivities(intentCamera, 0));
-                packageNames = new HashSet<String>(0);
-                listTemp = new ArrayList<ResolveInfo>(0);
+                packageNames = new HashSet<>(0);
+                listTemp = new ArrayList<>(0);
                 for (ResolveInfo resolveInfo : list) {
                     if (!packageNames.contains(resolveInfo.activityInfo.packageName)) {
                         packageNames.add(resolveInfo.activityInfo.packageName);
@@ -862,8 +862,8 @@ public abstract class CoreApplication extends MultiDexApplication {
                 Intent pickIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 pickIntent.setType("image/* video/*");
                 list.addAll(getPackageManager().queryIntentActivities(pickIntent, 0));
-                packageNames = new HashSet<String>(0);
-                listTemp = new ArrayList<ResolveInfo>(0);
+                packageNames = new HashSet<>(0);
+                listTemp = new ArrayList<>(0);
                 for (ResolveInfo resolveInfo : list) {
                     if (!packageNames.contains(resolveInfo.activityInfo.packageName)) {
                         packageNames.add(resolveInfo.activityInfo.packageName);
@@ -880,8 +880,8 @@ public abstract class CoreApplication extends MultiDexApplication {
             case TOOLS_BROWSER://Browser
                 Intent intentBrowser = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.google.com/"));
                 list.addAll(getPackageManager().queryIntentActivities(intentBrowser, 0));
-                packageNames = new HashSet<String>(0);
-                listTemp = new ArrayList<ResolveInfo>(0);
+                packageNames = new HashSet<>(0);
+                listTemp = new ArrayList<>(0);
                 for (ResolveInfo resolveInfo : list) {
                     if (!packageNames.contains(resolveInfo.activityInfo.packageName)) {
                         packageNames.add(resolveInfo.activityInfo.packageName);
@@ -896,8 +896,8 @@ public abstract class CoreApplication extends MultiDexApplication {
                 Uri number = Uri.parse("tel:");
                 Intent dial = new Intent(Intent.ACTION_DIAL, number);
                 list.addAll(getPackageManager().queryIntentActivities(dial, 0));
-                packageNames = new HashSet<String>(0);
-                listTemp = new ArrayList<ResolveInfo>(0);
+                packageNames = new HashSet<>(0);
+                listTemp = new ArrayList<>(0);
                 for (ResolveInfo resolveInfo : list) {
                     if (!packageNames.contains(resolveInfo.activityInfo.packageName)) {
                         packageNames.add(resolveInfo.activityInfo.packageName);
@@ -910,8 +910,8 @@ public abstract class CoreApplication extends MultiDexApplication {
             case TOOLS_CLOCK://Clock
                 Intent intentClock = new Intent(AlarmClock.ACTION_SET_ALARM);
                 list.addAll(getPackageManager().queryIntentActivities(intentClock, 0));
-                packageNames = new HashSet<String>(0);
-                listTemp = new ArrayList<ResolveInfo>(0);
+                packageNames = new HashSet<>(0);
+                listTemp = new ArrayList<>(0);
                 for (ResolveInfo resolveInfo : list) {
                     if (!packageNames.contains(resolveInfo.activityInfo.packageName)) {
                         packageNames.add(resolveInfo.activityInfo.packageName);
@@ -998,8 +998,8 @@ public abstract class CoreApplication extends MultiDexApplication {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                packageNames = new HashSet<String>(0);
-                listTemp = new ArrayList<ResolveInfo>(0);
+                packageNames = new HashSet<>(0);
+                listTemp = new ArrayList<>(0);
                 for (ResolveInfo resolveInfo : list) {
                     if (!packageNames.contains(resolveInfo.activityInfo.packageName)) {
                         packageNames.add(resolveInfo.activityInfo.packageName);
@@ -1015,8 +1015,8 @@ public abstract class CoreApplication extends MultiDexApplication {
                 Uri data = Uri.parse("mailto:recipient@example.com?subject=" + "" + "&body=" + "");
                 intentEmail.setData(data);
                 list.addAll(getPackageManager().queryIntentActivities(intentEmail, 0));
-                packageNames = new HashSet<String>(0);
-                listTemp = new ArrayList<ResolveInfo>(0);
+                packageNames = new HashSet<>(0);
+                listTemp = new ArrayList<>(0);
                 for (ResolveInfo resolveInfo : list) {
                     if (!packageNames.contains(resolveInfo.activityInfo.packageName)) {
                         packageNames.add(resolveInfo.activityInfo.packageName);
@@ -1031,8 +1031,8 @@ public abstract class CoreApplication extends MultiDexApplication {
                 Intent intentMusic = new Intent(MediaStore
                         .INTENT_ACTION_MUSIC_PLAYER);
                 list.addAll(getPackageManager().queryIntentActivities(intentMusic, 0));
-                packageNames = new HashSet<String>(0);
-                listTemp = new ArrayList<ResolveInfo>(0);
+                packageNames = new HashSet<>(0);
+                listTemp = new ArrayList<>(0);
                 for (ResolveInfo resolveInfo : list) {
                     if (!packageNames.contains(resolveInfo.activityInfo.packageName)) {
                         packageNames.add(resolveInfo.activityInfo.packageName);

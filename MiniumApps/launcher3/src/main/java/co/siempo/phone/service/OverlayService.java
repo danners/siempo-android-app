@@ -120,8 +120,7 @@ public class OverlayService extends Service {
                 wm.addView(topView, paramsTop);
             }
             handler = new Handler();
-//            handlerTop = new Handler();
-            //milliseconds
+
 
             //Code for timer to increase the height of cover
             final CountDownTimer countDownTimer = new CountDownTimer(10000,

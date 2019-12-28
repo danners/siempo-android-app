@@ -126,8 +126,6 @@ public class StatusBarService extends Service {
             countDownTimerBreak, countDownTimerAfterCover;
     private WindowManager wm;
     private View bottomView;
-    private int heightWindow;
-    private int heightWindowLandscape;
     private View topView;
     private int minusculeHeight;
     private int minusculeHeightLandscape;
@@ -346,10 +344,7 @@ public class StatusBarService extends Service {
         resetAllTimer();
         screenHeightExclusive = (size.y - (getNavigationBarHeight()
                 + getStatusBarHeight()));
-        heightWindow = (size.y - (getNavigationBarHeight()
-                + getStatusBarHeight())) * 6 / 9;
 
-        heightWindowLandscape = (size.x) * 6 / 9;
         heightWindowLandscapeExclusive = (size.x);
         paramsTop = new WindowManager
                 .LayoutParams();

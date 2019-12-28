@@ -87,7 +87,7 @@ public class CategoriesApp extends IntentService {
             return null;
         }
 
-        String getCategory(String query_url) {
+        private String getCategory(String query_url) {
 
             try {
                 Document doc = Jsoup.connect(query_url).get();
