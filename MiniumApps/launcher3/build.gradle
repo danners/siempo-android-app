@@ -3,7 +3,7 @@ apply plugin: 'org.greenrobot.greendao'
 
 
 android {
-    compileSdkVersion 26
+    compileSdkVersion 28
 
     lintOptions {
         disable 'GoogleAppIndexingApiWarning', 'GradleCompatible', 'IconDensities', 'Registered', 'MissingTranslation', 'SetTextI18n', 'RtlHardcoded', 'SelectableText', 'PermissionImpliesUnsupportedHardware', 'TypographyFractions', 'TypographyQuotes', 'InvalidPackage'
