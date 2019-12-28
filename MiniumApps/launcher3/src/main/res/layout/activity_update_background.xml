@@ -13,7 +13,7 @@
         app:titleTextColor="?attr/toolbar_text_color" />
 
 
-    <uk.co.senab.photoview.PhotoView
+    <com.github.chrisbanes.photoview.PhotoView
         android:id="@+id/ivFullScreen"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -89,12 +89,6 @@
             android:layout_height="wrap_content" />
 
     </RelativeLayout>
-    <!--<com.github.rahatarmanahmed.cpv.CircularProgressView
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/progress_view"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        app:cpv_animAutostart="true"
-        app:cpv_indeterminate="true" />-->
+
 
 </RelativeLayout>

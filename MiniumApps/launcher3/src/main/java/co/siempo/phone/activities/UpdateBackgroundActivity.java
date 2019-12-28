@@ -14,6 +14,7 @@ import androidx.swiperefreshlayout.widget.CircularProgressDrawable;
 import androidx.appcompat.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -22,6 +23,8 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
+import com.github.chrisbanes.photoview.PhotoView;
+import com.github.chrisbanes.photoview.PhotoViewAttacher;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 
@@ -36,8 +39,7 @@ import co.siempo.phone.event.NotifyBackgroundToService;
 import co.siempo.phone.utils.PermissionUtil;
 import co.siempo.phone.utils.PrefSiempo;
 import de.greenrobot.event.EventBus;
-import uk.co.senab.photoview.PhotoView;
-import uk.co.senab.photoview.PhotoViewAttacher;
+
 
 public class UpdateBackgroundActivity extends CoreActivity {
 
@@ -169,7 +171,16 @@ public class UpdateBackgroundActivity extends CoreActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        setWall();
+        getMenuInflater().inflate(R.menu.apply_background, menu);
+        MenuItem menuItem = menu.findItem(R.id.tick);
+        menuItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                setWall();
+
+                return false;
+            }
+        });
         return super.onCreateOptionsMenu(menu);
     }
 

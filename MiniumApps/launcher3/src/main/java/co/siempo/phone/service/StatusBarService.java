@@ -85,6 +85,7 @@ import co.siempo.phone.main.MainListItemLoader;
 import co.siempo.phone.models.AppMenu;
 import co.siempo.phone.models.MainListItem;
 import co.siempo.phone.utils.CategoryUtils;
+import co.siempo.phone.utils.NotificationUtils;
 import co.siempo.phone.utils.PackageUtil;
 import co.siempo.phone.utils.PrefSiempo;
 import co.siempo.phone.utils.UIUtils;
@@ -412,6 +413,7 @@ public class StatusBarService extends Service {
                     .setPriority(Notification.PRIORITY_LOW)
                     .setAutoCancel(true);
             Notification notification = builder.build();
+            new NotificationUtils(this).createChannels();
             startForeground(Constants.STATUSBAR_SERVICE_ID, notification);
         }
 
