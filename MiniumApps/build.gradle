@@ -13,6 +13,7 @@ buildscript {
 
 
     }
+
 }
 allprojects {
     repositories {
@@ -37,7 +38,7 @@ project.ext {
     espressoVersion = "2.2.2"
     multidexVersion = "1.0.3"
     circleImageViewVersion = "2.0.0"
-    debugDBVersion = "0.3.0"
+    debugDBVersion = "1.0.6"
     constraintLayoutVersion = "1.0.2"
     greenDaoUpgradeHelperVersion = "v1.3.0"
     glideVersion = "3.7.0"
@@ -48,6 +49,9 @@ project.ext {
     fgCheckerVersion = "1.1.0"
     statusBarUtilVersion = "1.5.1"
     playServicesLocationVersion = "17.0.0"
+    butterknifeVersion = "8.8.1"
+    floatingActionButtonVersion = "1.6.4"
+    circleIndicatorVersion = "2.1.4"
 
     // greendao database version
     databaseVersion = 4
@@ -67,6 +71,7 @@ project.ext {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+
 
 
 dependencies {
