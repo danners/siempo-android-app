@@ -1,6 +1,4 @@
 apply plugin: 'com.android.application'
-//apply plugin: 'com.android.library'
-//apply plugin: 'com.neenbedankt.android-apt'
 apply plugin: 'io.fabric'
 apply plugin: 'org.greenrobot.greendao'
 
@@ -38,7 +36,6 @@ android {
         }
         release {
             debuggable false
-            // RELEASE: true
             minifyEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
@@ -78,9 +75,7 @@ repositories {
     maven { url 'https://maven.fabric.io/public' }
     maven { url "https://jitpack.io" }
     maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
-    maven {
-        url 'https://maven.google.com'
-    }
+    maven { url 'https://maven.google.com'    }
 }
 
 dependencies {
@@ -91,7 +86,6 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     implementation project(':chips')
-//    implementation project(':core')
     implementation "com.github.CymChad:BaseRecyclerViewAdapterHelper:$baseRecyclerViewAdapterHelperVersion"
     implementation("com.github.paolorotolo:appintro:$appIntroVersion") {
         exclude module: 'appcompat-v7'
@@ -154,14 +148,8 @@ dependencies {
 }
 greendao {
     schemaVersion "${databaseVersion}".toInteger()
-    //daoPackage 'com.android.daolib.ttt'
 }
-//apt {
-//    arguments {
-//        // RELEASE: comment it out
-//        trace 'true'
-//    }
-//}
+
 
 // ADD THIS AT THE BOTTOM
 apply plugin: 'com.google.gms.google-services'
