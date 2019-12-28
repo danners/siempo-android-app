@@ -16,7 +16,7 @@
 
 package co.siempo.phone.interfaces;
 
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 
 
 public interface ItemTouchHelperAdapter {

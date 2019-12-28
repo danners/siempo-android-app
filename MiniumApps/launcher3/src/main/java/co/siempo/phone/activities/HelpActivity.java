@@ -1,7 +1,7 @@
 package co.siempo.phone.activities;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 import co.siempo.phone.R;
 import co.siempo.phone.fragments.HelpFragment;

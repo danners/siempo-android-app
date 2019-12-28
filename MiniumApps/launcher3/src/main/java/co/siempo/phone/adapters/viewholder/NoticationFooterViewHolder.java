@@ -1,6 +1,6 @@
 package co.siempo.phone.adapters.viewholder;
 
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 
 import butterknife.ButterKnife;

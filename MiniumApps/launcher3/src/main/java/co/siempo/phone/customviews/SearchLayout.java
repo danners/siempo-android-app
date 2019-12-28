@@ -2,7 +2,7 @@ package co.siempo.phone.customviews;
 
 import android.content.Context;
 import android.content.res.Resources;
-import android.support.v7.widget.CardView;
+import androidx.cardview.widget.CardView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.AttributeSet;

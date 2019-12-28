@@ -3,7 +3,7 @@ package co.siempo.phone.adapters;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
-import android.support.v13.app.FragmentPagerAdapter;
+import androidx.legacy.app.FragmentPagerAdapter;
 
 import co.siempo.phone.fragments.IntentionFragment;
 import co.siempo.phone.fragments.PaneFragment;

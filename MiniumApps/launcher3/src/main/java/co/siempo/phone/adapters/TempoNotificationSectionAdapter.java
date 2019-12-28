@@ -3,7 +3,7 @@ package co.siempo.phone.adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ResolveInfo;
-import android.support.v7.widget.PopupMenu;
+import androidx.appcompat.widget.PopupMenu;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
