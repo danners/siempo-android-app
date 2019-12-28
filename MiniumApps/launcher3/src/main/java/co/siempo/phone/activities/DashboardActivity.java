@@ -301,7 +301,6 @@ public class DashboardActivity extends CoreActivity {
                     AppUtils.statusbarColor0(DashboardActivity.this, 1);
                 }
                 if (currentIndexDashboard == 1 && i == 0) {
-                    Log.d("Firebase", "Intention End");
                     if (swipeCount >= 0 && swipeCount < 3) {
                         swipeCount = PrefSiempo.getInstance(DashboardActivity.this).read(PrefSiempo.TOGGLE_LEFTMENU, 0);
                         swipeCount = swipeCount + 1;

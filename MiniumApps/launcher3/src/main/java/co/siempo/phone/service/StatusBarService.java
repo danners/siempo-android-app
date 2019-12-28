@@ -455,11 +455,6 @@ public class StatusBarService extends Service {
         }
     }
 
-    @Subscribe
-    public void firebaseEvent(OnBackPressedEvent onBackPressed) {
-//        FirebaseHelper.getInstance().logScreenUsageTime(onBackPressed.getScreenName(), onBackPressed.getStrStartTime());
-    }
-
     @Override
     public IBinder onBind(Intent intent) {
         throw new UnsupportedOperationException("Not yet implemented");
@@ -859,7 +854,6 @@ public class StatusBarService extends Service {
 
                 Log.d("DeterUse : Cover", "" + minutes + ":" + seconds);
                 PrefSiempo.getInstance(context).write(PrefSiempo.COVER_TIME, completedTime);
-                // store data in firebase how much time user spent with cover period.
                 long coverTimeSpent = PrefSiempo.getInstance(context).read(PrefSiempo.JUNKFOOD_USAGE_COVER_TIME, 0L);
                 Log.d("DeterUse : Cover", "coverTimeSpent " + coverTimeSpent);
                 Log.d("DeterUse : Cover", "completedTime " + completedTime);
@@ -917,7 +911,6 @@ public class StatusBarService extends Service {
                 int minutes = (int) (completedTime / (1000 * 60));
                 int seconds = (int) ((completedTime / 1000) % 60);
 
-                // store data in firebase how much time user spent with cover period.
                 long coverTimeSpent = PrefSiempo.getInstance(context).read(PrefSiempo.JUNKFOOD_USAGE_COVER_TIME, 0L);
                 PrefSiempo.getInstance(context).write(PrefSiempo.JUNKFOOD_USAGE_COVER_TIME, coverTimeSpent + completedTime);
 
