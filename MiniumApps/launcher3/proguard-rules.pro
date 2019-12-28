@@ -14,8 +14,6 @@
 # class:
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #}
--keep class com.crashlytics.** { *; }
--dontwarn com.crashlytics.**
 -dontwarn javax.xml.bind.DatatypeConverter
 -dontwarn org.apache.commons.codec.binary.Base64
 -dontwarn org.scribe.services.DatatypeConverterEncoder

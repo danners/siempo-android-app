@@ -10,9 +10,6 @@ gradlew*
 # Built application files
 build/
 
-# Crashlytics configuations
-com_crashlytics_export_strings.xml
-
 # Signing files
 .signing/
 

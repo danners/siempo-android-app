@@ -26,7 +26,6 @@ import android.util.Log;
 import android.util.LruCache;
 
 import com.androidnetworking.AndroidNetworking;
-import com.crashlytics.android.core.CrashlyticsCore;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.joanzapata.iconify.Iconify;
@@ -42,7 +41,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import co.siempo.phone.BuildConfig;
 import co.siempo.phone.R;
 import co.siempo.phone.event.AppInstalledEvent;
 import co.siempo.phone.log.Tracer;
@@ -54,7 +52,6 @@ import co.siempo.phone.utils.PackageUtil;
 import co.siempo.phone.utils.PrefSiempo;
 import co.siempo.phone.utils.UIUtils;
 import de.greenrobot.event.EventBus;
-import io.fabric.sdk.android.Fabric;
 
 import static co.siempo.phone.main.MainListItemLoader.TOOLS_ADDITIONAL_MESSAGE;
 import static co.siempo.phone.main.MainListItemLoader.TOOLS_ASSISTANT;
@@ -123,7 +120,6 @@ public abstract class CoreApplication extends MultiDexApplication {
     private ArrayList<MainListItem> favoriteItemsList = new ArrayList<>();
     private boolean isHideIconBranding = true;
     private boolean isRandomize = true;
-    private CrashlyticsCore crashlyticsCore;
     public List<CategoryAppList> categoryAppList = new ArrayList<>();
     private List<String> runningDownloadigFileList = new ArrayList<>();
 
@@ -235,7 +231,6 @@ public abstract class CoreApplication extends MultiDexApplication {
     protected void init() {
         // set initial configurations here
         configTracer();
-        configFabric();
         configIconify();
         configureNetworking();
         if (PrefSiempo.getInstance(this).read(PrefSiempo.INSTALLED_APP_VERSION_CODE, 0) == 0) {
@@ -549,21 +544,9 @@ public abstract class CoreApplication extends MultiDexApplication {
     }
 
 
-    private void configFabric() {
-        crashlyticsCore = new CrashlyticsCore.Builder()
-                .disabled(BuildConfig.DEBUG)
-                .build();
-        final Fabric fabric = new Fabric.Builder(this)
-                .kits(crashlyticsCore)
-                .build();
-        Fabric.with(fabric);
-    }
-
     public void logException(Throwable e) {
         try {
-            if (null != crashlyticsCore) {
-                crashlyticsCore.logException(e);
-            }
+            Log.getStackTraceString(e);
         } catch (Exception ex) {
             ex.printStackTrace();
         }
