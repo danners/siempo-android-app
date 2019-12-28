@@ -80,10 +80,6 @@
         <service
             android:name=".service.CategoriesApp"
             android:exported="false"></service>
-        <!-- Fabric configuration -->
-        <meta-data
-            android:name="io.fabric.ApiKey"
-            android:value="6a700e064d3ba9dbf81d871dd3c0b3081ab158f7" />
 
         <activity
             android:name=".launcher.FakeLauncherActivity"
