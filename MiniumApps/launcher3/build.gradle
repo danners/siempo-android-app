@@ -87,20 +87,14 @@ dependencies {
     })
     implementation project(':chips')
     implementation "com.github.CymChad:BaseRecyclerViewAdapterHelper:$baseRecyclerViewAdapterHelperVersion"
-    implementation("com.github.paolorotolo:appintro:$appIntroVersion") {
-        exclude module: 'appcompat-v7'
-    }
     implementation "org.greenrobot:greendao:$greenDaoVersion"
-    implementation "net.yslibrary.keyboardvisibilityevent:keyboardvisibilityevent:$keyboardvisibilityEventVersion"
     implementation "com.github.bumptech.glide:glide:$glideVersion"
     implementation "com.github.yuweiguocn:GreenDaoUpgradeHelper:$greenDaoUpgradeHelperVersion"
     implementation "com.android.support.constraint:constraint-layout:$constraintLayoutVersion"
     debugImplementation "com.amitshekhar.android:debug-db:$debugDBVersion"
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
-    implementation 'com.github.javiersantos:AppUpdater:2.6.4'
     implementation 'com.github.clans:fab:1.6.4'
     implementation 'com.jakewharton:butterknife:8.8.1'
-    implementation 'com.wdullaer:materialdatetimepicker:3.4.1'
     implementation 'me.relex:circleindicator:1.2.2@aar'
 // indicator for view pager
 
