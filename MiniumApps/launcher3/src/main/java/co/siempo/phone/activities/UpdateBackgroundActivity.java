@@ -10,14 +10,14 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
-import androidx.swiperefreshlayout.widget.CircularProgressDrawable;
-import androidx.appcompat.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
+
+import androidx.appcompat.widget.Toolbar;
+import androidx.swiperefreshlayout.widget.CircularProgressDrawable;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
@@ -46,7 +46,6 @@ public class UpdateBackgroundActivity extends CoreActivity {
     String strImage;
     private Toolbar toolbar;
     private PermissionUtil permissionUtil;
-    private ImageView imageView;
     private CircularProgressDrawable circularProgressDrawable;
 
     private PhotoViewAttacher mAttacher;
@@ -68,7 +67,6 @@ public class UpdateBackgroundActivity extends CoreActivity {
         });
         setSupportActionBar(toolbar);
         Intent imageIntent = getIntent();
-        imageView = findViewById(R.id.imageView);
 
         circularProgressDrawable = new CircularProgressDrawable(this);
         circularProgressDrawable.setStrokeWidth(8f);
