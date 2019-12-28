@@ -55,9 +55,9 @@ import co.siempo.phone.utils.PackageUtil;
 import co.siempo.phone.utils.PermissionUtil;
 import co.siempo.phone.utils.PrefSiempo;
 import co.siempo.phone.utils.UIUtils;
-import de.greenrobot.event.EventBus;
-import de.greenrobot.event.Subscribe;
-import de.greenrobot.event.ThreadMode;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 public class DashboardActivity extends CoreActivity {
 
@@ -492,7 +492,7 @@ public class DashboardActivity extends CoreActivity {
         }
     }
 
-    @Subscribe(sticky = true, threadMode = ThreadMode.MainThread)
+    @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
     public void onEvent(NotifyBackgroundChange notifyBackgroundChange) {
         if (notifyBackgroundChange != null && notifyBackgroundChange.isNotify()) {
             changeLayoutBackground(-1);
@@ -501,7 +501,7 @@ public class DashboardActivity extends CoreActivity {
 
     }
 
-    @Subscribe(sticky = true, threadMode = ThreadMode.BackgroundThread)
+    @Subscribe(sticky = true, threadMode = ThreadMode.BACKGROUND)
     public void onEvent(ThemeChangeEvent themeChangeEvent) {
         if (themeChangeEvent != null && themeChangeEvent.isNotify()) {
             Intent startMain = getIntent();

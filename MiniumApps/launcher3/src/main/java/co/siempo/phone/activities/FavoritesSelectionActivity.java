@@ -41,7 +41,7 @@ import co.siempo.phone.utils.PackageUtil;
 import co.siempo.phone.utils.PrefSiempo;
 import co.siempo.phone.utils.Sorting;
 import co.siempo.phone.utils.UIUtils;
-import de.greenrobot.event.Subscribe;
+import org.greenrobot.eventbus.Subscribe;
 
 public class FavoritesSelectionActivity extends CoreActivity implements AdapterView.OnItemClickListener {
 

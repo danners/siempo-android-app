@@ -85,9 +85,9 @@ import co.siempo.phone.token.TokenUpdateEvent;
 import co.siempo.phone.ui.SiempoViewPager;
 import co.siempo.phone.utils.PrefSiempo;
 import co.siempo.phone.utils.UIUtils;
-import de.greenrobot.event.EventBus;
-import de.greenrobot.event.Subscribe;
-import de.greenrobot.event.ThreadMode;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 import me.relex.circleindicator.CircleIndicator;
 
 import static co.siempo.phone.utils.UIUtils.hasUsageStatsPermission;
@@ -313,7 +313,7 @@ public class PaneFragment extends CoreFragment {
         }
     }
 
-    @Subscribe(sticky = true, threadMode = ThreadMode.MainThread)
+    @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
     public void onEvent(NotifyBottomView notifyBottomView) {
         if (notifyBottomView != null) {
             if (notifyBottomView.isNotify()) {
@@ -872,7 +872,7 @@ public class PaneFragment extends CoreFragment {
         }
     }
 
-    @Subscribe(sticky = true, threadMode = ThreadMode.MainThread)
+    @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
     public void homePress(HomePress event) {
         if (event != null) {
             if (isAdded()) {
@@ -951,7 +951,7 @@ public class PaneFragment extends CoreFragment {
         }
     }
 
-    @Subscribe(sticky = true, threadMode = ThreadMode.MainThread)
+    @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
     public void onEvent(NotifySearchRefresh notifySearchRefresh) {
         if (notifySearchRefresh != null && notifySearchRefresh.isNotify()) {
             mediator = new MainFragmentMediator(PaneFragment.this);

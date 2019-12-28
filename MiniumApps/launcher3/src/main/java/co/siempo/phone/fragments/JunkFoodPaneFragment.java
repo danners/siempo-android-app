@@ -23,9 +23,9 @@ import co.siempo.phone.app.CoreApplication;
 import co.siempo.phone.customviews.ItemOffsetDecoration;
 import co.siempo.phone.event.NotifyJunkFoodView;
 import co.siempo.phone.util.AppUtils;
-import de.greenrobot.event.EventBus;
-import de.greenrobot.event.Subscribe;
-import de.greenrobot.event.ThreadMode;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 
 public class JunkFoodPaneFragment extends CoreFragment {
@@ -74,7 +74,7 @@ public class JunkFoodPaneFragment extends CoreFragment {
     }
 
 
-    @Subscribe(sticky = true, threadMode = ThreadMode.MainThread)
+    @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
     public void onEvent(NotifyJunkFoodView junkFoodView) {
         if (junkFoodView != null && junkFoodView.isNotify()) {
             items = CoreApplication.getInstance().getJunkFoodList();

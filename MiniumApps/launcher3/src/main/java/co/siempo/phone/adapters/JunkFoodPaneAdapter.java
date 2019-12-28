@@ -28,7 +28,7 @@ import co.siempo.phone.app.CoreApplication;
 import co.siempo.phone.event.JunkAppOpenEvent;
 import co.siempo.phone.helper.ActivityHelper;
 import co.siempo.phone.utils.PrefSiempo;
-import de.greenrobot.event.EventBus;
+import org.greenrobot.eventbus.EventBus;
 
 /**
  * Created by RajeshJadi on 2/23/2017.

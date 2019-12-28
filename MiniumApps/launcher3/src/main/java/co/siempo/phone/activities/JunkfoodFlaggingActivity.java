@@ -53,8 +53,8 @@ import co.siempo.phone.service.LoadToolPane;
 import co.siempo.phone.utils.PackageUtil;
 import co.siempo.phone.utils.PrefSiempo;
 import co.siempo.phone.utils.Sorting;
-import de.greenrobot.event.EventBus;
-import de.greenrobot.event.Subscribe;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 public class JunkfoodFlaggingActivity extends CoreActivity implements AdapterView.OnItemClickListener {
     public Set<String> list = new HashSet<>();

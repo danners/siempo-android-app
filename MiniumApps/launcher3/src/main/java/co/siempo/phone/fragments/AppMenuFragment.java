@@ -31,7 +31,7 @@ import co.siempo.phone.event.NotifyToolView;
 import co.siempo.phone.event.ReduceOverUsageEvent;
 import co.siempo.phone.utils.PrefSiempo;
 import co.siempo.phone.utils.UIUtils;
-import de.greenrobot.event.EventBus;
+import org.greenrobot.eventbus.EventBus;
 
 import static com.rvalerio.fgchecker.Utils.hasUsageStatsPermission;
 

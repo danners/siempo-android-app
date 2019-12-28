@@ -28,7 +28,7 @@ import co.siempo.phone.event.AppInstalledEvent;
 import co.siempo.phone.models.AppListInfo;
 import co.siempo.phone.utils.PrefSiempo;
 import co.siempo.phone.utils.Sorting;
-import de.greenrobot.event.Subscribe;
+import org.greenrobot.eventbus.Subscribe;
 
 /**
  * Created by hardik on 22/11/17.

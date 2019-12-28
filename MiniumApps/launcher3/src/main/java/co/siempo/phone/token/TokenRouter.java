@@ -30,7 +30,7 @@ import co.siempo.phone.msg.SmsObserver;
 import co.siempo.phone.utils.DataUtils;
 import co.siempo.phone.utils.PrefSiempo;
 import co.siempo.phone.utils.UIUtils;
-import de.greenrobot.event.EventBus;
+import org.greenrobot.eventbus.EventBus;
 
 
 @EBean

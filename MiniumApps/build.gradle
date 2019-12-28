@@ -29,15 +29,14 @@ project.ext {
     targetSdkVersion = 28
 
 
-    supportVersion = "28.0.0"
     annotationsVersion = "4.6.0"
-    iconifyVersion = "2.2.1"
-    eventbusVersion = "3.0.0-beta1"
+    iconifyVersion = "2.2.2"
+    eventbusVersion = "3.1.1"
     loggerVersion = "1.11"
-    baseRecyclerViewAdapterHelperVersion = "2.2.0"
-    greenDaoVersion = "3.2.0"
-    tedPermissionVersion = "2.2.0"
-    fastAndroidNetworkingVersion = "0.3.0"
+    baseRecyclerViewAdapterHelperVersion = "2.9.50"
+    greenDaoVersion = "3.2.2"
+    tedPermissionVersion = "2.2.3"
+    fastAndroidNetworkingVersion = "1.0.2"
     espressoVersion = "2.2.2"
     multidexVersion = "1.0.3"
     circleImageViewVersion = "2.0.0"
@@ -46,6 +45,12 @@ project.ext {
     greenDaoUpgradeHelperVersion = "v1.3.0"
     glideVersion = "3.7.0"
     junitVersion = "4.12"
+    photoViewVersion = "2.3.0"
+    jsoupVersion = "1.11.3"
+    rotateLayoutVersion = "3.0.0"
+    fgCheckerVersion = "1.1.0"
+    statusBarUtilVersion = "1.5.1"
+    playServicesLocationVersion = "17.0.0"
 
     // greendao database version
     databaseVersion = 4

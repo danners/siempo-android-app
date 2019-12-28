@@ -28,6 +28,7 @@ import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.ViewById;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import co.siempo.phone.R;
 import co.siempo.phone.app.Constants;
@@ -73,10 +74,11 @@ public class SiempoPermissionActivity extends CoreActivity {
         }
 
         @Override
-        public void onPermissionDenied(ArrayList<String> deniedPermissions) {
+        public void onPermissionDenied(List<String> deniedPermissions) {
             UIUtils.toast(SiempoPermissionActivity.this, "Permission denied");
             askForPermission(Constants.PERMISSIONS);
         }
+
     };
     CompoundButton.OnClickListener onClickListener = new CompoundButton.OnClickListener() {
         @Override

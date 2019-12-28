@@ -23,6 +23,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
@@ -265,7 +266,7 @@ public class ChooseBackgroundActivity extends CoreActivity {
                             }
 
                             @Override
-                            public void onPermissionDenied(ArrayList<String> deniedPermissions) {
+                            public void onPermissionDenied(List<String> deniedPermissions) {
                                 Log.e("OnBackPress", "onBackPress Called");
                                 finish();
                             }

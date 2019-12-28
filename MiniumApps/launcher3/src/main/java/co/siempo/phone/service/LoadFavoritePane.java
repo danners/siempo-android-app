@@ -10,7 +10,7 @@ import co.siempo.phone.event.NotifyFavoriteView;
 import co.siempo.phone.models.MainListItem;
 import co.siempo.phone.utils.PackageUtil;
 import co.siempo.phone.utils.PrefSiempo;
-import de.greenrobot.event.EventBus;
+import org.greenrobot.eventbus.EventBus;
 
 /**
  * Created by rajeshjadi on 14/3/18.

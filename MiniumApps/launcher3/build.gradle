@@ -118,16 +118,16 @@ dependencies {
     implementation "com.joanzapata.iconify:android-iconify-fontawesome:$iconifyVersion"
     implementation "de.hdodenhof:circleimageview:$circleImageViewVersion"
     implementation "com.orhanobut:logger:$loggerVersion"
-    implementation "de.greenrobot:eventbus:$eventbusVersion"
+    implementation "org.greenrobot:eventbus:$eventbusVersion"
     implementation "gun0912.ted:tedpermission:$tedPermissionVersion"
     annotationProcessor "org.androidannotations:androidannotations:$annotationsVersion"
     implementation "com.amitshekhar.android:android-networking:$fastAndroidNetworkingVersion"
-    implementation "com.google.android.gms:play-services-location:12.0.0"
-    implementation 'com.jaeger.statusbarutil:library:1.4.0'
-    implementation 'com.rvalerio:fgchecker:1.1.0'
-    implementation 'rongi.rotate-layout:rotate-layout:3.0.0'
-    implementation 'com.github.chrisbanes:PhotoView:2.3.0'
-    implementation 'org.jsoup:jsoup:1.11.3'
+    implementation "com.google.android.gms:play-services-location:$playServicesLocationVersion"
+    implementation "com.jaeger.statusbarutil:library:$statusBarUtilVersion"
+    implementation "com.rvalerio:fgchecker:$fgCheckerVersion"
+    implementation "rongi.rotate-layout:rotate-layout:$rotateLayoutVersion"
+    implementation "com.github.chrisbanes:PhotoView:$photoViewVersion"
+    implementation "org.jsoup:jsoup:$jsoupVersion"
 }
 greendao {
     schemaVersion "${databaseVersion}".toInteger()

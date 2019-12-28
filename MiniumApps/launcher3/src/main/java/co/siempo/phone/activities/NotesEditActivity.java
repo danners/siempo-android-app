@@ -32,7 +32,7 @@ import co.siempo.phone.colorpicker.ColorPickerSwatch;
 import co.siempo.phone.event.HomePress;
 import co.siempo.phone.log.Tracer;
 import co.siempo.phone.utils.UIUtils;
-import de.greenrobot.event.Subscribe;
+import org.greenrobot.eventbus.Subscribe;
 
 import static co.siempo.phone.utils.DataUtils.NEW_NOTE_REQUEST;
 import static co.siempo.phone.utils.DataUtils.NOTE_BODY;

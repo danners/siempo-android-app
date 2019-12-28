@@ -24,7 +24,7 @@ import co.siempo.phone.log.Tracer;
 import co.siempo.phone.utils.NotificationUtility;
 import co.siempo.phone.utils.PackageUtil;
 import co.siempo.phone.utils.PrefSiempo;
-import de.greenrobot.event.EventBus;
+import org.greenrobot.eventbus.EventBus;
 
 /**
  * Created by Shahab on 7/29/2016.

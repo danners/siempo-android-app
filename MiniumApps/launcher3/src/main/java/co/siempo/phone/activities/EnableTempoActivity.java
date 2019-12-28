@@ -18,6 +18,7 @@ import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import co.siempo.phone.R;
 import co.siempo.phone.utils.PackageUtil;
@@ -114,7 +115,7 @@ public class EnableTempoActivity extends CoreActivity {
                         }
 
                         @Override
-                        public void onPermissionDenied(ArrayList<String> deniedPermissions) {
+                        public void onPermissionDenied(List<String> deniedPermissions) {
 
                         }
                     })

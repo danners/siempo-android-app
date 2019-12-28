@@ -32,13 +32,14 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.List;
 
 import co.siempo.phone.R;
 import co.siempo.phone.event.NotifyBackgroundChange;
 import co.siempo.phone.event.NotifyBackgroundToService;
 import co.siempo.phone.utils.PermissionUtil;
 import co.siempo.phone.utils.PrefSiempo;
-import de.greenrobot.event.EventBus;
+import org.greenrobot.eventbus.EventBus;
 
 
 public class UpdateBackgroundActivity extends CoreActivity {
@@ -115,12 +116,14 @@ public class UpdateBackgroundActivity extends CoreActivity {
                             }
 
                             @Override
-                            public void onPermissionDenied(ArrayList<String> deniedPermissions) {
+                            public void onPermissionDenied(List<String> deniedPermissions) {
                                 startActivity(new Intent(UpdateBackgroundActivity.this,
                                         SettingsActivity_.class).addFlags(Intent
                                         .FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP));
                                 finish();
                             }
+
+
                         })
                         .setDeniedMessage(R.string.msg_permission_denied)
                         .setPermissions(new String[]{

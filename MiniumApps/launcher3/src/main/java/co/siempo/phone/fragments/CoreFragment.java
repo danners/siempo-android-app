@@ -9,8 +9,8 @@ import org.androidannotations.annotations.Trace;
 import co.siempo.phone.activities.CoreActivity;
 import co.siempo.phone.log.LogConfig;
 import co.siempo.phone.log.Tracer;
-import de.greenrobot.event.EventBus;
-import de.greenrobot.event.Subscribe;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 /**
  * A simple {@link Fragment} subclass.

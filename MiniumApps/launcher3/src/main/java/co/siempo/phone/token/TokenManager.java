@@ -3,7 +3,7 @@ package co.siempo.phone.token;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.greenrobot.event.EventBus;
+import org.greenrobot.eventbus.EventBus;
 
 /**
  * Created by Shahab on 2/16/2017.

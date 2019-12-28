@@ -30,6 +30,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.List;
 
 import co.siempo.phone.R;
 import co.siempo.phone.activities.CoreActivity;
@@ -42,7 +43,7 @@ import co.siempo.phone.service.ScreenFilterService;
 import co.siempo.phone.util.AppUtils;
 import co.siempo.phone.utils.PermissionUtil;
 import co.siempo.phone.utils.PrefSiempo;
-import de.greenrobot.event.EventBus;
+import org.greenrobot.eventbus.EventBus;
 
 @EFragment(R.layout.fragment_tempo_home)
 public class TempoHomeFragment extends CoreFragment {
@@ -229,9 +230,10 @@ public class TempoHomeFragment extends CoreFragment {
                             }
 
                             @Override
-                            public void onPermissionDenied(ArrayList<String> deniedPermissions) {
+                            public void onPermissionDenied(List<String> deniedPermissions) {
 
                             }
+
                         })
                         .setDeniedMessage(R.string.msg_permission_denied)
                         .setPermissions(new String[]{
@@ -274,7 +276,7 @@ public class TempoHomeFragment extends CoreFragment {
                             }
 
                             @Override
-                            public void onPermissionDenied(ArrayList<String> deniedPermissions) {
+                            public void onPermissionDenied(List<String> deniedPermissions) {
 
                             }
                         })

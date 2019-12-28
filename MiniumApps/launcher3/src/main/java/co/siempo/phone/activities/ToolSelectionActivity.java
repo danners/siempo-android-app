@@ -25,7 +25,7 @@ import co.siempo.phone.models.MainListItem;
 import co.siempo.phone.service.LoadToolPane;
 import co.siempo.phone.utils.PrefSiempo;
 import co.siempo.phone.utils.Sorting;
-import de.greenrobot.event.EventBus;
+import org.greenrobot.eventbus.EventBus;
 
 public class ToolSelectionActivity extends CoreActivity {
 

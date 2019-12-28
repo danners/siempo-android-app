@@ -43,7 +43,7 @@ import co.siempo.phone.token.TokenItem;
 import co.siempo.phone.token.TokenItemType;
 import co.siempo.phone.token.TokenManager;
 import co.siempo.phone.utils.DrawableProvider;
-import de.greenrobot.event.EventBus;
+import org.greenrobot.eventbus.EventBus;
 
 /**
  * Created by Shahab on 2/16/2017.

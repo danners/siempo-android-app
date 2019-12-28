@@ -20,8 +20,8 @@ import co.siempo.phone.token.TokenCompleteType;
 import co.siempo.phone.token.TokenItem;
 import co.siempo.phone.token.TokenManager;
 import co.siempo.phone.token.TokenUpdateEvent;
-import de.greenrobot.event.EventBus;
-import de.greenrobot.event.Subscribe;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 
 /**

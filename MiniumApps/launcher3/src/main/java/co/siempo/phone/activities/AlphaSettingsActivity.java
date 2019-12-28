@@ -37,6 +37,7 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import co.siempo.phone.R;
 import co.siempo.phone.event.LocationUpdateEvent;
@@ -44,8 +45,8 @@ import co.siempo.phone.event.StartLocationEvent;
 import co.siempo.phone.helper.ActivityHelper;
 import co.siempo.phone.utils.PermissionUtil;
 import co.siempo.phone.utils.PrefSiempo;
-import de.greenrobot.event.EventBus;
-import de.greenrobot.event.Subscribe;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import static co.siempo.phone.activities.DashboardActivity.IS_FROM_HOME;
 
@@ -249,7 +250,7 @@ public class AlphaSettingsActivity extends CoreActivity {
                             }
 
                             @Override
-                            public void onPermissionDenied(ArrayList<String> deniedPermissions) {
+                            public void onPermissionDenied(List<String> deniedPermissions) {
 
                             }
                         })

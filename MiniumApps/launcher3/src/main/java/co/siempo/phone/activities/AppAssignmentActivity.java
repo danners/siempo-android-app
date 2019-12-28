@@ -36,8 +36,8 @@ import co.siempo.phone.models.MainListItem;
 import co.siempo.phone.utils.NetworkUtil;
 import co.siempo.phone.utils.PrefSiempo;
 import co.siempo.phone.utils.Sorting;
-import de.greenrobot.event.EventBus;
-import de.greenrobot.event.Subscribe;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 public class AppAssignmentActivity extends CoreActivity {
 

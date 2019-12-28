@@ -12,7 +12,7 @@ import co.siempo.phone.event.NotifyJunkFoodView;
 import co.siempo.phone.utils.PrefSiempo;
 import co.siempo.phone.utils.Sorting;
 import co.siempo.phone.utils.UIUtils;
-import de.greenrobot.event.EventBus;
+import org.greenrobot.eventbus.EventBus;
 
 /**
  * Created by rajeshjadi on 14/3/18.

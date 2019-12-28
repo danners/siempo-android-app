@@ -61,8 +61,8 @@ import co.siempo.phone.service.ReminderService;
 import co.siempo.phone.util.AppUtils;
 import co.siempo.phone.utils.PackageUtil;
 import co.siempo.phone.utils.PrefSiempo;
-import de.greenrobot.event.EventBus;
-import de.greenrobot.event.Subscribe;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 /**
  * This activity will be the base activity

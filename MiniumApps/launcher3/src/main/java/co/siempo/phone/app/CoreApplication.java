@@ -51,7 +51,7 @@ import co.siempo.phone.service.CategoriesApp;
 import co.siempo.phone.utils.PackageUtil;
 import co.siempo.phone.utils.PrefSiempo;
 import co.siempo.phone.utils.UIUtils;
-import de.greenrobot.event.EventBus;
+import org.greenrobot.eventbus.EventBus;
 
 import static co.siempo.phone.main.MainListItemLoader.TOOLS_ADDITIONAL_MESSAGE;
 import static co.siempo.phone.main.MainListItemLoader.TOOLS_ASSISTANT;
