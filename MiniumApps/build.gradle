@@ -32,7 +32,6 @@ project.ext {
     supportVersion = "26.1.0"
     annotationsVersion = "4.6.0"
     iconifyVersion = "2.2.1"
-    calligraphyVersion = "2.1.0@aar"
     eventbusVersion = "3.0.0-beta1"
     loggerVersion = "1.11"
     baseRecyclerViewAdapterHelperVersion = "2.2.0"
@@ -42,17 +41,11 @@ project.ext {
     espressoVersion = "2.2.2"
     multidexVersion = "1.0.3"
     circleImageViewVersion = "2.0.0"
-    couchbaseVersion = "1.4.0"
-    appIntroVersion = "4.1.0"
     debugDBVersion = "0.3.0"
     constraintLayoutVersion = "1.0.2"
     greenDaoUpgradeHelperVersion = "v1.3.0"
     glideVersion = "3.7.0"
-    keyboardvisibilityEventVersion = "2.0.1"
-    leakCanaryVersion = "1.5"
     junitVersion = "4.12"
-    steppersVersion = "0.3.3-SNAPSHOT"
-    signalStrengthVersion = "0.0.4"
 
     // greendao database version
     databaseVersion = 4
