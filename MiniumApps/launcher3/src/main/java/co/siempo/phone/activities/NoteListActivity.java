@@ -24,9 +24,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.evernote.client.android.EvernoteSession;
-import com.evernote.client.android.login.EvernoteLoginFragment;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -38,7 +35,6 @@ import co.siempo.phone.R;
 import co.siempo.phone.adapters.NoteAdapter;
 import co.siempo.phone.app.CoreApplication;
 import co.siempo.phone.log.Tracer;
-import co.siempo.phone.managers.EvernoteManager;
 
 import static co.siempo.phone.utils.DataUtils.BACKUP_FILE_NAME;
 import static co.siempo.phone.utils.DataUtils.BACKUP_FOLDER_PATH;
@@ -60,7 +56,7 @@ import static co.siempo.phone.utils.DataUtils.saveData;
 
 public class NoteListActivity extends CoreActivity implements AdapterView.OnItemClickListener,
         Toolbar.OnMenuItemClickListener, AbsListView.MultiChoiceModeListener,
-        SearchView.OnQueryTextListener, EvernoteLoginFragment.ResultCallback {
+        SearchView.OnQueryTextListener {
 
 
     public static final String EXTRA_OPEN_LATEST = "open_latest";
@@ -81,16 +77,14 @@ public class NoteListActivity extends CoreActivity implements AdapterView.OnItem
     private int lastFirstVisibleItem = -1; // Last first item seen in list view scroll changed
     private float newNoteButtonBaseYCoordinate; // Base Y coordinate of newNote button
     private AlertDialog backupCheckDialog, backupOKDialog, restoreCheckDialog, restoreFailedDialog;
-    private long startTime;
 
     /**
      * Favourite or un-favourite the note at position
      *
-     * @param context   application context
      * @param favourite true to favourite, false to un-favourite
      * @param position  position of note
      */
-    public void setFavourite(Context context, boolean favourite, int position) {
+    public void setFavourite(boolean favourite, int position) {
         JSONObject newFavourite = null;
 
         // Get note at position and store in newFavourite
@@ -317,7 +311,6 @@ public class NoteListActivity extends CoreActivity implements AdapterView.OnItem
     @Override
     protected void onResume() {
         super.onResume();
-        startTime = System.currentTimeMillis();
         Tracer.i("Notes onResume called");
         // Retrieve from local path
         JSONArray tempNotes = retrieveData(localPath);
@@ -341,8 +334,6 @@ public class NoteListActivity extends CoreActivity implements AdapterView.OnItem
         // Inflate menu_main to be displayed in the toolbar
         toolbar.inflateMenu(R.menu.menu_main);
 
-        // Set an OnMenuItemClickListener to handle menu item clicks
-        //toolbar.setOnMenuItemClickListener(this);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -639,17 +630,6 @@ public class NoteListActivity extends CoreActivity implements AdapterView.OnItem
             return true;
         }
 
-        if (id == R.id.action_evernote) {
-            if (EvernoteSession.getInstance().isLoggedIn()) {
-                new EvernoteManager().sync();
-            } else {
-                EvernoteSession.getInstance().authenticate(this);
-            }
-            return true;
-        }
-
-
-
         return false;
     }
 
@@ -922,7 +902,6 @@ public class NoteListActivity extends CoreActivity implements AdapterView.OnItem
                         adapter.notifyDataSetChanged();
 
                         Boolean saveSuccessful = saveData(localPath, notes);
-                        new EvernoteManager().createNote(newNoteObject);
 
                         if (saveSuccessful) {
                             Toast toast = Toast.makeText(getApplicationContext(),
@@ -1046,15 +1025,6 @@ public class NoteListActivity extends CoreActivity implements AdapterView.OnItem
         super.onConfigurationChanged(newConfig);
     }
 
-
-    @Override
-    public void onLoginFinished(boolean successful) {
-        if (successful) {
-
-            new EvernoteManager().createSiempoNotebook();
-            new EvernoteManager().listNoteBooks("");
-        }
-    }
 
     @Override
     protected void onPause() {

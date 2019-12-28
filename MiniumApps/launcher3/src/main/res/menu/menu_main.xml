@@ -27,11 +27,5 @@
         android:visible="false"
         app:showAsAction="never" />
 
-    <item
-        android:id="@+id/action_evernote"
-        android:orderInCategory="103"
-        android:title="Evernote sync"
-        app:showAsAction="never"
-        tools:ignore="HardcodedText" />
 
 </menu>

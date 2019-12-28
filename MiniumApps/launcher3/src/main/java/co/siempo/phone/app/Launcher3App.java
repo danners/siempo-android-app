@@ -9,8 +9,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.evernote.client.android.EvernoteSession;
-
 import org.androidannotations.annotations.EApplication;
 import org.androidannotations.annotations.SystemService;
 import org.androidannotations.annotations.Trace;
@@ -63,7 +61,6 @@ public class Launcher3App extends CoreApplication {
                 + " || Manufacturer: " + Build.MANUFACTURER);
 
         loadConfigurationValues();
-        configureEverNote();
         GreenDaoOpenHelper helper2 = new GreenDaoOpenHelper(this, "noti-db", null);
         Database db = helper2.getWritableDb();
         DaoMaster daoMaster = new DaoMaster(db);
@@ -97,16 +94,6 @@ public class Launcher3App extends CoreApplication {
                     .FLOW_SEGMENT_DURATION_MILLIS, 15 * 60 * 1000f);
 
         }
-    }
-
-    private void configureEverNote() {
-        new EvernoteSession.Builder(this)
-                .setEvernoteService(EverNoteConfig.EVERNOTE_SERVICE)
-                .setSupportAppLinkedNotebooks(true)
-                .setForceAuthenticationInThirdPartyApp(true)
-                .build(EverNoteConfig.CONSUMER_KEY, EverNoteConfig.CONSUMER_SECRET)
-                .asSingleton();
-
     }
 
     class AppLifecycleTracker implements Application.ActivityLifecycleCallbacks {

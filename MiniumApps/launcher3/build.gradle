@@ -112,7 +112,6 @@ dependencies {
     implementation files('libs/mail.jar')
     implementation 'me.relex:circleindicator:1.2.2@aar'
 // indicator for view pager
-    implementation 'com.evernote:android-sdk:2.0.0-RC4'
 
     androidTestImplementation('com.android.support.test.espresso:espresso-contrib:2.2') {
         exclude module: 'support-annotations'

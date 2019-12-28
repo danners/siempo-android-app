@@ -31,7 +31,6 @@ import co.siempo.phone.colorpicker.ColorPickerDialog;
 import co.siempo.phone.colorpicker.ColorPickerSwatch;
 import co.siempo.phone.event.HomePress;
 import co.siempo.phone.log.Tracer;
-import co.siempo.phone.managers.EvernoteManager;
 import co.siempo.phone.utils.UIUtils;
 import de.greenrobot.event.Subscribe;
 
@@ -568,7 +567,6 @@ public class NotesEditActivity extends CoreActivity implements Toolbar.OnMenuIte
 
                 // If newNoteObject not null -> save notes array to local file and notify adapter
                 Boolean saveSuccessful = saveData(localPath, notes);
-                new EvernoteManager().createNote(newNoteObject);
                 if (saveSuccessful) {
                     Toast toast = Toast.makeText(getApplicationContext(),
                             getResources().getString(R.string.msg_noteCreated),

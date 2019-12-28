@@ -252,12 +252,6 @@
         </receiver>
 
         <activity
-            android:name="com.evernote.client.android.EvernoteOAuthActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name="com.evernote.client.android.login.EvernoteLoginActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".activities.AppAssignmentActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
