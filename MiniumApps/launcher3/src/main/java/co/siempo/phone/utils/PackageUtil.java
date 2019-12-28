@@ -617,7 +617,7 @@ public class PackageUtil {
             for (String resolveInfo : installedPackageList) {
                 if (!resolveInfo.equalsIgnoreCase(context.getPackageName())) {
                     if (!TextUtils.isEmpty(resolveInfo)) {
-                        String strAppName = CoreApplication.getInstance().getListApplicationName().get(resolveInfo);
+                        String strAppName = CoreApplication.getInstance().getApplicationName(resolveInfo);
                         if (strAppName == null) {
                             strAppName = CoreApplication.getInstance().getApplicationNameFromPackageName(resolveInfo);
                         }

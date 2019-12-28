@@ -134,7 +134,7 @@ public class SuppressNotificationAdapter extends RecyclerView.Adapter<SuppressNo
                 holder.txtAppName.setText(R.string.phone);
             } else {
                 holder.imgAppIcon.setBackground(null);
-                String strAppName = CoreApplication.getInstance().getListApplicationName().get(defSMSApp);
+                String strAppName = CoreApplication.getInstance().getApplicationName(defSMSApp);
                 if (strAppName == null) {
                     strAppName = CoreApplication.getInstance().getApplicationNameFromPackageName(defSMSApp);
                 }

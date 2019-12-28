@@ -141,7 +141,7 @@ public class TempoNotificationSectionAdapter extends SectionedRecyclerViewAdapte
 
             final AppListInfo otherAppsItems = blockedList.get(position);
             holder.enableViews();
-            String appName = CoreApplication.getInstance().getListApplicationName().get(otherAppsItems.packageName);
+            String appName = CoreApplication.getInstance().getApplicationName(otherAppsItems.packageName);
             holder.render(appName);
 
 
@@ -206,8 +206,7 @@ public class TempoNotificationSectionAdapter extends SectionedRecyclerViewAdapte
 
 
             final AppListInfo messengerAppsItem = messengerList.get(position);
-            String appName = CoreApplication.getInstance().getListApplicationName().get(messengerAppsItem
-                    .packageName);
+            String appName = CoreApplication.getInstance().getApplicationName(messengerAppsItem.packageName);
             holder.render(appName);
             holder.enableViews();
             if (!TextUtils.isEmpty(messengerAppsItem.errorMessage)) {
@@ -262,7 +261,7 @@ public class TempoNotificationSectionAdapter extends SectionedRecyclerViewAdapte
         if (headerList.get(section).headerName.equals("Helpful robots")) {
             final AppListInfo appListItem = helpfulRobot_List.get(position);
             holder.enableViews();
-            String appName = CoreApplication.getInstance().getListApplicationName().get(appListItem.packageName);
+            String appName = CoreApplication.getInstance().getApplicationName(appListItem.packageName);
             holder.render(appName);
 
             holder.displayImage(appListItem.packageName, appListItem.errorMessage);

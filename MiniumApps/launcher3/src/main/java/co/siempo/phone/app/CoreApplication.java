@@ -119,9 +119,10 @@ public abstract class CoreApplication extends MultiDexApplication {
 
 
     private ArrayMap<String, String> listApplicationName = new ArrayMap<>();
-    public ArrayMap<String, String> getListApplicationName() {
-        return listApplicationName;
-    }
+
+    public String getApplicationName(String packageName) {
+        return listApplicationName.get(packageName);
+    };
     private Set<String> packagesList = new HashSet<>();
     public List<String> getPackagesList() {
         return new ArrayList<>(packagesList);
@@ -138,14 +139,14 @@ public abstract class CoreApplication extends MultiDexApplication {
                 ApplicationInfo appInfo = getPackageManager().getApplicationInfo(packageName, PackageManager.GET_META_DATA);
                 if (!packagesList.contains(appInfo.packageName)) {
                     packagesList.add(appInfo.packageName);
-                    getListApplicationName().put(packageName, "" + getPackageManager().getApplicationLabel(appInfo));
+                    listApplicationName.put(packageName, "" + getPackageManager().getApplicationLabel(appInfo));
                     EventBus.getDefault().post(new AppInstalledEvent(true));
                 }
 
             } else {
                 if (packagesList.contains(packageName)) {
                     packagesList.remove(packageName);
-                    getListApplicationName().remove(packageName);
+                    listApplicationName.remove(packageName);
                     EventBus.getDefault().post(new AppInstalledEvent(true));
                 }
             }
@@ -628,7 +629,7 @@ public abstract class CoreApplication extends MultiDexApplication {
         String applicationname = null;
         try {
             if (packageName != null && !packageName.equalsIgnoreCase("")) {
-                if (TextUtils.isEmpty(getListApplicationName().get(packageName))) {
+                if (TextUtils.isEmpty(getApplicationName(packageName))) {
                     PackageManager packageManager = getPackageManager();
                     ApplicationInfo applicationInfo = null;
                     try {
@@ -643,7 +644,7 @@ public abstract class CoreApplication extends MultiDexApplication {
                         applicationname = applicationInfo.loadLabel(packageManager).toString();
                     }
                 } else {
-                    applicationname = getListApplicationName().get(packageName);
+                    applicationname = getApplicationName(packageName);
                 }
             }
         } catch (Exception e) {
@@ -1276,9 +1277,9 @@ public abstract class CoreApplication extends MultiDexApplication {
                                 e.printStackTrace();
                             }
                             String applicationNameTemp = (String) (applicationInfo != null ? packageManager.getApplicationLabel(applicationInfo) : "");
-                            getListApplicationName().put(packageName, applicationNameTemp);
+                            listApplicationName.put(packageName, applicationNameTemp);
                         } else {
-                            getListApplicationName().put(packageName, applicationName);
+                            listApplicationName.put(packageName, applicationName);
                         }
                     }
 
@@ -1306,7 +1307,7 @@ public abstract class CoreApplication extends MultiDexApplication {
                         applicationName +=  " Work";
                     }
                     applist.add(packageName);
-                    getListApplicationName().put(packageName, applicationName);
+                    listApplicationName.put(packageName, applicationName);
 
                 }
 

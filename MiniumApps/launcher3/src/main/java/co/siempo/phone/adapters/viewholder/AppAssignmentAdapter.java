@@ -208,8 +208,7 @@ public class AppAssignmentAdapter extends RecyclerView.Adapter<AppAssignmentAdap
                         if (id == 5 && resolveInfoList.get(i) == null) {
                             filterableString = context.getString(R.string.label_note);
                         } else {
-                            filterableString = CoreApplication.getInstance().getListApplicationName()
-                                    .get(resolveInfoList.get(i)
+                            filterableString = CoreApplication.getInstance().getApplicationName(resolveInfoList.get(i)
                                             .activityInfo
                                             .packageName);
                         }

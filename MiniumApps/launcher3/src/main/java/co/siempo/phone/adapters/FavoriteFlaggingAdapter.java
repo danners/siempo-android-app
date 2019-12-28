@@ -203,7 +203,7 @@ public class FavoriteFlaggingAdapter extends BaseAdapter implements Filterable {
                 for (AppListInfo resolveInfo : nlist) {
                     if (!resolveInfo.packageName.equalsIgnoreCase(context.getPackageName())) {
                         String applicationname = CoreApplication.getInstance()
-                                .getListApplicationName().get(resolveInfo.packageName);
+                               .getApplicationName(resolveInfo.packageName);
                         if (!TextUtils.isEmpty(applicationname)) {
                             if (context.adapterList.contains(resolveInfo.packageName)) {
                                 flagAppList.add(new AppListInfo(resolveInfo.packageName, applicationname, false, false, true));

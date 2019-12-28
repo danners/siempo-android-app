@@ -319,8 +319,7 @@ public class JunkfoodFlaggingActivity extends CoreActivity implements AdapterVie
             listAllApps.setAdapter(junkfoodFlaggingAdapter);
             for (String resolveInfo : installedPackageList) {
                 if (!resolveInfo.equalsIgnoreCase(getPackageName())) {
-                    String applicationname = CoreApplication.getInstance()
-                            .getListApplicationName().get(resolveInfo);
+                    String applicationname = CoreApplication.getInstance().getApplicationName(resolveInfo);
                     if (!TextUtils.isEmpty(applicationname)) {
                         if (adapterlist.contains(resolveInfo)) {
                             flagAppList.add(new AppListInfo(resolveInfo, applicationname, false, false, true));
@@ -611,8 +610,7 @@ public class JunkfoodFlaggingActivity extends CoreActivity implements AdapterVie
             try {
                 for (String resolveInfo : installedPackageList) {
                     if (!resolveInfo.equalsIgnoreCase(getPackageName())) {
-                        String applicationname = CoreApplication.getInstance()
-                                .getListApplicationName().get(resolveInfo);
+                        String applicationname = CoreApplication.getInstance().getApplicationName(resolveInfo);
                         if (!TextUtils.isEmpty(applicationname)) {
                             if (adapterlist.contains(resolveInfo)) {
                                 flagAppList.add(new AppListInfo(resolveInfo, applicationname, false, false, true));

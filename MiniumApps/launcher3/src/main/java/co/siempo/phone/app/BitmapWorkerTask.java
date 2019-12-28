@@ -29,6 +29,9 @@ public class BitmapWorkerTask extends AsyncTask<Object, Void, Void> {
 
     @Override
     protected Void doInBackground(Object... params) {
+        if (appInfo == null) {
+            return null;
+        }
         Drawable drawable = appInfo.loadIcon(packageManager);
         Bitmap bitmap = PackageUtil.drawableToBitmap(drawable);
         CoreApplication.getInstance().addBitmapToMemoryCache(appInfo.packageName, bitmap);

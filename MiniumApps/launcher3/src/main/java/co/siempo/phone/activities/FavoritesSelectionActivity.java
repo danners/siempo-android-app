@@ -198,7 +198,7 @@ public class FavoritesSelectionActivity extends CoreActivity implements AdapterV
                     boolean isEnable = UIUtils.isAppInstalledAndEnabled(this, resolveInfo);
                     if (isEnable) {
                         String applicationname = CoreApplication.getInstance()
-                                .getListApplicationName().get(resolveInfo);
+                                .getApplicationName(resolveInfo);
                         if (!TextUtils.isEmpty(applicationname)) {
                             if (adapterList.contains(resolveInfo)) {
                                 favoriteList.add(new AppListInfo(resolveInfo, applicationname,
@@ -371,8 +371,7 @@ public class FavoritesSelectionActivity extends CoreActivity implements AdapterV
                     if (!resolveInfo.equalsIgnoreCase(getPackageName())) {
                         boolean isEnable = UIUtils.isAppInstalledAndEnabled(FavoritesSelectionActivity.this, resolveInfo);
                         if (isEnable) {
-                            String applicationname = CoreApplication.getInstance()
-                                    .getListApplicationName().get(resolveInfo);
+                            String applicationname = CoreApplication.getInstance().getApplicationName(resolveInfo);
                             if (!TextUtils.isEmpty(applicationname)) {
                                 if (adapterList.contains(resolveInfo)) {
                                     favoriteList.add(new AppListInfo(resolveInfo, applicationname,

@@ -234,8 +234,7 @@ public class JunkfoodFlaggingAdapter extends BaseAdapter implements Filterable {
                 List<AppListInfo> unflageAppList = new ArrayList<>();
                 for (AppListInfo resolveInfo : nlist) {
                     if (!resolveInfo.packageName.equalsIgnoreCase(context.getPackageName())) {
-                        String applicationname = CoreApplication.getInstance()
-                                .getListApplicationName().get(resolveInfo.packageName);
+                        String applicationname = CoreApplication.getInstance().getApplicationName(resolveInfo.packageName);
                         if (!TextUtils.isEmpty(applicationname)) {
                             if (context.adapterlist.contains(resolveInfo.packageName)) {
                                 flagAppList.add(new AppListInfo(resolveInfo.packageName, applicationname, false, false, true));
