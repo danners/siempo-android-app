@@ -164,37 +164,24 @@ public abstract class CoreActivity extends AppCompatActivity implements GestureD
     }
 
     private void startAlarm() {
-         SharedPreferences preferences;
-         SharedPreferences.Editor[] editor;
+        SharedPreferences preferences;
+        SharedPreferences.Editor[] editor;
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
         String reminder_flag = preferences.getString("reminder_flag_new", "0");
-        if(reminder_flag.equals("0")) {
+        if (reminder_flag.equals("0")) {
             editor = new SharedPreferences.Editor[1];
             editor[0] = preferences.edit();
-            editor[0].putString("reminder_flag_new","1");
+            editor[0].putString("reminder_flag_new", "1");
             editor[0].apply();
             AlarmManager alarmManager = (AlarmManager) this.getSystemService(this.ALARM_SERVICE);
-            Calendar cal;
-            cal = Calendar.getInstance();
+            Calendar cal = Calendar.getInstance();
             cal.add(Calendar.MINUTE, 3);
             Intent intent = new Intent(this, ReminderService.class);
-            intent.putExtra("title","Welcome to Siempo! Thank you for your trust.");
-            intent.putExtra("body","Choose a custom background to make your experience more personal.");
-            intent.putExtra("type","0");
+            intent.putExtra("title", "Welcome to Siempo! Thank you for your trust.");
+            intent.putExtra("body", "Choose a custom background to make your experience more personal.");
             PendingIntent pendingIntent = PendingIntent.getService(this, 0, intent, 0);
             alarmManager.set(AlarmManager.RTC, cal.getTimeInMillis(), pendingIntent);
-
-            cal = Calendar.getInstance();
-        cal.add(Calendar.DAY_OF_MONTH, 7);
-        Intent intent1 = new Intent(this, ReminderService.class);
-        intent1.putExtra("title","Congratulations on sticking with Siempo for a week!");
-        intent1.putExtra("body","Please considering contributing to Siempo if you have found the experience valuable.");
-        intent1.putExtra("type","1");
-        PendingIntent pendingIntent1 = PendingIntent.getService(this, 1, intent1, 0);
-        alarmManager.set(AlarmManager.RTC, cal.getTimeInMillis(), pendingIntent1);
-
-
-          }
+        }
     }
 
 

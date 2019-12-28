@@ -14,9 +14,9 @@ import co.siempo.phone.R;
 import co.siempo.phone.activities.ChooseBackgroundActivity;
 
 public class ReminderService extends IntentService {
-    private static  int NOTIFICATION_ID = 1;
+    private static int NOTIFICATION_ID = 1;
 
-    public ReminderService(){
+    public ReminderService() {
         super("ReminderService");
     }
 
@@ -51,31 +51,19 @@ public class ReminderService extends IntentService {
                 .setStyle(bigStyle);
 
 
-        if(intent.getStringExtra("type").equals("2")){
-            Intent intent1 = new Intent(Intent.ACTION_VIEW, Uri.parse("http://wefunder.com/siempo"));
-            PendingIntent pendingIntent = PendingIntent.getActivity(this,
-                    NOTIFICATION_ID,
-                    intent1,
-                    PendingIntent.FLAG_UPDATE_CURRENT);
-            mBuilder.setContentIntent(pendingIntent);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this,
+                NOTIFICATION_ID,
+                new Intent(this, ChooseBackgroundActivity.class),
+                PendingIntent.FLAG_UPDATE_CURRENT);
+        mBuilder.setContentIntent(pendingIntent);
 
-        }
 
-        if(intent.getStringExtra("type").equals("0")) {
-            PendingIntent pendingIntent = PendingIntent.getActivity(this,
-                    NOTIFICATION_ID,
-                    new Intent(this, ChooseBackgroundActivity.class),
-                    PendingIntent.FLAG_UPDATE_CURRENT);
-            mBuilder.setContentIntent(pendingIntent);
-
-        }
         if (NOTIFICATION_ID > 1073741824) {
             NOTIFICATION_ID = 0;
         }
 
 
         notificationManager.notify(NOTIFICATION_ID++, mBuilder.build());
-
 
 
     }
