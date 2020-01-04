@@ -525,7 +525,7 @@ public abstract class CoreApplication extends MultiDexApplication {
             /*
               SSA-1321: Adding the mentioned apps in junk food by default
              */
-                Set<String> junkfoodList = new HashSet<>();
+                LinkedList<App> junkfoodList = new LinkedList<>();
 
                 Intent mainIntent = new Intent(Intent.ACTION_MAIN, null);
                 mainIntent.addCategory(Intent.CATEGORY_LAUNCHER);
@@ -540,7 +540,9 @@ public abstract class CoreApplication extends MultiDexApplication {
                     if (packageName.contains("com.facebook.katana") || packageName.contains("com.facebook.lite") || packageName
                             .contains("com.king")) {
                         if (UIUtils.isAppInstalledAndEnabled(getApplicationContext(), packageName)) {
-                            junkfoodList.add(packageName);
+                            App junk = new App();
+                            junk.packageName = packageName;
+                            junkfoodList.add(junk);
                         }
                     } else {
 
@@ -559,7 +561,9 @@ public abstract class CoreApplication extends MultiDexApplication {
                             case Constants.TWITTER_PACKAGE:
                             case Constants.BUMBLE_PACKAGE:
                                 if (UIUtils.isAppInstalledAndEnabled(getApplicationContext(), packageName)) {
-                                    junkfoodList.add(packageName);
+                                    App junk = new App();
+                                    junk.packageName = packageName;
+                                    junkfoodList.add(junk);
                                 }
                                 break;
                         }
@@ -568,7 +572,7 @@ public abstract class CoreApplication extends MultiDexApplication {
                 }
 
 
-                PrefSiempo.getInstance(this).write(PrefSiempo.JUNKFOOD_APPS, junkfoodList);
+                PrefSiempo.getInstance(this).writeAppList(PrefSiempo.JUNKFOOD_APPS, junkfoodList);
             }
         } catch (Exception e) {
             e.printStackTrace();

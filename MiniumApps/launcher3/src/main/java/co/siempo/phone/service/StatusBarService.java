@@ -58,6 +58,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
@@ -69,6 +70,7 @@ import co.siempo.phone.activities.AppAssignmentActivity;
 import co.siempo.phone.activities.DashboardActivity;
 import co.siempo.phone.activities.NoteListActivity;
 import co.siempo.phone.activities.SettingsActivity_;
+import co.siempo.phone.app.App;
 import co.siempo.phone.app.Constants;
 import co.siempo.phone.app.CoreApplication;
 import co.siempo.phone.db.DBClient;
@@ -280,10 +282,19 @@ public class StatusBarService extends Service {
     }
 
     private void overlayDetection(String process) {
-        Set<String> set = PrefSiempo.getInstance(context).read(PrefSiempo.JUNKFOOD_APPS, new HashSet<String>());
+        LinkedList<App> set = PrefSiempo.getInstance(context).readAppList(PrefSiempo.JUNKFOOD_APPS);
+
+        boolean isJunk = false;
+        for (App junk: set) {
+            if (junk.packageName.equals(process)) {
+                isJunk = true;
+                break;
+            }
+        }
+
         int deterTime = PrefSiempo.getInstance(context).read(PrefSiempo.DETER_AFTER, -1);
         if (deterTime != -1) {
-            if (set.contains(process)) {
+            if (isJunk) {
                 if (isScreenOn) {
                     startOverUser();
                 }
@@ -301,7 +312,7 @@ public class StatusBarService extends Service {
                     spentTimeJunkFood = 0L;
                     startTimeJunkFood = 0L;
                 }
-                if (!set.contains(process) && deterUsageRunning) {
+                if (!isJunk && deterUsageRunning) {
                     removeView();
                     if (whichPhaseRunning != 0) {
                         if (whichPhaseRunning == 1) {
@@ -556,25 +567,30 @@ public class StatusBarService extends Service {
     private void removeAppFromPreference(Context context, String packageName) {
 
 
-        Set<String> favoriteList = PrefSiempo.getInstance(context)
-                .read
-                        (PrefSiempo.FAVORITE_APPS, new HashSet<String>());
-        Set<String> junkFoodList = PrefSiempo
-                .getInstance(context).read
-                        (PrefSiempo.JUNKFOOD_APPS, new HashSet<String>());
+        LinkedList<App> favoriteList = PrefSiempo.getInstance(context)
+                .readAppList(PrefSiempo.FAVORITE_APPS);
+        LinkedList<App> junkFoodList = PrefSiempo
+                .getInstance(context).readAppList(PrefSiempo.JUNKFOOD_APPS);
 
-        if (favoriteList.contains(packageName)) {
-            favoriteList.remove(packageName);
-            PrefSiempo.getInstance(context)
-                    .write
-                            (PrefSiempo.FAVORITE_APPS, favoriteList);
+        for (App favorite : favoriteList) {
+            if (favorite.packageName.equals(packageName)) {
+                favoriteList.remove(favorite);
+                PrefSiempo.getInstance(context)
+                        .writeAppList(PrefSiempo.FAVORITE_APPS, favoriteList);
+                break;
+            }
         }
-        if (junkFoodList.contains(packageName)) {
-            junkFoodList.remove(packageName);
-            PrefSiempo
-                    .getInstance(context).write
-                    (PrefSiempo.JUNKFOOD_APPS, junkFoodList);
+
+        for (App junk : junkFoodList) {
+            if (junk.packageName.equals(packageName)) {
+                junkFoodList.remove(junk);
+                PrefSiempo.getInstance(context)
+                        .writeAppList(PrefSiempo.JUNKFOOD_APPS, junkFoodList);
+                break;
+            }
         }
+
+
 
         HashMap<Integer, AppMenu> hashMap = CoreApplication.getInstance().getToolsSettings();
         for (Map.Entry<Integer, AppMenu> has : hashMap.entrySet()) {

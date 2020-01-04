@@ -4,8 +4,14 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.Set;
+
+import co.siempo.phone.app.App;
 
 /**
  * Created by rajeshjadi on 2/2/18.
@@ -251,6 +257,23 @@ public class PrefSiempo {
     public String read(String key, String defValue) {
         return sharedPreferences.getString(key, defValue);
     }
+
+    public LinkedList<App> readAppList(String key) {
+        String savedApps = sharedPreferences.getString(key, "");
+        java.lang.reflect.Type type = new TypeToken<LinkedList<App>>() {
+
+        }.getType();
+        LinkedList<App> list = new Gson().fromJson(savedApps, type);
+        if (list == null) {
+            list = new LinkedList<>();
+        }
+        return list;
+    }
+
+    public void writeAppList(String key, LinkedList<App> apps) {
+       write(key, new Gson().toJson(apps));
+    }
+
 
     /**
      * Store the boolean data in local preference

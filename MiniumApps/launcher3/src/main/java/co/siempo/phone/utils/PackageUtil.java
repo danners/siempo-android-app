@@ -34,6 +34,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -560,7 +561,7 @@ public class PackageUtil {
     private static ArrayList<MainListItem> getAppList(Context context) {
         ArrayList<MainListItem> appList = new ArrayList<>();
         try {
-            List<App> installedPackageList = CoreApplication.getInstance().getApplications();
+            List<App> installedPackageList = new LinkedList<>(CoreApplication.getInstance().getApplications());
 
             for (App app : installedPackageList) {
                 if (!app.packageName.equalsIgnoreCase(context.getPackageName())) {
@@ -581,7 +582,7 @@ public class PackageUtil {
 
 
     private static List<String> syncFavoriteList(String jsonListOfSortedFavorites, Context context) {
-        Set<String> favorite_List_App = PrefSiempo.getInstance(context).read(PrefSiempo.FAVORITE_APPS, new HashSet<String>());
+        List<App> favorite_List_App = PrefSiempo.getInstance(context).readAppList(PrefSiempo.FAVORITE_APPS);
         List<String> listOfSortFavoritesApps = new ArrayList<>();
         //Below logic is use to sync FAVORITE_SORTED_MENU Preference AND FAVORITE_APPS LIST
         if (!jsonListOfSortedFavorites.isEmpty()) {
@@ -592,13 +593,13 @@ public class PackageUtil {
             }.getType());
 
 
-            for (String packageName : favorite_List_App) {
-                if (!listOfSortFavoritesApps.contains(packageName)) {
-                    boolean isEnable = UIUtils.isAppInstalledAndEnabled(context, packageName);
+            for (App app : favorite_List_App) {
+                if (!listOfSortFavoritesApps.contains(app.packageName)) {
+                    boolean isEnable = UIUtils.isAppInstalledAndEnabled(context, app.packageName);
                     if (isEnable) {
                         for (int j = 0; j < listOfSortFavoritesApps.size(); j++) {
                             if (TextUtils.isEmpty(listOfSortFavoritesApps.get(j).trim())) {
-                                listOfSortFavoritesApps.set(j, packageName);
+                                listOfSortFavoritesApps.set(j, app.packageName);
                                 break;
                             }
                         }
@@ -754,20 +755,19 @@ public class PackageUtil {
     private static List<MainListItem> getJunkListItems(List<MainListItem> allItems, Context context) {
         HashMap<Integer, AppMenu> toolSetting = CoreApplication.getInstance()
                 .getToolsSettings();
-        ArrayList<String> junkFoodAppList;
-        Set<String> junkFoodList = PrefSiempo
-                .getInstance(context).read
-                        (PrefSiempo.JUNKFOOD_APPS, new HashSet<String>());
-        junkFoodAppList = new ArrayList<>(junkFoodList);
+        ArrayList<App> junkFoodAppList;
+        LinkedList<App> junkFoodList = PrefSiempo
+                .getInstance(context).readAppList(PrefSiempo.JUNKFOOD_APPS);
+        junkFoodAppList = new ArrayList<App>(junkFoodList);
         List<MainListItem> junkListItems = new ArrayList<>();
 
         // Check if tools contain junkfood apps then remove assign from corresponding tool
         Iterator it = toolSetting.entrySet().iterator();
         while (it.hasNext()) {
             Map.Entry pair = (Map.Entry) it.next();
-            for (String junkApp : junkFoodAppList) {
+            for (App junkApp : junkFoodAppList) {
                 if (((AppMenu) (pair.getValue())).getApplicationName()
-                        .equalsIgnoreCase(junkApp) || ((AppMenu) (pair.getValue())).getApplicationName()
+                        .equalsIgnoreCase(junkApp.packageName) || ((AppMenu) (pair.getValue())).getApplicationName()
                         .equalsIgnoreCase("")) {
                     ((AppMenu) (pair.getValue())).setApplicationName("");
                 }
@@ -778,8 +778,8 @@ public class PackageUtil {
         // Create junkListItems array which contain junkfood apps & tools
         for (MainListItem item : allItems) {
             if (!TextUtils.isEmpty(item.getPackageName())) {
-                for (String junkApp : junkFoodAppList) {
-                    if (item.getPackageName().equalsIgnoreCase(junkApp)) {
+                for (App junkApp : junkFoodAppList) {
+                    if (item.getPackageName().equalsIgnoreCase(junkApp.packageName)) {
                         junkListItems.add(item);
                     }
                 }

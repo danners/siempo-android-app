@@ -51,6 +51,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 
@@ -62,6 +63,7 @@ import co.siempo.phone.activities.SettingsActivity_;
 import co.siempo.phone.adapters.MainListAdapter;
 import co.siempo.phone.adapters.PanePagerAdapter;
 import co.siempo.phone.adapters.ToolsMenuAdapter;
+import co.siempo.phone.app.App;
 import co.siempo.phone.app.CoreApplication;
 import co.siempo.phone.customviews.ItemOffsetDecoration;
 import co.siempo.phone.customviews.SearchLayout;
@@ -236,7 +238,8 @@ public class PaneFragment extends CoreFragment {
         // junk food app and swipes back from Intention , empty screen was
         // showing , but now flagging screen will open
         if (isVisibleToUser && pagerPane != null && pagerPane.getCurrentItem() == 0) {
-            if (PrefSiempo.getInstance(getActivity()).read(PrefSiempo.JUNKFOOD_APPS, new HashSet<String>()).size() == 0) {
+            LinkedList<App> junk = PrefSiempo.getInstance(getActivity()).readAppList(PrefSiempo.JUNKFOOD_APPS);
+            if (junk.size() == 0) {
                 //Applied for smooth transition
                 Intent intent = new Intent(getActivity(), JunkfoodFlaggingActivity.class);
                 startActivity(intent);
@@ -536,7 +539,8 @@ public class PaneFragment extends CoreFragment {
 
                             if (i == 0) {
                                 /* Junkfood Pane */
-                                if (PrefSiempo.getInstance(getActivity()).read(PrefSiempo.JUNKFOOD_APPS, new HashSet<String>()).size() == 0) {
+                                LinkedList<App> junk = PrefSiempo.getInstance(getActivity()).readAppList(PrefSiempo.JUNKFOOD_APPS);
+                                if (junk.size() == 0) {
                                     //Applied for smooth transition
                                     pagerPane.setAlpha(0);
                                     Intent intent = new Intent(getActivity(), JunkfoodFlaggingActivity.class);
@@ -546,18 +550,6 @@ public class PaneFragment extends CoreFragment {
                                 } else {
                                     if (PrefSiempo.getInstance(context).read(PrefSiempo
                                             .APPLAND_TOUR_SEEN, false)) {
-                                        //Show overlay for draw over other apps permission
-
-
-//                                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-//                                            if (!Settings.canDrawOverlays(context) &&
-//                                                    PrefSiempo.getInstance(context).read
-//                                                            (PrefSiempo.DETER_AFTER,
-//                                                                    -1) != -1) {
-//                                                if (null == overlayDialogPermission || !overlayDialogPermission.isShowing())
-//                                                    showOverLayForDrawingPermission();
-//                                            }
-//                                        }
                                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                                             if (!hasUsageStatsPermission(getActivity())) {
                                                 if (!Settings.canDrawOverlays(context) &&

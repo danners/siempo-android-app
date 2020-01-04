@@ -26,6 +26,7 @@ import co.siempo.phone.activities.AppAssignmentActivity;
 import co.siempo.phone.activities.CoreActivity;
 import co.siempo.phone.activities.DashboardActivity;
 import co.siempo.phone.activities.ToolPositioningActivity;
+import co.siempo.phone.app.App;
 import co.siempo.phone.app.BitmapWorkerTask;
 import co.siempo.phone.app.Constants;
 import co.siempo.phone.app.CoreApplication;
@@ -125,8 +126,19 @@ public class ToolsMenuAdapter extends RecyclerView.Adapter<ToolsMenuAdapter.View
             });
 
             holder.linearLayout.setOnClickListener(new View.OnClickListener() {
+                // TODO cleanup
                 @Override
                 public void onClick(View v) {
+                    List<App> junkApps = PrefSiempo.getInstance(context).readAppList(PrefSiempo.JUNKFOOD_APPS);
+
+                    boolean foundInJunk = false;
+                    for (App app: junkApps) {
+                        if (app.packageName.equals(appMenu.getApplicationName())) {
+                            foundInJunk = true;
+                            break;
+                        }
+                    }
+
                     int id = item.getId();
                     if (!holder.text.getText().toString().equalsIgnoreCase("")) {
                         if (!appMenu.getApplicationName().equalsIgnoreCase("")) {
@@ -135,20 +147,12 @@ public class ToolsMenuAdapter extends RecyclerView.Adapter<ToolsMenuAdapter.View
                             } else {
                                 if (UIUtils.isInstalled(context, appMenu.getApplicationName().trim())) {
                                     if (UIUtils.isAppEnabled(context, appMenu.getApplicationName().trim())) {
-                                        if (PrefSiempo.getInstance(context).read(PrefSiempo.JUNKFOOD_APPS,
-                                                new HashSet<String>()).contains(appMenu.getApplicationName().trim())) {
+                                        if (foundInJunk) {
                                             openAppAssignmentScreen(item);
                                         } else {
 //                                If a 3rd party app is already assigned to this tool
                                             if (id == 13) {
-                                                try {
-                                                    Intent intent = new Intent(Intent.ACTION_DIAL);
-                                                    intent.setPackage(appMenu.getApplicationName().trim());
-                                                    context.startActivity(intent);
-                                                } catch (Exception e) {
-                                                    e.printStackTrace();
-                                                    new ActivityHelper(context).openAppWithPackageName(appMenu.getApplicationName().trim());
-                                                }
+                                                LaunchDialer(appMenu.getApplicationName().trim());
                                             } else {
                                                 new ActivityHelper(context).openAppWithPackageName(appMenu.getApplicationName().trim());
                                             }
@@ -163,8 +167,7 @@ public class ToolsMenuAdapter extends RecyclerView.Adapter<ToolsMenuAdapter.View
                                     .getApplicationByCategory(id).size() == 0) {
                                 openAppAssignmentScreen(item);
                             } else if (CoreApplication.getInstance().getApplicationByCategory(id).size() == 1
-                                    && !PrefSiempo.getInstance(context).read(PrefSiempo.JUNKFOOD_APPS,
-                                    new HashSet<String>()).contains(appMenu.getApplicationName().trim())) {
+                                    && !foundInJunk) {
 //                            If a 3 rd party app is already assigned to this tool
                                 ResolveInfo resolveInfo = CoreApplication.getInstance().getApplicationByCategory(id).get(0);
                                 if (null != resolveInfo) {
@@ -172,14 +175,7 @@ public class ToolsMenuAdapter extends RecyclerView.Adapter<ToolsMenuAdapter.View
                                     if (UIUtils.isAppEnabled(context, strPackageName) && strPackageName.equalsIgnoreCase(appMenu.getApplicationName())) {
 
                                         if (id == 13) {
-                                            try {
-                                                Intent intent = new Intent(Intent.ACTION_DIAL);
-                                                intent.setPackage(strPackageName);
-                                                context.startActivity(intent);
-                                            } catch (Exception e) {
-                                                e.printStackTrace();
-                                                new ActivityHelper(context).openAppWithPackageName(strPackageName);
-                                            }
+                                            LaunchDialer(strPackageName);
                                         } else {
                                             new ActivityHelper(context).openAppWithPackageName(strPackageName);
                                         }
@@ -215,6 +211,17 @@ public class ToolsMenuAdapter extends RecyclerView.Adapter<ToolsMenuAdapter.View
         catch (Exception e)
         {
             e.printStackTrace();
+        }
+    }
+
+    private void LaunchDialer(String packageName) {
+        try {
+            Intent intent = new Intent(Intent.ACTION_DIAL);
+            intent.setPackage(packageName);
+            context.startActivity(intent);
+        } catch (Exception e) {
+            e.printStackTrace();
+            new ActivityHelper(context).openAppWithPackageName(packageName);
         }
     }
 

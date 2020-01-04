@@ -32,6 +32,7 @@ import co.siempo.phone.R;
 import co.siempo.phone.activities.AppAssignmentActivity;
 import co.siempo.phone.activities.DashboardActivity;
 import co.siempo.phone.activities.JunkfoodFlaggingActivity;
+import co.siempo.phone.app.App;
 import co.siempo.phone.app.BitmapWorkerTask;
 import co.siempo.phone.app.CoreApplication;
 import co.siempo.phone.helper.ActivityHelper;
@@ -87,7 +88,17 @@ public class AppAssignmentAdapter extends RecyclerView.Adapter<AppAssignmentAdap
         } else if (item != null) {
             holder.txtAppName.setText(item.loadLabel(context.getPackageManager()));
             String packageName = item.activityInfo.packageName;
-            if (PrefSiempo.getInstance(context).read(PrefSiempo.JUNKFOOD_APPS, new HashSet<String>()).contains(packageName)) {
+            List<App> junkApps = PrefSiempo.getInstance(context).readAppList(PrefSiempo.JUNKFOOD_APPS);
+            boolean containedInJunk = false;
+            for (App app: junkApps)
+            {
+                if (app.packageName.equals(packageName)) {
+                    containedInJunk = true;
+                    break;
+                }
+            }
+
+            if (containedInJunk) {
                 holder.btnHideApps.setVisibility(View.VISIBLE);
                 TypedValue typedValue = new TypedValue();
                 Resources.Theme theme = context.getTheme();

@@ -26,6 +26,7 @@ import java.util.List;
 
 import co.siempo.phone.R;
 import co.siempo.phone.activities.JunkfoodFlaggingActivity;
+import co.siempo.phone.app.App;
 import co.siempo.phone.app.BitmapWorkerTask;
 import co.siempo.phone.app.CoreApplication;
 import co.siempo.phone.models.AppListInfo;
@@ -170,7 +171,10 @@ public class JunkfoodFlaggingAdapter extends BaseAdapter implements Filterable {
                 public void onClick(View v) {
                     if (!resolveInfo.packageName.equalsIgnoreCase("")) {
                         UIUtils.hideSoftKeyboard(context, context.getWindow().getDecorView().getWindowToken());
-                        context.showPopUp(v, resolveInfo.packageName, resolveInfo.isFlagApp);
+                        App app = new App();
+                        app.packageName = resolveInfo.packageName;
+                        app.isWorkApp = resolveInfo.isWorkApp;
+                        context.showPopUp(v, app, resolveInfo.isFlagApp);
                     }
                 }
             });

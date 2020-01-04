@@ -28,6 +28,7 @@ import com.google.gson.reflect.TypeToken;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Set;
@@ -49,11 +50,11 @@ import org.greenrobot.eventbus.Subscribe;
 
 public class FavoritesSelectionActivity extends CoreActivity implements AdapterView.OnItemClickListener {
 
-    public Set<String> list = new HashSet<>();
-    public Set<String> adapterList = new HashSet<>();
+    public List<App> list = new LinkedList<>();
+    public LinkedList<App> adapterList = new LinkedList<>();
     //Junk list removal will be needed here as we need to remove the
     //junk-flagged app from other app list which cn be marked as favorite
-    Set<String> junkFoodList = new HashSet<>();
+    LinkedList<App> junkFoodList = new LinkedList<>();
     FavoriteFlaggingAdapter junkfoodFlaggingAdapter;
     int firstPosition;
     List<App> installedPackageList;
@@ -79,9 +80,11 @@ public class FavoritesSelectionActivity extends CoreActivity implements AdapterV
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_favorite_selection);
         initView();
-        list = PrefSiempo.getInstance(this).read(PrefSiempo.FAVORITE_APPS, new HashSet<String>());
-        adapterList = new HashSet<>();
-        junkFoodList = PrefSiempo.getInstance(this).read(PrefSiempo.JUNKFOOD_APPS, new HashSet<String>());
+
+        list = PrefSiempo.getInstance(this).readAppList(PrefSiempo.FAVORITE_APPS);
+
+        adapterList = new LinkedList<>();
+        junkFoodList = PrefSiempo.getInstance(this).readAppList(PrefSiempo.JUNKFOOD_APPS);
         list.removeAll(junkFoodList);
         adapterList.addAll(list);
 
@@ -173,9 +176,9 @@ public class FavoritesSelectionActivity extends CoreActivity implements AdapterV
                 PrefSiempo.getInstance(FavoritesSelectionActivity.this).write(PrefSiempo.FAVORITE_SORTED_MENU, jsonListOfFavoriteApps);
 
 
-                PrefSiempo.getInstance(FavoritesSelectionActivity.this).write
+                PrefSiempo.getInstance(FavoritesSelectionActivity.this).writeAppList
                         (PrefSiempo.FAVORITE_APPS, adapterList);
-                PrefSiempo.getInstance(FavoritesSelectionActivity.this).write(PrefSiempo.JUNKFOOD_APPS, junkFoodList);
+                PrefSiempo.getInstance(FavoritesSelectionActivity.this).writeAppList(PrefSiempo.JUNKFOOD_APPS, junkFoodList);
                 new LoadJunkFoodPane(PrefSiempo.getInstance(FavoritesSelectionActivity.this)).execute();
                 new LoadFavoritePane(PrefSiempo.getInstance(FavoritesSelectionActivity.this)).execute();
                 finish();
@@ -241,7 +244,7 @@ public class FavoritesSelectionActivity extends CoreActivity implements AdapterV
     /**
      * show pop dialog on List item click for flag/un-flag and application information.
      */
-    public void showPopUp(View view, final String packagename, final boolean isFlagApp) {
+    public void showPopUp(View view, final App clickedApp, final boolean isFlagApp) {
 
         if (popup != null) {
             popup.dismiss();
@@ -268,13 +271,21 @@ public class FavoritesSelectionActivity extends CoreActivity implements AdapterV
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                if (adapterList.contains(packagename)) {
-                                    adapterList.remove(packagename);
-                                    //setToolBarText(favoriteList.size());
+
+                                App toRemove = null;
+                                for (App app: adapterList) {
+                                    if (app.packageName.equals(clickedApp.packageName)) {
+                                        toRemove = app;
+                                        break;
+                                    }
+                                }
+
+                                if (toRemove != null) {
+                                    adapterList.remove(toRemove);
                                 } else {
 
                                     if (favoriteList != null && favoriteList.size() < 13) {
-                                        adapterList.add(packagename);
+                                        adapterList.add(clickedApp);
                                     }
                                     // setToolBarText(favoriteList.size());
                                 }
@@ -288,7 +299,7 @@ public class FavoritesSelectionActivity extends CoreActivity implements AdapterV
 
                 } else if (item.getItemId() == R.id.item_Info) {
                     try {
-                        PackageUtil.appSettings(FavoritesSelectionActivity.this, packagename);
+                        PackageUtil.appSettings(FavoritesSelectionActivity.this, clickedApp.packageName);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
