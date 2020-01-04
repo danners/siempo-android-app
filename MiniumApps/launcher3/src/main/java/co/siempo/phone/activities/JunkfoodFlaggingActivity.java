@@ -322,9 +322,9 @@ public class JunkfoodFlaggingActivity extends CoreActivity implements AdapterVie
                 if (!app.packageName.equalsIgnoreCase(getPackageName())) {
                     if (!TextUtils.isEmpty(app.displayName)) {
                         if (adapterlist.contains(app.packageName)) {
-                            flagAppList.add(new AppListInfo(app.packageName, app.displayName, false, false, true));
+                            flagAppList.add(new AppListInfo(app.packageName, app.displayName, false, false, true, app.isWorkApp));
                         } else {
-                            unflageAppList.add(new AppListInfo(app.packageName, app.displayName, false, false, false));
+                            unflageAppList.add(new AppListInfo(app.packageName, app.displayName, false, false, false, app.isWorkApp));
                         }
                     }
                 }
@@ -334,17 +334,17 @@ public class JunkfoodFlaggingActivity extends CoreActivity implements AdapterVie
             removeJunkAppsFromFavorites();
 
             if (flagAppList.size() == 0) {
-                flagAppList.add(new AppListInfo("", "", true, true, true));
+                flagAppList.add(new AppListInfo("", "", true, true, true, false));
             } else {
-                flagAppList.add(0, new AppListInfo("", "", true, false, true));
+                flagAppList.add(0, new AppListInfo("", "", true, false, true, false));
             }
             flagAppList = Sorting.sortApplication(flagAppList);
             bindingList.addAll(flagAppList);
 
             if (unflageAppList.size() == 0) {
-                unflageAppList.add(new AppListInfo("", "", true, true, false));
+                unflageAppList.add(new AppListInfo("", "", true, true, false, false));
             } else {
-                unflageAppList.add(0, new AppListInfo("", "", true, false, false));
+                unflageAppList.add(0, new AppListInfo("", "", true, false, false, false));
             }
             unflageAppList = Sorting.sortApplication(unflageAppList);
             bindingList.addAll(unflageAppList);
@@ -612,9 +612,9 @@ public class JunkfoodFlaggingActivity extends CoreActivity implements AdapterVie
                     if (!app.packageName.equalsIgnoreCase(getPackageName())) {
                         if (!TextUtils.isEmpty(app.displayName)) {
                             if (adapterlist.contains(app.packageName)) {
-                                flagAppList.add(new AppListInfo(app.packageName, app.displayName, false, false, true));
+                                flagAppList.add(new AppListInfo(app.packageName, app.displayName, false, false, true, false));
                             } else {
-                                unflageAppList.add(new AppListInfo(app.packageName, app.displayName, false, false, false));
+                                unflageAppList.add(new AppListInfo(app.packageName, app.displayName, false, false, false, false));
                             }
                         }
                     }
@@ -624,17 +624,17 @@ public class JunkfoodFlaggingActivity extends CoreActivity implements AdapterVie
                 removeJunkAppsFromFavorites();
 
                 if (flagAppList.size() == 0) {
-                    flagAppList.add(new AppListInfo("", "", true, true, true));
+                    flagAppList.add(new AppListInfo("", "", true, true, true, false));
                 } else {
-                    flagAppList.add(0, new AppListInfo("", "", true, false, true));
+                    flagAppList.add(0, new AppListInfo("", "", true, false, true, false));
                 }
                 flagAppList = Sorting.sortApplication(flagAppList);
                 bindingList.addAll(flagAppList);
 
                 if (unflageAppList.size() == 0) {
-                    unflageAppList.add(new AppListInfo("", "", true, true, false));
+                    unflageAppList.add(new AppListInfo("", "", true, true, false, false));
                 } else {
-                    unflageAppList.add(0, new AppListInfo("", "", true, false, false));
+                    unflageAppList.add(0, new AppListInfo("", "", true, false, false, false));
                 }
                 unflageAppList = Sorting.sortApplication(unflageAppList);
                 bindingList.addAll(unflageAppList);

@@ -70,6 +70,7 @@ public class FavoriteFlaggingAdapter extends BaseAdapter implements Filterable {
             holder.txtAppName = convertView.findViewById(R.id.txtAppName);
             holder.imgAppIcon = convertView.findViewById(R.id.imgAppIcon);
             holder.imgChevron = convertView.findViewById(R.id.imgChevron);
+            holder.imgIsWorkApp = convertView.findViewById(R.id.workApp);
             holder.linTop = convertView.findViewById(R.id.linTop);
             holder.txtNoAppsMessage = convertView.findViewById(R.id.txtNoAppsMessage);
             holder.txtHeader = convertView.findViewById(R.id.txtHeader);
@@ -116,47 +117,7 @@ public class FavoriteFlaggingAdapter extends BaseAdapter implements Filterable {
                     holder.txtHeader.setText(context.getString(R.string.all_other_installed_apps));
                 }
             } else {
-                holder.linTop.setVisibility(View.VISIBLE);
-                holder.txtNoAppsMessage.setVisibility(View.GONE);
-                holder.txtHeader.setVisibility(View.GONE);
-                try {
-                    holder.txtAppName.setText(CoreApplication.getInstance().getApplicationNameFromPackageName(resolveInfo.packageName));
-                    Bitmap bitmap = CoreApplication.getInstance().getBitmapFromMemCache(resolveInfo.packageName);
-                    if (bitmap != null) {
-                        holder.imgAppIcon.setImageBitmap(bitmap);
-                    } else {
-                        BitmapWorkerTask bitmapWorkerTask = new BitmapWorkerTask(context.getPackageManager(), resolveInfo.packageName);
-                        CoreApplication.getInstance().includeTaskPool(bitmapWorkerTask, null);
-                        Drawable drawable = CoreApplication.getInstance().getApplicationIconFromPackageName(resolveInfo.packageName);
-                        holder.imgAppIcon.setImageDrawable(drawable);
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-
-                holder.linearList.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (!resolveInfo.packageName.equalsIgnoreCase("")) {
-                            UIUtils.hideSoftKeyboard(context, context.getWindow().getDecorView().getWindowToken());
-                            context.showPopUp(v, resolveInfo.packageName, resolveInfo.isFlagApp);
-                        }
-                    }
-                });
-
-                holder.txtHeader.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        UIUtils.hideSoftKeyboard(context, context.getWindow().getDecorView().getWindowToken());
-                    }
-                });
-                holder.txtNoAppsMessage.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        UIUtils.hideSoftKeyboard(context, context.getWindow().getDecorView().getWindowToken());
-                    }
-                });
+                DisplayNormalApp(holder, resolveInfo);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -165,13 +126,62 @@ public class FavoriteFlaggingAdapter extends BaseAdapter implements Filterable {
         return convertView;
     }
 
+    private void DisplayNormalApp(ViewHolder holder, final AppListInfo resolveInfo) {
+        holder.linTop.setVisibility(View.VISIBLE);
+        holder.txtNoAppsMessage.setVisibility(View.GONE);
+        holder.txtHeader.setVisibility(View.GONE);
+
+        if (resolveInfo.isWorkApp) {
+            holder.imgIsWorkApp.setVisibility(View.VISIBLE);
+        }
+
+        try {
+            holder.txtAppName.setText(CoreApplication.getInstance().getApplicationNameFromPackageName(resolveInfo.packageName));
+            Bitmap bitmap = CoreApplication.getInstance().getBitmapFromMemCache(resolveInfo.packageName);
+            if (bitmap != null) {
+                holder.imgAppIcon.setImageBitmap(bitmap);
+            } else {
+                BitmapWorkerTask bitmapWorkerTask = new BitmapWorkerTask(context.getPackageManager(), resolveInfo.packageName);
+                CoreApplication.getInstance().includeTaskPool(bitmapWorkerTask, null);
+                Drawable drawable = CoreApplication.getInstance().getApplicationIconFromPackageName(resolveInfo.packageName);
+                holder.imgAppIcon.setImageDrawable(drawable);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+        holder.linearList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!resolveInfo.packageName.equalsIgnoreCase("")) {
+                    UIUtils.hideSoftKeyboard(context, context.getWindow().getDecorView().getWindowToken());
+                    context.showPopUp(v, resolveInfo.packageName, resolveInfo.isFlagApp);
+                }
+            }
+        });
+
+        holder.txtHeader.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                UIUtils.hideSoftKeyboard(context, context.getWindow().getDecorView().getWindowToken());
+            }
+        });
+        holder.txtNoAppsMessage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                UIUtils.hideSoftKeyboard(context, context.getWindow().getDecorView().getWindowToken());
+            }
+        });
+    }
+
     @Override
     public Filter getFilter() {
         return mFilter;
     }
 
     public static class ViewHolder {
-        ImageView imgChevron, imgAppIcon;
+        ImageView imgChevron, imgAppIcon, imgIsWorkApp;
         TextView txtNoAppsMessage;
         TextView txtAppName, txtHeader;
         LinearLayout linTop, linearList;
@@ -206,9 +216,9 @@ public class FavoriteFlaggingAdapter extends BaseAdapter implements Filterable {
                                .getApplicationName(resolveInfo.packageName);
                         if (!TextUtils.isEmpty(applicationname)) {
                             if (context.adapterList.contains(resolveInfo.packageName)) {
-                                flagAppList.add(new AppListInfo(resolveInfo.packageName, applicationname, false, false, true));
+                                flagAppList.add(new AppListInfo(resolveInfo.packageName, applicationname, false, false, true, resolveInfo.isWorkApp));
                             } else {
-                                unflageAppList.add(new AppListInfo(resolveInfo.packageName, applicationname, false, false, false));
+                                unflageAppList.add(new AppListInfo(resolveInfo.packageName, applicationname, false, false, false, resolveInfo.isWorkApp));
                             }
                         }
                     }
@@ -217,17 +227,17 @@ public class FavoriteFlaggingAdapter extends BaseAdapter implements Filterable {
                 //Favorite List
 
                 if (flagAppList.size() == 0) {
-                    flagAppList.add(new AppListInfo("", "", true, true, true));
+                    flagAppList.add(new AppListInfo("", "", true, true, true, false));
                 } else {
-                    flagAppList.add(0, new AppListInfo("", "", true, false, true));
+                    flagAppList.add(0, new AppListInfo("", "", true, false, true, false));
                 }
 
                 flagAppList = Sorting.sortApplication(flagAppList);
                 bindingList.addAll(flagAppList);
                 if (unflageAppList.size() == 0) {
-                    unflageAppList.add(new AppListInfo("", "", true, true, false));
+                    unflageAppList.add(new AppListInfo("", "", true, true, false, false));
                 } else {
-                    unflageAppList.add(0, new AppListInfo("", "", true, false, false));
+                    unflageAppList.add(0, new AppListInfo("", "", true, false, false, false));
                 }
                 unflageAppList = Sorting.sortApplication(unflageAppList);
                 bindingList.addAll(unflageAppList);

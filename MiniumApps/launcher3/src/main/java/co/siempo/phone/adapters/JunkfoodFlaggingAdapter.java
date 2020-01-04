@@ -237,9 +237,9 @@ public class JunkfoodFlaggingAdapter extends BaseAdapter implements Filterable {
                         String applicationname = CoreApplication.getInstance().getApplicationName(resolveInfo.packageName);
                         if (!TextUtils.isEmpty(applicationname)) {
                             if (context.adapterlist.contains(resolveInfo.packageName)) {
-                                flagAppList.add(new AppListInfo(resolveInfo.packageName, applicationname, false, false, true));
+                                flagAppList.add(new AppListInfo(resolveInfo.packageName, applicationname, false, false, true, resolveInfo.isWorkApp));
                             } else {
-                                unflageAppList.add(new AppListInfo(resolveInfo.packageName, applicationname, false, false, false));
+                                unflageAppList.add(new AppListInfo(resolveInfo.packageName, applicationname, false, false, false, resolveInfo.isWorkApp));
                             }
                         }
                     }
@@ -248,17 +248,17 @@ public class JunkfoodFlaggingAdapter extends BaseAdapter implements Filterable {
                 //Favorite List
 
                 if (flagAppList.size() == 0) {
-                    flagAppList.add(new AppListInfo("", "", true, true, true));
+                    flagAppList.add(new AppListInfo("", "", true, true, true, false));
                 } else {
-                    flagAppList.add(0, new AppListInfo("", "", true, false, true));
+                    flagAppList.add(0, new AppListInfo("", "", true, false, true, false));
                 }
 
                 flagAppList = Sorting.sortApplication(flagAppList);
                 bindingList.addAll(flagAppList);
                 if (unflageAppList.size() == 0) {
-                    unflageAppList.add(new AppListInfo("", "", true, true, false));
+                    unflageAppList.add(new AppListInfo("", "", true, true, false, false));
                 } else {
-                    unflageAppList.add(0, new AppListInfo("", "", true, false, false));
+                    unflageAppList.add(0, new AppListInfo("", "", true, false, false, false));
                 }
                 unflageAppList = Sorting.sortApplication(unflageAppList);
                 bindingList.addAll(unflageAppList);

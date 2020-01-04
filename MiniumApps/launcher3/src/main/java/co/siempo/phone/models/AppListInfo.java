@@ -24,14 +24,17 @@ public class AppListInfo {
     public boolean isShowHeader = false;
     public boolean isShowTitle = false;
     public boolean isFlagApp = false;
+    public boolean isWorkApp = false;
+
     public String applicationName;
 
-    public AppListInfo(String packageName, String applicationName, boolean isShowHeader, boolean isShowTitle, boolean isFlagApp) {
+    public AppListInfo(String packageName, String applicationName, boolean isShowHeader, boolean isShowTitle, boolean isFlagApp, boolean isWorkApp) {
         this.packageName = packageName;
         this.applicationName = applicationName;
         this.isShowHeader = isShowHeader;
         this.isShowTitle = isShowTitle;
         this.isFlagApp = isFlagApp;
+        this.isWorkApp = isWorkApp;
     }
 
     public AppListInfo() {

@@ -70,6 +70,16 @@
             android:textSize="16sp"
             tools:ignore="HardcodedText"/>
 
+        <ImageView
+            android:id="@+id/workApp"
+            android:layout_width="wrap_content"
+            android:src="@drawable/ic_work_indicator"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            >
+
+        </ImageView>
+
 
         <ImageView
             android:id="@+id/imgChevron"

@@ -1306,15 +1306,17 @@ public abstract class CoreApplication extends MultiDexApplication {
                     String packageName = appInfo.packageName;
 
                     String applicationName = appInfo.loadLabel(getPackageManager()).toString();
-                    if (!isCurrentUser) {
-                        // we should only get associated profiles, which i think they should only be work profiles
-                        // https://developer.android.com/reference/android/os/UserManager.html#getUserProfiles()
-                        applicationName +=  " Work";
-                    }
-
                     App app = new App();
                     app.packageName = packageName;
                     app.displayName = applicationName;
+
+                    if (!isCurrentUser) {
+                        // we should only get associated profiles, which i think they should only be work profiles
+                        // https://developer.android.com/reference/android/os/UserManager.html#getUserProfiles()
+                        app.isWorkApp = true;
+                    }
+
+
                     apps.put(app.packageName, app);
 
                 }

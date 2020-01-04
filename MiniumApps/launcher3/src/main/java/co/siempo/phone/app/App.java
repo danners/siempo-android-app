@@ -4,5 +4,6 @@ public class App {
 
     public String packageName;
     public String displayName;
+    public boolean isWorkApp;
 
 }

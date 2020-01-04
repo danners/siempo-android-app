@@ -71,6 +71,7 @@ public class FavoritesSelectionActivity extends CoreActivity implements AdapterV
         if (!isFinishing() && event.isAppInstalledSuccessfully()) {
             loadApps();
         }
+
     }
 
     @Override
@@ -96,7 +97,6 @@ public class FavoritesSelectionActivity extends CoreActivity implements AdapterV
      */
     private void initView() {
         toolbar = findViewById(R.id.toolbar);
-        toolbar.setTitle(R.string.title_flagging_screen);
         setSupportActionBar(toolbar);
         listAllApps = findViewById(R.id.lst_OtherApps);
 
@@ -200,12 +200,12 @@ public class FavoritesSelectionActivity extends CoreActivity implements AdapterV
                     if (!TextUtils.isEmpty(app.displayName)) {
                         if (adapterList.contains(app.packageName)) {
                             favoriteList.add(new AppListInfo(app.packageName, app.displayName,
-                                    false, false, true));
+                                    false, false, true, app.isWorkApp));
                         } else {
                             if (null != junkFoodList && !junkFoodList
                                     .contains(app.packageName)) {
                                 unfavoriteList.add(new AppListInfo(app.packageName,
-                                        app.displayName, false, false, false));
+                                        app.displayName, false, false, false, app.isWorkApp));
                             }
                         }
                     }
@@ -214,17 +214,17 @@ public class FavoritesSelectionActivity extends CoreActivity implements AdapterV
             }
             setToolBarText(favoriteList.size());
             if (favoriteList.size() == 0) {
-                favoriteList.add(new AppListInfo("", "", true, true, true));
+                favoriteList.add(new AppListInfo("", "", true, true, true, false));
             } else {
-                favoriteList.add(0, new AppListInfo("", "", true, false, true));
+                favoriteList.add(0, new AppListInfo("", "", true, false, true, false));
             }
             favoriteList = Sorting.sortApplication(favoriteList);
             bindingList.addAll(favoriteList);
 
             if (unfavoriteList.size() == 0) {
-                unfavoriteList.add(new AppListInfo("", "", true, true, false));
+                unfavoriteList.add(new AppListInfo("", "", true, true, false, false));
             } else {
-                unfavoriteList.add(0, new AppListInfo("", "", true, false, false));
+                unfavoriteList.add(0, new AppListInfo("", "", true, false, false, false));
             }
             unfavoriteList = Sorting.sortApplication(unfavoriteList);
             bindingList.addAll(unfavoriteList);
@@ -366,13 +366,13 @@ public class FavoritesSelectionActivity extends CoreActivity implements AdapterV
                             if (adapterList.contains(app.packageName)) {
                                 favoriteList.add(new AppListInfo(app.packageName, app.displayName,
                                         false, false,
-                                        true));
+                                        true, app.isWorkApp));
                             } else {
                                 if (null != junkFoodList && !junkFoodList
                                         .contains(app.packageName)) {
                                     unfavoriteList.add(new AppListInfo(app.packageName,
                                             app.displayName, false,
-                                            false, false));
+                                            false, false, app.isWorkApp));
                                 }
                             }
                         }
@@ -382,17 +382,17 @@ public class FavoritesSelectionActivity extends CoreActivity implements AdapterV
                 size = favoriteList.size();
 
                 if (favoriteList.size() == 0) {
-                    favoriteList.add(new AppListInfo("", "", true, true, true));
+                    favoriteList.add(new AppListInfo("", "", true, true, true, false));
                 } else {
-                    favoriteList.add(0, new AppListInfo("", "", true, false, true));
+                    favoriteList.add(0, new AppListInfo("", "", true, false, true, false));
                 }
                 favoriteList = Sorting.sortApplication(favoriteList);
                 bindingList.addAll(favoriteList);
 
                 if (unfavoriteList.size() == 0) {
-                    unfavoriteList.add(new AppListInfo("", "", true, true, false));
+                    unfavoriteList.add(new AppListInfo("", "", true, true, false, false));
                 } else {
-                    unfavoriteList.add(0, new AppListInfo("", "", true, false, false));
+                    unfavoriteList.add(0, new AppListInfo("", "", true, false, false, false));
                 }
                 unfavoriteList = Sorting.sortApplication(unfavoriteList);
                 bindingList.addAll(unfavoriteList);
