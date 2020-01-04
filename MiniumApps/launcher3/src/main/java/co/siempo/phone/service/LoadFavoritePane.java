@@ -30,7 +30,7 @@ public class LoadFavoritePane extends AsyncTask<String, String, ArrayList<MainLi
         /**
          * Changes for SSA-1770 for checking whether Favourite Item list is empty or not.
          */
-        items = PackageUtil.getFavoriteList(false);
+        items = PackageUtil.getFavoriteList();
 
         int itemsSize = items.size();
         int tempFavSize = 0;
@@ -41,9 +41,9 @@ public class LoadFavoritePane extends AsyncTask<String, String, ArrayList<MainLi
         }
         if (itemsSize == tempFavSize) {
             prefSiempo.write(PrefSiempo.FAVORITE_SORTED_MENU, "");
-            items = PackageUtil.getFavoriteList( true);
+            items = PackageUtil.getFavoriteList();
         } else {
-            items = PackageUtil.getFavoriteList( false);
+            items = PackageUtil.getFavoriteList();
         }
         return items;
     }

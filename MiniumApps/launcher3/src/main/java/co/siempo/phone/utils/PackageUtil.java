@@ -525,14 +525,8 @@ public class PackageUtil {
 
 
 
-    /**
-     * Changes for SSA-1770-Changes
-     *
-     * @param context
-     * @param isFalse-check Whether list is fetched for empty FavItemsList or not.
-     * @return
-     */
-    public static ArrayList<MainListItem> getFavoriteList(Context context, boolean isFalse) {
+
+    public static ArrayList<MainListItem> getFavoriteList(Context context) {
         ArrayList<MainListItem> sortedFavoriteList = new ArrayList<>();
         try {
             ArrayList<MainListItem> appList = getAppList(context);
@@ -543,12 +537,7 @@ public class PackageUtil {
                     listOfSortFavoritesApps = syncFavoriteList(jsonListOfSortedFavorites, context);
                     sortedFavoriteList = sortFavoriteAppsByPosition(listOfSortFavoritesApps, appList, context);
                 } else {
-                    if (isFalse) {
-                        sortedFavoriteList = addDefaultFavoriteAppsSetting(context, appList);
-                    } else {
-                        sortedFavoriteList = addDefaultFavoriteApps(context, appList);
-                    }
-
+                    sortedFavoriteList = addDefaultFavoriteApps(context, appList);
                 }
             } else {
                 sortedFavoriteList = addDefaultFavoriteApps(context, appList);
@@ -563,36 +552,11 @@ public class PackageUtil {
     /**
      * Changes for SSA-1770-Changes
      *
-     * @param isFalse-check Whether list is fetched for empty FavItemsList or not.
      * @return
      */
-    public static ArrayList<MainListItem> getFavoriteList(boolean isFalse) {
-        ArrayList<MainListItem> sortedFavoriteList = new ArrayList<>();
-        try {
-            Context context = Launcher3App.getInstance().getApplicationContext();
-            ArrayList<MainListItem> appList = getAppList(context);
-            if (appList.size() > 0) {
-                String jsonListOfSortedFavorites = PrefSiempo.getInstance(context).read(PrefSiempo.FAVORITE_SORTED_MENU, "");
-                List<String> listOfSortFavoritesApps;
-                if (!TextUtils.isEmpty(jsonListOfSortedFavorites)) {
-                    listOfSortFavoritesApps = syncFavoriteList(jsonListOfSortedFavorites, context);
-                    sortedFavoriteList = sortFavoriteAppsByPosition(listOfSortFavoritesApps, appList, context);
-                } else {
-                    if (isFalse) {
-                        sortedFavoriteList = addDefaultFavoriteAppsSetting(context, appList);
-                    } else {
-                        sortedFavoriteList = addDefaultFavoriteApps(context, appList);
-                    }
-
-                }
-            } else {
-                sortedFavoriteList = addDefaultFavoriteApps(context, appList);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return sortedFavoriteList;
+    public static ArrayList<MainListItem> getFavoriteList() {
+        Context context = Launcher3App.getInstance().getApplicationContext();
+        return getFavoriteList(context);
     }
 
 
@@ -672,14 +636,11 @@ public class PackageUtil {
                     }
                 }
             }
-            int remainingFavoriteList = 12 - sortedFavoriteList.size();
-            for (int i = 0; i < remainingFavoriteList; i++) {
-                MainListItem m = new MainListItem(-10, "", "");
-                sortedFavoriteList.add(m);
-            }
+            FillupFavoriteList(sortedFavoriteList);
         }
         return sortedFavoriteList;
     }
+
 
     private static ArrayList<MainListItem> addDefaultFavoriteApps(Context context,
                                                                   List<MainListItem> appList) {
@@ -691,30 +652,25 @@ public class PackageUtil {
         String CHROME_PACKAGE = "com.android.chrome", SYSTEM_SETTING = "com.android.settings";
 
 
-        for (int i = 0; i < appList.size(); i++) {
-            if (!TextUtils.isEmpty(appList.get(i).getPackageName())) {
-                if (appList.get(i).getPackageName().equalsIgnoreCase(CHROME_PACKAGE) || appList.get(i).getPackageName().equalsIgnoreCase(SYSTEM_SETTING)) {
-                    boolean isEnable = UIUtils.isAppInstalledAndEnabled(context, appList.get(i).getPackageName());
+        for (MainListItem app: appList) {
+            String packageName = app.getPackageName();
+            if (!TextUtils.isEmpty(packageName)) {
+                if (packageName.equalsIgnoreCase(CHROME_PACKAGE) || packageName.equalsIgnoreCase(SYSTEM_SETTING)) {
+                    boolean isEnable = UIUtils.isAppInstalledAndEnabled(context, packageName);
                     if (isEnable) {
-                        items.add(appList.get(i));
+                        items.add(app);
                     }
                 }
             }
         }
 
-
-        int remainingFavoriteList = 12 - items.size();
-        for (int i = 0; i < remainingFavoriteList; i++) {
-            MainListItem m = new MainListItem(-10, "", "");
-            items.add(m);
-        }
+        FillupFavoriteList(items);
 
 
         //get the JSON array of the ordered of sorted customers
         String jsonListOfSortedFavorites = PrefSiempo.getInstance(context).read(PrefSiempo.FAVORITE_SORTED_MENU, "");
         //convert onNoteListChangedJSON array into a List<Long>
-        Gson gson1 = new Gson();
-        List<String> listOfSortFavoritesApps = gson1.fromJson(jsonListOfSortedFavorites, new TypeToken<List<String>>() {
+        List<String> listOfSortFavoritesApps = new Gson().fromJson(jsonListOfSortedFavorites, new TypeToken<List<String>>() {
         }.getType());
 
         if (listOfSortFavoritesApps != null) {
@@ -757,10 +713,7 @@ public class PackageUtil {
             if (isSystemSettingEnable) {
                 listOfSortFavoritesApps.add(SYSTEM_SETTING);
             }
-            int remainingCount = 12 - listOfSortFavoritesApps.size();
-            for (int j = 0; j < remainingCount; j++) {
-                listOfSortFavoritesApps.add("");
-            }
+            FillupFavoriteSettings(listOfSortFavoritesApps);
 
             if (list != null) {
                 if (isChromeEnable) {
@@ -773,91 +726,28 @@ public class PackageUtil {
         }
 
 
-        Gson gson2 = new Gson();
-        String jsonListOfFavoriteApps = gson2.toJson(listOfSortFavoritesApps);
+        String jsonListOfFavoriteApps = new Gson().toJson(listOfSortFavoritesApps);
         PrefSiempo.getInstance(context).write(PrefSiempo.FAVORITE_SORTED_MENU, jsonListOfFavoriteApps);
         PrefSiempo.getInstance(context).write(PrefSiempo.FAVORITE_APPS, list);
 
         return items;
     }
 
-    private static ArrayList<MainListItem> addDefaultFavoriteAppsSetting(Context context,
-                                                                         List<MainListItem> appList) {
-
-        Set<String> list;
-        list = PrefSiempo.getInstance(context).read(PrefSiempo.FAVORITE_APPS, new HashSet<String>());
-
-        ArrayList<MainListItem> items = new ArrayList<>();
-        String SYSTEM_SETTING = "com.android.settings";
-
-
-        for (int i = 0; i < appList.size(); i++) {
-            if (!TextUtils.isEmpty(appList.get(i).getPackageName())) {
-                if (appList.get(i).getPackageName().equalsIgnoreCase(SYSTEM_SETTING)) {
-                    boolean isEnable = UIUtils.isAppInstalledAndEnabled(context, appList.get(i).getPackageName());
-                    if (isEnable) {
-                        items.add(appList.get(i));
-                    }
-                }
-            }
+    private static void FillupFavoriteSettings(List<String> listOfSortFavoritesApps) {
+        int remainingCount = 12 - listOfSortFavoritesApps.size();
+        for (int j = 0; j < remainingCount; j++) {
+            listOfSortFavoritesApps.add("");
         }
+    }
 
 
+
+    private static void FillupFavoriteList(ArrayList<MainListItem> items) {
         int remainingFavoriteList = 12 - items.size();
         for (int i = 0; i < remainingFavoriteList; i++) {
             MainListItem m = new MainListItem(-10, "", "");
             items.add(m);
         }
-
-
-        //get the JSON array of the ordered of sorted customers
-        String jsonListOfSortedFavorites = PrefSiempo.getInstance(context).read(PrefSiempo.FAVORITE_SORTED_MENU, "");
-        //convert onNoteListChangedJSON array into a List<Long>
-        Gson gson1 = new Gson();
-        List<String> listOfSortFavoritesApps = gson1.fromJson(jsonListOfSortedFavorites, new TypeToken<List<String>>() {
-        }.getType());
-
-        if (listOfSortFavoritesApps != null) {
-
-            if (!listOfSortFavoritesApps.contains(SYSTEM_SETTING)) {
-                for (int i = 0; i < listOfSortFavoritesApps.size(); i++) {
-                    if (TextUtils.isEmpty(listOfSortFavoritesApps.get(i).trim())) {
-                        boolean isEnable = UIUtils.isAppInstalledAndEnabled(context, SYSTEM_SETTING);
-                        if (isEnable) {
-                            listOfSortFavoritesApps.set(i, SYSTEM_SETTING);
-                            if (list != null && !list.contains(SYSTEM_SETTING)) {
-                                list.add(SYSTEM_SETTING);
-                            }
-                        }
-                        break;
-                    }
-                }
-            }
-        } else {
-            listOfSortFavoritesApps = new ArrayList<>();
-            boolean isSystemSettingEnable = UIUtils.isAppInstalledAndEnabled(context, SYSTEM_SETTING);
-            if (isSystemSettingEnable) {
-                listOfSortFavoritesApps.add(SYSTEM_SETTING);
-            }
-            int remainingCount = 12 - listOfSortFavoritesApps.size();
-            for (int j = 0; j < remainingCount; j++) {
-                listOfSortFavoritesApps.add("");
-            }
-
-            if (list != null) {
-                if (isSystemSettingEnable) {
-                    list.add(SYSTEM_SETTING);
-                }
-            }
-        }
-
-
-        Gson gson2 = new Gson();
-        String jsonListOfFavoriteApps = gson2.toJson(listOfSortFavoritesApps);
-        PrefSiempo.getInstance(context).write(PrefSiempo.FAVORITE_SORTED_MENU, jsonListOfFavoriteApps);
-        PrefSiempo.getInstance(context).write(PrefSiempo.FAVORITE_APPS, list);
-
-        return items;
     }
 
 

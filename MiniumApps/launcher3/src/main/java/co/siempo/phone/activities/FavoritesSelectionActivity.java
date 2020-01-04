@@ -154,8 +154,7 @@ public class FavoritesSelectionActivity extends CoreActivity implements AdapterV
                 junkFoodList.removeAll(adapterList);
                 String jsonListOfSortedFavorites = PrefSiempo.getInstance(FavoritesSelectionActivity.this).read(PrefSiempo.FAVORITE_SORTED_MENU, "");
                 //convert onNoteListChangedJSON array into a List<Long>
-                Gson gson1 = new Gson();
-                List<String> listOfSortFavoritesApps = gson1.fromJson(jsonListOfSortedFavorites, new TypeToken<List<String>>() {
+                List<String> listOfSortFavoritesApps = new Gson().fromJson(jsonListOfSortedFavorites, new TypeToken<List<String>>() {
                 }.getType());
 
                 for (ListIterator<String> it =
@@ -170,8 +169,7 @@ public class FavoritesSelectionActivity extends CoreActivity implements AdapterV
                     }
                 }
 
-                Gson gson2 = new Gson();
-                String jsonListOfFavoriteApps = gson2.toJson(listOfSortFavoritesApps);
+                String jsonListOfFavoriteApps = new Gson().toJson(listOfSortFavoritesApps);
                 PrefSiempo.getInstance(FavoritesSelectionActivity.this).write(PrefSiempo.FAVORITE_SORTED_MENU, jsonListOfFavoriteApps);
 
 
