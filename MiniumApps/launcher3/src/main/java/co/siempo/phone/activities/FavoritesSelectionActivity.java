@@ -4,8 +4,10 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+
 import androidx.appcompat.widget.PopupMenu;
 import androidx.appcompat.widget.Toolbar;
+
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -32,6 +34,7 @@ import java.util.Set;
 
 import co.siempo.phone.R;
 import co.siempo.phone.adapters.FavoriteFlaggingAdapter;
+import co.siempo.phone.app.App;
 import co.siempo.phone.app.CoreApplication;
 import co.siempo.phone.event.AppInstalledEvent;
 import co.siempo.phone.models.AppListInfo;
@@ -41,6 +44,7 @@ import co.siempo.phone.utils.PackageUtil;
 import co.siempo.phone.utils.PrefSiempo;
 import co.siempo.phone.utils.Sorting;
 import co.siempo.phone.utils.UIUtils;
+
 import org.greenrobot.eventbus.Subscribe;
 
 public class FavoritesSelectionActivity extends CoreActivity implements AdapterView.OnItemClickListener {
@@ -52,7 +56,7 @@ public class FavoritesSelectionActivity extends CoreActivity implements AdapterV
     Set<String> junkFoodList = new HashSet<>();
     FavoriteFlaggingAdapter junkfoodFlaggingAdapter;
     int firstPosition;
-    List<String> installedPackageList;
+    List<App> installedPackageList;
     private Toolbar toolbar;
     private ListView listAllApps;
     private PopupMenu popup;
@@ -134,8 +138,8 @@ public class FavoritesSelectionActivity extends CoreActivity implements AdapterV
      * load system apps and filter the application for junkfood and normal.
      */
     private void loadApps() {
-        List<String> installedPackageListLocal = CoreApplication.getInstance().getPackagesList();
-        List<String> appList = new ArrayList<>(installedPackageListLocal);
+        List<App> installedPackageListLocal = CoreApplication.getInstance().getApplications();
+        List<App> appList = new ArrayList<>(installedPackageListLocal);
         installedPackageList = appList;
         bindData();
     }
@@ -193,25 +197,21 @@ public class FavoritesSelectionActivity extends CoreActivity implements AdapterV
             unfavoriteList = new ArrayList<>();
             bindingList = new ArrayList<>();
 
-            for (String resolveInfo : installedPackageList) {
-                if (resolveInfo != null && !resolveInfo.equalsIgnoreCase(getPackageName())) {
-                    boolean isEnable = UIUtils.isAppInstalledAndEnabled(this, resolveInfo);
-                    if (isEnable) {
-                        String applicationname = CoreApplication.getInstance()
-                                .getApplicationName(resolveInfo);
-                        if (!TextUtils.isEmpty(applicationname)) {
-                            if (adapterList.contains(resolveInfo)) {
-                                favoriteList.add(new AppListInfo(resolveInfo, applicationname,
-                                        false, false, true));
-                            } else {
-                                if (null != junkFoodList && !junkFoodList
-                                        .contains(resolveInfo)) {
-                                    unfavoriteList.add(new AppListInfo(resolveInfo,
-                                            applicationname, false, false, false));
-                                }
+            for (App app : installedPackageList) {
+                if (!app.packageName.equalsIgnoreCase(getPackageName())) {
+                    if (!TextUtils.isEmpty(app.displayName)) {
+                        if (adapterList.contains(app.packageName)) {
+                            favoriteList.add(new AppListInfo(app.packageName, app.displayName,
+                                    false, false, true));
+                        } else {
+                            if (null != junkFoodList && !junkFoodList
+                                    .contains(app.packageName)) {
+                                unfavoriteList.add(new AppListInfo(app.packageName,
+                                        app.displayName, false, false, false));
                             }
                         }
                     }
+
                 }
             }
             setToolBarText(favoriteList.size());
@@ -367,27 +367,24 @@ public class FavoritesSelectionActivity extends CoreActivity implements AdapterV
         @Override
         protected ArrayList<AppListInfo> doInBackground(String... strings) {
             try {
-                for (String resolveInfo : installedPackageList) {
-                    if (!resolveInfo.equalsIgnoreCase(getPackageName())) {
-                        boolean isEnable = UIUtils.isAppInstalledAndEnabled(FavoritesSelectionActivity.this, resolveInfo);
-                        if (isEnable) {
-                            String applicationname = CoreApplication.getInstance().getApplicationName(resolveInfo);
-                            if (!TextUtils.isEmpty(applicationname)) {
-                                if (adapterList.contains(resolveInfo)) {
-                                    favoriteList.add(new AppListInfo(resolveInfo, applicationname,
-                                            false, false,
-                                            true));
-                                } else {
-                                    if (null != junkFoodList && !junkFoodList
-                                            .contains(resolveInfo)) {
-                                        unfavoriteList.add(new AppListInfo(resolveInfo,
-                                                applicationname, false,
-                                                false, false));
-                                    }
+                for (App app : installedPackageList) {
+                    if (!app.packageName.equalsIgnoreCase(getPackageName())) {
+                        if (!TextUtils.isEmpty(app.displayName)) {
+                            if (adapterList.contains(app.packageName)) {
+                                favoriteList.add(new AppListInfo(app.packageName, app.displayName,
+                                        false, false,
+                                        true));
+                            } else {
+                                if (null != junkFoodList && !junkFoodList
+                                        .contains(app.packageName)) {
+                                    unfavoriteList.add(new AppListInfo(app.packageName,
+                                            app.displayName, false,
+                                            false, false));
                                 }
                             }
                         }
                     }
+
                 }
                 size = favoriteList.size();
 

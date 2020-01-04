@@ -41,6 +41,7 @@ import java.util.Set;
 
 import co.siempo.phone.R;
 import co.siempo.phone.adapters.JunkfoodFlaggingAdapter;
+import co.siempo.phone.app.App;
 import co.siempo.phone.app.Constants;
 import co.siempo.phone.app.CoreApplication;
 import co.siempo.phone.event.AppInstalledEvent;
@@ -62,7 +63,7 @@ public class JunkfoodFlaggingActivity extends CoreActivity implements AdapterVie
     public Set<String> adapterlist = new HashSet<>();
     Set<String> favoriteList = new HashSet<>();
     JunkfoodFlaggingAdapter junkfoodFlaggingAdapter;
-    List<String> installedPackageList;
+    List<App> installedPackageList;
     int firstPosition;
     boolean isClickOnView = true;
     private Toolbar toolbar;
@@ -159,11 +160,11 @@ public class JunkfoodFlaggingActivity extends CoreActivity implements AdapterVie
             PrefSiempo.getInstance(this).write(PrefSiempo.IS_JUNKFOOD_FIRSTTIME, false);
             showFirstTimeDialog();
         }
-        List<String> installedPackageListLocal = CoreApplication.getInstance().getPackagesList();
+        List<App> installedPackageListLocal = CoreApplication.getInstance().getApplications();
         Log.d("Junkfood", "" + installedPackageListLocal.size());
         installedPackageListLocal.remove(Constants.SETTINGS_APP_PACKAGE);
         installedPackageList = new ArrayList<>();
-        List<String> appList = new ArrayList<>(installedPackageListLocal);
+        List<App> appList = new ArrayList<>(installedPackageListLocal);
         favoriteList = PrefSiempo.getInstance(this).read(PrefSiempo.FAVORITE_APPS, new HashSet<String>());
         List<String> toolsAppList = getToolsAppList();
 
@@ -317,14 +318,13 @@ public class JunkfoodFlaggingActivity extends CoreActivity implements AdapterVie
             bindingList = new ArrayList<>();
             junkfoodFlaggingAdapter = new JunkfoodFlaggingAdapter(this, bindingList);
             listAllApps.setAdapter(junkfoodFlaggingAdapter);
-            for (String resolveInfo : installedPackageList) {
-                if (!resolveInfo.equalsIgnoreCase(getPackageName())) {
-                    String applicationname = CoreApplication.getInstance().getApplicationName(resolveInfo);
-                    if (!TextUtils.isEmpty(applicationname)) {
-                        if (adapterlist.contains(resolveInfo)) {
-                            flagAppList.add(new AppListInfo(resolveInfo, applicationname, false, false, true));
+            for (App app : installedPackageList) {
+                if (!app.packageName.equalsIgnoreCase(getPackageName())) {
+                    if (!TextUtils.isEmpty(app.displayName)) {
+                        if (adapterlist.contains(app.packageName)) {
+                            flagAppList.add(new AppListInfo(app.packageName, app.displayName, false, false, true));
                         } else {
-                            unflageAppList.add(new AppListInfo(resolveInfo, applicationname, false, false, false));
+                            unflageAppList.add(new AppListInfo(app.packageName, app.displayName, false, false, false));
                         }
                     }
                 }
@@ -608,14 +608,13 @@ public class JunkfoodFlaggingActivity extends CoreActivity implements AdapterVie
         @Override
         protected ArrayList<AppListInfo> doInBackground(String... strings) {
             try {
-                for (String resolveInfo : installedPackageList) {
-                    if (!resolveInfo.equalsIgnoreCase(getPackageName())) {
-                        String applicationname = CoreApplication.getInstance().getApplicationName(resolveInfo);
-                        if (!TextUtils.isEmpty(applicationname)) {
-                            if (adapterlist.contains(resolveInfo)) {
-                                flagAppList.add(new AppListInfo(resolveInfo, applicationname, false, false, true));
+                for (App app : installedPackageList) {
+                    if (!app.packageName.equalsIgnoreCase(getPackageName())) {
+                        if (!TextUtils.isEmpty(app.displayName)) {
+                            if (adapterlist.contains(app.packageName)) {
+                                flagAppList.add(new AppListInfo(app.packageName, app.displayName, false, false, true));
                             } else {
-                                unflageAppList.add(new AppListInfo(resolveInfo, applicationname, false, false, false));
+                                unflageAppList.add(new AppListInfo(app.packageName, app.displayName, false, false, false));
                             }
                         }
                     }

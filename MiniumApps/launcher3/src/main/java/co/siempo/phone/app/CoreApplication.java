@@ -1,6 +1,5 @@
 package co.siempo.phone.app;
 
-import android.app.Application;
 import android.app.DownloadManager;
 import android.content.Context;
 import android.content.Intent;
@@ -22,17 +21,20 @@ import android.os.UserManager;
 import android.provider.AlarmClock;
 import android.provider.CalendarContract;
 import android.provider.MediaStore;
-import androidx.multidex.MultiDexApplication;
 import android.text.TextUtils;
 import android.util.ArrayMap;
 import android.util.Log;
 import android.util.LruCache;
+
+import androidx.multidex.MultiDexApplication;
 
 import com.androidnetworking.AndroidNetworking;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.joanzapata.iconify.Iconify;
 import com.joanzapata.iconify.fonts.FontAwesomeModule;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.io.File;
 import java.io.IOException;
@@ -51,10 +53,8 @@ import co.siempo.phone.models.AppMenu;
 import co.siempo.phone.models.CategoryAppList;
 import co.siempo.phone.models.MainListItem;
 import co.siempo.phone.service.CategoriesApp;
-import co.siempo.phone.utils.PackageUtil;
 import co.siempo.phone.utils.PrefSiempo;
 import co.siempo.phone.utils.UIUtils;
-import org.greenrobot.eventbus.EventBus;
 
 import static co.siempo.phone.main.MainListItemLoader.TOOLS_ADDITIONAL_MESSAGE;
 import static co.siempo.phone.main.MainListItemLoader.TOOLS_ASSISTANT;
@@ -100,15 +100,6 @@ import static co.siempo.phone.main.MainListItemLoader.TOOLS_VIDEO;
 import static co.siempo.phone.main.MainListItemLoader.TOOLS_VOICE;
 import static co.siempo.phone.main.MainListItemLoader.TOOLS_WEATHER;
 import static co.siempo.phone.main.MainListItemLoader.TOOLS_WELLNESS;
-/**
- * Each application should contain an {@link Application} class instance
- * All applications of this project should extend their own application from this class
- * This will be first class where we can initialize all necessary first time configurations
- * <p>
- * Created by shahab on 3/17/16.
- */
-
-
 
 
 public abstract class CoreApplication extends MultiDexApplication {
@@ -118,14 +109,19 @@ public abstract class CoreApplication extends MultiDexApplication {
     LauncherApps launcherApps;
 
 
-    private ArrayMap<String, String> listApplicationName = new ArrayMap<>();
 
     public String getApplicationName(String packageName) {
-        return listApplicationName.get(packageName);
-    };
-    private Set<String> packagesList = new HashSet<>();
-    public List<String> getPackagesList() {
-        return new ArrayList<>(packagesList);
+        App app = apps.get(packageName);
+        if (app == null) {
+            return "not found";
+        }
+        return app.displayName;
+    }
+
+    private Map<String, App> apps = new HashMap<>();
+
+    public List<App> getApplications() {
+        return new ArrayList<>(apps.values());
     }
 
     private LruCache<String, Bitmap> mMemoryCache;
@@ -134,19 +130,24 @@ public abstract class CoreApplication extends MultiDexApplication {
 
     public void addOrRemoveApplicationInfo(boolean addingOrDelete, String
             packageName) {
+
+
         try {
+
+            ApplicationInfo appInfo = getPackageManager().getApplicationInfo(packageName, PackageManager.GET_META_DATA);
+
+            App app = new App();
+            app.packageName = appInfo.packageName;
+            app.displayName = "" + getPackageManager().getApplicationLabel(appInfo);
+
             if (addingOrDelete) {
-                ApplicationInfo appInfo = getPackageManager().getApplicationInfo(packageName, PackageManager.GET_META_DATA);
-                if (!packagesList.contains(appInfo.packageName)) {
-                    packagesList.add(appInfo.packageName);
-                    listApplicationName.put(packageName, "" + getPackageManager().getApplicationLabel(appInfo));
+                    apps.put(app.packageName, app);
                     EventBus.getDefault().post(new AppInstalledEvent(true));
-                }
+
 
             } else {
-                if (packagesList.contains(packageName)) {
-                    packagesList.remove(packageName);
-                    listApplicationName.remove(packageName);
+                if (apps.containsKey(app.packageName)) {
+                    apps.remove(app.packageName);
                     EventBus.getDefault().post(new AppInstalledEvent(true));
                 }
             }
@@ -267,7 +268,7 @@ public abstract class CoreApplication extends MultiDexApplication {
      * This method is used for fetch all installed application package list.
      */
     public void getAllApplicationPackageName() {
-        packagesList.clear();
+        apps.clear();
         new LoadApplications().execute();
     }
 
@@ -601,13 +602,16 @@ public abstract class CoreApplication extends MultiDexApplication {
 
 
 
-    public void setPackagesList(Set<String> packagesList) {
+    public void updateBlockedList() {
         try {
-            this.packagesList = packagesList;
             blockedApps = PrefSiempo.getInstance(this).read(PrefSiempo
                     .BLOCKED_APPLIST, new HashSet<String>());
 
 
+            List<String> packagesList = new ArrayList<>();
+            for (App app : this.apps.values()) {
+                packagesList.add(app.packageName);
+            }
             if (blockedApps != null && blockedApps.size() == 0) {
                 blockedApps.addAll(packagesList);
                 PrefSiempo.getInstance(this).write(PrefSiempo
@@ -1241,33 +1245,32 @@ public abstract class CoreApplication extends MultiDexApplication {
         }
     }
 
-    private class LoadApplications extends AsyncTask<Object, Object, Set<String>> {
+    private class LoadApplications extends AsyncTask<Object, Object, Object> {
 
         @Override
-        protected Set<String> doInBackground(Object... params) {
-            Set<String> applist = new HashSet<>();
+        protected Void doInBackground(Object... params) {
 
             if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                LoadApplicationThroughLauncherApps(applist);
+                LoadApplicationThroughLauncherApps();
             }
             else {
-                LoadApplicationThroughQueryIntent(applist);
+                LoadApplicationThroughQueryIntent();
             }
-
-            return applist;
+            return null;
         }
 
-        private void LoadApplicationThroughQueryIntent(Set<String> applist) {
+        private void LoadApplicationThroughQueryIntent() {
             Intent mainIntent = new Intent(Intent.ACTION_MAIN, null);
             mainIntent.addCategory(Intent.CATEGORY_LAUNCHER);
-            List<ResolveInfo> pkgAppsList = getPackageManager().queryIntentActivities(mainIntent, 0);
+            PackageManager packageManager = getPackageManager();
+            List<ResolveInfo> pkgAppsList = packageManager.queryIntentActivities(mainIntent, 0);
             for (ResolveInfo appInfo : pkgAppsList) {
                 try {
                     String packageName = appInfo.activityInfo.packageName;
                     if (!packageName.equalsIgnoreCase(getPackageName())) {
-                        applist.add(packageName);
 
-                        PackageManager packageManager = getPackageManager();
+                        App app = new App();
+                        app.packageName = packageName;
                         String applicationName = appInfo.loadLabel(packageManager).toString();
                         if (applicationName == null) {
                             ApplicationInfo applicationInfo = null;
@@ -1277,10 +1280,12 @@ public abstract class CoreApplication extends MultiDexApplication {
                                 e.printStackTrace();
                             }
                             String applicationNameTemp = (String) (applicationInfo != null ? packageManager.getApplicationLabel(applicationInfo) : "");
-                            listApplicationName.put(packageName, applicationNameTemp);
+                            app.displayName = applicationNameTemp;
                         } else {
-                            listApplicationName.put(packageName, applicationName);
+                            app.displayName = applicationName;
                         }
+                        apps.put(app.packageName, app);
+
                     }
 
                 } catch (Exception e) {
@@ -1289,7 +1294,7 @@ public abstract class CoreApplication extends MultiDexApplication {
             }
         }
 
-        private void LoadApplicationThroughLauncherApps(Set<String> applist) {
+        private void LoadApplicationThroughLauncherApps() {
             UserManager manager = (UserManager) getSystemService(Context.USER_SERVICE);
             LauncherApps launcher = (LauncherApps) getSystemService(Context.LAUNCHER_APPS_SERVICE);
 
@@ -1306,8 +1311,11 @@ public abstract class CoreApplication extends MultiDexApplication {
                         // https://developer.android.com/reference/android/os/UserManager.html#getUserProfiles()
                         applicationName +=  " Work";
                     }
-                    applist.add(packageName);
-                    listApplicationName.put(packageName, applicationName);
+
+                    App app = new App();
+                    app.packageName = packageName;
+                    app.displayName = applicationName;
+                    apps.put(app.packageName, app);
 
                 }
 
@@ -1316,9 +1324,9 @@ public abstract class CoreApplication extends MultiDexApplication {
 
 
         @Override
-        protected void onPostExecute(Set<String> applicationInfos) {
-            super.onPostExecute(applicationInfos);
-            setPackagesList(applicationInfos);
+        protected void onPostExecute(Object object) {
+            super.onPostExecute(object);
+            updateBlockedList();
             EventBus.getDefault().post(new AppInstalledEvent(true));
         }
     }

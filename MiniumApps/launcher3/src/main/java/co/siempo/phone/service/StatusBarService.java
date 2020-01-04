@@ -76,7 +76,6 @@ import co.siempo.phone.event.AppInstalledEvent;
 import co.siempo.phone.event.LocationUpdateEvent;
 import co.siempo.phone.event.NotifyBackgroundToService;
 import co.siempo.phone.event.NotifySearchRefresh;
-import co.siempo.phone.event.OnBackPressedEvent;
 import co.siempo.phone.event.ReduceOverUsageEvent;
 import co.siempo.phone.event.StartLocationEvent;
 import co.siempo.phone.helper.ActivityHelper;
@@ -3282,10 +3281,8 @@ public class StatusBarService extends Service {
                             packageName = intent.getData().getSchemeSpecificPart();
                             boolean isEnable = UIUtils.isAppInstalledAndEnabled(context, packageName);
                             if (isEnable) {
-                                if (!CoreApplication.getInstance().getPackagesList().contains(packageName)) {
                                     addAppFromBlockedList(packageName);
                                     CoreApplication.getInstance().addOrRemoveApplicationInfo(true, packageName);
-                                }
                             } else {
                                 removeAppFromPreference(context, packageName);
                                 removeAppFromBlockedList(packageName);

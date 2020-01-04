@@ -39,6 +39,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
+import co.siempo.phone.app.App;
 import co.siempo.phone.app.CoreApplication;
 import co.siempo.phone.app.Launcher3App;
 import co.siempo.phone.db.TableNotificationSms;
@@ -599,30 +600,13 @@ public class PackageUtil {
     private static ArrayList<MainListItem> getAppList(Context context) {
         ArrayList<MainListItem> appList = new ArrayList<>();
         try {
-            List<String> installedPackageList = CoreApplication.getInstance().getPackagesList();
+            List<App> installedPackageList = CoreApplication.getInstance().getApplications();
 
-            //Added as a part of SSA-1483, in case of installed package
-            if (installedPackageList.isEmpty()) {
-                Intent mainIntent = new Intent(Intent.ACTION_MAIN, null);
-                mainIntent.addCategory(Intent.CATEGORY_LAUNCHER);
-                List<ResolveInfo> pkgAppsList = context.getPackageManager().queryIntentActivities(mainIntent, 0);
-
-                for (ResolveInfo resolveInfo : pkgAppsList) {
-                    installedPackageList.add(resolveInfo.activityInfo
-                            .packageName);
-                }
-
-
-            }
-            for (String resolveInfo : installedPackageList) {
-                if (!resolveInfo.equalsIgnoreCase(context.getPackageName())) {
-                    if (!TextUtils.isEmpty(resolveInfo)) {
-                        String strAppName = CoreApplication.getInstance().getApplicationName(resolveInfo);
-                        if (strAppName == null) {
-                            strAppName = CoreApplication.getInstance().getApplicationNameFromPackageName(resolveInfo);
-                        }
-                        if (!TextUtils.isEmpty(strAppName)) {
-                            appList.add(new MainListItem(-1, "" + strAppName, resolveInfo));
+            for (App app : installedPackageList) {
+                if (!app.packageName.equalsIgnoreCase(context.getPackageName())) {
+                    if (!TextUtils.isEmpty(app.packageName)) {
+                        if (!TextUtils.isEmpty(app.displayName)) {
+                            appList.add(new MainListItem(-1, "" + app.displayName, app.packageName));
                         }
                     }
 
