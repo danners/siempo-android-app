@@ -134,6 +134,9 @@ public class FavoriteFlaggingAdapter extends BaseAdapter implements Filterable {
         if (resolveInfo.isWorkApp) {
             holder.imgIsWorkApp.setVisibility(View.VISIBLE);
         }
+        else {
+            holder.imgIsWorkApp.setVisibility(View.GONE);
+        }
 
         try {
             holder.txtAppName.setText(CoreApplication.getInstance().getApplicationNameFromPackageName(resolveInfo.packageName));

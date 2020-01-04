@@ -42,6 +42,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -111,17 +112,19 @@ public abstract class CoreApplication extends MultiDexApplication {
 
 
     public String getApplicationName(String packageName) {
-        App app = apps.get(packageName);
-        if (app == null) {
-            return "not found";
+        for (App app : apps) {
+            if (app.packageName.equals(packageName)) {
+                return app.displayName;
+            }
+
         }
-        return app.displayName;
+        return "not found";
     }
 
-    private Map<String, App> apps = new HashMap<>();
+    private List<App> apps = new LinkedList<>();
 
     public List<App> getApplications() {
-        return new ArrayList<>(apps.values());
+        return apps;
     }
 
     private LruCache<String, Bitmap> mMemoryCache;
@@ -141,13 +144,20 @@ public abstract class CoreApplication extends MultiDexApplication {
             app.displayName = "" + getPackageManager().getApplicationLabel(appInfo);
 
             if (addingOrDelete) {
-                    apps.put(app.packageName, app);
+                    apps.add(app);
                     EventBus.getDefault().post(new AppInstalledEvent(true));
 
 
             } else {
-                if (apps.containsKey(app.packageName)) {
-                    apps.remove(app.packageName);
+                App toRemove = null;
+                for (App appCandidate: apps) {
+                    if (appCandidate.packageName == appInfo.packageName) {
+                        toRemove = appCandidate;
+                        break;
+                    }
+                }
+                if (toRemove != null) {
+                    apps.remove(toRemove);
                     EventBus.getDefault().post(new AppInstalledEvent(true));
                 }
             }
@@ -609,7 +619,7 @@ public abstract class CoreApplication extends MultiDexApplication {
 
 
             List<String> packagesList = new ArrayList<>();
-            for (App app : this.apps.values()) {
+            for (App app : this.apps) {
                 packagesList.add(app.packageName);
             }
             if (blockedApps != null && blockedApps.size() == 0) {
@@ -1284,7 +1294,7 @@ public abstract class CoreApplication extends MultiDexApplication {
                         } else {
                             app.displayName = applicationName;
                         }
-                        apps.put(app.packageName, app);
+                        apps.add(app);
 
                     }
 
@@ -1314,10 +1324,11 @@ public abstract class CoreApplication extends MultiDexApplication {
                         // we should only get associated profiles, which i think they should only be work profiles
                         // https://developer.android.com/reference/android/os/UserManager.html#getUserProfiles()
                         app.isWorkApp = true;
+                        app.displayName += " Work";
                     }
 
 
-                    apps.put(app.packageName, app);
+                    apps.add(app);
 
                 }
 
