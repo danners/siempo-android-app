@@ -7,6 +7,8 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -91,12 +93,12 @@ public class ToolsMenuAdapter extends RecyclerView.Adapter<ToolsMenuAdapter.View
                 } else {
                     Log.d("Test", "hideIcon branding false...");
                     holder.text.setText(CoreApplication.getInstance().getApplicationNameFromPackageName(appMenu.getApplicationName()));
-                    Bitmap bitmap = CoreApplication.getInstance().getBitmapFromMemCache(appMenu.getApplicationName());
+                    Drawable bitmap = CoreApplication.getInstance().getBitmapFromMemCache(appMenu.getApplicationName());
                     if (bitmap != null) {
                         Log.d("Test", "bitmap  null");
                         holder.icon.setVisibility(View.GONE);
                         holder.imgAppIcon.setVisibility(View.VISIBLE);
-                        holder.imgAppIcon.setImageBitmap(bitmap);
+                        holder.imgAppIcon.setImageDrawable(bitmap);
                     } else {
                         Log.d("Test", "bitmap  not null");
                         if (!appMenu.getApplicationName().equalsIgnoreCase("")) {
@@ -169,9 +171,9 @@ public class ToolsMenuAdapter extends RecyclerView.Adapter<ToolsMenuAdapter.View
                             } else if (CoreApplication.getInstance().getApplicationByCategory(id).size() == 1
                                     && !foundInJunk) {
 //                            If a 3 rd party app is already assigned to this tool
-                                ResolveInfo resolveInfo = CoreApplication.getInstance().getApplicationByCategory(id).get(0);
+                                App resolveInfo = CoreApplication.getInstance().getApplicationByCategory(id).get(0);
                                 if (null != resolveInfo) {
-                                    String strPackageName = resolveInfo.activityInfo.packageName;
+                                    String strPackageName = resolveInfo.packageName;
                                     if (UIUtils.isAppEnabled(context, strPackageName) && strPackageName.equalsIgnoreCase(appMenu.getApplicationName())) {
 
                                         if (id == 13) {

@@ -90,9 +90,9 @@ public class JunkFoodPaneAdapter extends RecyclerView.Adapter<JunkFoodPaneAdapte
             holder.txtAppTextImage.setVisibility(View.GONE);
             holder.imgUnderLine.setVisibility(View.GONE);
             holder.imgAppIcon.setVisibility(View.VISIBLE);
-            Bitmap bitmap = CoreApplication.getInstance().getBitmapFromMemCache(item);
+            Drawable bitmap = CoreApplication.getInstance().getBitmapFromMemCache(item);
             if (bitmap != null) {
-                holder.imgAppIcon.setImageBitmap(bitmap);
+                holder.imgAppIcon.setImageDrawable(bitmap);
             } else {
                 BitmapWorkerTask bitmapWorkerTask = new BitmapWorkerTask(context.getPackageManager(), item);
                 CoreApplication.getInstance().includeTaskPool(bitmapWorkerTask, null);

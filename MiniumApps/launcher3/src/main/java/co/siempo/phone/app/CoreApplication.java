@@ -9,6 +9,7 @@ import android.content.pm.LauncherApps;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -24,7 +25,6 @@ import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.ArrayMap;
 import android.util.Log;
-import android.util.LruCache;
 
 import androidx.multidex.MultiDexApplication;
 
@@ -127,7 +127,7 @@ public abstract class CoreApplication extends MultiDexApplication {
         return apps;
     }
 
-    private LruCache<String, Bitmap> mMemoryCache;
+    private Map<String, Drawable> mMemoryCache = new HashMap<>();
 
 
 
@@ -270,7 +270,6 @@ public abstract class CoreApplication extends MultiDexApplication {
         launcherApps = (LauncherApps) getSystemService(Context.LAUNCHER_APPS_SERVICE);
         sInstance = this;
         init();
-        initMemoryCatch();
         getAllApplicationPackageName();
     }
 
@@ -338,174 +337,174 @@ public abstract class CoreApplication extends MultiDexApplication {
                 //by default on install, the "Recorder", "Payment", and "Browser" tools are hidden
                 // (they may be revealed via the tool-selection screen (see tool-selection below)).
                 map.put(TOOLS_MAP, new AppMenu(true, false, CoreApplication.getInstance
-                        ().getApplicationByCategory(1).size() == 1 ? CoreApplication.getInstance().getApplicationByCategory(1).get(0).activityInfo.packageName : ""));
+                        ().getApplicationByCategory(1).size() == 1 ? CoreApplication.getInstance().getApplicationByCategory(1).get(0).packageName : ""));
                 map.put(TOOLS_TRANSPORT, new AppMenu(true, false, CoreApplication.getInstance
-                        ().getApplicationByCategory(2).size() == 1 ? CoreApplication.getInstance().getApplicationByCategory(2).get(0).activityInfo.packageName : ""));
+                        ().getApplicationByCategory(2).size() == 1 ? CoreApplication.getInstance().getApplicationByCategory(2).get(0).packageName : ""));
                 map.put(TOOLS_CALENDAR, new AppMenu(true, false, CoreApplication.getInstance
-                        ().getApplicationByCategory(3).size() == 1 ? CoreApplication.getInstance().getApplicationByCategory(3).get(0).activityInfo.packageName : ""));
+                        ().getApplicationByCategory(3).size() == 1 ? CoreApplication.getInstance().getApplicationByCategory(3).get(0).packageName : ""));
                 map.put(TOOLS_WEATHER, new AppMenu(true, false, CoreApplication.getInstance
                         ().getApplicationByCategory(4).size() == 1 ?
-                        CoreApplication.getInstance().getApplicationByCategory(4).get(0).activityInfo.packageName : ""));
+                        CoreApplication.getInstance().getApplicationByCategory(4).get(0).packageName : ""));
                 map.put(TOOLS_NOTES, new AppMenu(true, false, CoreApplication.getInstance
                         ().getApplicationByCategory(5).size() == 1 ?
                         getString(R.string.notes) : ""));
                 map.put(TOOLS_RECORDER, new AppMenu(false, false, CoreApplication
-                        .getInstance().getApplicationByCategory(6).size() == 1 ? CoreApplication.getInstance().getApplicationByCategory(6).get(0).activityInfo.packageName : ""));
+                        .getInstance().getApplicationByCategory(6).size() == 1 ? CoreApplication.getInstance().getApplicationByCategory(6).get(0).packageName : ""));
                 map.put(TOOLS_CAMERA, new AppMenu(true, false, CoreApplication.getInstance
                         ().getApplicationByCategory(7).size() == 1 ?
-                        CoreApplication.getInstance().getApplicationByCategory(7).get(0).activityInfo.packageName : ""));
+                        CoreApplication.getInstance().getApplicationByCategory(7).get(0).packageName : ""));
                 map.put(TOOLS_PHOTOS, new AppMenu(true, false, CoreApplication.getInstance
-                        ().getApplicationByCategory(8).size() == 1 ? CoreApplication.getInstance().getApplicationByCategory(8).get(0).activityInfo.packageName : ""));
+                        ().getApplicationByCategory(8).size() == 1 ? CoreApplication.getInstance().getApplicationByCategory(8).get(0).packageName : ""));
                 map.put(TOOLS_PAYMENT, new AppMenu(false, false, CoreApplication
-                        .getInstance().getApplicationByCategory(9).size() == 1 ? CoreApplication.getInstance().getApplicationByCategory(9).get(0).activityInfo.packageName : ""));
+                        .getInstance().getApplicationByCategory(9).size() == 1 ? CoreApplication.getInstance().getApplicationByCategory(9).get(0).packageName : ""));
                 map.put(TOOLS_WELLNESS, new AppMenu(true, false, CoreApplication
-                        .getInstance().getApplicationByCategory(10).size() == 1 ? CoreApplication.getInstance().getApplicationByCategory(10).get(0).activityInfo.packageName : ""));
+                        .getInstance().getApplicationByCategory(10).size() == 1 ? CoreApplication.getInstance().getApplicationByCategory(10).get(0).packageName : ""));
 
                 map.put(TOOLS_TODO, new AppMenu(false, false, CoreApplication
                         .getInstance().getApplicationByCategory(12).size() == 1 ?
                         CoreApplication.getInstance().getApplicationByCategory
-                                (12).get(0).activityInfo.packageName : ""));
+                                (12).get(0).packageName : ""));
                 map.put(TOOLS_BROWSER, new AppMenu(false, false, CoreApplication
                         .getInstance().getApplicationByCategory(11).size() == 1
                         ? CoreApplication.getInstance().getApplicationByCategory
-                        (11).get(0).activityInfo.packageName : ""));
+                        (11).get(0).packageName : ""));
                 map.put(TOOLS_MUSIC, new AppMenu(false, false, CoreApplication
                         .getInstance().getApplicationByCategory(17).size() == 1 ?
                         CoreApplication.getInstance().getApplicationByCategory
-                                (17).get(0).activityInfo.packageName : ""));
+                                (17).get(0).packageName : ""));
                 map.put(TOOLS_PODCAST, new AppMenu(false, false, CoreApplication
                         .getInstance().getApplicationByCategory(18).size() == 1 ?
                         CoreApplication.getInstance().getApplicationByCategory
-                                (18).get(0).activityInfo.packageName : ""));
+                                (18).get(0).packageName : ""));
 
                 map.put(TOOLS_FOOD, new AppMenu(false, false, CoreApplication
                         .getInstance().getApplicationByCategory(19).size() == 1 ?
                         CoreApplication.getInstance().getApplicationByCategory
-                                (19).get(0).activityInfo.packageName : ""));
+                                (19).get(0).packageName : ""));
 
                 map.put(TOOLS_FITNESS, new AppMenu(false, false, CoreApplication
                         .getInstance().getApplicationByCategory(20).size() == 1 ?
                         CoreApplication.getInstance().getApplicationByCategory
-                                (20).get(0).activityInfo.packageName : ""));
+                                (20).get(0).packageName : ""));
 
                 map.put(TOOLS_CALL, new AppMenu(true, true, CoreApplication.getInstance
-                        ().getApplicationByCategory(13).size() == 1 ? CoreApplication.getInstance().getApplicationByCategory(13).get(0).activityInfo.packageName : ""));
+                        ().getApplicationByCategory(13).size() == 1 ? CoreApplication.getInstance().getApplicationByCategory(13).get(0).packageName : ""));
                 map.put(TOOLS_CLOCK, new AppMenu(true, true, CoreApplication.getInstance
-                        ().getApplicationByCategory(14).size() == 1 ? CoreApplication.getInstance().getApplicationByCategory(14).get(0).activityInfo.packageName : ""));
+                        ().getApplicationByCategory(14).size() == 1 ? CoreApplication.getInstance().getApplicationByCategory(14).get(0).packageName : ""));
                 map.put(TOOLS_MESSAGE, new AppMenu(true, true, CoreApplication.getInstance
-                        ().getApplicationByCategory(15).size() == 1 ? CoreApplication.getInstance().getApplicationByCategory(15).get(0).activityInfo.packageName : ""));
+                        ().getApplicationByCategory(15).size() == 1 ? CoreApplication.getInstance().getApplicationByCategory(15).get(0).packageName : ""));
                 map.put(TOOLS_EMAIL, new AppMenu(true, true, CoreApplication.getInstance
-                        ().getApplicationByCategory(16).size() == 1 ? CoreApplication.getInstance().getApplicationByCategory(16).get(0).activityInfo.packageName : ""));
+                        ().getApplicationByCategory(16).size() == 1 ? CoreApplication.getInstance().getApplicationByCategory(16).get(0).packageName : ""));
 
                 map.put(TOOLS_CLOUD, new AppMenu(false, false, CoreApplication.getInstance
-                        ().getApplicationByCategory(21).size() == 1 ? CoreApplication.getInstance().getApplicationByCategory(21).get(0).activityInfo.packageName : ""));
+                        ().getApplicationByCategory(21).size() == 1 ? CoreApplication.getInstance().getApplicationByCategory(21).get(0).packageName : ""));
 
 
                 map.put(TOOLS_BOOKS, new AppMenu(false, false, CoreApplication.getInstance
-                        ().getApplicationByCategory(22).size() == 1 ? CoreApplication.getInstance().getApplicationByCategory(22).get(0).activityInfo.packageName : ""));
+                        ().getApplicationByCategory(22).size() == 1 ? CoreApplication.getInstance().getApplicationByCategory(22).get(0).packageName : ""));
 
                 map.put(TOOLS_AUTHENTICATION, new AppMenu(false, false, CoreApplication.getInstance
-                        ().getApplicationByCategory(23).size() == 1 ? CoreApplication.getInstance().getApplicationByCategory(23).get(0).activityInfo.packageName : ""));
+                        ().getApplicationByCategory(23).size() == 1 ? CoreApplication.getInstance().getApplicationByCategory(23).get(0).packageName : ""));
 
 
                 map.put(TOOLS_ASSISTANT, new AppMenu(false, false, CoreApplication.getInstance
-                        ().getApplicationByCategory(24).size() == 1 ? CoreApplication.getInstance().getApplicationByCategory(24).get(0).activityInfo.packageName : ""));
+                        ().getApplicationByCategory(24).size() == 1 ? CoreApplication.getInstance().getApplicationByCategory(24).get(0).packageName : ""));
 
 
                 map.put(TOOLS_ADDITIONAL_MESSAGE, new AppMenu(false, false, CoreApplication.getInstance
-                        ().getApplicationByCategory(25).size() == 1 ? CoreApplication.getInstance().getApplicationByCategory(25).get(0).activityInfo.packageName : ""));
+                        ().getApplicationByCategory(25).size() == 1 ? CoreApplication.getInstance().getApplicationByCategory(25).get(0).packageName : ""));
 
                 map.put(TOOLS_BANKING, new AppMenu(false, false, CoreApplication.getInstance
-                        ().getApplicationByCategory(26).size() == 1 ? CoreApplication.getInstance().getApplicationByCategory(26).get(0).activityInfo.packageName : ""));
+                        ().getApplicationByCategory(26).size() == 1 ? CoreApplication.getInstance().getApplicationByCategory(26).get(0).packageName : ""));
 
 
                 map.put(TOOLS_COURCE, new AppMenu(false, false, CoreApplication.getInstance
-                        ().getApplicationByCategory(27).size() == 1 ? CoreApplication.getInstance().getApplicationByCategory(27).get(0).activityInfo.packageName : ""));
+                        ().getApplicationByCategory(27).size() == 1 ? CoreApplication.getInstance().getApplicationByCategory(27).get(0).packageName : ""));
 
 
 
                 map.put(TOOLS_DOC, new AppMenu(false, false, CoreApplication.getInstance
-                        ().getApplicationByCategory(28).size() == 1 ? CoreApplication.getInstance().getApplicationByCategory(28).get(0).activityInfo.packageName : ""));
+                        ().getApplicationByCategory(28).size() == 1 ? CoreApplication.getInstance().getApplicationByCategory(28).get(0).packageName : ""));
 
 
 
 
                 map.put(TOOLS_FILES, new AppMenu(false, false, CoreApplication.getInstance
-                        ().getApplicationByCategory(29).size() == 1 ? CoreApplication.getInstance().getApplicationByCategory(29).get(0).activityInfo.packageName : ""));
+                        ().getApplicationByCategory(29).size() == 1 ? CoreApplication.getInstance().getApplicationByCategory(29).get(0).packageName : ""));
 
 
                 map.put(TOOLS_FLASH, new AppMenu(false, false, CoreApplication.getInstance
-                        ().getApplicationByCategory(30).size() == 1 ? CoreApplication.getInstance().getApplicationByCategory(30).get(0).activityInfo.packageName : ""));
+                        ().getApplicationByCategory(30).size() == 1 ? CoreApplication.getInstance().getApplicationByCategory(30).get(0).packageName : ""));
 
 
 
                 map.put(TOOLS_HEALTH, new AppMenu(false, false, CoreApplication.getInstance
-                        ().getApplicationByCategory(31).size() == 1 ? CoreApplication.getInstance().getApplicationByCategory(31).get(0).activityInfo.packageName : ""));
+                        ().getApplicationByCategory(31).size() == 1 ? CoreApplication.getInstance().getApplicationByCategory(31).get(0).packageName : ""));
 
 
 
                 map.put(TOOLS_JOURNAL, new AppMenu(false, false, CoreApplication.getInstance
-                        ().getApplicationByCategory(32).size() == 1 ? CoreApplication.getInstance().getApplicationByCategory(32).get(0).activityInfo.packageName : ""));
+                        ().getApplicationByCategory(32).size() == 1 ? CoreApplication.getInstance().getApplicationByCategory(32).get(0).packageName : ""));
 
 
 
                 map.put(TOOLS_LANGUAGES, new AppMenu(false, false, CoreApplication.getInstance
-                        ().getApplicationByCategory(33).size() == 1 ? CoreApplication.getInstance().getApplicationByCategory(33).get(0).activityInfo.packageName : ""));
+                        ().getApplicationByCategory(33).size() == 1 ? CoreApplication.getInstance().getApplicationByCategory(33).get(0).packageName : ""));
 
 
 
 
                 map.put(TOOLS_LEARNING, new AppMenu(false, false, CoreApplication.getInstance
-                        ().getApplicationByCategory(34).size() == 1 ? CoreApplication.getInstance().getApplicationByCategory(34).get(0).activityInfo.packageName : ""));
+                        ().getApplicationByCategory(34).size() == 1 ? CoreApplication.getInstance().getApplicationByCategory(34).get(0).packageName : ""));
 
 
 
                 map.put(TOOLS_MEDITATION, new AppMenu(false, false, CoreApplication.getInstance
-                        ().getApplicationByCategory(35).size() == 1 ? CoreApplication.getInstance().getApplicationByCategory(35).get(0).activityInfo.packageName : ""));
+                        ().getApplicationByCategory(35).size() == 1 ? CoreApplication.getInstance().getApplicationByCategory(35).get(0).packageName : ""));
 
 
 
                 map.put(TOOLS_MICROPHONE, new AppMenu(false, false, CoreApplication.getInstance
-                        ().getApplicationByCategory(36).size() == 1 ? CoreApplication.getInstance().getApplicationByCategory(36).get(0).activityInfo.packageName : ""));
+                        ().getApplicationByCategory(36).size() == 1 ? CoreApplication.getInstance().getApplicationByCategory(36).get(0).packageName : ""));
 
 
 
 
 
                 map.put(TOOLS_NEWS, new AppMenu(false, false, CoreApplication.getInstance
-                        ().getApplicationByCategory(37).size() == 1 ? CoreApplication.getInstance().getApplicationByCategory(37).get(0).activityInfo.packageName : ""));
+                        ().getApplicationByCategory(37).size() == 1 ? CoreApplication.getInstance().getApplicationByCategory(37).get(0).packageName : ""));
 
 
 
                 map.put(TOOLS_SEARCH, new AppMenu(false, false, CoreApplication.getInstance
-                        ().getApplicationByCategory(38).size() == 1 ? CoreApplication.getInstance().getApplicationByCategory(38).get(0).activityInfo.packageName : ""));
+                        ().getApplicationByCategory(38).size() == 1 ? CoreApplication.getInstance().getApplicationByCategory(38).get(0).packageName : ""));
 
 
 
 
                 map.put(TOOLS_SETTINGS, new AppMenu(false, false, CoreApplication.getInstance
-                        ().getApplicationByCategory(39).size() == 1 ? CoreApplication.getInstance().getApplicationByCategory(39).get(0).activityInfo.packageName : ""));
+                        ().getApplicationByCategory(39).size() == 1 ? CoreApplication.getInstance().getApplicationByCategory(39).get(0).packageName : ""));
 
 
 
 
                 map.put(TOOLS_VOICE, new AppMenu(false, false, CoreApplication.getInstance
-                        ().getApplicationByCategory(40).size() == 1 ? CoreApplication.getInstance().getApplicationByCategory(40).get(0).activityInfo.packageName : ""));
+                        ().getApplicationByCategory(40).size() == 1 ? CoreApplication.getInstance().getApplicationByCategory(40).get(0).packageName : ""));
 
 
                 map.put(TOOLS_SLEEP, new AppMenu(false, false, CoreApplication.getInstance
-                        ().getApplicationByCategory(41).size() == 1 ? CoreApplication.getInstance().getApplicationByCategory(41).get(0).activityInfo.packageName : ""));
+                        ().getApplicationByCategory(41).size() == 1 ? CoreApplication.getInstance().getApplicationByCategory(41).get(0).packageName : ""));
 
 
                 map.put(TOOLS_CALCULATOR, new AppMenu(false, false, CoreApplication.getInstance
-                        ().getApplicationByCategory(42).size() == 1 ? CoreApplication.getInstance().getApplicationByCategory(42).get(0).activityInfo.packageName : ""));
+                        ().getApplicationByCategory(42).size() == 1 ? CoreApplication.getInstance().getApplicationByCategory(42).get(0).packageName : ""));
 
 
                 map.put(TOOLS_TRANSLATE, new AppMenu(false, false, CoreApplication.getInstance
-                        ().getApplicationByCategory(43).size() == 1 ? CoreApplication.getInstance().getApplicationByCategory(43).get(0).activityInfo.packageName : ""));
+                        ().getApplicationByCategory(43).size() == 1 ? CoreApplication.getInstance().getApplicationByCategory(43).get(0).packageName : ""));
 
                 map.put(TOOLS_VIDEO, new AppMenu(false, false, CoreApplication.getInstance
-                        ().getApplicationByCategory(44).size() == 1 ? CoreApplication.getInstance().getApplicationByCategory(44).get(0).activityInfo.packageName : ""));
+                        ().getApplicationByCategory(44).size() == 1 ? CoreApplication.getInstance().getApplicationByCategory(44).get(0).packageName : ""));
 
 
 
@@ -694,10 +693,10 @@ public abstract class CoreApplication extends MultiDexApplication {
      * @param id
      * @return
      */
-    public ArrayList<ResolveInfo> getApplicationByCategory(int id) {
-        ArrayList<ResolveInfo> list = new ArrayList<>();
-        HashSet<String> packageNames;
-        ArrayList<ResolveInfo> listTemp;
+    public ArrayList<App> getApplicationByCategory(int id) {
+        ArrayList<App> list = new ArrayList<>();
+        List<ResolveInfo> matchingApps;
+
         switch (id) {
             case TOOLS_MAP:// Map
                 Double myLatitude = 44.433106;
@@ -705,17 +704,9 @@ public abstract class CoreApplication extends MultiDexApplication {
                 String labelLocation = "Jorgesys @ Bucharest";
                 String urlAddress = "http://maps.google.com/maps?q=" + myLatitude + "," + myLongitude + "(" + labelLocation + ")&iwloc=A&hl=es";
                 Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(urlAddress));
-                list.addAll(getPackageManager().queryIntentActivities(intent, 0));
-                packageNames = new HashSet<>(0);
-                listTemp = new ArrayList<>(0);
-                for (ResolveInfo resolveInfo : list) {
-                    if (!packageNames.contains(resolveInfo.activityInfo.packageName)) {
-                        packageNames.add(resolveInfo.activityInfo.packageName);
-                        listTemp.add(resolveInfo);
-                    }
-                }
-                list.clear();
-                list.addAll(listTemp);
+
+                matchingApps = getPackageManager().queryIntentActivities(intent, 0);
+                AddMatchingApps(list, matchingApps);
                 break;
             case TOOLS_TRANSPORT:// Transport
                 break;
@@ -725,18 +716,11 @@ public abstract class CoreApplication extends MultiDexApplication {
                 builder.appendPath("time");
                 Intent calenderIntent =
                         new Intent(Intent.ACTION_VIEW, builder.build());
-                list.addAll(getPackageManager().queryIntentActivities(calenderIntent, 0));
-                packageNames = new HashSet<>(0);
-                listTemp = new ArrayList<>(0);
-                for (ResolveInfo resolveInfo : list) {
-                    if (!packageNames.contains(resolveInfo.activityInfo.packageName)) {
-                        packageNames.add(resolveInfo.activityInfo.packageName);
-                        listTemp.add(resolveInfo);
-                    }
-                }
-                list.clear();
-                list.addAll(listTemp);
+                matchingApps = getPackageManager().queryIntentActivities(calenderIntent, 0);
+                AddMatchingApps(list, matchingApps);
                 break;
+
+
             case TOOLS_WEATHER://Weather
                 break;
             case TOOLS_NOTES://Notes
@@ -753,8 +737,9 @@ public abstract class CoreApplication extends MultiDexApplication {
 
                 Intent intentNotes = new Intent(Intent.ACTION_EDIT);
                 intentNotes.setDataAndType(Uri.fromFile(file), "text/plain");
-                list.add(null);
-                list.addAll(getPackageManager().queryIntentActivities(intentNotes, 0));
+
+                matchingApps = getPackageManager().queryIntentActivities(intentNotes, 0);
+                AddMatchingApps(list, matchingApps);
 
                 try {
 
@@ -762,10 +747,7 @@ public abstract class CoreApplication extends MultiDexApplication {
                         Intent keepIntent = new Intent();
                         keepIntent.setPackage("com.google.android.keep");
                         List<ResolveInfo> resolveInfo = getPackageManager().queryIntentActivities(keepIntent, 0);
-                        if (resolveInfo != null && resolveInfo.size() > 0 && !list
-                                .contains(resolveInfo.get(0))) {
-                            list.add(resolveInfo.get(0));
-                        }
+                        AddMatchingApps(list, resolveInfo);
                     }
 
                     if (UIUtils.isAppInstalledAndEnabled(this, "com.evernote")) {
@@ -773,11 +755,7 @@ public abstract class CoreApplication extends MultiDexApplication {
                         evernote.setPackage("com.evernote");
                         List<ResolveInfo> resolveInfoEverNote = getPackageManager()
                                 .queryIntentActivities(evernote, 0);
-                        if (resolveInfoEverNote != null && resolveInfoEverNote
-                                .size() > 0 && !list
-                                .contains(resolveInfoEverNote.get(0))) {
-                            list.add(resolveInfoEverNote.get(0));
-                        }
+                        AddMatchingApps(list, resolveInfoEverNote);
                     }
 
                     if (UIUtils.isAppInstalledAndEnabled(this, "com.microsoft.office.onenote")) {
@@ -785,11 +763,8 @@ public abstract class CoreApplication extends MultiDexApplication {
                         oneNote.setPackage("com.microsoft.office.onenote");
                         List<ResolveInfo> resolveInfoOneNote = getPackageManager()
                                 .queryIntentActivities(oneNote, 0);
-                        if (resolveInfoOneNote != null && resolveInfoOneNote.size
-                                () > 0 && !list.contains(resolveInfoOneNote.get
-                                (0))) {
-                            list.add(resolveInfoOneNote.get(0));
-                        }
+                        AddMatchingApps(list, resolveInfoOneNote);
+
                     }
                     if (UIUtils.isAppInstalledAndEnabled(this, "com.automattic.simplenote")) {
                         Intent simpleNote = new Intent();
@@ -797,11 +772,8 @@ public abstract class CoreApplication extends MultiDexApplication {
                         List<ResolveInfo> resolveInfoSimpleNote =
                                 getPackageManager()
                                         .queryIntentActivities(simpleNote, 0);
-                        if (resolveInfoSimpleNote != null && resolveInfoSimpleNote.size
-                                () > 0 && !list.contains(resolveInfoSimpleNote.get
-                                (0))) {
-                            list.add(resolveInfoSimpleNote.get(0));
-                        }
+                        AddMatchingApps(list, resolveInfoSimpleNote);
+
                     }
                     if (UIUtils.isAppInstalledAndEnabled(this, "com.socialnmobile.dictapps.notepad.color.note")) {
                         Intent colorNote = new Intent();
@@ -809,11 +781,8 @@ public abstract class CoreApplication extends MultiDexApplication {
                         List<ResolveInfo> resolveInfoSimpleNote =
                                 getPackageManager()
                                         .queryIntentActivities(colorNote, 0);
-                        if (resolveInfoSimpleNote != null && resolveInfoSimpleNote.size
-                                () > 0 && !list.contains(resolveInfoSimpleNote.get
-                                (0))) {
-                            list.add(resolveInfoSimpleNote.get(0));
-                        }
+                        AddMatchingApps(list, resolveInfoSimpleNote);
+
                     }
 
                     if (UIUtils.isAppInstalledAndEnabled(this, "com.task.notes")) {
@@ -822,11 +791,7 @@ public abstract class CoreApplication extends MultiDexApplication {
                         List<ResolveInfo> resolveInfoSimpleNote =
                                 getPackageManager()
                                         .queryIntentActivities(colorNote, 0);
-                        if (resolveInfoSimpleNote != null && resolveInfoSimpleNote.size
-                                () > 0 && !list.contains(resolveInfoSimpleNote.get
-                                (0))) {
-                            list.add(resolveInfoSimpleNote.get(0));
-                        }
+                        AddMatchingApps(list, resolveInfoSimpleNote);
                     }
 
                     if (UIUtils.isAppInstalledAndEnabled(this, "com.edi.masaki.mymemoapp")) {
@@ -835,11 +800,8 @@ public abstract class CoreApplication extends MultiDexApplication {
                         List<ResolveInfo> resolveInfoSimpleNote =
                                 getPackageManager()
                                         .queryIntentActivities(colorNote, 0);
-                        if (resolveInfoSimpleNote != null && resolveInfoSimpleNote.size
-                                () > 0 && !list.contains(resolveInfoSimpleNote.get
-                                (0))) {
-                            list.add(resolveInfoSimpleNote.get(0));
-                        }
+                        AddMatchingApps(list, resolveInfoSimpleNote);
+
                     }
 
                     if (UIUtils.isAppInstalledAndEnabled(this, "com.dencreak.esmemo")) {
@@ -848,11 +810,8 @@ public abstract class CoreApplication extends MultiDexApplication {
                         List<ResolveInfo> resolveInfoSimpleNote =
                                 getPackageManager()
                                         .queryIntentActivities(colorNote, 0);
-                        if (resolveInfoSimpleNote != null && resolveInfoSimpleNote.size
-                                () > 0 && !list.contains(resolveInfoSimpleNote.get
-                                (0))) {
-                            list.add(resolveInfoSimpleNote.get(0));
-                        }
+                        AddMatchingApps(list, resolveInfoSimpleNote);
+
                     }
                     if (UIUtils.isAppInstalledAndEnabled(this, "com.samsung.android.snote")) {
                         Intent colorNote = new Intent();
@@ -860,11 +819,8 @@ public abstract class CoreApplication extends MultiDexApplication {
                         List<ResolveInfo> resolveInfoSimpleNote =
                                 getPackageManager()
                                         .queryIntentActivities(colorNote, 0);
-                        if (resolveInfoSimpleNote != null && resolveInfoSimpleNote.size
-                                () > 0 && !list.contains(resolveInfoSimpleNote.get
-                                (0))) {
-                            list.add(resolveInfoSimpleNote.get(0));
-                        }
+                        AddMatchingApps(list, resolveInfoSimpleNote);
+
                     }
                     if (UIUtils.isAppInstalledAndEnabled(this, "com.samsung.android.app.notes")) {
                         Intent colorNote = new Intent();
@@ -872,11 +828,8 @@ public abstract class CoreApplication extends MultiDexApplication {
                         List<ResolveInfo> resolveInfoSimpleNote =
                                 getPackageManager()
                                         .queryIntentActivities(colorNote, 0);
-                        if (resolveInfoSimpleNote != null && resolveInfoSimpleNote.size
-                                () > 0 && !list.contains(resolveInfoSimpleNote.get
-                                (0))) {
-                            list.add(resolveInfoSimpleNote.get(0));
-                        }
+                        AddMatchingApps(list, resolveInfoSimpleNote);
+
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -888,32 +841,15 @@ public abstract class CoreApplication extends MultiDexApplication {
                 break;
             case TOOLS_CAMERA://Camera
                 Intent intentCamera = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-                list.addAll(getPackageManager().queryIntentActivities(intentCamera, 0));
-                packageNames = new HashSet<>(0);
-                listTemp = new ArrayList<>(0);
-                for (ResolveInfo resolveInfo : list) {
-                    if (!packageNames.contains(resolveInfo.activityInfo.packageName)) {
-                        packageNames.add(resolveInfo.activityInfo.packageName);
-                        listTemp.add(resolveInfo);
-                    }
-                }
-                list.clear();
-                list.addAll(listTemp);
+                matchingApps = getPackageManager().queryIntentActivities(intentCamera, 0);
+                AddMatchingApps(list, matchingApps);
                 break;
             case TOOLS_PHOTOS://Photos
                 Intent pickIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 pickIntent.setType("image/* video/*");
-                list.addAll(getPackageManager().queryIntentActivities(pickIntent, 0));
-                packageNames = new HashSet<>(0);
-                listTemp = new ArrayList<>(0);
-                for (ResolveInfo resolveInfo : list) {
-                    if (!packageNames.contains(resolveInfo.activityInfo.packageName)) {
-                        packageNames.add(resolveInfo.activityInfo.packageName);
-                        listTemp.add(resolveInfo);
-                    }
-                }
-                list.clear();
-                list.addAll(listTemp);
+                matchingApps = getPackageManager().queryIntentActivities(pickIntent, 0);
+                AddMatchingApps(list, matchingApps);
+
                 break;
             case TOOLS_PAYMENT://Payment
                 break;
@@ -921,52 +857,26 @@ public abstract class CoreApplication extends MultiDexApplication {
                 break;
             case TOOLS_BROWSER://Browser
                 Intent intentBrowser = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.google.com/"));
-                list.addAll(getPackageManager().queryIntentActivities(intentBrowser, 0));
-                packageNames = new HashSet<>(0);
-                listTemp = new ArrayList<>(0);
-                for (ResolveInfo resolveInfo : list) {
-                    if (!packageNames.contains(resolveInfo.activityInfo.packageName)) {
-                        packageNames.add(resolveInfo.activityInfo.packageName);
-                        listTemp.add(resolveInfo);
-                    }
-                }
-                list.clear();
-                list.addAll(listTemp);
+                matchingApps = getPackageManager().queryIntentActivities(intentBrowser, 0);
+                AddMatchingApps(list, matchingApps);
                 break;
 
             case TOOLS_CALL://Call
                 Uri number = Uri.parse("tel:");
                 Intent dial = new Intent(Intent.ACTION_DIAL, number);
-                list.addAll(getPackageManager().queryIntentActivities(dial, 0));
-                packageNames = new HashSet<>(0);
-                listTemp = new ArrayList<>(0);
-                for (ResolveInfo resolveInfo : list) {
-                    if (!packageNames.contains(resolveInfo.activityInfo.packageName)) {
-                        packageNames.add(resolveInfo.activityInfo.packageName);
-                        listTemp.add(resolveInfo);
-                    }
-                }
-                list.clear();
-                list.addAll(listTemp);
+                matchingApps = getPackageManager().queryIntentActivities(dial, 0);
+                AddMatchingApps(list, matchingApps);
                 break;
             case TOOLS_CLOCK://Clock
                 Intent intentClock = new Intent(AlarmClock.ACTION_SET_ALARM);
-                list.addAll(getPackageManager().queryIntentActivities(intentClock, 0));
-                packageNames = new HashSet<>(0);
-                listTemp = new ArrayList<>(0);
-                for (ResolveInfo resolveInfo : list) {
-                    if (!packageNames.contains(resolveInfo.activityInfo.packageName)) {
-                        packageNames.add(resolveInfo.activityInfo.packageName);
-                        listTemp.add(resolveInfo);
-                    }
-                }
-                list.clear();
-                list.addAll(listTemp);
+                matchingApps = getPackageManager().queryIntentActivities(intentClock, 0);
+                AddMatchingApps(list, matchingApps);
                 break;
             case TOOLS_MESSAGE://message
                 Intent message = new Intent(Intent.ACTION_VIEW, Uri.parse("sms:" + ""));
                 message.putExtra("sms_body", "Test text...");
-                list.addAll(getPackageManager().queryIntentActivities(message, 0));
+                matchingApps = getPackageManager().queryIntentActivities(message, 0);
+                AddMatchingApps(list, matchingApps);
 
                 try {
                     if (UIUtils.isAppInstalledAndEnabled(this, Constants
@@ -975,10 +885,8 @@ public abstract class CoreApplication extends MultiDexApplication {
                         keepIntent.setPackage(Constants
                                 .WHATSAPP_PACKAGE);
                         List<ResolveInfo> resolveInfo = getPackageManager().queryIntentActivities(keepIntent, 0);
-                        if (resolveInfo != null && resolveInfo.size() > 0 && !list
-                                .contains(resolveInfo.get(0))) {
-                            list.add(resolveInfo.get(0));
-                        }
+                        AddMatchingApps(list, resolveInfo);
+
                     }
 
                     if (UIUtils.isAppInstalledAndEnabled(this, Constants
@@ -988,11 +896,8 @@ public abstract class CoreApplication extends MultiDexApplication {
                                 .LINE_PACKAGE);
                         List<ResolveInfo> resolveInfoEverNote = getPackageManager()
                                 .queryIntentActivities(evernote, 0);
-                        if (resolveInfoEverNote != null && resolveInfoEverNote
-                                .size() > 0 && !list
-                                .contains(resolveInfoEverNote.get(0))) {
-                            list.add(resolveInfoEverNote.get(0));
-                        }
+                        AddMatchingApps(list, resolveInfoEverNote);
+
                     }
 
                     if (UIUtils.isAppInstalledAndEnabled(this, Constants
@@ -1002,11 +907,8 @@ public abstract class CoreApplication extends MultiDexApplication {
                                 .VIBER_PACKAGE);
                         List<ResolveInfo> resolveInfoEverNote = getPackageManager()
                                 .queryIntentActivities(evernote, 0);
-                        if (resolveInfoEverNote != null && resolveInfoEverNote
-                                .size() > 0 && !list
-                                .contains(resolveInfoEverNote.get(0))) {
-                            list.add(resolveInfoEverNote.get(0));
-                        }
+                        AddMatchingApps(list, resolveInfoEverNote);
+
                     }
 
                     if (UIUtils.isAppInstalledAndEnabled(this, Constants
@@ -1016,11 +918,8 @@ public abstract class CoreApplication extends MultiDexApplication {
                                 .SKYPE_PACKAGE);
                         List<ResolveInfo> resolveInfoEverNote = getPackageManager()
                                 .queryIntentActivities(evernote, 0);
-                        if (resolveInfoEverNote != null && resolveInfoEverNote
-                                .size() > 0 && !list
-                                .contains(resolveInfoEverNote.get(0))) {
-                            list.add(resolveInfoEverNote.get(0));
-                        }
+                        AddMatchingApps(list, resolveInfoEverNote);
+
                     }
                     if (UIUtils.isAppInstalledAndEnabled(this, Constants
                             .WECHAT_PACKAGE)) {
@@ -1029,60 +928,30 @@ public abstract class CoreApplication extends MultiDexApplication {
                                 .WECHAT_PACKAGE);
                         List<ResolveInfo> resolveInfoEverNote = getPackageManager()
                                 .queryIntentActivities(evernote, 0);
-                        if (resolveInfoEverNote != null && resolveInfoEverNote
-                                .size() > 0 && !list
-                                .contains(resolveInfoEverNote.get(0))) {
-                            list.add(resolveInfoEverNote.get(0));
-                        }
+                        AddMatchingApps(list, resolveInfoEverNote);
+
                     }
 
 
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                packageNames = new HashSet<>(0);
-                listTemp = new ArrayList<>(0);
-                for (ResolveInfo resolveInfo : list) {
-                    if (!packageNames.contains(resolveInfo.activityInfo.packageName)) {
-                        packageNames.add(resolveInfo.activityInfo.packageName);
-                        listTemp.add(resolveInfo);
-                    }
-                }
-                list.clear();
-                list.addAll(listTemp);
-
                 break;
             case TOOLS_EMAIL://email
                 Intent intentEmail = new Intent(Intent.ACTION_VIEW);
                 Uri data = Uri.parse("mailto:recipient@example.com?subject=" + "" + "&body=" + "");
                 intentEmail.setData(data);
-                list.addAll(getPackageManager().queryIntentActivities(intentEmail, 0));
-                packageNames = new HashSet<>(0);
-                listTemp = new ArrayList<>(0);
-                for (ResolveInfo resolveInfo : list) {
-                    if (!packageNames.contains(resolveInfo.activityInfo.packageName)) {
-                        packageNames.add(resolveInfo.activityInfo.packageName);
-                        listTemp.add(resolveInfo);
-                    }
-                }
-                list.clear();
-                list.addAll(listTemp);
+                matchingApps = getPackageManager().queryIntentActivities(intentEmail, 0);
+                AddMatchingApps(list, matchingApps);
+
                 break;
 
             case TOOLS_MUSIC:// Music
                 Intent intentMusic = new Intent(MediaStore
                         .INTENT_ACTION_MUSIC_PLAYER);
-                list.addAll(getPackageManager().queryIntentActivities(intentMusic, 0));
-                packageNames = new HashSet<>(0);
-                listTemp = new ArrayList<>(0);
-                for (ResolveInfo resolveInfo : list) {
-                    if (!packageNames.contains(resolveInfo.activityInfo.packageName)) {
-                        packageNames.add(resolveInfo.activityInfo.packageName);
-                        listTemp.add(resolveInfo);
-                    }
-                }
-                list.clear();
-                list.addAll(listTemp);
+                matchingApps = getPackageManager().queryIntentActivities(intentMusic, 0);
+                AddMatchingApps(list, matchingApps);
+
                 break;
 
             case TOOLS_PODCAST://PODCAST
@@ -1176,23 +1045,17 @@ public abstract class CoreApplication extends MultiDexApplication {
         return list;
     }
 
-
-
-    private void initMemoryCatch() {
-        final int maxMemory = (int) (Runtime.getRuntime().maxMemory() / 1024);
-
-        // Use 1/8th of the available memory for this memory cache.
-        final int cacheSize = maxMemory / 4;
-
-        mMemoryCache = new LruCache<String, Bitmap>(cacheSize) {
-            @Override
-            protected int sizeOf(String key, Bitmap bitmap) {
-                // The cache size will be measured in kilobytes rather than
-                // number of items.
-                return bitmap.getByteCount() / 1024;
+    private void AddMatchingApps(ArrayList<App> list, List<ResolveInfo> matchingApps) {
+        for (ResolveInfo info: matchingApps) {
+            for (App app: getApplications()) {
+                if (info.activityInfo.packageName.equals(app.packageName)) {
+                    list.add(app);
+                }
             }
-        };
+
+        }
     }
+
 
     public void includeTaskPool(AsyncTask asyncTask, Object object) {
         asyncTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, object);
@@ -1200,11 +1063,11 @@ public abstract class CoreApplication extends MultiDexApplication {
 
     public void addBitmapToMemoryCache(String key, Bitmap bitmap) {
         if (getBitmapFromMemCache(key) == null) {
-            mMemoryCache.put(key, bitmap);
+            mMemoryCache.put(key, new BitmapDrawable(getResources(), bitmap));
         }
     }
 
-    public Bitmap getBitmapFromMemCache(String key) {
+    public Drawable getBitmapFromMemCache(String key) {
         return mMemoryCache.get(key);
     }
 
@@ -1318,6 +1181,9 @@ public abstract class CoreApplication extends MultiDexApplication {
                 for (LauncherActivityInfo activityInfo : launcher.getActivityList(null, profile)) {
                     ApplicationInfo appInfo = activityInfo.getApplicationInfo();
                     String packageName = appInfo.packageName;
+
+                    Drawable icon = activityInfo.getBadgedIcon(0);
+                    mMemoryCache.put(appInfo.packageName, icon);
 
                     String applicationName = appInfo.loadLabel(getPackageManager()).toString();
                     App app = new App();

@@ -21,10 +21,8 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
 
 import co.siempo.phone.R;
 import co.siempo.phone.adapters.viewholder.AppAssignmentAdapter;
@@ -43,14 +41,14 @@ import org.greenrobot.eventbus.Subscribe;
 
 public class AppAssignmentActivity extends CoreActivity {
 
-    public List<ResolveInfo> appList = new ArrayList<>();
+    public List<App> appList = new ArrayList<>();
     MainListItem mainListItem;
     MenuItem item_tools;
     //8 Photos
     List<Integer> idList = Arrays.asList(2, 4, 6, 9, 10, 12, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44);
     LinkedList<App> set = new LinkedList<>();
-    List<ResolveInfo> appListAll = new ArrayList<>();
-    ArrayList<ResolveInfo> mimeList = new ArrayList<>();
+    List<App> appListAll = new ArrayList<>();
+    ArrayList<App> mimeList = new ArrayList<>();
     private Toolbar toolbar;
     private RecyclerView recyclerView;
     private TextView txtErrorMessage;
@@ -150,16 +148,16 @@ public class AppAssignmentActivity extends CoreActivity {
         if(categoryAppList!=null && categoryAppList.size()>0) {
             Intent mainIntent = new Intent(Intent.ACTION_MAIN, null);
             mainIntent.addCategory(Intent.CATEGORY_LAUNCHER);
-            List<ResolveInfo> installedPackageList = context.getPackageManager().queryIntentActivities(mainIntent, 0);
+            List<App> installedPackageList = CoreApplication.getInstance().getApplications();
 
 
-            for (ResolveInfo resolveInfo : installedPackageList) {
-                if (resolveInfo.activityInfo.packageName != null && !resolveInfo.activityInfo.packageName.equalsIgnoreCase(getPackageName())) {
+            for (App app : installedPackageList) {
+                if (app.packageName != null && !app.packageName.equalsIgnoreCase(getPackageName())) {
 
                     for (String googleAppPackages: googleApps) {
-                        if ((mainListItem != null && resolveInfo.activityInfo.packageName.equalsIgnoreCase(googleAppPackages.toLowerCase()))){
+                        if ((mainListItem != null && app.packageName.equalsIgnoreCase(googleAppPackages.toLowerCase()))){
                             isCategoryAvailable = true;
-                            appList.add(resolveInfo);
+                            appList.add(app);
                         }
                     }
                 }
@@ -167,26 +165,26 @@ public class AppAssignmentActivity extends CoreActivity {
 
 
 
-            for (ResolveInfo resolveInfo : installedPackageList) {
+            for (App app : installedPackageList) {
 
-                if (resolveInfo.activityInfo.packageName != null && !resolveInfo.activityInfo.packageName.equalsIgnoreCase(getPackageName())) {
+                if (app.packageName != null && !app.packageName.equalsIgnoreCase(getPackageName())) {
 
                     String appName="";
                     try{
-                        appName =  resolveInfo.loadLabel(getPackageManager()).toString();
+                        appName =  app.displayName;
                     }catch (Exception e){
 
                     }
                     for (CategoryAppList category : categoryAppList) {
 
-                        if(mainListItem!=null && mainListItem.getCategory()!=null && mainListItem.getCategory().equalsIgnoreCase("Travel & Local") && resolveInfo!=null && resolveInfo.activityInfo!=null && resolveInfo.activityInfo.packageName.equalsIgnoreCase("me.lyft.android")){
+                        if(mainListItem!=null && mainListItem.getCategory()!=null && mainListItem.getCategory().equalsIgnoreCase("Travel & Local")  && app.packageName.equalsIgnoreCase("me.lyft.android")){
                             isCategoryAvailable = true;
-                            appList.add(resolveInfo);
+                            appList.add(app);
                         }
 
-                        if ((mainListItem != null && resolveInfo.activityInfo.packageName.equalsIgnoreCase(category.getPackageName()) &&  mainListItem.getCategory().equalsIgnoreCase(category.getCategoryName())) || ( appName.contains(mainListItem.getTitle()) || mainListItem.getTitle().contains(appName) ) ) {
+                        if ((mainListItem != null && app.packageName.equalsIgnoreCase(category.getPackageName()) &&  mainListItem.getCategory().equalsIgnoreCase(category.getCategoryName())) || ( appName.contains(mainListItem.getTitle()) || mainListItem.getTitle().contains(appName) ) ) {
                             isCategoryAvailable = true;
-                            appList.add(resolveInfo);
+                            appList.add(app);
                         }
                     }
                 }
@@ -229,17 +227,28 @@ public class AppAssignmentActivity extends CoreActivity {
         return newList;
     }
 
+    private void AddMatchingApps(List<App> list, List<ResolveInfo> matchingApps) {
+        for (ResolveInfo info: matchingApps) {
+            for (App app: CoreApplication.getInstance().getApplications()) {
+                if (info.activityInfo.packageName.equals(app.packageName)) {
+                    list.add(app);
+                }
+            }
+        }
+    }
 
     public void showListByMimeType(){
-        List<ResolveInfo> installedPackageList;
+        List<App> installedPackageList = new ArrayList<>();
         Intent mainIntent = new Intent(Intent.ACTION_MAIN, null);
         mainIntent.addCategory(Intent.CATEGORY_LAUNCHER);
-        installedPackageList = getPackageManager().queryIntentActivities(mainIntent, 0);
+        List<ResolveInfo> installedLaunchers = getPackageManager().queryIntentActivities(mainIntent, 0);
+        AddMatchingApps(installedPackageList, installedLaunchers);
+
         if (idList.contains(mainListItem.getId())) {
             mimeList = getMimeList();
-            for (ResolveInfo resolveInfo : installedPackageList) {
-                if (!resolveInfo.activityInfo.packageName.equalsIgnoreCase(getPackageName())) {
-                    appList.add(resolveInfo);
+            for (App app : installedPackageList) {
+                if (!app.packageName.equalsIgnoreCase(getPackageName())) {
+                    appList.add(app);
                 }
             }
             if (showallAppBtn != null) {
@@ -250,12 +259,12 @@ public class AppAssignmentActivity extends CoreActivity {
         }
 
         appListAll = new ArrayList<>();
-        for (ResolveInfo resolveInfo : installedPackageList) {
-            if (!resolveInfo.activityInfo.packageName.equalsIgnoreCase(getPackageName())) {
-                appListAll.add(resolveInfo);
+        for (App app : installedPackageList) {
+            if (!app.packageName.equalsIgnoreCase(getPackageName())) {
+                appListAll.add(app);
             }
         }
-        appListAll = Sorting.sortAppAssignment(AppAssignmentActivity.this, appListAll);
+        appListAll = Sorting.sortAppAssignment(appListAll);
         appListAll=removeDuplicates(appListAll);
         appList=removeDuplicates(appList);
 
@@ -266,8 +275,8 @@ public class AppAssignmentActivity extends CoreActivity {
         }
     }
 
-    private ArrayList<ResolveInfo> getMimeList() {
-        ArrayList<ResolveInfo> mimeListLocal = new ArrayList<>();
+    private ArrayList<App> getMimeList() {
+        ArrayList<App> mimeListLocal = new ArrayList<>();
         for (int i = 1; i <= 20; i++) {
             mimeListLocal.addAll(CoreApplication.getInstance().getApplicationByCategory(i));
         }
@@ -337,25 +346,24 @@ public class AppAssignmentActivity extends CoreActivity {
     }
 
     public void getAllInstallApps(){
-        List<ResolveInfo> installedPackageList;
         Intent mainIntent = new Intent(Intent.ACTION_MAIN, null);
         mainIntent.addCategory(Intent.CATEGORY_LAUNCHER);
-        installedPackageList = getPackageManager().queryIntentActivities(mainIntent, 0);
+        List<App> installedPackageList = CoreApplication.getInstance().getApplications();
         appListAll = new ArrayList<>();
-        for (ResolveInfo resolveInfo : installedPackageList) {
-            if (!resolveInfo.activityInfo.packageName.equalsIgnoreCase(getPackageName())) {
-                appListAll.add(resolveInfo);
+        for (App app : installedPackageList) {
+            if (!app.packageName.equalsIgnoreCase(getPackageName())) {
+                appListAll.add(app);
             }
         }
-        appListAll = Sorting.sortAppAssignment(AppAssignmentActivity.this, appListAll);
+        appListAll = Sorting.sortAppAssignment(appListAll);
 
     }
 
-    private void bindList(List<ResolveInfo> appList) {
+    private void bindList(List<App> appList) {
         if (appList != null && appList.size() > 0) {
             recyclerView.setVisibility(View.VISIBLE);
             txtErrorMessage.setVisibility(View.INVISIBLE);
-            appList = Sorting.sortAppAssignment(this, appList);
+            appList = Sorting.sortAppAssignment(appList);
             LinearLayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
             recyclerView.setLayoutManager(mLayoutManager);
             recyclerView.addItemDecoration(

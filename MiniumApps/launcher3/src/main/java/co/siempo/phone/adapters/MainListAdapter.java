@@ -235,9 +235,9 @@ public class MainListAdapter extends ArrayAdapter<MainListItem> {
                                 color, 24);
                         holder.icon.setImageDrawable(drawable);
                     } else {
-                        Bitmap bitmap = CoreApplication.getInstance().getBitmapFromMemCache(packageName);
+                        Drawable bitmap = CoreApplication.getInstance().getBitmapFromMemCache(packageName);
                         if (bitmap != null) {
-                            holder.icon.setImageBitmap(bitmap);
+                            holder.icon.setImageDrawable(bitmap);
                         } else {
                             BitmapWorkerTask bitmapWorkerTask = new BitmapWorkerTask(context.getPackageManager(), packageName);
                             CoreApplication.getInstance().includeTaskPool(bitmapWorkerTask, null);

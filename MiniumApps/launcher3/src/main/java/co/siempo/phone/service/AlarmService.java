@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.RingtoneManager;
@@ -42,6 +43,7 @@ import co.siempo.phone.db.TableNotificationSms;
 import co.siempo.phone.db.TableNotificationSmsDao;
 import co.siempo.phone.log.Tracer;
 import co.siempo.phone.models.CustomNotification;
+import co.siempo.phone.utils.BitmapUtility;
 import co.siempo.phone.utils.PackageUtil;
 import co.siempo.phone.utils.PrefSiempo;
 import co.siempo.phone.utils.Sorting;
@@ -273,14 +275,14 @@ public class AlarmService extends IntentService {
 
     private Notification createGroupNotification(String packageName, ArrayList<TableNotificationSms> notificationSms) {
         String applicationName = CoreApplication.getInstance().getApplicationName(packageName);
-        Bitmap bitmap = CoreApplication.getInstance().getBitmapFromMemCache(packageName);
+        Drawable bitmap = CoreApplication.getInstance().getBitmapFromMemCache(packageName);
         PendingIntent contentIntent = PackageUtil.getPendingIntent(context, notificationSms.get(0));
         return new NotificationCompat.Builder(context, applicationName)
                 .setSmallIcon(R.drawable.siempo_notification_icon)
                 .setContentTitle(applicationName)
                 .setContentIntent(contentIntent)
                 .setContentText(notificationSms.size() == 1 ? "1 new message" : notificationSms.size() + " new messages")
-                .setLargeIcon(bitmap)
+                .setLargeIcon(BitmapUtility.drawableToBitmap(bitmap))
                 .setGroupSummary(true)
                 .setAutoCancel(true)
                 .setGroup(applicationName)
@@ -290,7 +292,7 @@ public class AlarmService extends IntentService {
 
     private Notification createSingleNotification(TableNotificationSms tableNotificationSms, boolean isGrouped) {
         String applicationName = CoreApplication.getInstance().getApplicationName(tableNotificationSms.getPackageName());
-        Bitmap bitmapApplication = CoreApplication.getInstance().getBitmapFromMemCache(tableNotificationSms.getPackageName());
+        Drawable bitmapApplication = CoreApplication.getInstance().getBitmapFromMemCache(tableNotificationSms.getPackageName());
         int priority = !PrefSiempo.getInstance(context).read(PrefSiempo.ALLOW_PEAKING, true) ? Notification.PRIORITY_DEFAULT : Notification.PRIORITY_HIGH;
         PendingIntent contentIntent = PackageUtil.getPendingIntent(context, tableNotificationSms);
         RemoteViews contentView = new RemoteViews(context.getPackageName(), R.layout.custom_notification_card);
@@ -298,7 +300,7 @@ public class AlarmService extends IntentService {
         String time = sdf.format(tableNotificationSms.get_date());
         String title = PackageUtil.getNotificationTitle(tableNotificationSms.get_contact_title(), tableNotificationSms.getPackageName(), context);
         Bitmap bitmapUserIcon = tableNotificationSms.getUser_icon() != null ? UIUtils.convertBytetoBitmap(tableNotificationSms.getUser_icon()) : null;
-        contentView.setImageViewBitmap(R.id.imgAppIcon, bitmapApplication);
+        contentView.setImageViewBitmap(R.id.imgAppIcon, BitmapUtility.drawableToBitmap(bitmapApplication));
         contentView.setImageViewBitmap(R.id.imgUserImage, bitmapUserIcon);
         contentView.setTextViewText(R.id.txtUserName, title);
         contentView.setTextViewText(R.id.txtMessage, tableNotificationSms.get_message());
@@ -309,7 +311,7 @@ public class AlarmService extends IntentService {
         }
 
         RemoteViews collapsedViews = new RemoteViews(context.getPackageName(), R.layout.custom_notification_card_collapse);
-        collapsedViews.setImageViewBitmap(R.id.imgAppIcon, bitmapApplication);
+        collapsedViews.setImageViewBitmap(R.id.imgAppIcon, BitmapUtility.drawableToBitmap(bitmapApplication));
         collapsedViews.setImageViewBitmap(R.id.imgUserImage, bitmapUserIcon);
         collapsedViews.setTextViewText(R.id.txtUserName, title);
         collapsedViews.setTextViewText(R.id.txtMessage, tableNotificationSms.get_message());
@@ -345,7 +347,7 @@ public class AlarmService extends IntentService {
     private void generateBelow24(Context context, ArrayList<TableNotificationSms> notificationSms) {
         String packageName = notificationSms.get(0).getPackageName();
         String applicationName = CoreApplication.getInstance().getApplicationName(packageName);
-        Bitmap bitmapApplication = CoreApplication.getInstance().getBitmapFromMemCache(packageName);
+        Bitmap bitmapApplication = BitmapUtility.drawableToBitmap(CoreApplication.getInstance().getBitmapFromMemCache(packageName));
         NotificationManagerCompat n = NotificationManagerCompat.from(this);
         int priority = !PrefSiempo.getInstance(context).read(PrefSiempo.ALLOW_PEAKING, true) ? Notification.PRIORITY_DEFAULT : Notification.PRIORITY_HIGH;
         if (notificationSms.size() == 1) {

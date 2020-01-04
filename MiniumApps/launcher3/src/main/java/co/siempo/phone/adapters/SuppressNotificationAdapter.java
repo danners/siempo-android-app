@@ -84,9 +84,9 @@ public class SuppressNotificationAdapter extends RecyclerView.Adapter<SuppressNo
             holder.imgAppIcon.setBackground(null);
             holder.imgAppIcon.setImageBitmap(null);
 
-            Bitmap bitmap = CoreApplication.getInstance().getBitmapFromMemCache(notification.getPackageName());
+            Drawable bitmap = CoreApplication.getInstance().getBitmapFromMemCache(notification.getPackageName());
             if (bitmap != null) {
-                holder.imgAppIcon.setImageBitmap(bitmap);
+                holder.imgAppIcon.setImageDrawable(bitmap);
             } else {
                 BitmapWorkerTask bitmapWorkerTask = new BitmapWorkerTask(mContext.getPackageManager(), notification.getPackageName());
                 CoreApplication.getInstance().includeTaskPool(bitmapWorkerTask, null);
@@ -139,9 +139,9 @@ public class SuppressNotificationAdapter extends RecyclerView.Adapter<SuppressNo
                     strAppName = CoreApplication.getInstance().getApplicationNameFromPackageName(defSMSApp);
                 }
                 holder.txtAppName.setText(strAppName);
-                Bitmap bitmap = CoreApplication.getInstance().getBitmapFromMemCache(defSMSApp);
+                Drawable bitmap = CoreApplication.getInstance().getBitmapFromMemCache(defSMSApp);
                 if (bitmap != null) {
-                    holder.imgAppIcon.setImageBitmap(bitmap);
+                    holder.imgAppIcon.setImageDrawable(bitmap);
                 } else {
                     BitmapWorkerTask bitmapWorkerTask = new BitmapWorkerTask(mContext.getPackageManager(), defSMSApp);
                     CoreApplication.getInstance().includeTaskPool(bitmapWorkerTask, null);

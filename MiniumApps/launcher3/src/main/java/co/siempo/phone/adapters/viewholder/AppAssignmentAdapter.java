@@ -45,14 +45,14 @@ import co.siempo.phone.utils.PrefSiempo;
 public class AppAssignmentAdapter extends RecyclerView.Adapter<AppAssignmentAdapter.ViewHolder>
         implements Filterable {
     private final AppAssignmentActivity context;
-    private List<ResolveInfo> filterList;
-    private List<ResolveInfo> resolveInfoList;
+    private List<App> filterList;
+    private List<App> resolveInfoList;
     private DrawableProvider mProvider;
     private int id;
     private String class_name;
     private ItemFilter mFilter = new ItemFilter();
 
-    public AppAssignmentAdapter(AppAssignmentActivity context, int id, List<ResolveInfo> resolveInfoList, String class_name) {
+    public AppAssignmentAdapter(AppAssignmentActivity context, int id, List<App> resolveInfoList, String class_name) {
         this.context = context;
         this.resolveInfoList = resolveInfoList;
         this.id = id;
@@ -80,14 +80,14 @@ public class AppAssignmentAdapter extends RecyclerView.Adapter<AppAssignmentAdap
     // Replace the contents of a view (invoked by the layout manager)
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
-        final ResolveInfo item = filterList.get(position);
+        final App item = filterList.get(position);
         if (id == 5 && item == null) {
             holder.txtAppName.setText(context.getString(R.string.label_note));
             holder.btnHideApps.setVisibility(View.GONE);
             holder.imgIcon.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_menu_notes));
         } else if (item != null) {
-            holder.txtAppName.setText(item.loadLabel(context.getPackageManager()));
-            String packageName = item.activityInfo.packageName;
+            holder.txtAppName.setText(item.displayName);
+            String packageName = item.packageName;
             List<App> junkApps = PrefSiempo.getInstance(context).readAppList(PrefSiempo.JUNKFOOD_APPS);
             boolean containedInJunk = false;
             for (App app: junkApps)
@@ -104,8 +104,7 @@ public class AppAssignmentAdapter extends RecyclerView.Adapter<AppAssignmentAdap
                 Resources.Theme theme = context.getTheme();
                 theme.resolveAttribute(R.attr.icon_color, typedValue, true);
                 int color = typedValue.data;
-                Drawable drawable = mProvider.getRound("" + item.loadLabel
-                        (context.getPackageManager()).charAt(0), color, 30);
+                Drawable drawable = mProvider.getRound("" + item.displayName.charAt(0), color, 30);
                 holder.imgIcon.setImageDrawable(drawable);
                 holder.btnHideApps.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -115,13 +114,13 @@ public class AppAssignmentAdapter extends RecyclerView.Adapter<AppAssignmentAdap
                     }
                 });
             } else {
-                Bitmap bitmap = CoreApplication.getInstance().getBitmapFromMemCache(item.activityInfo.packageName);
+                Drawable bitmap = CoreApplication.getInstance().getBitmapFromMemCache(item.packageName);
                 if (bitmap != null) {
-                    holder.imgIcon.setImageBitmap(bitmap);
+                    holder.imgIcon.setImageDrawable(bitmap);
                 } else {
-                    BitmapWorkerTask bitmapWorkerTask = new BitmapWorkerTask(context.getPackageManager(), item.activityInfo.packageName);
+                    BitmapWorkerTask bitmapWorkerTask = new BitmapWorkerTask(context.getPackageManager(), item.packageName);
                     CoreApplication.getInstance().includeTaskPool(bitmapWorkerTask, null);
-                    Drawable drawable = CoreApplication.getInstance().getApplicationIconFromPackageName(item.activityInfo.packageName);
+                    Drawable drawable = CoreApplication.getInstance().getApplicationIconFromPackageName(item.packageName);
                     holder.imgIcon.setImageDrawable(drawable);
                 }
                 holder.btnHideApps.setVisibility(View.GONE);
@@ -144,11 +143,11 @@ public class AppAssignmentAdapter extends RecyclerView.Adapter<AppAssignmentAdap
                     } else {
                         if (null != item) {
                             map.get(id).setVisible(true);
-                            if (map.get(id).getApplicationName().equalsIgnoreCase(item.activityInfo.packageName)) {
+                            if (map.get(id).getApplicationName().equalsIgnoreCase(item.packageName)) {
                                 isSameApp = true;
                             } else {
                                 isSameApp = false;
-                                map.get(id).setApplicationName(item.activityInfo.packageName);
+                                map.get(id).setApplicationName(item.packageName);
                             }
                         }
                     }
@@ -164,8 +163,7 @@ public class AppAssignmentAdapter extends RecyclerView.Adapter<AppAssignmentAdap
 
                         } else {
                             if (item != null) {
-                                new ActivityHelper(context).openAppWithPackageName(item.activityInfo
-                                        .packageName);
+                                new ActivityHelper(context).openAppWithPackageName(item.packageName);
                             }
                             context.finish();
                         }
@@ -209,7 +207,7 @@ public class AppAssignmentAdapter extends RecyclerView.Adapter<AppAssignmentAdap
             FilterResults ret = new FilterResults();
 
             int count = resolveInfoList.size();
-            List<ResolveInfo> templist = new ArrayList<>();
+            List<App> templist = new ArrayList<>();
 
             String filterableString;
 
@@ -219,14 +217,11 @@ public class AppAssignmentAdapter extends RecyclerView.Adapter<AppAssignmentAdap
                         if (id == 5 && resolveInfoList.get(i) == null) {
                             filterableString = context.getString(R.string.label_note);
                         } else {
-                            filterableString = CoreApplication.getInstance().getApplicationName(resolveInfoList.get(i)
-                                            .activityInfo
-                                            .packageName);
+                            filterableString = CoreApplication.getInstance().getApplicationName(resolveInfoList.get(i).packageName);
                         }
                         if (filterableString == null) {
                             filterableString = CoreApplication.getInstance()
-                                    .getApplicationNameFromPackageName(resolveInfoList.get(i)
-                                            .activityInfo.packageName);
+                                    .getApplicationNameFromPackageName(resolveInfoList.get(i).packageName);
                         }
                         if (filterableString != null) {
                             if (filterableString.toLowerCase().contains(searchString.toLowerCase())) {
@@ -249,7 +244,7 @@ public class AppAssignmentAdapter extends RecyclerView.Adapter<AppAssignmentAdap
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
             if (results.values != null) {
-                filterList = (ArrayList<ResolveInfo>) results.values;
+                filterList = (ArrayList<App>) results.values;
             } else {
                 filterList = new ArrayList<>(resolveInfoList);
             }

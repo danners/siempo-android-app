@@ -149,9 +149,9 @@ public class JunkfoodFlaggingAdapter extends BaseAdapter implements Filterable {
                     // based on user selected language
                     holder.txtAppName.setText(CoreApplication.getInstance()
                             .getApplicationNameFromPackageName(resolveInfo.packageName));
-                    Bitmap bitmap = CoreApplication.getInstance().getBitmapFromMemCache(resolveInfo.packageName);
+                    Drawable bitmap = CoreApplication.getInstance().getBitmapFromMemCache(resolveInfo.packageName);
                     if (bitmap != null) {
-                        holder.imgAppIcon.setImageBitmap(bitmap);
+                        holder.imgAppIcon.setImageDrawable(bitmap);
                     } else {
                         BitmapWorkerTask bitmapWorkerTask = new BitmapWorkerTask(context.getPackageManager(), resolveInfo.packageName);
                         CoreApplication.getInstance().includeTaskPool(bitmapWorkerTask, null);

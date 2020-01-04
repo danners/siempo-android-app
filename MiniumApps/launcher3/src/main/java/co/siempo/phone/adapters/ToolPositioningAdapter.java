@@ -6,6 +6,8 @@ import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -115,11 +117,11 @@ public class ToolPositioningAdapter extends RecyclerView.Adapter<ToolPositioning
                 holder.text.setText(item.getTitle());
             } else {
                 holder.text.setText(CoreApplication.getInstance().getApplicationNameFromPackageName(appMenu.getApplicationName()));
-                Bitmap bitmap = CoreApplication.getInstance().getBitmapFromMemCache(appMenu.getApplicationName());
+                Drawable bitmap = CoreApplication.getInstance().getBitmapFromMemCache(appMenu.getApplicationName());
                 if (bitmap != null) {
                     holder.icon.setVisibility(View.GONE);
                     holder.imgAppIcon.setVisibility(View.VISIBLE);
-                    holder.imgAppIcon.setImageBitmap(bitmap);
+                    holder.imgAppIcon.setImageDrawable(bitmap);
                 } else {
                     BitmapWorkerTask bitmapWorkerTask = new BitmapWorkerTask(context.getPackageManager(), appMenu.getApplicationName());
                     CoreApplication.getInstance().includeTaskPool(bitmapWorkerTask, null);

@@ -1,13 +1,13 @@
 package co.siempo.phone.utils;
 
 import android.content.Context;
-import android.content.pm.ResolveInfo;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import co.siempo.phone.app.App;
 import co.siempo.phone.app.CoreApplication;
 import co.siempo.phone.db.TableNotificationSms;
 import co.siempo.phone.models.AppListInfo;
@@ -24,19 +24,16 @@ public class Sorting {
     /**
      * Sort the application alphabetically.
      *
-     * @param context
      * @param list
      * @return
      */
-    public synchronized static List<ResolveInfo> sortAppAssignment(final Context context, List<ResolveInfo> list) {
-        sort(list, new Comparator<ResolveInfo>() {
+    public synchronized static List<App> sortAppAssignment(List<App> list) {
+        sort(list, new Comparator<App>() {
             @Override
-            public int compare(final ResolveInfo object1, final ResolveInfo object2) {
+            public int compare(final App object1, final App object2) {
                 if (object1 != null && object2 != null) {
-                    return object1.loadLabel(context
-                            .getPackageManager()).toString().toLowerCase().compareTo
-                            (object2.loadLabel(context.getPackageManager())
-                                    .toString().toLowerCase());
+                    return object1.displayName.compareTo
+                            (object2.displayName);
                 } else {
                     return 1;
                 }

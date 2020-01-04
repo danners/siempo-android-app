@@ -19,6 +19,7 @@ import butterknife.ButterKnife;
 import co.siempo.phone.R;
 import co.siempo.phone.app.BitmapWorkerTask;
 import co.siempo.phone.app.CoreApplication;
+import co.siempo.phone.utils.BitmapUtility;
 import co.siempo.phone.utils.PrefSiempo;
 
 
@@ -65,7 +66,7 @@ public class TempoNotificationItemViewHolder extends RecyclerView.ViewHolder {
     public void displayImage(String packageName, String errormessage) {
         if (TextUtils.isEmpty(errormessage)) {
 
-            Bitmap bitmap = CoreApplication.getInstance().getBitmapFromMemCache(packageName);
+            Bitmap bitmap = BitmapUtility.drawableToBitmap(CoreApplication.getInstance().getBitmapFromMemCache(packageName));
             if (bitmap != null) {
                 imv_appicon.setImageBitmap(bitmap);
             } else {
