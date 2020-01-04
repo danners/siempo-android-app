@@ -274,18 +274,6 @@ public class AppAssignmentActivity extends CoreActivity {
         return mimeListLocal;
     }
 
-    private boolean checkExits(ResolveInfo resolveInfo) {
-        for (ResolveInfo resolveInfo1 : mimeList) {
-            if (resolveInfo != null && resolveInfo1 != null) {
-                if (resolveInfo.activityInfo.packageName.equalsIgnoreCase(resolveInfo1.activityInfo
-                        .packageName)) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
     private void initView() {
         context = AppAssignmentActivity.this;
         toolbar = findViewById(R.id.toolbar);
