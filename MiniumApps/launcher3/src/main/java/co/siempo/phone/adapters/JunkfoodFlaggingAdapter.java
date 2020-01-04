@@ -82,6 +82,7 @@ public class JunkfoodFlaggingAdapter extends BaseAdapter implements Filterable {
             holder = new ViewHolder();
 
             convertView = mInflater.inflate(R.layout.list_item_junkfoodflag, parent, false);
+            holder.workAppIcon = convertView.findViewById(R.id.workApp);
             holder.txtAppName = convertView.findViewById(R.id.txtAppName);
             holder.imgAppIcon = convertView.findViewById(R.id.imgAppIcon);
             holder.imgChevron = convertView.findViewById(R.id.imgChevron);
@@ -137,6 +138,12 @@ public class JunkfoodFlaggingAdapter extends BaseAdapter implements Filterable {
                 holder.linTop.setVisibility(View.VISIBLE);
                 holder.txtNoAppsMessage.setVisibility(View.GONE);
                 holder.txtHeader.setVisibility(View.GONE);
+                holder.workAppIcon.setVisibility(View.GONE);
+
+                if (resolveInfo.isWorkApp) {
+                    holder.workAppIcon.setVisibility(View.VISIBLE);
+                }
+
                 try {
                     //Done as a part of SSA-1454, in order to change the app name
                     // based on user selected language
@@ -205,7 +212,7 @@ public class JunkfoodFlaggingAdapter extends BaseAdapter implements Filterable {
 
 
     public static class ViewHolder {
-        ImageView imgChevron, imgAppIcon;
+        ImageView imgChevron, imgAppIcon, workAppIcon;
         TextView txtNoAppsMessage;
         TextView txtAppName, txtHeader;
         LinearLayout linTop, linearList;
