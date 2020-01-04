@@ -74,6 +74,7 @@ public class ToolsMenuAdapter extends RecyclerView.Adapter<ToolsMenuAdapter.View
         try {
             final MainListItem item = mainListItemList.get(position);
             final AppMenu appMenu = map.get(item.getId());
+            holder.imgAppIcon.setImageDrawable(null);
             if (null != appMenu && appMenu.isVisible()) {
                 holder.linearLayout.setVisibility(View.VISIBLE);
                 if (!TextUtils.isEmpty(item.getTitle())) {
