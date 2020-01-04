@@ -121,7 +121,6 @@ public class FavoritesPaneAdapter extends RecyclerView.Adapter<FavoritesPaneAdap
         holder.linearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int id = item.getId();
                 if (holder.linearLayout.getVisibility() == View.VISIBLE) {
                     if (!TextUtils.isEmpty(item.getPackageName())) {
                         new ActivityHelper(context).openAppWithPackageName(item.getPackageName().trim());
@@ -153,28 +152,19 @@ public class FavoritesPaneAdapter extends RecyclerView.Adapter<FavoritesPaneAdap
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        // each data item is just a string in this case
-        public View layout;
-        // each data item is just a string in this case
-        ImageView imgView, imgAppIcon;
+        ImageView imgAppIcon;
         View imgUnderLine;
         TextView text, txtAppTextImage;
-        TextView textDefaultApp;
-        RelativeLayout relMenu;
         private LinearLayout linearLayout;
         LinearLayout txtLayout;
 
         public ViewHolder(View v) {
             super(v);
-            layout = v;
             linearLayout = v.findViewById(R.id.linearList);
             imgUnderLine = v.findViewById(R.id.imgUnderLine);
-            relMenu = v.findViewById(R.id.relMenu);
             text = v.findViewById(R.id.text);
-            textDefaultApp = v.findViewById(R.id.textDefaultApp);
             txtAppTextImage = v.findViewById(R.id.txtAppTextImage);
             imgAppIcon = v.findViewById(R.id.imgAppIcon);
-            imgView = v.findViewById(R.id.imgView);
             txtLayout = v.findViewById(R.id.favorite_txtLayout);
         }
     }

@@ -182,26 +182,18 @@ public class FavoritePositioningAdapter extends RecyclerView.Adapter<FavoritePos
 
     class ItemViewHolder extends RecyclerView.ViewHolder implements
             ItemTouchHelperViewHolder {
-        public View layout;
-        // each data item is just a string in this case
-        ImageView imgView, imgAppIcon;
+        ImageView imgAppIcon;
         View imgUnderLine;
         TextView text, txtAppTextImage;
-        TextView textDefaultApp;
-        RelativeLayout relMenu;
         private LinearLayout linearLayout;
 
         ItemViewHolder(View v) {
             super(v);
-            layout = v;
             linearLayout = v.findViewById(R.id.linearList);
             imgUnderLine = v.findViewById(R.id.imgUnderLine);
-            relMenu = v.findViewById(R.id.relMenu);
             text = v.findViewById(R.id.text);
-            textDefaultApp = v.findViewById(R.id.textDefaultApp);
             txtAppTextImage = v.findViewById(R.id.txtAppTextImage);
             imgAppIcon = v.findViewById(R.id.imgAppIcon);
-            imgView = v.findViewById(R.id.imgView);
         }
 
         @Override

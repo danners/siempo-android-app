@@ -536,11 +536,7 @@ public class PackageUtil {
                 if (!TextUtils.isEmpty(jsonListOfSortedFavorites)) {
                     listOfSortFavoritesApps = syncFavoriteList(jsonListOfSortedFavorites, context);
                     sortedFavoriteList = sortFavoriteAppsByPosition(listOfSortFavoritesApps, appList, context);
-                } else {
-                    sortedFavoriteList = addDefaultFavoriteApps(context, appList);
                 }
-            } else {
-                sortedFavoriteList = addDefaultFavoriteApps(context, appList);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -640,106 +636,6 @@ public class PackageUtil {
         }
         return sortedFavoriteList;
     }
-
-
-    private static ArrayList<MainListItem> addDefaultFavoriteApps(Context context,
-                                                                  List<MainListItem> appList) {
-
-        Set<String> list;
-        list = PrefSiempo.getInstance(context).read(PrefSiempo.FAVORITE_APPS, new HashSet<String>());
-
-        ArrayList<MainListItem> items = new ArrayList<>();
-        String CHROME_PACKAGE = "com.android.chrome", SYSTEM_SETTING = "com.android.settings";
-
-
-        for (MainListItem app: appList) {
-            String packageName = app.getPackageName();
-            if (!TextUtils.isEmpty(packageName)) {
-                if (packageName.equalsIgnoreCase(CHROME_PACKAGE) || packageName.equalsIgnoreCase(SYSTEM_SETTING)) {
-                    boolean isEnable = UIUtils.isAppInstalledAndEnabled(context, packageName);
-                    if (isEnable) {
-                        items.add(app);
-                    }
-                }
-            }
-        }
-
-        FillupFavoriteList(items);
-
-
-        //get the JSON array of the ordered of sorted customers
-        String jsonListOfSortedFavorites = PrefSiempo.getInstance(context).read(PrefSiempo.FAVORITE_SORTED_MENU, "");
-        //convert onNoteListChangedJSON array into a List<Long>
-        List<String> listOfSortFavoritesApps = new Gson().fromJson(jsonListOfSortedFavorites, new TypeToken<List<String>>() {
-        }.getType());
-
-        if (listOfSortFavoritesApps != null) {
-            if (!listOfSortFavoritesApps.contains(CHROME_PACKAGE)) {
-                for (int i = 0; i < listOfSortFavoritesApps.size(); i++) {
-                    if (TextUtils.isEmpty(listOfSortFavoritesApps.get(i).trim())) {
-                        boolean isEnable = UIUtils.isAppInstalledAndEnabled(context, CHROME_PACKAGE);
-                        if (isEnable) {
-                            listOfSortFavoritesApps.set(i, CHROME_PACKAGE);
-                            if (list != null && !list.contains(CHROME_PACKAGE)) {
-                                list.add(CHROME_PACKAGE);
-                            }
-                        }
-                        break;
-                    }
-                }
-            }
-
-            if (!listOfSortFavoritesApps.contains(SYSTEM_SETTING)) {
-                for (int i = 0; i < listOfSortFavoritesApps.size(); i++) {
-                    if (TextUtils.isEmpty(listOfSortFavoritesApps.get(i).trim())) {
-                        boolean isEnable = UIUtils.isAppInstalledAndEnabled(context, SYSTEM_SETTING);
-                        if (isEnable) {
-                            listOfSortFavoritesApps.set(i, SYSTEM_SETTING);
-                            if (list != null && !list.contains(SYSTEM_SETTING)) {
-                                list.add(SYSTEM_SETTING);
-                            }
-                        }
-                        break;
-                    }
-                }
-            }
-        } else {
-            listOfSortFavoritesApps = new ArrayList<>();
-            boolean isChromeEnable = UIUtils.isAppInstalledAndEnabled(context, CHROME_PACKAGE);
-            if (isChromeEnable) {
-                listOfSortFavoritesApps.add(CHROME_PACKAGE);
-            }
-            boolean isSystemSettingEnable = UIUtils.isAppInstalledAndEnabled(context, SYSTEM_SETTING);
-            if (isSystemSettingEnable) {
-                listOfSortFavoritesApps.add(SYSTEM_SETTING);
-            }
-            FillupFavoriteSettings(listOfSortFavoritesApps);
-
-            if (list != null) {
-                if (isChromeEnable) {
-                    list.add(CHROME_PACKAGE);
-                }
-                if (isSystemSettingEnable) {
-                    list.add(SYSTEM_SETTING);
-                }
-            }
-        }
-
-
-        String jsonListOfFavoriteApps = new Gson().toJson(listOfSortFavoritesApps);
-        PrefSiempo.getInstance(context).write(PrefSiempo.FAVORITE_SORTED_MENU, jsonListOfFavoriteApps);
-        PrefSiempo.getInstance(context).write(PrefSiempo.FAVORITE_APPS, list);
-
-        return items;
-    }
-
-    private static void FillupFavoriteSettings(List<String> listOfSortFavoritesApps) {
-        int remainingCount = 12 - listOfSortFavoritesApps.size();
-        for (int j = 0; j < remainingCount; j++) {
-            listOfSortFavoritesApps.add("");
-        }
-    }
-
 
 
     private static void FillupFavoriteList(ArrayList<MainListItem> items) {

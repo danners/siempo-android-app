@@ -115,6 +115,8 @@ public class FavoritePaneFragment extends CoreFragment {
             }
             itemDecoration = new ItemOffsetDecoration(context, R.dimen.dp_10);
             recyclerView.addItemDecoration(itemDecoration);
+
+
             mAdapter = new FavoritesPaneAdapter(getActivity(), CoreApplication.getInstance().isHideIconBranding(), items);
             recyclerView.setAdapter(mAdapter);
 

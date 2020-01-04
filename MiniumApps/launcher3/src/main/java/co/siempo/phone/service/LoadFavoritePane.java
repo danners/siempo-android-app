@@ -26,25 +26,7 @@ public class LoadFavoritePane extends AsyncTask<String, String, ArrayList<MainLi
 
     @Override
     protected ArrayList<MainListItem> doInBackground(String... strings) {
-        ArrayList<MainListItem> items;
-        /**
-         * Changes for SSA-1770 for checking whether Favourite Item list is empty or not.
-         */
-        items = PackageUtil.getFavoriteList();
-
-        int itemsSize = items.size();
-        int tempFavSize = 0;
-        for (MainListItem favListItems : items) {
-            if (TextUtils.isEmpty(favListItems.getPackageName())) {
-                tempFavSize++;
-            }
-        }
-        if (itemsSize == tempFavSize) {
-            prefSiempo.write(PrefSiempo.FAVORITE_SORTED_MENU, "");
-            items = PackageUtil.getFavoriteList();
-        } else {
-            items = PackageUtil.getFavoriteList();
-        }
+        ArrayList<MainListItem> items = PackageUtil.getFavoriteList();
         return items;
     }
 

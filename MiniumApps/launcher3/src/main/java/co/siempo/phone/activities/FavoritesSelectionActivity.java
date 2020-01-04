@@ -250,12 +250,7 @@ public class FavoritesSelectionActivity extends CoreActivity implements AdapterV
         popup.getMenuInflater().inflate(R.menu.junkfood_popup, popup.getMenu());
         MenuItem menuItem = popup.getMenu().findItem(R.id.item_Unflag);
         if (isFlagApp) {
-            if (favoriteList
-                    .size() == 2) {
-                menuItem.setVisible(false);
-            } else {
-                menuItem.setVisible(true);
-            }
+            menuItem.setVisible(true);
         } else {
             if (favoriteList != null && (favoriteList.size() < 13)) {
                 menuItem.setVisible(true);
