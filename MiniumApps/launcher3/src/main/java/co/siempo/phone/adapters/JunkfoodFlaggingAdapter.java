@@ -148,7 +148,7 @@ public class JunkfoodFlaggingAdapter extends BaseAdapter implements Filterable {
                     //Done as a part of SSA-1454, in order to change the app name
                     // based on user selected language
                     holder.txtAppName.setText(resolveInfo.app.displayName);
-                    Drawable bitmap = CoreApplication.getInstance().getBitmapFromMemCache(resolveInfo.app.packageName);
+                    Drawable bitmap = CoreApplication.getInstance().getBitMapByApp(resolveInfo.app);
                     if (bitmap != null) {
                         holder.imgAppIcon.setImageDrawable(bitmap);
                     } else {

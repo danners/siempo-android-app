@@ -141,7 +141,7 @@ public class FavoriteFlaggingAdapter extends BaseAdapter implements Filterable {
 
         try {
             holder.txtAppName.setText(app.displayName);
-            Drawable bitmap = CoreApplication.getInstance().getBitmapFromMemCache(app.packageName);
+            Drawable bitmap = CoreApplication.getInstance().getBitMapByApp(app);
             if (bitmap != null) {
                 holder.imgAppIcon.setImageDrawable(bitmap);
             } else {

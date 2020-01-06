@@ -131,6 +131,7 @@ public abstract class CoreApplication extends MultiDexApplication {
 
     private Map<String, Drawable> mMemoryCache = new HashMap<>();
 
+    private Map<String, Drawable> mWorkAppsBitmaps = new HashMap<>();
 
 
     public void addOrRemoveApplicationInfo(boolean addingOrDelete, String
@@ -1048,6 +1049,13 @@ public abstract class CoreApplication extends MultiDexApplication {
         return mMemoryCache.get(key);
     }
 
+    public Drawable getBitMapByApp(App app) {
+        if (app.isWorkApp) {
+            return mWorkAppsBitmaps.get(app.packageName);
+        }
+        return mMemoryCache.get(app.packageName);
+    }
+
     public synchronized void downloadSiempoImages() {
         try {
             File folderSiempoImage = new File(Environment.getExternalStorageDirectory() +
@@ -1161,19 +1169,23 @@ public abstract class CoreApplication extends MultiDexApplication {
                     ApplicationInfo appInfo = activityInfo.getApplicationInfo();
                     String packageName = appInfo.packageName;
 
-                    Drawable icon = activityInfo.getBadgedIcon(0);
-                    mMemoryCache.put(appInfo.packageName, icon);
 
                     String applicationName = appInfo.loadLabel(getPackageManager()).toString();
                     App app = new App();
                     app.packageName = packageName;
                     app.displayName = applicationName;
 
+                    Drawable icon = activityInfo.getBadgedIcon(0);
                     if (!isCurrentUser) {
                         // we should only get associated profiles, which i think they should only be work profiles
                         // https://developer.android.com/reference/android/os/UserManager.html#getUserProfiles()
                         app.isWorkApp = true;
                         app.displayName += " Work";
+                        mWorkAppsBitmaps.put(appInfo.packageName, icon);
+
+                    }
+                    else {
+                        mMemoryCache.put(appInfo.packageName, icon);
                     }
 
 
