@@ -408,7 +408,7 @@ public class JunkfoodFlaggingActivity extends CoreActivity implements AdapterVie
     boolean isFlagApp) {
         positionPopUP = 0;
         for (int i = 0; i < bindingList.size(); i++) {
-            if (bindingList.get(i).packageName.equalsIgnoreCase(app.packageName)) {
+            if (bindingList.get(i).app.packageName.equalsIgnoreCase(app.packageName)) {
                 positionPopUP = i;
                 break;
             }

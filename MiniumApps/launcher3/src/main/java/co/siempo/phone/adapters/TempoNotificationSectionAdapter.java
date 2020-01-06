@@ -141,7 +141,7 @@ public class TempoNotificationSectionAdapter extends SectionedRecyclerViewAdapte
 
             final AppListInfo otherAppsItems = blockedList.get(position);
             holder.enableViews();
-            String appName = CoreApplication.getInstance().getApplicationName(otherAppsItems.packageName);
+            String appName = CoreApplication.getInstance().getApplicationName(otherAppsItems.app.packageName);
             holder.render(appName);
 
 
@@ -149,7 +149,7 @@ public class TempoNotificationSectionAdapter extends SectionedRecyclerViewAdapte
                 holder.render(otherAppsItems.errorMessage);
                 holder.disableViews();
             }
-            holder.displayImage(otherAppsItems.packageName, otherAppsItems.errorMessage);
+            holder.displayImage(otherAppsItems.app.packageName, otherAppsItems.errorMessage);
             holder.getLinearList().setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -165,9 +165,9 @@ public class TempoNotificationSectionAdapter extends SectionedRecyclerViewAdapte
 
                         popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                             public boolean onMenuItemClick(MenuItem item) {
-                                    holder.addToBlockList(otherAppsItems.packageName, true, pref_blockedList, context);
+                                    holder.addToBlockList(otherAppsItems.app.packageName, true, pref_blockedList, context);
                                     blockedList.remove(otherAppsItems);
-                                    if (pref_messengerList.contains(otherAppsItems.packageName)) {
+                                    if (pref_messengerList.contains(otherAppsItems.app.packageName)) {
                                         messengerList.add(otherAppsItems);
 
                                         int disableCount = PrefSiempo.getInstance(context).read
@@ -206,14 +206,14 @@ public class TempoNotificationSectionAdapter extends SectionedRecyclerViewAdapte
 
 
             final AppListInfo messengerAppsItem = messengerList.get(position);
-            String appName = CoreApplication.getInstance().getApplicationName(messengerAppsItem.packageName);
+            String appName = CoreApplication.getInstance().getApplicationName(messengerAppsItem.app.packageName);
             holder.render(appName);
             holder.enableViews();
             if (!TextUtils.isEmpty(messengerAppsItem.errorMessage)) {
                 holder.render(messengerAppsItem.errorMessage);
                 holder.disableViews();
             }
-            holder.displayImage(messengerAppsItem.packageName, messengerAppsItem.errorMessage);
+            holder.displayImage(messengerAppsItem.app.packageName, messengerAppsItem.errorMessage);
 
             holder.getLinearList().setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -234,7 +234,7 @@ public class TempoNotificationSectionAdapter extends SectionedRecyclerViewAdapte
 
                         popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                             public boolean onMenuItemClick(MenuItem item) {
-                                holder.addToBlockList(messengerAppsItem.packageName, false, pref_blockedList, context);
+                                holder.addToBlockList(messengerAppsItem.app.packageName, false, pref_blockedList, context);
                                 messengerList.remove(messengerAppsItem);
                                 blockedList.add(messengerAppsItem);
                                 int disableCount = PrefSiempo.getInstance
@@ -261,10 +261,10 @@ public class TempoNotificationSectionAdapter extends SectionedRecyclerViewAdapte
         if (headerList.get(section).headerName.equals("Helpful robots")) {
             final AppListInfo appListItem = helpfulRobot_List.get(position);
             holder.enableViews();
-            String appName = CoreApplication.getInstance().getApplicationName(appListItem.packageName);
+            String appName = CoreApplication.getInstance().getApplicationName(appListItem.app.packageName);
             holder.render(appName);
 
-            holder.displayImage(appListItem.packageName, appListItem.errorMessage);
+            holder.displayImage(appListItem.app.packageName, appListItem.errorMessage);
             if (!TextUtils.isEmpty(appListItem.errorMessage)) {
                 holder.render(appListItem.errorMessage);
                 holder.disableViews();
@@ -287,7 +287,7 @@ public class TempoNotificationSectionAdapter extends SectionedRecyclerViewAdapte
 
                         popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                             public boolean onMenuItemClick(MenuItem item) {
-                                holder.addToBlockList(appListItem.packageName, false, pref_blockedList, context);
+                                holder.addToBlockList(appListItem.app.packageName, false, pref_blockedList, context);
                                 helpfulRobot_List.remove(appListItem);
                                 blockedList.add(appListItem);
                                 int disableCount = PrefSiempo.getInstance(context).read
@@ -366,7 +366,7 @@ public class TempoNotificationSectionAdapter extends SectionedRecyclerViewAdapte
             Collections.sort(messengerList, new Comparator<AppListInfo>() {
                 @Override
                 public int compare(AppListInfo o1, AppListInfo o2) {
-                    return o1.packageName.compareToIgnoreCase(o2.packageName);
+                    return o1.app.packageName.compareToIgnoreCase(o2.app.packageName);
                 }
             });
         }
@@ -375,7 +375,7 @@ public class TempoNotificationSectionAdapter extends SectionedRecyclerViewAdapte
             Collections.sort(helpfulRobot_List, new Comparator<AppListInfo>() {
                 @Override
                 public int compare(AppListInfo o1, AppListInfo o2) {
-                    return o1.packageName.compareToIgnoreCase(o2.packageName);
+                    return o1.app.packageName.compareToIgnoreCase(o2.app.packageName);
                 }
             });
         }
@@ -385,7 +385,7 @@ public class TempoNotificationSectionAdapter extends SectionedRecyclerViewAdapte
             Collections.sort(blockedList, new Comparator<AppListInfo>() {
                 @Override
                 public int compare(AppListInfo o1, AppListInfo o2) {
-                    return o1.packageName.compareToIgnoreCase(o2.packageName);
+                    return o1.app.packageName.compareToIgnoreCase(o2.app.packageName);
                 }
             });
         }

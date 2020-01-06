@@ -645,32 +645,7 @@ public abstract class CoreApplication extends MultiDexApplication {
      * @return application name
      */
     public String getApplicationNameFromPackageName(String packageName) {
-        String applicationname = null;
-        try {
-            if (packageName != null && !packageName.equalsIgnoreCase("")) {
-                if (TextUtils.isEmpty(getApplicationName(packageName))) {
-                    PackageManager packageManager = getPackageManager();
-                    ApplicationInfo applicationInfo = null;
-                    try {
-                        applicationInfo = packageManager.getApplicationInfo(packageName, 0);
-                        applicationInfo.loadLabel(getPackageManager());
-                    } catch (final PackageManager.NameNotFoundException e) {
-                        e.printStackTrace();
-                    }
-                    if (applicationInfo.loadLabel(packageManager) == null) {
-                        applicationname = (String) (applicationInfo != null ? packageManager.getApplicationLabel(applicationInfo) : "");
-                    } else {
-                        applicationname = applicationInfo.loadLabel(packageManager).toString();
-                    }
-                } else {
-                    applicationname = getApplicationName(packageName);
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return applicationname;
+        return getApplicationName(packageName);
     }
 
     /**

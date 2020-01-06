@@ -2,11 +2,7 @@ package co.siempo.phone.adapters.viewholder;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
 import android.content.res.Resources;
-import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
@@ -25,7 +21,6 @@ import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 
 import co.siempo.phone.R;
@@ -46,17 +41,17 @@ public class AppAssignmentAdapter extends RecyclerView.Adapter<AppAssignmentAdap
         implements Filterable {
     private final AppAssignmentActivity context;
     private List<App> filterList;
-    private List<App> resolveInfoList;
+    private List<App> appList;
     private DrawableProvider mProvider;
     private int id;
     private String class_name;
     private ItemFilter mFilter = new ItemFilter();
 
-    public AppAssignmentAdapter(AppAssignmentActivity context, int id, List<App> resolveInfoList, String class_name) {
+    public AppAssignmentAdapter(AppAssignmentActivity context, int id, List<App> appList, String class_name) {
         this.context = context;
-        this.resolveInfoList = resolveInfoList;
+        this.appList = appList;
         this.id = id;
-        filterList = resolveInfoList;
+        filterList = appList;
         mProvider = new DrawableProvider(context);
         this.class_name = class_name;
     }
@@ -206,7 +201,7 @@ public class AppAssignmentAdapter extends RecyclerView.Adapter<AppAssignmentAdap
             String searchString = constraint.toString().toLowerCase().trim();
             FilterResults ret = new FilterResults();
 
-            int count = resolveInfoList.size();
+            int count = appList.size();
             List<App> templist = new ArrayList<>();
 
             String filterableString;
@@ -214,18 +209,17 @@ public class AppAssignmentAdapter extends RecyclerView.Adapter<AppAssignmentAdap
             if (!searchString.isEmpty()) {
                 try {
                     for (int i = 0; i < count; i++) {
-                        if (id == 5 && resolveInfoList.get(i) == null) {
+                        if (id == 5 && appList.get(i) == null) {
                             filterableString = context.getString(R.string.label_note);
                         } else {
-                            filterableString = CoreApplication.getInstance().getApplicationName(resolveInfoList.get(i).packageName);
+                            filterableString = appList.get(i).displayName;
                         }
                         if (filterableString == null) {
-                            filterableString = CoreApplication.getInstance()
-                                    .getApplicationNameFromPackageName(resolveInfoList.get(i).packageName);
+                            filterableString = appList.get(i).displayName;
                         }
                         if (filterableString != null) {
                             if (filterableString.toLowerCase().contains(searchString.toLowerCase())) {
-                                templist.add(resolveInfoList.get(i));
+                                templist.add(appList.get(i));
                             }
                         }
                     }
@@ -234,7 +228,7 @@ public class AppAssignmentAdapter extends RecyclerView.Adapter<AppAssignmentAdap
                 }
 
             } else {
-                templist = resolveInfoList;
+                templist = appList;
             }
             ret.values = templist;
             ret.count = templist.size();
@@ -246,7 +240,7 @@ public class AppAssignmentAdapter extends RecyclerView.Adapter<AppAssignmentAdap
             if (results.values != null) {
                 filterList = (ArrayList<App>) results.values;
             } else {
-                filterList = new ArrayList<>(resolveInfoList);
+                filterList = new ArrayList<>(appList);
             }
             if (filterList != null && filterList.size() > 0) {
                 context.hideOrShowMessage(true);

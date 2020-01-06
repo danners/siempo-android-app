@@ -118,7 +118,7 @@ public class FavoriteFlaggingAdapter extends BaseAdapter implements Filterable {
                     holder.txtHeader.setText(context.getString(R.string.all_other_installed_apps));
                 }
             } else {
-                DisplayNormalApp(holder, resolveInfo);
+                DisplayNormalApp(holder, resolveInfo.app, resolveInfo.isFlagApp);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -127,12 +127,12 @@ public class FavoriteFlaggingAdapter extends BaseAdapter implements Filterable {
         return convertView;
     }
 
-    private void DisplayNormalApp(ViewHolder holder, final AppListInfo resolveInfo) {
+    private void DisplayNormalApp(ViewHolder holder, final App app, final boolean isFlagApp) {
         holder.linTop.setVisibility(View.VISIBLE);
         holder.txtNoAppsMessage.setVisibility(View.GONE);
         holder.txtHeader.setVisibility(View.GONE);
 
-        if (resolveInfo.isWorkApp) {
+        if (app.isWorkApp) {
             holder.imgIsWorkApp.setVisibility(View.VISIBLE);
         }
         else {
@@ -140,14 +140,14 @@ public class FavoriteFlaggingAdapter extends BaseAdapter implements Filterable {
         }
 
         try {
-            holder.txtAppName.setText(CoreApplication.getInstance().getApplicationNameFromPackageName(resolveInfo.packageName));
-            Drawable bitmap = CoreApplication.getInstance().getBitmapFromMemCache(resolveInfo.packageName);
+            holder.txtAppName.setText(app.displayName);
+            Drawable bitmap = CoreApplication.getInstance().getBitmapFromMemCache(app.packageName);
             if (bitmap != null) {
                 holder.imgAppIcon.setImageDrawable(bitmap);
             } else {
-                BitmapWorkerTask bitmapWorkerTask = new BitmapWorkerTask(context.getPackageManager(), resolveInfo.packageName);
+                BitmapWorkerTask bitmapWorkerTask = new BitmapWorkerTask(context.getPackageManager(), app.packageName);
                 CoreApplication.getInstance().includeTaskPool(bitmapWorkerTask, null);
-                Drawable drawable = CoreApplication.getInstance().getApplicationIconFromPackageName(resolveInfo.packageName);
+                Drawable drawable = CoreApplication.getInstance().getApplicationIconFromPackageName(app.packageName);
                 holder.imgAppIcon.setImageDrawable(drawable);
             }
         } catch (Exception e) {
@@ -158,12 +158,9 @@ public class FavoriteFlaggingAdapter extends BaseAdapter implements Filterable {
         holder.linearList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!resolveInfo.packageName.equalsIgnoreCase("")) {
+                if (!app.packageName.equalsIgnoreCase("")) {
                     UIUtils.hideSoftKeyboard(context, context.getWindow().getDecorView().getWindowToken());
-                    App app = new App();
-                    app.packageName = resolveInfo.packageName;
-                    app.isWorkApp = resolveInfo.isWorkApp;
-                    context.showPopUp(v, app, resolveInfo.isFlagApp);
+                    context.showPopUp(v, app, isFlagApp);
                 }
             }
         });
@@ -209,7 +206,7 @@ public class FavoriteFlaggingAdapter extends BaseAdapter implements Filterable {
             List<AppListInfo> bindingList = new ArrayList<>();
             if (!searchString.isEmpty()) {
                 for (int i = 0; i < count; i++) {
-                    filterableString = mData.get(i).applicationName;
+                    filterableString = mData.get(i).app.displayName;
                     if (filterableString.toLowerCase().contains(searchString)) {
                         nlist.add(mData.get(i));
                     }
@@ -218,14 +215,14 @@ public class FavoriteFlaggingAdapter extends BaseAdapter implements Filterable {
                 List<AppListInfo> flagAppList = new ArrayList<>();
                 List<AppListInfo> unflageAppList = new ArrayList<>();
                 for (AppListInfo resolveInfo : nlist) {
-                    if (!resolveInfo.packageName.equalsIgnoreCase(context.getPackageName())) {
+                    if (!resolveInfo.app.packageName.equalsIgnoreCase(context.getPackageName())) {
                         String applicationname = CoreApplication.getInstance()
-                               .getApplicationName(resolveInfo.packageName);
+                               .getApplicationName(resolveInfo.app.packageName);
                         if (!TextUtils.isEmpty(applicationname)) {
-                            if (context.adapterList.contains(resolveInfo.packageName)) {
-                                flagAppList.add(new AppListInfo(resolveInfo.packageName, applicationname, false, false, true, resolveInfo.isWorkApp));
+                            if (context.adapterList.contains(resolveInfo.app.packageName)) {
+                                flagAppList.add(new AppListInfo(resolveInfo.app.packageName, applicationname, false, false, true, resolveInfo.app.isWorkApp));
                             } else {
-                                unflageAppList.add(new AppListInfo(resolveInfo.packageName, applicationname, false, false, false, resolveInfo.isWorkApp));
+                                unflageAppList.add(new AppListInfo(resolveInfo.app.packageName, applicationname, false, false, false, resolveInfo.app.isWorkApp));
                             }
                         }
                     }

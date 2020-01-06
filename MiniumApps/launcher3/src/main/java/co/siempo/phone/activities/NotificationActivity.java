@@ -173,17 +173,17 @@ public class NotificationActivity extends CoreActivity {
 
         for (App app : packages) {
             AppListInfo d = new AppListInfo();
-            d.packageName = app.packageName;
+            d.app.packageName = app.packageName;
 
-            if (pref_blockedList.contains(d.packageName)) {
-                d.ischecked = !pref_blockedList.contains(d.packageName);
+            if (pref_blockedList.contains(d.app.packageName)) {
+                d.ischecked = !pref_blockedList.contains(d.app.packageName);
                 blockedList.add(d);
-            } else if (pref_messengerList.contains(d.packageName)) {
-                d.ischecked = !pref_helpfulRobots.contains(d.packageName);
+            } else if (pref_messengerList.contains(d.app.packageName)) {
+                d.ischecked = !pref_helpfulRobots.contains(d.app.packageName);
                 messengerList.add(d);
             } else {
-                if (!TextUtils.isEmpty(d.packageName) && !systemAppList.contains(d.packageName)) {
-                    d.ischecked = !pref_helpfulRobots.contains(d.packageName);
+                if (!TextUtils.isEmpty(d.app.packageName) && !systemAppList.contains(d.app.packageName)) {
+                    d.ischecked = !pref_helpfulRobots.contains(d.app.packageName);
                     helpfulRobot_List.add(d);
                 }
             }

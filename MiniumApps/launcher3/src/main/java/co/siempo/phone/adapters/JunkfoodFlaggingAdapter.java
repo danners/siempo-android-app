@@ -140,22 +140,21 @@ public class JunkfoodFlaggingAdapter extends BaseAdapter implements Filterable {
                 holder.txtHeader.setVisibility(View.GONE);
                 holder.workAppIcon.setVisibility(View.GONE);
 
-                if (resolveInfo.isWorkApp) {
+                if (resolveInfo.app.isWorkApp) {
                     holder.workAppIcon.setVisibility(View.VISIBLE);
                 }
 
                 try {
                     //Done as a part of SSA-1454, in order to change the app name
                     // based on user selected language
-                    holder.txtAppName.setText(CoreApplication.getInstance()
-                            .getApplicationNameFromPackageName(resolveInfo.packageName));
-                    Drawable bitmap = CoreApplication.getInstance().getBitmapFromMemCache(resolveInfo.packageName);
+                    holder.txtAppName.setText(resolveInfo.app.displayName);
+                    Drawable bitmap = CoreApplication.getInstance().getBitmapFromMemCache(resolveInfo.app.packageName);
                     if (bitmap != null) {
                         holder.imgAppIcon.setImageDrawable(bitmap);
                     } else {
-                        BitmapWorkerTask bitmapWorkerTask = new BitmapWorkerTask(context.getPackageManager(), resolveInfo.packageName);
+                        BitmapWorkerTask bitmapWorkerTask = new BitmapWorkerTask(context.getPackageManager(), resolveInfo.app.packageName);
                         CoreApplication.getInstance().includeTaskPool(bitmapWorkerTask, null);
-                        Drawable drawable = CoreApplication.getInstance().getApplicationIconFromPackageName(resolveInfo.packageName);
+                        Drawable drawable = CoreApplication.getInstance().getApplicationIconFromPackageName(resolveInfo.app.packageName);
                         holder.imgAppIcon.setImageDrawable(drawable);
                     }
                 } catch (Exception e) {
@@ -176,11 +175,11 @@ public class JunkfoodFlaggingAdapter extends BaseAdapter implements Filterable {
             holder.linearList.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (!resolveInfo.packageName.equalsIgnoreCase("")) {
+                    if (!resolveInfo.app.packageName.equalsIgnoreCase("")) {
                         UIUtils.hideSoftKeyboard(context, context.getWindow().getDecorView().getWindowToken());
                         App app = new App();
-                        app.packageName = resolveInfo.packageName;
-                        app.isWorkApp = resolveInfo.isWorkApp;
+                        app.packageName = resolveInfo.app.packageName;
+                        app.isWorkApp = resolveInfo.app.isWorkApp;
                         context.showPopUp(v, app, resolveInfo.isFlagApp);
                     }
                 }
@@ -235,7 +234,7 @@ public class JunkfoodFlaggingAdapter extends BaseAdapter implements Filterable {
             List<AppListInfo> bindingList = new ArrayList<>();
             if (!searchString.isEmpty()) {
                 for (int i = 0; i < count; i++) {
-                    filterableString = mData.get(i).applicationName;
+                    filterableString = mData.get(i).app.displayName;
                     if (filterableString.toLowerCase().contains(searchString)) {
                         nlist.add(mData.get(i));
                     }
@@ -244,13 +243,13 @@ public class JunkfoodFlaggingAdapter extends BaseAdapter implements Filterable {
                 List<AppListInfo> flagAppList = new ArrayList<>();
                 List<AppListInfo> unflageAppList = new ArrayList<>();
                 for (AppListInfo resolveInfo : nlist) {
-                    if (!resolveInfo.packageName.equalsIgnoreCase(context.getPackageName())) {
-                        String applicationname = CoreApplication.getInstance().getApplicationName(resolveInfo.packageName);
+                    if (!resolveInfo.app.packageName.equalsIgnoreCase(context.getPackageName())) {
+                        String applicationname = CoreApplication.getInstance().getApplicationName(resolveInfo.app.packageName);
                         if (!TextUtils.isEmpty(applicationname)) {
-                            if (context.adapterlist.contains(resolveInfo.packageName)) {
-                                flagAppList.add(new AppListInfo(resolveInfo.packageName, applicationname, false, false, true, resolveInfo.isWorkApp));
+                            if (context.adapterlist.contains(resolveInfo.app.packageName)) {
+                                flagAppList.add(new AppListInfo(resolveInfo.app.packageName, applicationname, false, false, true, resolveInfo.app.isWorkApp));
                             } else {
-                                unflageAppList.add(new AppListInfo(resolveInfo.packageName, applicationname, false, false, false, resolveInfo.isWorkApp));
+                                unflageAppList.add(new AppListInfo(resolveInfo.app.packageName, applicationname, false, false, false, resolveInfo.app.isWorkApp));
                             }
                         }
                     }
