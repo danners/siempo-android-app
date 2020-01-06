@@ -28,7 +28,6 @@ import co.siempo.phone.activities.AppAssignmentActivity;
 import co.siempo.phone.activities.DashboardActivity;
 import co.siempo.phone.activities.JunkfoodFlaggingActivity;
 import co.siempo.phone.app.App;
-import co.siempo.phone.app.BitmapWorkerTask;
 import co.siempo.phone.app.CoreApplication;
 import co.siempo.phone.helper.ActivityHelper;
 import co.siempo.phone.models.AppMenu;
@@ -110,16 +109,8 @@ public class AppAssignmentAdapter extends RecyclerView.Adapter<AppAssignmentAdap
                 });
             } else {
                 Drawable bitmap = CoreApplication.getInstance().getBitmapFromMemCache(item.packageName);
-                if (bitmap != null) {
-                    holder.imgIcon.setImageDrawable(bitmap);
-                } else {
-                    BitmapWorkerTask bitmapWorkerTask = new BitmapWorkerTask(context.getPackageManager(), item.packageName);
-                    CoreApplication.getInstance().includeTaskPool(bitmapWorkerTask, null);
-                    Drawable drawable = CoreApplication.getInstance().getApplicationIconFromPackageName(item.packageName);
-                    holder.imgIcon.setImageDrawable(drawable);
-                }
+                holder.imgIcon.setImageDrawable(bitmap);
                 holder.btnHideApps.setVisibility(View.GONE);
-
             }
         }
         holder.linearList.setOnClickListener(new View.OnClickListener() {

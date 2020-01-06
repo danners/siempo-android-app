@@ -39,7 +39,6 @@ import java.util.Collections;
 import java.util.List;
 
 import co.siempo.phone.R;
-import co.siempo.phone.app.BitmapWorkerTask;
 import co.siempo.phone.app.Constants;
 import co.siempo.phone.app.CoreApplication;
 import co.siempo.phone.db.SingleItemDelete;
@@ -85,14 +84,8 @@ public class SuppressNotificationAdapter extends RecyclerView.Adapter<SuppressNo
             holder.imgAppIcon.setImageBitmap(null);
 
             Drawable bitmap = CoreApplication.getInstance().getBitmapFromMemCache(notification.getPackageName());
-            if (bitmap != null) {
-                holder.imgAppIcon.setImageDrawable(bitmap);
-            } else {
-                BitmapWorkerTask bitmapWorkerTask = new BitmapWorkerTask(mContext.getPackageManager(), notification.getPackageName());
-                CoreApplication.getInstance().includeTaskPool(bitmapWorkerTask, null);
-                Drawable drawable = CoreApplication.getInstance().getApplicationIconFromPackageName(notification.getPackageName());
-                holder.imgAppIcon.setImageDrawable(drawable);
-            }
+            holder.imgAppIcon.setImageDrawable(bitmap);
+
 
             holder.txtAppName.setText(CoreApplication.getInstance().getApplicationNameFromPackageName(notification.getPackageName()));
             if (notification.getStrTitle() == null || notification.getStrTitle().equalsIgnoreCase("")) {
@@ -140,14 +133,7 @@ public class SuppressNotificationAdapter extends RecyclerView.Adapter<SuppressNo
                 }
                 holder.txtAppName.setText(strAppName);
                 Drawable bitmap = CoreApplication.getInstance().getBitmapFromMemCache(defSMSApp);
-                if (bitmap != null) {
-                    holder.imgAppIcon.setImageDrawable(bitmap);
-                } else {
-                    BitmapWorkerTask bitmapWorkerTask = new BitmapWorkerTask(mContext.getPackageManager(), defSMSApp);
-                    CoreApplication.getInstance().includeTaskPool(bitmapWorkerTask, null);
-                    Drawable drawable = CoreApplication.getInstance().getApplicationIconFromPackageName(defSMSApp);
-                    holder.imgAppIcon.setImageDrawable(drawable);
-                }
+                holder.imgAppIcon.setImageDrawable(bitmap);
             }
             holder.txtMessage.setText(notification.get_text());
             holder.txtTime.setText(notification.get_time());

@@ -23,7 +23,6 @@ import java.util.List;
 import co.siempo.phone.R;
 import co.siempo.phone.activities.CoreActivity;
 import co.siempo.phone.activities.JunkfoodFlaggingActivity;
-import co.siempo.phone.app.BitmapWorkerTask;
 import co.siempo.phone.app.CoreApplication;
 import co.siempo.phone.event.JunkAppOpenEvent;
 import co.siempo.phone.helper.ActivityHelper;
@@ -91,16 +90,7 @@ public class JunkFoodPaneAdapter extends RecyclerView.Adapter<JunkFoodPaneAdapte
             holder.imgUnderLine.setVisibility(View.GONE);
             holder.imgAppIcon.setVisibility(View.VISIBLE);
             Drawable bitmap = CoreApplication.getInstance().getBitmapFromMemCache(item);
-            if (bitmap != null) {
-                holder.imgAppIcon.setImageDrawable(bitmap);
-            } else {
-                BitmapWorkerTask bitmapWorkerTask = new BitmapWorkerTask(context.getPackageManager(), item);
-                CoreApplication.getInstance().includeTaskPool(bitmapWorkerTask, null);
-                Drawable drawable = CoreApplication.getInstance().getApplicationIconFromPackageName(item);
-                holder.imgAppIcon.setImageDrawable(drawable);
-            }
-
-
+            holder.imgAppIcon.setImageDrawable(bitmap);
         }
 
         holder.linearLayout.setOnLongClickListener(new View.OnLongClickListener() {

@@ -20,7 +20,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 
 import co.siempo.phone.R;
@@ -29,7 +28,6 @@ import co.siempo.phone.activities.CoreActivity;
 import co.siempo.phone.activities.DashboardActivity;
 import co.siempo.phone.activities.ToolPositioningActivity;
 import co.siempo.phone.app.App;
-import co.siempo.phone.app.BitmapWorkerTask;
 import co.siempo.phone.app.Constants;
 import co.siempo.phone.app.CoreApplication;
 import co.siempo.phone.helper.ActivityHelper;
@@ -102,10 +100,6 @@ public class ToolsMenuAdapter extends RecyclerView.Adapter<ToolsMenuAdapter.View
                         holder.imgAppIcon.setImageDrawable(bitmap);
                     } else {
                         Log.d("Test", "bitmap  not null");
-                        if (!appMenu.getApplicationName().equalsIgnoreCase("")) {
-                            BitmapWorkerTask bitmapWorkerTask = new BitmapWorkerTask(context.getPackageManager(), appMenu.getApplicationName());
-                            CoreApplication.getInstance().includeTaskPool(bitmapWorkerTask, null);
-                        }
                         holder.icon.setVisibility(View.VISIBLE);
                         holder.imgAppIcon.setVisibility(View.GONE);
                         holder.icon.setImageResource(item.getDrawable());

@@ -24,7 +24,6 @@ import java.util.Collections;
 import java.util.HashMap;
 
 import co.siempo.phone.R;
-import co.siempo.phone.app.BitmapWorkerTask;
 import co.siempo.phone.app.CoreApplication;
 import co.siempo.phone.interfaces.ItemTouchHelperAdapter;
 import co.siempo.phone.interfaces.ItemTouchHelperViewHolder;
@@ -123,8 +122,6 @@ public class ToolPositioningAdapter extends RecyclerView.Adapter<ToolPositioning
                     holder.imgAppIcon.setVisibility(View.VISIBLE);
                     holder.imgAppIcon.setImageDrawable(bitmap);
                 } else {
-                    BitmapWorkerTask bitmapWorkerTask = new BitmapWorkerTask(context.getPackageManager(), appMenu.getApplicationName());
-                    CoreApplication.getInstance().includeTaskPool(bitmapWorkerTask, null);
                     holder.icon.setVisibility(View.VISIBLE);
                     holder.imgAppIcon.setVisibility(View.GONE);
                     holder.icon.setImageResource(item.getDrawable());

@@ -25,7 +25,6 @@ import java.util.List;
 import co.siempo.phone.R;
 import co.siempo.phone.activities.FavoritesSelectionActivity;
 import co.siempo.phone.app.App;
-import co.siempo.phone.app.BitmapWorkerTask;
 import co.siempo.phone.app.CoreApplication;
 import co.siempo.phone.models.AppListInfo;
 import co.siempo.phone.utils.Sorting;
@@ -142,14 +141,7 @@ public class FavoriteFlaggingAdapter extends BaseAdapter implements Filterable {
         try {
             holder.txtAppName.setText(app.displayName);
             Drawable bitmap = CoreApplication.getInstance().getBitMapByApp(app);
-            if (bitmap != null) {
-                holder.imgAppIcon.setImageDrawable(bitmap);
-            } else {
-                BitmapWorkerTask bitmapWorkerTask = new BitmapWorkerTask(context.getPackageManager(), app.packageName);
-                CoreApplication.getInstance().includeTaskPool(bitmapWorkerTask, null);
-                Drawable drawable = CoreApplication.getInstance().getApplicationIconFromPackageName(app.packageName);
-                holder.imgAppIcon.setImageDrawable(drawable);
-            }
+            holder.imgAppIcon.setImageDrawable(bitmap);
         } catch (Exception e) {
             e.printStackTrace();
         }

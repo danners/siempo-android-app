@@ -34,7 +34,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import co.siempo.phone.R;
-import co.siempo.phone.app.BitmapWorkerTask;
 import co.siempo.phone.app.CoreApplication;
 import co.siempo.phone.main.MainListAdapterEvent;
 import co.siempo.phone.models.MainListItem;
@@ -236,14 +235,7 @@ public class MainListAdapter extends ArrayAdapter<MainListItem> {
                         holder.icon.setImageDrawable(drawable);
                     } else {
                         Drawable bitmap = CoreApplication.getInstance().getBitmapFromMemCache(packageName);
-                        if (bitmap != null) {
-                            holder.icon.setImageDrawable(bitmap);
-                        } else {
-                            BitmapWorkerTask bitmapWorkerTask = new BitmapWorkerTask(context.getPackageManager(), packageName);
-                            CoreApplication.getInstance().includeTaskPool(bitmapWorkerTask, null);
-                            Drawable drawable = CoreApplication.getInstance().getApplicationIconFromPackageName(packageName);
-                            holder.icon.setImageDrawable(drawable);
-                        }
+                        holder.icon.setImageDrawable(bitmap);
                     }
                 }
                 holder.text.setText(titleApp);

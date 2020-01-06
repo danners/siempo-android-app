@@ -56,6 +56,7 @@ import co.siempo.phone.models.CategoryAppList;
 import co.siempo.phone.models.MainListItem;
 import co.siempo.phone.service.CategoriesApp;
 import co.siempo.phone.service.LoadFavoritePane;
+import co.siempo.phone.utils.PackageUtil;
 import co.siempo.phone.utils.PrefSiempo;
 import co.siempo.phone.utils.UIUtils;
 
@@ -1148,6 +1149,9 @@ public abstract class CoreApplication extends MultiDexApplication {
                         } else {
                             app.displayName = applicationName;
                         }
+                        Drawable drawable = appInfo.loadIcon(packageManager);
+                        Bitmap bitmap = PackageUtil.drawableToBitmap(drawable);
+                        CoreApplication.getInstance().addBitmapToMemoryCache(packageName, bitmap);
                         apps.add(app);
 
                     }
