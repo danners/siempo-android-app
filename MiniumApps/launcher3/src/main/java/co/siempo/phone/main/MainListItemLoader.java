@@ -589,7 +589,7 @@ public class MainListItemLoader {
 
 
     public void listItemClicked(int id) {
-        String packageName, applicationName;
+        String packageName;
         if (context != null) {
             switch (id) {
                 case TOOLS_MAP://Map

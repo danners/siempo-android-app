@@ -32,13 +32,11 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Set;
 
 import co.siempo.phone.app.App;
 import co.siempo.phone.app.CoreApplication;
@@ -536,7 +534,7 @@ public class PackageUtil {
                 List<String> listOfSortFavoritesApps;
                 if (!TextUtils.isEmpty(jsonListOfSortedFavorites)) {
                     listOfSortFavoritesApps = syncFavoriteList(jsonListOfSortedFavorites, context);
-                    sortedFavoriteList = sortFavoriteAppsByPosition(listOfSortFavoritesApps, appList, context);
+                    sortedFavoriteList = sortFavoriteAppsByPosition(listOfSortFavoritesApps, appList);
                 }
             }
         } catch (Exception e) {
@@ -615,7 +613,7 @@ public class PackageUtil {
     }
 
 
-    private static ArrayList<MainListItem> sortFavoriteAppsByPosition(List<String> listOfSortFavoritesApps, List<MainListItem> appList, Context context) {
+    private static ArrayList<MainListItem> sortFavoriteAppsByPosition(List<String> listOfSortFavoritesApps, List<MainListItem> appList) {
 
         ArrayList<MainListItem> sortedFavoriteList = new ArrayList<>();
         //build sorted list
@@ -625,9 +623,9 @@ public class PackageUtil {
                     MainListItem m = new MainListItem(-10, "", "");
                     sortedFavoriteList.add(m);
                 } else {
-                    for (MainListItem items : appList) {
-                        if (!TextUtils.isEmpty(items.getPackageName()) && items.getPackageName().toLowerCase().trim().equalsIgnoreCase(packageName.toLowerCase().trim())) {
-                            sortedFavoriteList.add(items);
+                    for (MainListItem item : appList) {
+                        if (!TextUtils.isEmpty(item.getPackageName()) && item.getPackageName().toLowerCase().trim().equalsIgnoreCase(packageName.toLowerCase().trim())) {
+                            sortedFavoriteList.add(item);
                             break;
                         }
                     }
