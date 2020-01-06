@@ -49,11 +49,13 @@ import java.util.Set;
 
 import co.siempo.phone.R;
 import co.siempo.phone.event.AppInstalledEvent;
+import co.siempo.phone.event.NotifyFavoriteView;
 import co.siempo.phone.log.Tracer;
 import co.siempo.phone.models.AppMenu;
 import co.siempo.phone.models.CategoryAppList;
 import co.siempo.phone.models.MainListItem;
 import co.siempo.phone.service.CategoriesApp;
+import co.siempo.phone.service.LoadFavoritePane;
 import co.siempo.phone.utils.PrefSiempo;
 import co.siempo.phone.utils.UIUtils;
 
@@ -1127,12 +1129,14 @@ public abstract class CoreApplication extends MultiDexApplication {
         @Override
         protected Void doInBackground(Object... params) {
 
+
             if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 LoadApplicationThroughLauncherApps();
             }
             else {
                 LoadApplicationThroughQueryIntent();
             }
+            new LoadFavoritePane(PrefSiempo.getInstance(CoreApplication.this)).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
             return null;
         }
 
