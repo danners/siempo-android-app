@@ -201,7 +201,8 @@ public class FavoritesSelectionActivity extends CoreActivity implements AdapterV
             for (App app : installedPackageList) {
                 if (!app.packageName.equalsIgnoreCase(getPackageName())) {
                     if (!TextUtils.isEmpty(app.displayName)) {
-                        if (adapterList.contains(app.packageName)) {
+
+                         if (adapterList.contains(app)) {
                             favoriteList.add(new AppListInfo(app.packageName, app.displayName,
                                     false, false, true, app.isWorkApp));
                         } else {
@@ -374,13 +375,13 @@ public class FavoritesSelectionActivity extends CoreActivity implements AdapterV
                 for (App app : installedPackageList) {
                     if (!app.packageName.equalsIgnoreCase(getPackageName())) {
                         if (!TextUtils.isEmpty(app.displayName)) {
-                            if (adapterList.contains(app.packageName)) {
+                            if (adapterList.contains(app)) {
                                 favoriteList.add(new AppListInfo(app.packageName, app.displayName,
                                         false, false,
                                         true, app.isWorkApp));
                             } else {
                                 if (null != junkFoodList && !junkFoodList
-                                        .contains(app.packageName)) {
+                                        .contains(app)) {
                                     unfavoriteList.add(new AppListInfo(app.packageName,
                                             app.displayName, false,
                                             false, false, app.isWorkApp));
