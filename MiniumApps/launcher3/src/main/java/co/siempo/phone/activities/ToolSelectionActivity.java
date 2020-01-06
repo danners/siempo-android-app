@@ -48,7 +48,7 @@ public class ToolSelectionActivity extends CoreActivity {
                 if (mAdapter != null) {
                     for (MainListItem mainListItem : adapterList) {
                         map.get(mainListItem.getId()).setVisible(mainListItem
-                                .isVisable());
+                                .isVisible());
                     }
 
                     PrefSiempo.getInstance(ToolSelectionActivity.this).write(PrefSiempo.TOOLS_SETTING, new Gson().toJson(map));
@@ -108,7 +108,7 @@ public class ToolSelectionActivity extends CoreActivity {
         items = new ArrayList<>();
         new MainListItemLoader().loadItemsDefaultApp(items);
         for (int i = 0; i < items.size(); i++) {
-            items.get(i).setVisable(map.get(items.get(i).getId()).isVisible());
+            items.get(i).setVisible(map.get(items.get(i).getId()).isVisible());
         }
 
         //original list which will be edited
@@ -116,7 +116,7 @@ public class ToolSelectionActivity extends CoreActivity {
         new MainListItemLoader().loadItemsDefaultApp(adapterList);
         int size = adapterList.size();
         for (int i = 0; i < size; i++) {
-            adapterList.get(i).setVisable(map.get(adapterList.get(i).getId()).isVisible());
+            adapterList.get(i).setVisible(map.get(adapterList.get(i).getId()).isVisible());
         }
         adapterList = Sorting.sortToolAppAssignment(this, adapterList);
     }
@@ -141,7 +141,7 @@ public class ToolSelectionActivity extends CoreActivity {
         map = mAdapter.getMap();
         for (MainListItem mainListItem : items) {
             map.get(mainListItem.getId()).setVisible(mainListItem
-                    .isVisable());
+                    .isVisible());
         }
         PrefSiempo.getInstance(ToolSelectionActivity.this).write(PrefSiempo.TOOLS_SETTING, new Gson().toJson(map));
         super.onBackPressed();

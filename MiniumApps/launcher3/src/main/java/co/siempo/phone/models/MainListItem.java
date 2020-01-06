@@ -4,8 +4,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import co.siempo.phone.R;
-
 /**
  * Created by Shahab on 2/16/2017.
  */
@@ -15,13 +13,11 @@ public class MainListItem implements Serializable {
     private int id;
     private String title;
     private int drawable;
-    private String subTitle;
     private String packageName = "";
     private boolean isEnabled = true;
     private MainListItemType itemType = MainListItemType.ACTION;
     private String icon;
-    private int iconRes;
-    private boolean isVisable;
+    private boolean isVisible;
     private String category="";
 
     /**
@@ -51,7 +47,6 @@ public class MainListItem implements Serializable {
         this.title = title;
         this.icon = icon;
         this.itemType = itemType;
-        this.iconRes = R.drawable.icon_sms;
     }
 
 
@@ -62,7 +57,6 @@ public class MainListItem implements Serializable {
         this.title = title;
         this.icon = icon;
         this.itemType = itemType;
-        this.iconRes = R.drawable.icon_sms;
         this.numbers = new ArrayList<>();
     }
 
@@ -72,7 +66,6 @@ public class MainListItem implements Serializable {
         this.title = title;
         this.icon = icon;
         this.itemType = itemType;
-        this.iconRes = iconRes;
     }
 
     public MainListItem(int id, String title, int drawable, MainListItemType itemType,String category) {
@@ -88,7 +81,7 @@ public class MainListItem implements Serializable {
         this.title = mainListItem.getTitle();
         this.itemType = mainListItem.getItemType();
         this.drawable = mainListItem.getDrawable();
-        this.isVisable = mainListItem.isVisable();
+        this.isVisible = mainListItem.isVisible();
     }
 
     /**
@@ -153,12 +146,12 @@ public class MainListItem implements Serializable {
     }
 
 
-    public boolean isVisable() {
-        return isVisable;
+    public boolean isVisible() {
+        return isVisible;
     }
 
-    public void setVisable(boolean visable) {
-        isVisable = visable;
+    public void setVisible(boolean visible) {
+        isVisible = visible;
     }
 
     @Override
@@ -166,7 +159,6 @@ public class MainListItem implements Serializable {
         return "MainListItem{" +
                 "id=" + id +
                 ", title='" + title + '\'' +
-                ", subTitle='" + subTitle + '\'' +
                 ", isVisible=" + isEnabled +
                 ", itemType=" + itemType +
                 ", icon='" + icon + '\'' +

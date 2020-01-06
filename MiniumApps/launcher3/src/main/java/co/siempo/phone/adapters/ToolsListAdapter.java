@@ -84,7 +84,7 @@ public class ToolsListAdapter extends RecyclerView.Adapter<ToolsListAdapter
     public void onBindViewHolder(final ToolsListAdapter.ToolsViewHolder holder, final int position) {
         final MainListItem mainListItem = listItems.get(position);
         if (mainListItem != null) {
-            final boolean isVisible = mainListItem.isVisable();
+            final boolean isVisible = mainListItem.isVisible();
             holder.txtAppName.setText(mainListItem.getTitle());
             bindView(mainListItem, holder, isVisible);
             holder.txtAssignApp.setOnClickListener(new View.OnClickListener() {
@@ -131,11 +131,11 @@ public class ToolsListAdapter extends RecyclerView.Adapter<ToolsListAdapter
                 public void onClick(View v) {
                     if (holder.checkbox.isChecked()) {
                         if (getCountOfCheckTools() > 1) {
-                            mainListItem.setVisable(false);
+                            mainListItem.setVisible(false);
                             bindView(mainListItem, holder, false);
                         }
                     } else {
-                            mainListItem.setVisable(true);
+                            mainListItem.setVisible(true);
                             bindView(mainListItem, holder, true);
                         if (map.get(mainListItem.getId()).getApplicationName().equalsIgnoreCase("")) {
                             String hashMapToolSettings = new Gson().toJson(map);
@@ -1152,7 +1152,7 @@ public class ToolsListAdapter extends RecyclerView.Adapter<ToolsListAdapter
     private int getCountOfCheckTools() {
         int count = 0;
         for (MainListItem mainListItem : listItems) {
-            if (mainListItem.isVisable())
+            if (mainListItem.isVisible())
                 count++;
         }
         return count;
