@@ -41,7 +41,6 @@ import co.siempo.phone.utils.PrefSiempo;
 public class FavoriteAppsPositionActivity extends CoreActivity implements OnFavoriteItemListChangedListener,
         OnStartDragListener {
     private ArrayList<MainListItem> items = new ArrayList<>();
-    private ArrayList<MainListItem> sortedList = new ArrayList<>();
     private FavoritePositioningAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private ItemOffsetDecoration itemDecoration;
@@ -52,7 +51,6 @@ public class FavoriteAppsPositionActivity extends CoreActivity implements OnFavo
     private TextView txtSelectTools;
     private RelativeLayout relTop;
     private RelativeLayout relPane;
-    private long startTime = 0;
 
     private View.OnClickListener onClickListener = new View.OnClickListener() {
         @Override
@@ -120,7 +118,6 @@ public class FavoriteAppsPositionActivity extends CoreActivity implements OnFavo
     @Override
     protected void onResume() {
         super.onResume();
-        startTime = System.currentTimeMillis();
         initView();
     }
 
@@ -195,7 +192,6 @@ public class FavoriteAppsPositionActivity extends CoreActivity implements OnFavo
         for (MainListItem customer : customers) {
             listOfSortedCustomerId.add(customer.getPackageName());
         }
-        sortedList = customers;
         Gson gson = new Gson();
         String jsonListOfSortedCustomerIds = gson.toJson(listOfSortedCustomerId);
         PrefSiempo.getInstance(this).write(PrefSiempo.FAVORITE_SORTED_MENU, jsonListOfSortedCustomerIds);
