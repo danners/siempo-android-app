@@ -233,6 +233,10 @@ public class JunkfoodFlaggingActivity extends CoreActivity implements AdapterVie
                         HashMap<Integer, AppMenu> newMap = CoreApplication.getInstance().getToolsSettings();
                         for(int i=0;i<newMap.size();i++){
                             if(newMap!=null && newMap.get(i)!=null && !TextUtils.isEmpty(newMap.get(i).getApplicationName())){
+
+
+                                // TODO fix
+
                                 if(adapterlist.contains(newMap.get(i).getApplicationName())){
                                     newMap.get(i).setApplicationName("");
                                 }
@@ -323,7 +327,7 @@ public class JunkfoodFlaggingActivity extends CoreActivity implements AdapterVie
             for (App app : installedPackageList) {
                 if (!app.packageName.equalsIgnoreCase(getPackageName())) {
                     if (!TextUtils.isEmpty(app.displayName)) {
-                        if (adapterlist.contains(app.packageName)) {
+                        if (adapterlist.contains(app)) {
                             flagAppList.add(new AppListInfo(app.packageName, app.displayName, false, false, true, app.isWorkApp));
                         } else {
                             unflageAppList.add(new AppListInfo(app.packageName, app.displayName, false, false, false, app.isWorkApp));
@@ -468,7 +472,7 @@ public class JunkfoodFlaggingActivity extends CoreActivity implements AdapterVie
         });
         popup.getMenuInflater().inflate(R.menu.junkfood_popup, popup.getMenu());
         MenuItem menuItem = popup.getMenu().findItem(R.id.item_Unflag);
-        menuItem.setTitle(adapterlist.contains(app.packageName) ? getString(R.string.unflagapp) : getString(R.string.flag_app));
+        menuItem.setTitle(adapterlist.contains(app) ? getString(R.string.unflagapp) : getString(R.string.flag_app));
         popup.show();
         popup.setOnDismissListener(new PopupMenu.OnDismissListener() {
             @Override
@@ -525,7 +529,11 @@ public class JunkfoodFlaggingActivity extends CoreActivity implements AdapterVie
                         handler.postDelayed(new Runnable() {
                             @Override
                             public void run() {
-             // TODO
+                                if (adapterlist.contains(bindingList.get(position).app)) {
+                                    adapterlist.remove(bindingList.get(position).app);
+                                } else {
+                                    adapterlist.add(bindingList.get(position).app);
+                                }
                                 firstPosition = listAllApps.getFirstVisiblePosition();
                                 new FilterApps().execute();
                                 listAllApps.setEnabled(true);
@@ -606,7 +614,7 @@ public class JunkfoodFlaggingActivity extends CoreActivity implements AdapterVie
                 for (App app : installedPackageList) {
                     if (!app.packageName.equalsIgnoreCase(getPackageName())) {
                         if (!TextUtils.isEmpty(app.displayName)) {
-                            if (adapterlist.contains(app.packageName)) {
+                            if (adapterlist.contains(app)) {
                                 flagAppList.add(new AppListInfo(app.packageName, app.displayName, false, false, true, false));
                             } else {
                                 unflageAppList.add(new AppListInfo(app.packageName, app.displayName, false, false, false, false));
