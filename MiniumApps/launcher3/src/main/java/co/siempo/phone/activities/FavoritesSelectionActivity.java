@@ -155,25 +155,28 @@ public class FavoritesSelectionActivity extends CoreActivity implements AdapterV
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 junkFoodList.removeAll(adapterList);
-                String jsonListOfSortedFavorites = PrefSiempo.getInstance(FavoritesSelectionActivity.this).read(PrefSiempo.FAVORITE_SORTED_MENU, "");
-                //convert onNoteListChangedJSON array into a List<Long>
-                List<String> listOfSortFavoritesApps = new Gson().fromJson(jsonListOfSortedFavorites, new TypeToken<List<String>>() {
-                }.getType());
+                LinkedList<App> sortedFavorites = PrefSiempo.getInstance(FavoritesSelectionActivity.this).readAppList(PrefSiempo.FAVORITE_SORTED_MENU);
 
-                for (ListIterator<String> it =
-                     listOfSortFavoritesApps.listIterator(); it.hasNext
+                for (ListIterator<App> it =
+                     sortedFavorites.listIterator(); it.hasNext
                         (); ) {
-                    String packageName = it.next();
-                    if (!adapterList.contains(packageName)) {
+                    App app = it.next();
+                    if (!adapterList.contains(app)) {
                         //Used List Iterator to set empty
                         // value for package name retaining
                         // the positions of elements
-                        it.set("");
+                        it.set(null);
                     }
                 }
 
-                String jsonListOfFavoriteApps = new Gson().toJson(listOfSortFavoritesApps);
-                PrefSiempo.getInstance(FavoritesSelectionActivity.this).write(PrefSiempo.FAVORITE_SORTED_MENU, jsonListOfFavoriteApps);
+                for (App app: adapterList) {
+                    if (!sortedFavorites.contains(app)) {
+                        sortedFavorites.push(app);
+
+                    }
+                }
+
+                PrefSiempo.getInstance(FavoritesSelectionActivity.this).writeAppList(PrefSiempo.FAVORITE_SORTED_MENU, sortedFavorites);
 
 
                 PrefSiempo.getInstance(FavoritesSelectionActivity.this).writeAppList

@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import co.siempo.phone.app.App;
+
 /**
  * Created by Shahab on 2/16/2017.
  */
@@ -13,12 +15,13 @@ public class MainListItem implements Serializable {
     private int id;
     private String title;
     private int drawable;
-    private String packageName = "";
     private boolean isEnabled = true;
     private MainListItemType itemType = MainListItemType.ACTION;
     private String icon;
     private boolean isVisible;
     private String category="";
+
+    public App app = new App();
 
     /**
      * Contact Information
@@ -32,13 +35,19 @@ public class MainListItem implements Serializable {
     public MainListItem(int id, String title, String packageName) {
         this.id = id;
         this.title = title;
-        this.packageName = packageName;
+        this.app.packageName = packageName;
+    }
+
+    public MainListItem(int id, App app) {
+        this.id = id;
+        this.title = app.displayName;
+        this.app = app;
     }
 
     public MainListItem(int id, String title, String packageName, int drawable) {
         this.id = id;
         this.title = title;
-        this.packageName = packageName;
+        this.app.packageName = packageName;
         this.drawable = drawable;
     }
 
@@ -58,14 +67,6 @@ public class MainListItem implements Serializable {
         this.icon = icon;
         this.itemType = itemType;
         this.numbers = new ArrayList<>();
-    }
-
-
-    public MainListItem(int id, String title, String icon, int iconRes, MainListItemType itemType) {
-        this.id = id;
-        this.title = title;
-        this.icon = icon;
-        this.itemType = itemType;
     }
 
     public MainListItem(int id, String title, int drawable, MainListItemType itemType,String category) {
@@ -100,7 +101,10 @@ public class MainListItem implements Serializable {
     }
 
     public String getPackageName() {
-        return packageName;
+        if (app == null) {
+            return null;
+        }
+        return app.packageName;
     }
 
 

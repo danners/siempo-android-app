@@ -530,11 +530,9 @@ public class PackageUtil {
         try {
             ArrayList<MainListItem> appList = getAppList(context);
             if (appList.size() > 0) {
-                String jsonListOfSortedFavorites = PrefSiempo.getInstance(context).read(PrefSiempo.FAVORITE_SORTED_MENU, "");
-                List<String> listOfSortFavoritesApps;
-                if (!TextUtils.isEmpty(jsonListOfSortedFavorites)) {
-                    listOfSortFavoritesApps = syncFavoriteList(jsonListOfSortedFavorites, context);
-                    sortedFavoriteList = sortFavoriteAppsByPosition(listOfSortFavoritesApps, appList);
+                LinkedList<App> sortedFavorites = PrefSiempo.getInstance(context).readAppList(PrefSiempo.FAVORITE_SORTED_MENU);
+                if (sortedFavorites.size() != 0) {
+                    sortedFavoriteList = sortFavoriteAppsByPosition(sortedFavorites, appList);
                 }
             }
         } catch (Exception e) {
@@ -563,12 +561,7 @@ public class PackageUtil {
 
             for (App app : installedPackageList) {
                 if (!app.packageName.equalsIgnoreCase(context.getPackageName())) {
-                    if (!TextUtils.isEmpty(app.packageName)) {
-                        if (!TextUtils.isEmpty(app.displayName)) {
-                            appList.add(new MainListItem(-1, "" + app.displayName, app.packageName));
-                        }
-                    }
-
+                    appList.add(new MainListItem(-1, app));
                 }
 
             }
@@ -579,52 +572,18 @@ public class PackageUtil {
     }
 
 
-    private static List<String> syncFavoriteList(String jsonListOfSortedFavorites, Context context) {
-        List<App> favorite_List_App = PrefSiempo.getInstance(context).readAppList(PrefSiempo.FAVORITE_APPS);
-        List<String> listOfSortFavoritesApps = new ArrayList<>();
-        //Below logic is use to sync FAVORITE_SORTED_MENU Preference AND FAVORITE_APPS LIST
-        if (!jsonListOfSortedFavorites.isEmpty()) {
-
-            //convert onNoteListChangedJSON array into a List<Long>
-            Gson gson1 = new Gson();
-            listOfSortFavoritesApps = gson1.fromJson(jsonListOfSortedFavorites, new TypeToken<List<String>>() {
-            }.getType());
-
-
-            for (App app : favorite_List_App) {
-                if (!listOfSortFavoritesApps.contains(app.packageName)) {
-                    boolean isEnable = UIUtils.isAppInstalledAndEnabled(context, app.packageName);
-                    if (isEnable) {
-                        for (int j = 0; j < listOfSortFavoritesApps.size(); j++) {
-                            if (TextUtils.isEmpty(listOfSortFavoritesApps.get(j).trim())) {
-                                listOfSortFavoritesApps.set(j, app.packageName);
-                                break;
-                            }
-                        }
-                    }
-                }
-            }
-            Gson gson2 = new Gson();
-            String jsonListOfFavoriteApps = gson2.toJson(listOfSortFavoritesApps);
-            PrefSiempo.getInstance(context).write(PrefSiempo.FAVORITE_SORTED_MENU, jsonListOfFavoriteApps);
-        }
-        return listOfSortFavoritesApps;
-
-    }
-
-
-    private static ArrayList<MainListItem> sortFavoriteAppsByPosition(List<String> listOfSortFavoritesApps, List<MainListItem> appList) {
+    private static ArrayList<MainListItem> sortFavoriteAppsByPosition(List<App> listOfSortFavoritesApps, List<MainListItem> appList) {
 
         ArrayList<MainListItem> sortedFavoriteList = new ArrayList<>();
         //build sorted list
         if (listOfSortFavoritesApps != null && listOfSortFavoritesApps.size() > 0) {
-            for (String packageName : listOfSortFavoritesApps) {
-                if (TextUtils.isEmpty(packageName)) {
+            for (App app : listOfSortFavoritesApps) {
+                if (app == null) {
                     MainListItem m = new MainListItem(-10, "", "");
                     sortedFavoriteList.add(m);
                 } else {
                     for (MainListItem item : appList) {
-                        if (!TextUtils.isEmpty(item.getPackageName()) && item.getPackageName().toLowerCase().trim().equalsIgnoreCase(packageName.toLowerCase().trim())) {
+                        if (item.app.equals(app)) {
                             sortedFavoriteList.add(item);
                             break;
                         }

@@ -146,6 +146,7 @@ public class FavoritePaneFragment extends CoreFragment {
 
         } else {
             linSelectFavouriteFood.setVisibility(View.VISIBLE);
+            recyclerView.setVisibility(View.GONE);
         }
     }
 

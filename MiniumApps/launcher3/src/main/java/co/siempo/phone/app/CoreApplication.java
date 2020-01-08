@@ -1036,10 +1036,6 @@ public abstract class CoreApplication extends MultiDexApplication {
     }
 
 
-    public void includeTaskPool(AsyncTask asyncTask, Object object) {
-        asyncTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, object);
-    }
-
     public void addBitmapToMemoryCache(String key, Bitmap bitmap) {
         if (getBitmapFromMemCache(key) == null) {
             mMemoryCache.put(key, new BitmapDrawable(getResources(), bitmap));

@@ -92,7 +92,7 @@ public class FavoritesPaneAdapter extends RecyclerView.Adapter<FavoritesPaneAdap
                 holder.imgAppIcon.setVisibility(View.VISIBLE);
                 holder.txtAppTextImage.setVisibility(View.GONE);
                 holder.imgUnderLine.setVisibility(View.GONE);
-                Drawable drawable = CoreApplication.getInstance().getApplicationIconFromPackageName(item.getPackageName());
+                Drawable drawable = CoreApplication.getInstance().getBitMapByApp(item.app);
                 if (drawable != null) {
                     holder.imgAppIcon.setImageDrawable(drawable);
                 } else {

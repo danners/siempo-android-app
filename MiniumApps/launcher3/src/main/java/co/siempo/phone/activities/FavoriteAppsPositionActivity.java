@@ -24,9 +24,11 @@ import com.google.gson.Gson;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 import co.siempo.phone.R;
 import co.siempo.phone.adapters.FavoritePositioningAdapter;
+import co.siempo.phone.app.App;
 import co.siempo.phone.app.CoreApplication;
 import co.siempo.phone.customviews.ItemOffsetDecoration;
 import co.siempo.phone.interfaces.OnFavoriteItemListChangedListener;
@@ -187,14 +189,12 @@ public class FavoriteAppsPositionActivity extends CoreActivity implements OnFavo
 
     @Override
     public void onFavoriteItemListChanged(ArrayList<MainListItem> customers) {
-        ArrayList<String> listOfSortedCustomerId = new ArrayList<>();
+        LinkedList<App> listOfSortedCustomerId = new LinkedList<>();
 
         for (MainListItem customer : customers) {
-            listOfSortedCustomerId.add(customer.getPackageName());
+            listOfSortedCustomerId.add(customer.app);
         }
-        Gson gson = new Gson();
-        String jsonListOfSortedCustomerIds = gson.toJson(listOfSortedCustomerId);
-        PrefSiempo.getInstance(this).write(PrefSiempo.FAVORITE_SORTED_MENU, jsonListOfSortedCustomerIds);
+        PrefSiempo.getInstance(this).writeAppList(PrefSiempo.FAVORITE_SORTED_MENU, listOfSortedCustomerId);
     }
 
 

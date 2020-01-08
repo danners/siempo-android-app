@@ -369,36 +369,31 @@ public class JunkfoodFlaggingActivity extends CoreActivity implements AdapterVie
      * Remove the junk apps from Favorite Sorted menu and Favorite list
      */
     private void removeJunkAppsFromFavorites() {
-        String jsonListOfSortedFavorites = PrefSiempo.getInstance(JunkfoodFlaggingActivity.this)
-                .read(PrefSiempo.FAVORITE_SORTED_MENU, "");
+        LinkedList<App> sortedFavorites = PrefSiempo.getInstance(JunkfoodFlaggingActivity.this)
+                .readAppList(PrefSiempo.FAVORITE_SORTED_MENU);
         LinkedList<App> favlist = PrefSiempo.getInstance(this).readAppList(PrefSiempo.FAVORITE_APPS);
-        //convert onNoteListChangedJSON array into a List<Long>
-        Gson gson1 = new Gson();
-        List<String> listOfSortFavoritesApps = gson1.fromJson(jsonListOfSortedFavorites, new TypeToken<List<String>>() {
-        }.getType());
+
 
         for (App junkApp : adapterlist) {
             if (favlist != null && favlist.contains(junkApp)) {
 
-                for (ListIterator<String> it =
-                     listOfSortFavoritesApps.listIterator(); it.hasNext
+                for (ListIterator<App> it =
+                     sortedFavorites.listIterator(); it.hasNext
                         (); ) {
-                    String packageName = it.next();
-                    if (junkApp.packageName.equalsIgnoreCase(packageName)) {
+                    App app = it.next();
+                    if (junkApp.equals(app)) {
                         //Used List Iterator to set empty
                         // value for package name retaining
                         // the positions of elements
-                        it.set("");
+                        it.set(null);
                     }
                 }
 
             }
         }
 
-        Gson gson2 = new Gson();
-        String jsonListOfFavoriteApps = gson2.toJson(listOfSortFavoritesApps);
-        PrefSiempo.getInstance(JunkfoodFlaggingActivity.this).write(PrefSiempo
-                .FAVORITE_SORTED_MENU, jsonListOfFavoriteApps);
+        PrefSiempo.getInstance(JunkfoodFlaggingActivity.this).writeAppList(PrefSiempo
+                .FAVORITE_SORTED_MENU, sortedFavorites);
         PrefSiempo.getInstance(JunkfoodFlaggingActivity.this).writeAppList(PrefSiempo.FAVORITE_APPS, favlist);
     }
 

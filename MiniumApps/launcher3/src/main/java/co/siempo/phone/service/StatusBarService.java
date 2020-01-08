@@ -615,24 +615,19 @@ public class StatusBarService extends Service {
      * @param packageName
      */
     public void updateFavoriteSort(Context context, String packageName) {
-        //get the JSON array of the ordered of sorted customers
-        String jsonListOfSortedFavorites = PrefSiempo.getInstance(context).read(PrefSiempo.FAVORITE_SORTED_MENU, "");
-        //convert onNoteListChangedJSON array into a List<Long>
-        Gson gson1 = new Gson();
-        List<String> listOfSortFavoritesApps = gson1.fromJson(jsonListOfSortedFavorites, new TypeToken<List<String>>() {
-        }.getType());
-        for (ListIterator<String> it =
-             listOfSortFavoritesApps.listIterator(); it.hasNext
+        LinkedList<App> sortedFavorites = PrefSiempo.getInstance(context).readAppList(PrefSiempo.FAVORITE_SORTED_MENU);
+
+        for (ListIterator<App> it =
+             sortedFavorites.listIterator(); it.hasNext
                 (); ) {
-            String removePackageName = it.next();
-            if (!TextUtils.isEmpty(removePackageName) && removePackageName.trim().equalsIgnoreCase(packageName)) {
-                it.set("");
+            App app = it.next();
+            if (app.packageName.equalsIgnoreCase(packageName)) {
+                it.set(null);
             }
 
         }
-        Gson gson2 = new Gson();
-        String jsonListOfFavoriteApps = gson2.toJson(listOfSortFavoritesApps);
-        PrefSiempo.getInstance(context).write(PrefSiempo.FAVORITE_SORTED_MENU, jsonListOfFavoriteApps);
+
+        PrefSiempo.getInstance(context).writeAppList(PrefSiempo.FAVORITE_SORTED_MENU, sortedFavorites);
     }
 
     /**
