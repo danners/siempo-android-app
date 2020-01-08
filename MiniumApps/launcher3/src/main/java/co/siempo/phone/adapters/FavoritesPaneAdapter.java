@@ -4,15 +4,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
-import androidx.recyclerview.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -128,7 +128,7 @@ public class FavoritesPaneAdapter extends RecyclerView.Adapter<FavoritesPaneAdap
             public void onClick(View v) {
                 if (holder.linearLayout.getVisibility() == View.VISIBLE) {
                     if (!TextUtils.isEmpty(item.getPackageName())) {
-                        new ActivityHelper(context).openAppWithPackageName(item.getPackageName().trim());
+                        new ActivityHelper(context).openAppWithApp(item.app);
                     }
                 }
             }

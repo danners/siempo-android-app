@@ -4,12 +4,19 @@ import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.LauncherActivityInfo;
+import android.content.pm.LauncherApps;
 import android.content.pm.PackageManager;
+import android.os.UserHandle;
+import android.os.UserManager;
+
+import java.util.List;
 
 import co.siempo.phone.R;
 import co.siempo.phone.activities.AlphaSettingsActivity_;
 import co.siempo.phone.activities.NoteListActivity;
 import co.siempo.phone.activities.SuppressNotificationActivity;
+import co.siempo.phone.app.App;
 import co.siempo.phone.app.CoreApplication;
 import co.siempo.phone.db.DBClient;
 import co.siempo.phone.launcher.FakeLauncherActivity;
@@ -79,9 +86,32 @@ public class ActivityHelper {
     }
 
 
-    /**
-     * Open the application with predefine package name.
-     */
+    public boolean openAppWithApp(App app) {
+        if (!app.isWorkApp) {
+            return openAppWithPackageName(app.packageName);
+        }
+
+        UserManager manager = (UserManager) context.getSystemService(Context.USER_SERVICE);
+        UserHandle workUser = null;
+        for (UserHandle profile : manager.getUserProfiles()) {
+            boolean isCurrentUser = android.os.Process.myUserHandle().equals(profile);
+            if (!isCurrentUser) {
+                workUser = profile;
+                break;
+            }
+        }
+
+        LauncherApps launcher = (LauncherApps) context.getSystemService(Context.LAUNCHER_APPS_SERVICE);
+        List<LauncherActivityInfo> activities = launcher.getActivityList(app.packageName, workUser);
+        launcher.startMainActivity(activities.get(0).getComponentName(), workUser, null, null);
+
+        return false;
+    }
+
+
+        /**
+         * Open the application with predefine package name.
+         */
     public boolean openAppWithPackageName(String packageName) {
         if (packageName != null && !packageName.equalsIgnoreCase("")) {
             try {
