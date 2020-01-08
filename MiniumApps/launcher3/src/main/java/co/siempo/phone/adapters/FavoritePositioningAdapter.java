@@ -132,7 +132,7 @@ public class FavoritePositioningAdapter extends RecyclerView.Adapter<FavoritePos
             holder.imgAppIcon.setVisibility(View.VISIBLE);
             holder.txtAppTextImage.setVisibility(View.GONE);
             holder.imgUnderLine.setVisibility(View.GONE);
-            Drawable drawable = getAppIconByPackageName(item.getPackageName(), context);
+            Drawable drawable = CoreApplication.getInstance().getBitMapByApp(item.app);
             if (drawable != null) {
                 holder.imgAppIcon.setImageDrawable(drawable);
             } else {
@@ -159,22 +159,6 @@ public class FavoritePositioningAdapter extends RecyclerView.Adapter<FavoritePos
     @Override
     public int getItemCount() {
         return arrayList.size();
-    }
-
-    public Drawable getAppIconByPackageName(String ApkTempPackageName, Context context) {
-
-        Drawable drawable;
-
-        try {
-            drawable = context.getPackageManager().getApplicationIcon(ApkTempPackageName);
-
-        } catch (PackageManager.NameNotFoundException e) {
-
-            e.printStackTrace();
-
-            drawable = ContextCompat.getDrawable(context, R.mipmap.ic_launcher);
-        }
-        return drawable;
     }
 
     class ItemViewHolder extends RecyclerView.ViewHolder implements
