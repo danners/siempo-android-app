@@ -3,14 +3,18 @@ package co.siempo.phone.fragments;
 import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
+
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -23,9 +27,6 @@ import co.siempo.phone.customviews.ItemOffsetDecoration;
 import co.siempo.phone.event.NotifyFavoriteView;
 import co.siempo.phone.models.MainListItem;
 import co.siempo.phone.util.AppUtils;
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
 
 
 public class FavoritePaneFragment extends CoreFragment {
@@ -127,27 +128,20 @@ public class FavoritePaneFragment extends CoreFragment {
 
     private void checkSize() {
         if (items.size() > 0) {
-            boolean containsFavourites = false;
             for (MainListItem item : items) {
                 if (item != null) {
-                    containsFavourites = true;
-                    break;
+                    showFavorites(true);
+                    return;
                 }
             }
-            if (containsFavourites) {
-                linSelectFavouriteFood.setVisibility(View.GONE);
-                recyclerView.setVisibility(View.VISIBLE);
-
-            } else {
-                linSelectFavouriteFood.setVisibility(View.VISIBLE);
-                recyclerView.setVisibility(View.GONE);
-            }
-
-
-        } else {
-            linSelectFavouriteFood.setVisibility(View.VISIBLE);
-            recyclerView.setVisibility(View.GONE);
         }
+
+        showFavorites(false);
+    }
+
+    private void showFavorites(boolean favoritesAvailable) {
+        linSelectFavouriteFood.setVisibility(favoritesAvailable ? View.GONE : View.VISIBLE);
+        recyclerView.setVisibility(favoritesAvailable ? View.VISIBLE : View.GONE);
     }
 
     @Override
