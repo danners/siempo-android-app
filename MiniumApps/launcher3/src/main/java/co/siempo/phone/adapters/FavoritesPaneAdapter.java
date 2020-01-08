@@ -56,8 +56,24 @@ public class FavoritesPaneAdapter extends RecyclerView.Adapter<FavoritesPaneAdap
     // Replace the contents of a view (invoked by the layout manager)
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        final MainListItem item = mainListItemList.get(position);
         holder.linearLayout.setVisibility(View.VISIBLE);
+        holder.linearLayout.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                Intent intent = new Intent(context, FavoriteAppsPositionActivity.class);
+                context.startActivity(intent);
+                ((CoreActivity) context).overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                return true;
+            }
+        });
+
+        final MainListItem item = mainListItemList.get(position);
+
+        if (item == null) {
+            SetEmptyAppSpace(holder);
+            return;
+        }
+
         if (!TextUtils.isEmpty(item.getTitle())) {
 
             //Done as a part of SSA-1454, in order to change the app name
@@ -102,21 +118,10 @@ public class FavoritesPaneAdapter extends RecyclerView.Adapter<FavoritesPaneAdap
 
 
         } else {
-            holder.imgAppIcon.setImageDrawable(null);
-            holder.text.setText("");
-            holder.txtAppTextImage.setText("");
-            holder.imgUnderLine.setVisibility(View.GONE);
+            SetEmptyAppSpace(holder);
         }
 
-        holder.linearLayout.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-                Intent intent = new Intent(context, FavoriteAppsPositionActivity.class);
-                context.startActivity(intent);
-                ((CoreActivity) context).overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-                return true;
-            }
-        });
+
 
         holder.linearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -137,6 +142,13 @@ public class FavoritesPaneAdapter extends RecyclerView.Adapter<FavoritesPaneAdap
         {
             holder.txtLayout.setVisibility(View.VISIBLE);
         }
+    }
+
+    private void SetEmptyAppSpace(ViewHolder holder) {
+        holder.imgAppIcon.setImageDrawable(null);
+        holder.text.setText("");
+        holder.txtAppTextImage.setText("");
+        holder.imgUnderLine.setVisibility(View.GONE);
     }
 
 

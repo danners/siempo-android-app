@@ -5,10 +5,12 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
 import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
 
 import co.siempo.phone.app.App;
@@ -270,8 +272,9 @@ public class PrefSiempo {
         return list;
     }
 
-    public void writeAppList(String key, LinkedList<App> apps) {
-       write(key, new Gson().toJson(apps));
+    public void writeAppList(String key, List<App> apps) {
+       Gson gson = new GsonBuilder().serializeNulls().create();
+        write(key, gson.toJson(apps));
     }
 
 

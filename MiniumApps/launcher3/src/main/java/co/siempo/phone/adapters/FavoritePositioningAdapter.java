@@ -5,8 +5,10 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
+
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -53,15 +55,9 @@ public class FavoritePositioningAdapter extends RecyclerView.Adapter<FavoritePos
     public boolean onItemMove(int fromPosition, int toPosition) {
         try {
             if (arrayList != null && arrayList.size() > 0) {
-                if (fromPosition < toPosition) {
-                    for (int i = fromPosition; i < toPosition; i++) {
-                        Collections.swap(arrayList, i, i + 1);
-                    }
-                } else {
-                    for (int i = fromPosition; i > toPosition; i--) {
-                        Collections.swap(arrayList, i, i - 1);
-                    }
-                }
+
+                Collections.swap(arrayList, fromPosition, toPosition);
+
                 mListChangedListener.onFavoriteItemListChanged(arrayList);
                 notifyItemMoved(fromPosition, toPosition);
             }
@@ -97,6 +93,11 @@ public class FavoritePositioningAdapter extends RecyclerView.Adapter<FavoritePos
     public void onBindViewHolder(final ItemViewHolder holder, int position) {
         final MainListItem item = arrayList.get(position);
         holder.linearLayout.setVisibility(View.VISIBLE);
+        if (item == null) {
+            holder.linearLayout.setVisibility(View.INVISIBLE);
+            return;
+        }
+
         if (!TextUtils.isEmpty(item.getTitle())) {
             //Done as a part of SSA-1454, in order to change the app name
             // based on user selected language, and in case of package nme
@@ -110,44 +111,40 @@ public class FavoritePositioningAdapter extends RecyclerView.Adapter<FavoritePos
             }
 
         }
-        if (!TextUtils.isEmpty(item.getPackageName())) {
-            if (isHideIconBranding) {
-                holder.imgAppIcon.setVisibility(View.GONE);
-                holder.txtAppTextImage.setVisibility(View.VISIBLE);
-                holder.imgUnderLine.setVisibility(View.VISIBLE);
-                if (!TextUtils.isEmpty(item.getTitle())) {
-                    String fontPath = "fonts/robotocondensedregular.ttf";
-                    holder.txtAppTextImage.setText("" + item
-                            .getTitle().toUpperCase().charAt(0));
 
-                    // Loading Font Face
-                    Typeface tf = Typeface.createFromAsset(context.getAssets(), fontPath);
-                    // Applying font
-                    holder.txtAppTextImage.setTypeface(tf);
-                }
 
-            } else {
-                holder.imgAppIcon.setVisibility(View.VISIBLE);
-                holder.txtAppTextImage.setVisibility(View.GONE);
-                holder.imgUnderLine.setVisibility(View.GONE);
-                Drawable drawable = getAppIconByPackageName(item.getPackageName(), context);
-                if (drawable != null) {
-                    holder.imgAppIcon.setImageDrawable(drawable);
-                } else {
-                    holder.linearLayout.setVisibility(View.INVISIBLE);
-                }
+        if (isHideIconBranding) {
+            holder.imgAppIcon.setVisibility(View.GONE);
+            holder.txtAppTextImage.setVisibility(View.VISIBLE);
+            holder.imgUnderLine.setVisibility(View.VISIBLE);
+            if (!TextUtils.isEmpty(item.getTitle())) {
+                String fontPath = "fonts/robotocondensedregular.ttf";
+                holder.txtAppTextImage.setText("" + item
+                        .getTitle().toUpperCase().charAt(0));
+
+                // Loading Font Face
+                Typeface tf = Typeface.createFromAsset(context.getAssets(), fontPath);
+                // Applying font
+                holder.txtAppTextImage.setTypeface(tf);
             }
 
-
         } else {
-            holder.linearLayout.setVisibility(View.INVISIBLE);
+            holder.imgAppIcon.setVisibility(View.VISIBLE);
+            holder.txtAppTextImage.setVisibility(View.GONE);
+            holder.imgUnderLine.setVisibility(View.GONE);
+            Drawable drawable = getAppIconByPackageName(item.getPackageName(), context);
+            if (drawable != null) {
+                holder.imgAppIcon.setImageDrawable(drawable);
+            } else {
+                holder.linearLayout.setVisibility(View.INVISIBLE);
+            }
         }
 
 
         holder.linearLayout.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                if (!TextUtils.isEmpty(item.getPackageName())) {
+                if (item != null){
                     if (event.getActionMasked() == MotionEvent.ACTION_DOWN) {
                         mDragStartListener.onStartDrag(holder);
                     }

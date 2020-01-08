@@ -579,8 +579,7 @@ public class PackageUtil {
         if (listOfSortFavoritesApps != null && listOfSortFavoritesApps.size() > 0) {
             for (App app : listOfSortFavoritesApps) {
                 if (app == null) {
-                    MainListItem m = new MainListItem(-10, "", "");
-                    sortedFavoriteList.add(m);
+                    sortedFavoriteList.add(null);
                 } else {
                     for (MainListItem item : appList) {
                         if (item.app.equals(app)) {
@@ -599,8 +598,7 @@ public class PackageUtil {
     private static void FillupFavoriteList(ArrayList<MainListItem> items) {
         int remainingFavoriteList = 12 - items.size();
         for (int i = 0; i < remainingFavoriteList; i++) {
-            MainListItem m = new MainListItem(-10, "", "");
-            items.add(m);
+            items.add(null);
         }
     }
 

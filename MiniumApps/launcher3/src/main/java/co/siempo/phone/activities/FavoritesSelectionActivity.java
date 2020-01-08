@@ -176,6 +176,12 @@ public class FavoritesSelectionActivity extends CoreActivity implements AdapterV
                     }
                 }
 
+                int remainingFavoriteList = 12 - sortedFavorites.size();
+                for (int i = 0; i < remainingFavoriteList; i++) {
+                    sortedFavorites.addLast(null);
+                }
+
+
                 PrefSiempo.getInstance(FavoritesSelectionActivity.this).writeAppList(PrefSiempo.FAVORITE_SORTED_MENU, sortedFavorites);
 
 

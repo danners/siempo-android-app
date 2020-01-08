@@ -4,11 +4,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcelable;
-import androidx.core.content.ContextCompat;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.ItemTouchHelper;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -18,9 +13,14 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.google.gson.Gson;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -189,12 +189,19 @@ public class FavoriteAppsPositionActivity extends CoreActivity implements OnFavo
 
     @Override
     public void onFavoriteItemListChanged(ArrayList<MainListItem> customers) {
-        LinkedList<App> listOfSortedCustomerId = new LinkedList<>();
 
-        for (MainListItem customer : customers) {
-            listOfSortedCustomerId.add(customer.app);
+        LinkedList<App> favorites = new LinkedList<>();
+
+        for (MainListItem item: customers) {
+            if (item == null) {
+                favorites.addLast(null);
+            }
+            else {
+                favorites.addLast(item.app);
+            }
         }
-        PrefSiempo.getInstance(this).writeAppList(PrefSiempo.FAVORITE_SORTED_MENU, listOfSortedCustomerId);
+
+        PrefSiempo.getInstance(this).writeAppList(PrefSiempo.FAVORITE_SORTED_MENU, favorites);
     }
 
 

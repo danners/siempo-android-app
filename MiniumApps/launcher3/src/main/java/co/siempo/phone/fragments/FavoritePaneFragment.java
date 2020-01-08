@@ -129,7 +129,7 @@ public class FavoritePaneFragment extends CoreFragment {
         if (items.size() > 0) {
             boolean containsFavourites = false;
             for (MainListItem item : items) {
-                if (!TextUtils.isEmpty(item.getTitle())) {
+                if (item != null) {
                     containsFavourites = true;
                     break;
                 }
