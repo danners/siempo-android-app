@@ -284,7 +284,7 @@ public class FavoritesSelectionActivity extends CoreActivity implements AdapterV
 
                                 App toRemove = null;
                                 for (App app: adapterList) {
-                                    if (app.packageName.equals(clickedApp.packageName)) {
+                                    if (app.equals(clickedApp)) {
                                         toRemove = app;
                                         break;
                                     }
@@ -297,7 +297,6 @@ public class FavoritesSelectionActivity extends CoreActivity implements AdapterV
                                     if (favoriteList != null && favoriteList.size() < 13) {
                                         adapterList.add(clickedApp);
                                     }
-                                    // setToolBarText(favoriteList.size());
                                 }
                                 firstPosition = listAllApps.getFirstVisiblePosition();
                                 new FilterApps(true, FavoritesSelectionActivity.this).execute();
