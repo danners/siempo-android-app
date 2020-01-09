@@ -163,7 +163,7 @@ public class MainFragmentMediator {
 
                                 DashboardActivity.isTextLenghGreater = "";
                                 UIUtils.hideSoftKeyboard(fragment.getActivity(), fragment.getActivity().getWindow().getDecorView().getWindowToken());
-                                boolean status = new ActivityHelper(fragment.getActivity()).openAppWithPackageName(getAdapter().getItem(position).getPackageName());
+                                boolean status = new ActivityHelper(fragment.getActivity()).openAppWithApp(getAdapter().getItem(position).app);
                                 if (status) {
                                     PackageUtil.addRecentItemList(getAdapter().getItem(position), context);
                                     EventBus.getDefault().post(new SendSmsEvent(true));
