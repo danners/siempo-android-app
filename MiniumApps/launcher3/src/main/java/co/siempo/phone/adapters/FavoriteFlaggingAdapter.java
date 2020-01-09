@@ -196,6 +196,7 @@ public class FavoriteFlaggingAdapter extends BaseAdapter implements Filterable {
             final ArrayList<AppListInfo> nlist = new ArrayList<>();
             String filterableString;
             List<AppListInfo> bindingList = new ArrayList<>();
+
             if (!searchString.isEmpty()) {
                 for (int i = 0; i < count; i++) {
                     filterableString = mData.get(i).app.displayName;

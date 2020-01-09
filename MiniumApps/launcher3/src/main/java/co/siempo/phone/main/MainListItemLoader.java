@@ -12,6 +12,7 @@ import java.util.List;
 
 import co.siempo.phone.R;
 import co.siempo.phone.activities.DashboardActivity;
+import co.siempo.phone.app.App;
 import co.siempo.phone.app.CoreApplication;
 import co.siempo.phone.app.Launcher3App;
 import co.siempo.phone.fragments.PaneFragment;
@@ -195,7 +196,6 @@ public class MainListItemLoader {
 
     public void loadItems(List<MainListItem> items, Fragment fragment) {
         if (context != null) {
-            List<MainListItem> allAppsData = new ArrayList<>();
             ArrayList<MainListItem> toolsItems = new ArrayList<>();
             HashMap<Integer, AppMenu> toolsSettings = CoreApplication.getInstance().getToolsSettings
                     ();
@@ -556,16 +556,10 @@ public class MainListItemLoader {
 
             if (fragment instanceof PaneFragment || fragment instanceof ToolsPaneFragment) {
                 try {
-                    Intent mainIntent = new Intent(Intent.ACTION_MAIN, null);
-                    mainIntent.addCategory(Intent.CATEGORY_LAUNCHER);
-                    List<ResolveInfo> installedPackageList = context.getPackageManager().queryIntentActivities(mainIntent, 0);
-                    for (ResolveInfo resolveInfo : installedPackageList) {
-                        if (!TextUtils.isEmpty(resolveInfo.activityInfo.packageName) && !TextUtils.isEmpty(resolveInfo.loadLabel(context.getPackageManager()))) {
-                            String packageName = resolveInfo.activityInfo.packageName;
-                            boolean isEnable = UIUtils.isAppInstalledAndEnabled(context, packageName);
-                            if (isEnable && !packageName.equalsIgnoreCase(context.getPackageName())) {
-                                appItems.add(new MainListItem(-1, "" + resolveInfo.loadLabel(context.getPackageManager()), resolveInfo.activityInfo.packageName));
-                            }
+                    List<App> installedPackageList = CoreApplication.getInstance().getApplications();
+                    for (App app : installedPackageList) {
+                        if (!app.packageName.equalsIgnoreCase(context.getPackageName())) {
+                            appItems.add(new MainListItem(-1, app));
                         }
                     }
 

@@ -234,7 +234,7 @@ public class MainListAdapter extends ArrayAdapter<MainListItem> {
                                 color, 24);
                         holder.icon.setImageDrawable(drawable);
                     } else {
-                        Drawable bitmap = CoreApplication.getInstance().getBitmapFromMemCache(packageName);
+                        Drawable bitmap = CoreApplication.getInstance().getBitMapByApp(item.app);
                         holder.icon.setImageDrawable(bitmap);
                     }
                 }
@@ -311,6 +311,11 @@ public class MainListAdapter extends ArrayAdapter<MainListItem> {
     private boolean checkDuplicate(List<MainListItem> buildData, String str) {
         if (buildData != null) {
             for (MainListItem mainListItem : buildData) {
+                if (mainListItem.app.displayName != null) {
+                    if (mainListItem.app.displayName.equalsIgnoreCase(str)) {
+                        return false;
+                    }
+                }
                 if (mainListItem.getTitle().equalsIgnoreCase(str)) {
                     return false;
                 }
