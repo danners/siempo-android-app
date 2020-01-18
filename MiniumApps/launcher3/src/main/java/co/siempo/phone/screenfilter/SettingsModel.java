@@ -15,10 +15,8 @@ public class SettingsModel  implements SharedPreferences.OnSharedPreferenceChang
     private String mPauseStatePrefKey = "prefState";
     private String mDimPrefKey = "prefDim";
     private String mColorPrefKey = "prefColor";
-    private String mOpenOnBootPrefKey = "prefBoot";
-    private String mKeepRunningAfterRebootPrefKey = "prefReboot";
 
-    public SettingsModel(Resources resources, SharedPreferences sharedPreferences) {
+    public SettingsModel(SharedPreferences sharedPreferences) {
         mSharedPreferences = sharedPreferences;
     }
 
@@ -44,14 +42,6 @@ public class SettingsModel  implements SharedPreferences.OnSharedPreferenceChang
 
     public int getShadesColor() {
         return mSharedPreferences.getInt(mColorPrefKey, 0xFF91a7ff);
-    }
-
-    public boolean getOpenOnBootFlag() {
-        return mSharedPreferences.getBoolean(mOpenOnBootPrefKey, false);
-    }
-
-    public boolean getResumeAfterRebootFlag() {
-        return mSharedPreferences.getBoolean(mKeepRunningAfterRebootPrefKey, false);
     }
 
     public void setOnSettingsChangedListener(OnSettingsChangedListener listener) {

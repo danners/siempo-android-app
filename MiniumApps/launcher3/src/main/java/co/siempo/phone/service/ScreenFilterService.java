@@ -57,7 +57,7 @@ public class ScreenFilterService extends Service implements ServiceLifeCycleCont
 
         // Wire MVP classes
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        mSettingsModel = new SettingsModel(context.getResources(), sharedPreferences);
+        mSettingsModel = new SettingsModel(sharedPreferences);
 
         mPresenter = new ScreenFilterPresenter(view, mSettingsModel, this, context, wvm, sm, nb, fcf, fcp);
 
