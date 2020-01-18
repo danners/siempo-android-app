@@ -40,9 +40,9 @@ public class JunkFoodPaneAdapter extends RecyclerView.Adapter<JunkFoodPaneAdapte
     private boolean isHideIconBranding;
 
 
-    public JunkFoodPaneAdapter(Context context, ArrayList<String> mainListItemList, boolean isHideIconBranding) {
+    public JunkFoodPaneAdapter(Context context, boolean isHideIconBranding) {
         this.context = context;
-        this.mainListItemList = mainListItemList;
+        this.mainListItemList = new ArrayList<>();
         this.isHideIconBranding = isHideIconBranding;
     }
 

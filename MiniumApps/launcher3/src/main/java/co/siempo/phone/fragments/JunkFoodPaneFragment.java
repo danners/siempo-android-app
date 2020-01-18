@@ -98,7 +98,7 @@ public class JunkFoodPaneFragment extends CoreFragment {
             }
             itemDecoration = new ItemOffsetDecoration(context, R.dimen.dp_10);
             recyclerView.addItemDecoration(itemDecoration);
-            mAdapter = new JunkFoodPaneAdapter(getActivity(), items, CoreApplication.getInstance().isHideIconBranding());
+            mAdapter = new JunkFoodPaneAdapter(getActivity(), CoreApplication.getInstance().isHideIconBranding());
             recyclerView.setAdapter(mAdapter);
 
 
