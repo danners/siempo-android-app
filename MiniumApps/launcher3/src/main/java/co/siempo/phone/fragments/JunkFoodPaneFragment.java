@@ -2,14 +2,17 @@ package co.siempo.phone.fragments;
 
 import android.app.Fragment;
 import android.os.Bundle;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.LinearLayout;
+
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -23,9 +26,6 @@ import co.siempo.phone.app.CoreApplication;
 import co.siempo.phone.customviews.ItemOffsetDecoration;
 import co.siempo.phone.event.NotifyJunkFoodView;
 import co.siempo.phone.util.AppUtils;
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
 
 
 public class JunkFoodPaneFragment extends CoreFragment {
@@ -37,8 +37,6 @@ public class JunkFoodPaneFragment extends CoreFragment {
     private RecyclerView.LayoutManager mLayoutManager;
     private ItemOffsetDecoration itemDecoration;
     private Set<String> junkFoodList = new HashSet<>();
-    private LinearLayout linSelectJunkFood;
-    private Button btnSelect;
 
 
     public JunkFoodPaneFragment() {
@@ -64,13 +62,9 @@ public class JunkFoodPaneFragment extends CoreFragment {
     @Override
     public void setMenuVisibility(boolean menuVisible) {
         super.setMenuVisibility(menuVisible);
-       /* if (CoreApplication.getInstance().isRandomize()) {
-            Collections.shuffle(CoreApplication.getInstance().getJunkFoodList());
-            items = CoreApplication.getInstance().getJunkFoodList();*/
             if (mAdapter != null) {
                 mAdapter.setMainListItemList(items, CoreApplication.getInstance().isHideIconBranding());
             }
-        // }
     }
 
 
@@ -86,8 +80,6 @@ public class JunkFoodPaneFragment extends CoreFragment {
 
     private void initView() {
         if (getActivity() != null && view != null) {
-            linSelectJunkFood = view.findViewById(R.id.linSelectJunkFood);
-            btnSelect = view.findViewById(R.id.btnSelect);
             recyclerView = view.findViewById(R.id.recyclerView);
             junkFoodList = new HashSet<>();
             items = new ArrayList<>(junkFoodList);
