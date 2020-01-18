@@ -82,6 +82,7 @@ public class AlarmService extends IntentService {
                         .setContentTitle(getString(R.string.app_name))
                         .setContentText("")
                         .setPriority(Notification.PRIORITY_LOW)
+                        .setChannelId(ANDROID_CHANNEL_ID)
                         .setAutoCancel(true);
                 Notification notification = builder.build();
                 startForeground(Constants.ALARM_SERVICE_ID, notification);

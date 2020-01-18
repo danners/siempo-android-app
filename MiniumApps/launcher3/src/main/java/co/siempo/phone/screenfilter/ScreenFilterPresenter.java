@@ -15,6 +15,9 @@ import android.view.WindowManager;
 import co.siempo.phone.R;
 import co.siempo.phone.receivers.OrientationChangeReceiver;
 import co.siempo.phone.service.ScreenFilterService;
+import co.siempo.phone.utils.NotificationUtils;
+
+import static co.siempo.phone.utils.NotificationUtils.ANDROID_CHANNEL_ID;
 
 public class ScreenFilterPresenter implements OrientationChangeReceiver.OnOrientationChangeListener,
         SettingsModel.OnSettingsChangedListener {
@@ -110,6 +113,10 @@ public class ScreenFilterPresenter implements OrientationChangeReceiver.OnOrient
                 .setContentText("Siempo with screen covers is running!!!")
                 .setColor(0xFF91a7ff)
                 .setPriority(Notification.PRIORITY_MIN);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            mNotificationBuilder.setChannelId(ANDROID_CHANNEL_ID);
+        }
+
 
         mServiceController.startForeground(NOTIFICATION_ID, mNotificationBuilder.build());
     }

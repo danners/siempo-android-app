@@ -48,6 +48,7 @@ import co.siempo.phone.event.NewNotificationEvent;
 import co.siempo.phone.log.Tracer;
 import co.siempo.phone.receivers.PhoneCallReceiver;
 import co.siempo.phone.utils.NotificationUtility;
+import co.siempo.phone.utils.NotificationUtils;
 import co.siempo.phone.utils.PackageUtil;
 import co.siempo.phone.utils.PrefSiempo;
 import co.siempo.phone.utils.UIUtils;
@@ -109,8 +110,11 @@ public class SiempoNotificationListener extends NotificationListenerService {
                     .setContentTitle(getString(R.string.app_name))
                     .setContentText("")
                     .setPriority(Notification.PRIORITY_LOW)
-                    .setAutoCancel(true);
+                    .setAutoCancel(true)
+                    .setChannelId(ANDROID_CHANNEL_ID);
+
             Notification notification = builder.build();
+            new NotificationUtils(this).createChannels();
             startForeground(Constants.NOTIFICIONLISTENER_SERVICE_ID, notification);
         }
     }

@@ -421,10 +421,11 @@ public class StatusBarService extends Service {
                     .setContentTitle(getString(R.string.app_name))
                     .setContentText("")
                     .setPriority(Notification.PRIORITY_LOW)
-                    .setAutoCancel(true);
+                    .setAutoCancel(true)
+                    .setChannelId(ANDROID_CHANNEL_ID);
             Notification notification = builder.build();
             new NotificationUtils(this).createChannels();
-            startForeground(Constants.STATUSBAR_SERVICE_ID, notification);
+             startForeground(Constants.STATUSBAR_SERVICE_ID, notification);
         }
 
         return START_STICKY;
@@ -751,7 +752,6 @@ public class StatusBarService extends Service {
 
         long grace_time_completed = PrefSiempo.getInstance(context).read(PrefSiempo.GRACE_TIME, 0L);
         long cover_time_completed = PrefSiempo.getInstance(context).read(PrefSiempo.COVER_TIME, 0L);
-        long break_time_completed = PrefSiempo.getInstance(context).read(PrefSiempo.BREAK_TIME, 0L);
 
         if (!deterUsageRunning) {
             if (deterTimeLong == 0L) {
