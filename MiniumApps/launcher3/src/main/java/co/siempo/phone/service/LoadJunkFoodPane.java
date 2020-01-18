@@ -19,7 +19,7 @@ import co.siempo.phone.utils.UIUtils;
  * Created by rajeshjadi on 14/3/18.
  */
 
-public class LoadJunkFoodPane extends AsyncTask<String, String, ArrayList<String>> {
+public class LoadJunkFoodPane extends AsyncTask<String, String, ArrayList<App>> {
 
     private PrefSiempo prefSiempo;
 
@@ -28,13 +28,13 @@ public class LoadJunkFoodPane extends AsyncTask<String, String, ArrayList<String
     }
 
     @Override
-    protected ArrayList<String> doInBackground(String... strings) {
+    protected ArrayList<App> doInBackground(String... strings) {
         LinkedList<App> junkFoodList = prefSiempo.readAppList(PrefSiempo.JUNKFOOD_APPS);
-        ArrayList<String> items = new ArrayList<>();
+        ArrayList<App> items = new ArrayList<>();
         ArrayList<App> itemsToRemove = new ArrayList<>();
         for (App junkApp : junkFoodList) {
             if (UIUtils.isAppInstalledAndEnabled(junkApp.packageName)) {
-                items.add(junkApp.packageName);
+                items.add(junkApp);
             } else {
                 itemsToRemove.add(junkApp);
             }
@@ -54,7 +54,7 @@ public class LoadJunkFoodPane extends AsyncTask<String, String, ArrayList<String
     }
 
     @Override
-    protected void onPostExecute(ArrayList<String> s) {
+    protected void onPostExecute(ArrayList<App> s) {
         super.onPostExecute(s);
         CoreApplication.getInstance().setJunkFoodList(s);
         EventBus.getDefault().postSticky(new NotifyJunkFoodView(true));

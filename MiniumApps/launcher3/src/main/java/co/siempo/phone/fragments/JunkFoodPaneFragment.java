@@ -22,6 +22,7 @@ import java.util.Set;
 
 import co.siempo.phone.R;
 import co.siempo.phone.adapters.JunkFoodPaneAdapter;
+import co.siempo.phone.app.App;
 import co.siempo.phone.app.CoreApplication;
 import co.siempo.phone.customviews.ItemOffsetDecoration;
 import co.siempo.phone.event.NotifyJunkFoodView;
@@ -32,11 +33,10 @@ public class JunkFoodPaneFragment extends CoreFragment {
 
     private View view;
     private RecyclerView recyclerView;
-    private ArrayList<String> items = new ArrayList<>();
+    private ArrayList<App> items = new ArrayList<>();
     private JunkFoodPaneAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private ItemOffsetDecoration itemDecoration;
-    private Set<String> junkFoodList = new HashSet<>();
 
 
     public JunkFoodPaneFragment() {
@@ -81,8 +81,7 @@ public class JunkFoodPaneFragment extends CoreFragment {
     private void initView() {
         if (getActivity() != null && view != null) {
             recyclerView = view.findViewById(R.id.recyclerView);
-            junkFoodList = new HashSet<>();
-            items = new ArrayList<>(junkFoodList);
+            items = new ArrayList<>();
             mLayoutManager = new GridLayoutManager(getActivity(), 4);
             recyclerView.setLayoutManager(mLayoutManager);
             if (itemDecoration != null) {

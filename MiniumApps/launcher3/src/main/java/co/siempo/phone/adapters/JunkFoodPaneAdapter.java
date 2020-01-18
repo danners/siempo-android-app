@@ -2,12 +2,8 @@ package co.siempo.phone.adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
-import androidx.recyclerview.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,17 +13,20 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.recyclerview.widget.RecyclerView;
+
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.ArrayList;
-import java.util.List;
 
 import co.siempo.phone.R;
 import co.siempo.phone.activities.CoreActivity;
 import co.siempo.phone.activities.JunkfoodFlaggingActivity;
+import co.siempo.phone.app.App;
 import co.siempo.phone.app.CoreApplication;
 import co.siempo.phone.event.JunkAppOpenEvent;
 import co.siempo.phone.helper.ActivityHelper;
 import co.siempo.phone.utils.PrefSiempo;
-import org.greenrobot.eventbus.EventBus;
 
 /**
  * Created by RajeshJadi on 2/23/2017.
@@ -36,7 +35,7 @@ import org.greenrobot.eventbus.EventBus;
 public class JunkFoodPaneAdapter extends RecyclerView.Adapter<JunkFoodPaneAdapter.ViewHolder> {
 
     private final Context context;
-    private List<String> mainListItemList;
+    private ArrayList<App> mainListItemList;
     private boolean isHideIconBranding;
 
 
@@ -46,7 +45,7 @@ public class JunkFoodPaneAdapter extends RecyclerView.Adapter<JunkFoodPaneAdapte
         this.isHideIconBranding = isHideIconBranding;
     }
 
-    public void setMainListItemList(List<String> mainListItemList, boolean isHideIconBranding) {
+    public void setMainListItemList(ArrayList<App> mainListItemList, boolean isHideIconBranding) {
         this.mainListItemList = mainListItemList;
         this.isHideIconBranding = isHideIconBranding;
         notifyDataSetChanged();
@@ -68,9 +67,9 @@ public class JunkFoodPaneAdapter extends RecyclerView.Adapter<JunkFoodPaneAdapte
     // Replace the contents of a view (invoked by the layout manager)
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        final String item = mainListItemList.get(position);
+        final App item = mainListItemList.get(position);
         holder.linearLayout.setVisibility(View.VISIBLE);
-        String applicationName = CoreApplication.getInstance().getApplicationNameFromPackageName(item);
+        String applicationName = CoreApplication.getInstance().getApplicationNameFromPackageName(item.packageName);
         holder.text.setText(applicationName);
         if (isHideIconBranding) {
             holder.txtAppTextImage.setVisibility(View.VISIBLE);
@@ -89,7 +88,7 @@ public class JunkFoodPaneAdapter extends RecyclerView.Adapter<JunkFoodPaneAdapte
             holder.txtAppTextImage.setVisibility(View.GONE);
             holder.imgUnderLine.setVisibility(View.GONE);
             holder.imgAppIcon.setVisibility(View.VISIBLE);
-            Drawable bitmap = CoreApplication.getInstance().getBitmapFromMemCache(item);
+            Drawable bitmap = CoreApplication.getInstance().getBitMapByApp(item);
             holder.imgAppIcon.setImageDrawable(bitmap);
         }
 
@@ -106,7 +105,7 @@ public class JunkFoodPaneAdapter extends RecyclerView.Adapter<JunkFoodPaneAdapte
         holder.linearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new ActivityHelper(context).openAppWithPackageName(item);
+                new ActivityHelper(context).openAppWithApp(item);
                 //Show blocking overlay after onclick
                 EventBus.getDefault().post(new JunkAppOpenEvent(true));
 

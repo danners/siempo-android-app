@@ -49,7 +49,6 @@ import java.util.Set;
 
 import co.siempo.phone.R;
 import co.siempo.phone.event.AppInstalledEvent;
-import co.siempo.phone.event.NotifyFavoriteView;
 import co.siempo.phone.log.Tracer;
 import co.siempo.phone.models.AppMenu;
 import co.siempo.phone.models.CategoryAppList;
@@ -174,7 +173,7 @@ public abstract class CoreApplication extends MultiDexApplication {
 
 
     private Set<String> blockedApps = new HashSet<>();
-    private ArrayList<String> junkFoodList = new ArrayList<>();
+    private ArrayList<App> junkFoodList = new ArrayList<>();
     private ArrayList<MainListItem> toolItemsList = new ArrayList<>();
     private ArrayList<MainListItem> toolBottomItemsList = new ArrayList<>();
     private ArrayList<MainListItem> favoriteItemsList = new ArrayList<>();
@@ -233,11 +232,11 @@ public abstract class CoreApplication extends MultiDexApplication {
         this.isRandomize = randomize;
     }
 
-    public ArrayList<String> getJunkFoodList() {
+    public ArrayList<App> getJunkFoodList() {
         return junkFoodList;
     }
 
-    public void setJunkFoodList(ArrayList<String> junkFoodList) {
+    public void setJunkFoodList(ArrayList<App> junkFoodList) {
         this.junkFoodList = junkFoodList;
     }
 

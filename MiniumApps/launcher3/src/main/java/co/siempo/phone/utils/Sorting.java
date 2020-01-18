@@ -48,23 +48,12 @@ public class Sorting {
      * @param list
      * @return
      */
-    public synchronized static ArrayList<String> sortJunkAppAssignment(ArrayList<String> list) {
-        sort(list, new Comparator<String>() {
+    public synchronized static ArrayList<App> sortJunkAppAssignment(ArrayList<App> list) {
+        sort(list, new Comparator<App>() {
             @Override
-            public int compare(final String object1, final String object2) {
-                String strObj1;
-                String strObj2;
-                if (CoreApplication.getInstance().getApplicationName(object1) != null) {
-                    strObj1 = CoreApplication.getInstance().getApplicationName(object1);
-                } else {
-                    strObj1 = CoreApplication.getInstance().getApplicationNameFromPackageName(object1);
-                }
-
-                if (CoreApplication.getInstance().getApplicationName(object2) != null) {
-                    strObj2 = CoreApplication.getInstance().getApplicationName(object2);
-                } else {
-                    strObj2 = CoreApplication.getInstance().getApplicationNameFromPackageName(object2);
-                }
+            public int compare(final App object1, final App object2) {
+                String strObj1 = object1.displayName;
+                String strObj2 = object2.displayName;
 
                 return (strObj1 != null ? strObj1.toLowerCase() : "").compareTo((strObj2 != null ? strObj2.toLowerCase() : ""));
             }
