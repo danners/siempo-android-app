@@ -142,7 +142,7 @@ public class AppAssignmentActivity extends CoreActivity {
 
     public void showListByCategory(){
         boolean isCategoryAvailable=false;
-        List<CategoryAppList> categoryAppList=CoreApplication.getInstance().categoryAppList;
+        List<CategoryAppList> categoryAppList=CoreApplication.getInstance().getCategoryAppList();
 
 
         if(categoryAppList!=null && categoryAppList.size()>0) {

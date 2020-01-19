@@ -1,6 +1,8 @@
 package co.siempo.phone.app;
 
-public class App {
+import java.io.Serializable;
+
+public class App implements Serializable {
 
     public String packageName;
     public String displayName;

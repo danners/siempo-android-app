@@ -264,6 +264,10 @@ public abstract class CoreApplication extends MultiDexApplication {
         this.toolBottomItemsList = toolBottomItemsList;
     }
 
+    public List<CategoryAppList> getCategoryAppList() {
+        return new ArrayList<>(categoryAppList);
+    }
+
 
 
     @Override
