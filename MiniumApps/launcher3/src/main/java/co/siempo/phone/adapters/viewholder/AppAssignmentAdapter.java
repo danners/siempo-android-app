@@ -108,7 +108,7 @@ public class AppAssignmentAdapter extends RecyclerView.Adapter<AppAssignmentAdap
                     }
                 });
             } else {
-                Drawable bitmap = CoreApplication.getInstance().getBitmapFromMemCache(item.packageName);
+                Drawable bitmap = CoreApplication.getInstance().getBitMapByApp(item);
                 holder.imgIcon.setImageDrawable(bitmap);
                 holder.btnHideApps.setVisibility(View.GONE);
             }
