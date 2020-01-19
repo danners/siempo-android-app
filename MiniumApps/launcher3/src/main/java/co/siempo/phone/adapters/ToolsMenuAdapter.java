@@ -19,6 +19,8 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.androidnetworking.core.Core;
+
 import java.util.HashMap;
 import java.util.List;
 
@@ -92,14 +94,20 @@ public class ToolsMenuAdapter extends RecyclerView.Adapter<ToolsMenuAdapter.View
                 } else {
                     Log.d("Test", "hideIcon branding false...");
                     holder.text.setText(CoreApplication.getInstance().getApplicationNameFromPackageName(appMenu.getApplicationName()));
-                    Drawable bitmap = CoreApplication.getInstance().getBitmapFromMemCache(appMenu.getApplicationName());
+
+                    Drawable bitmap = null;
+                    App app = appMenu.getApp();
+                    if (app != null) {
+                        bitmap = CoreApplication.getInstance().getBitMapByApp(app);
+                    } else {
+                        bitmap = CoreApplication.getInstance().getBitmapFromMemCache(appMenu.getApplicationName());
+                    }
+
                     if (bitmap != null) {
-                        Log.d("Test", "bitmap  null");
                         holder.icon.setVisibility(View.GONE);
                         holder.imgAppIcon.setVisibility(View.VISIBLE);
                         holder.imgAppIcon.setImageDrawable(bitmap);
                     } else {
-                        Log.d("Test", "bitmap  not null");
                         holder.icon.setVisibility(View.VISIBLE);
                         holder.imgAppIcon.setVisibility(View.GONE);
                         holder.icon.setImageResource(item.getDrawable());
