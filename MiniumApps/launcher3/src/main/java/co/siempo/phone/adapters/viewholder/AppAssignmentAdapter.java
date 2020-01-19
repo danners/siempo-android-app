@@ -133,7 +133,7 @@ public class AppAssignmentAdapter extends RecyclerView.Adapter<AppAssignmentAdap
                                 isSameApp = true;
                             } else {
                                 isSameApp = false;
-                                map.get(id).setApplicationName(item.packageName);
+                                map.get(id).setApplication(item);
                             }
                         }
                     }

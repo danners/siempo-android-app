@@ -142,7 +142,7 @@ public class ToolsMenuAdapter extends RecyclerView.Adapter<ToolsMenuAdapter.View
                             if (appMenu.getApplicationName().equalsIgnoreCase("Notes")) {
                                 new ActivityHelper(context).openNotesApp(false);
                             } else {
-                                if (UIUtils.isInstalled(context, appMenu.getApplicationName().trim())) {
+                                if (UIUtils.isInstalled(context, appMenu.getApplicationName())) {
                                     if (UIUtils.isAppEnabled(context, appMenu.getApplicationName().trim())) {
                                         if (foundInJunk) {
                                             openAppAssignmentScreen(item);
@@ -151,7 +151,7 @@ public class ToolsMenuAdapter extends RecyclerView.Adapter<ToolsMenuAdapter.View
                                             if (id == 13) {
                                                 LaunchDialer(appMenu.getApplicationName().trim());
                                             } else {
-                                                new ActivityHelper(context).openAppWithPackageName(appMenu.getApplicationName().trim());
+                                                new ActivityHelper(context).openAppWithApp(appMenu.getApp());
                                             }
                                         }
                                     } else {
