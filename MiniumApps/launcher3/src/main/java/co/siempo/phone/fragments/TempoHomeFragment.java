@@ -152,7 +152,6 @@ public class TempoHomeFragment extends CoreFragment {
                     EventBus.getDefault().postSticky(new NotifyBackgroundChange(true));
                     switchCustomBackground.setChecked(false);
                 } else if (!isEnable && TextUtils.isEmpty(strImage)) {
-                    //    startActivity(new Intent(context, ChooseBackgroundActivity.class));
                     switchCustomBackground.setChecked(false);
                     checkPermissionsForBackground();
 
@@ -269,7 +268,6 @@ public class TempoHomeFragment extends CoreFragment {
                         .setPermissionListener(new PermissionListener() {
                             @Override
                             public void onPermissionGranted() {
-                                CoreApplication.getInstance().downloadSiempoImages();
                                 Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
                                 intent.setType("image/*");
                                 startActivityForResult(intent, 10);
@@ -291,7 +289,6 @@ public class TempoHomeFragment extends CoreFragment {
                 e.printStackTrace();
             }
         } else {
-            CoreApplication.getInstance().downloadSiempoImages();
             Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
             intent.setType("image/*");
             startActivityForResult(intent, 10);

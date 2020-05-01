@@ -583,7 +583,6 @@
     <string name="longitude">longitude</string>
     <string name="latitude">latitude</string>
     <string name="leave_a_review">Leave a review</string>
-    <string name="thanks_for_email_collection">We\'re collecting email address because we\'d love to thank you personally!</string>
     <string name="wallpaper">Wallpaper</string>
     <string name="distracting_apps">Distracting Apps</string>
     <string name="icon_label">Icon labels</string>
@@ -598,16 +597,6 @@
         <item>10 minutes</item>
         <item>15 minutes</item>
         <item>disable</item>
-    </string-array>
-    <string-array name="siempo_images">
-        <item>http://34.193.40.200:8001/siempo/siempo_background_image/beach_alexey-marchenko.jpg</item>
-        <item>http://34.193.40.200:8001/siempo/siempo_background_image/humingbird_james-wainscoat.jpg</item>
-        <item>http://34.193.40.200:8001/siempo/siempo_background_image/lotus-saffu.jpg</item>
-        <item>http://34.193.40.200:8001/siempo/siempo_background_image/redwoods-victoria_palacios.jpg</item>
-        <item>http://34.193.40.200:8001/siempo/siempo_background_image/stars_paul-gilmore.jpg</item>
-        <item>http://34.193.40.200:8001/siempo/siempo_background_image/sunset_igor-kasalovic.jpg</item>
-        <item>http://34.193.40.200:8001/siempo/siempo_background_image/swirls_adrien-ledoux.jpg</item>
-        <item>http://34.193.40.200:8001/siempo/siempo_background_image/window-paula_borowska.jpg</item>
     </string-array>
 
 </resources>
