@@ -159,9 +159,7 @@ public class TokenRouter {
                         UIUtils.toast(context, "Please enter message.");
                         List<TokenItem> itemList = TokenManager.getInstance().getItems();
                         itemList.remove(TokenManager.getInstance().get(TokenItemType.DATA));
-                        if (itemList.contains(TokenManager.getInstance().get(TokenItemType.END_OP))) {
-                            itemList.remove(TokenManager.getInstance().get(TokenItemType.END_OP));
-                        }
+                        itemList.remove(TokenManager.getInstance().get(TokenItemType.END_OP));
                         itemList.add(new TokenItem(TokenItemType.DATA));
                         setCurrent(itemList.get(itemList.size() - 1));
                     } else {

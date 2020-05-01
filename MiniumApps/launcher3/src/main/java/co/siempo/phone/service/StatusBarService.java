@@ -488,9 +488,7 @@ public class StatusBarService extends Service {
         try {
 
 
-            if (blockedApps.contains(uninstallPackageName)) {
-                blockedApps.remove(uninstallPackageName);
-            }
+            blockedApps.remove(uninstallPackageName);
             PrefSiempo.getInstance(context).write(PrefSiempo.BLOCKED_APPLIST,
                     blockedApps);
 
@@ -3311,9 +3309,7 @@ public class StatusBarService extends Service {
 
                             ArrayMap<String, Long> mapAsDefault = CoreApplication.getInstance().getThirdpartyAppLogasLauncher();
                             if (mapAsDefault != null && mapAsDefault.size() > 0) {
-                                if (mapAsDefault.containsKey(getPackageName())) {
-                                    mapAsDefault.remove(getPackageName());
-                                }
+                                mapAsDefault.remove(getPackageName());
                                 for (Map.Entry<String, Long> entry : mapAsDefault.entrySet()) {
                                     Log.d("UsageTime", entry.getKey() + "/" + entry.getValue());
                                 }
@@ -3323,12 +3319,8 @@ public class StatusBarService extends Service {
                     } else {
                         ArrayMap<String, Long> mapNotDefault = CoreApplication.getInstance().getThirdpartyAppLogasnotLauncher();
                         if (mapNotDefault != null && mapNotDefault.size() > 0) {
-                            if (mapNotDefault.containsKey(getPackageName())) {
-                                mapNotDefault.remove(getPackageName());
-                            }
-                            if (mapNotDefault.containsKey("android")) {
-                                mapNotDefault.remove("android");
-                            }
+                            mapNotDefault.remove(getPackageName());
+                            mapNotDefault.remove("android");
                             for (Map.Entry<String, Long> entry : mapNotDefault.entrySet()) {
                                 Log.d("UsageTime", entry.getKey() + "/" + entry.getValue());
                             }

@@ -173,7 +173,7 @@ public abstract class CoreActivity extends AppCompatActivity implements GestureD
             editor[0] = preferences.edit();
             editor[0].putString("reminder_flag_new", "1");
             editor[0].apply();
-            AlarmManager alarmManager = (AlarmManager) this.getSystemService(this.ALARM_SERVICE);
+            AlarmManager alarmManager = (AlarmManager) this.getSystemService(ALARM_SERVICE);
             Calendar cal = Calendar.getInstance();
             cal.add(Calendar.MINUTE, 3);
             Intent intent = new Intent(this, ReminderService.class);
@@ -405,14 +405,10 @@ public abstract class CoreActivity extends AppCompatActivity implements GestureD
                     Log.e("downloaded file", String.valueOf(title));
                 } else if (cur.getInt(index) == DownloadManager.ERROR_UNKNOWN) {
                     String title = cur.getString(cur.getColumnIndex(DownloadManager.COLUMN_TITLE));
-                    if (CoreApplication.getInstance().getRunningDownloadigFileList().contains(title)) {
-                        CoreApplication.getInstance().getRunningDownloadigFileList().remove(title);
-                    }
+                    CoreApplication.getInstance().getRunningDownloadigFileList().remove(title);
                 } else if (cur.getInt(index) == DownloadManager.PAUSED_WAITING_TO_RETRY) {
                     String title = cur.getString(cur.getColumnIndex(DownloadManager.COLUMN_TITLE));
-                    if (CoreApplication.getInstance().getRunningDownloadigFileList().contains(title)) {
-                        CoreApplication.getInstance().getRunningDownloadigFileList().remove(title);
-                    }
+                    CoreApplication.getInstance().getRunningDownloadigFileList().remove(title);
                 }
             }
             cur.close();

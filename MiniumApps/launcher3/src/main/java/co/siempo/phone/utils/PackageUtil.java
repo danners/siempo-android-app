@@ -201,7 +201,7 @@ public class PackageUtil {
         SimpleDateFormat df = new SimpleDateFormat(timeString, Locale.getDefault());
         String strTimeData = PrefSiempo.getInstance(context).read(PrefSiempo
                 .ONLY_AT, "12:01");
-        String strTime[] = strTimeData.split(",");
+        String[] strTime = strTimeData.split(",");
 
         Calendar calendar1 = Calendar.getInstance();
         if (strTime.length == 1) {

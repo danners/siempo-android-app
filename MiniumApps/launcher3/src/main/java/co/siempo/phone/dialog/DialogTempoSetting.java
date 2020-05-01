@@ -183,7 +183,7 @@ public class DialogTempoSetting extends Dialog implements View.OnClickListener {
     private void showTimePicker(final Calendar now, final int i, final boolean isNewAdded) {
         String onlyAtValue = PrefSiempo.getInstance(context).read(PrefSiempo
                 .ONLY_AT, "12:01");
-        String strTime[] = onlyAtValue.split(",");
+        String[] strTime = onlyAtValue.split(",");
         final ArrayList listdata = new ArrayList(Arrays.asList(strTime));
         listdata.remove("");
         String strPositiveText;
@@ -519,7 +519,7 @@ public class DialogTempoSetting extends Dialog implements View.OnClickListener {
         SimpleDateFormat df = new SimpleDateFormat(timeString, Locale.getDefault());
         String strTimeData = PrefSiempo.getInstance(context).read(PrefSiempo
                 .ONLY_AT, "12:01");
-        String strTime[] = strTimeData.split(",");
+        String[] strTime = strTimeData.split(",");
 
         if (strTime.length == 1) {
             txtSign1.setVisibility(View.GONE);

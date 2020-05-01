@@ -88,10 +88,10 @@ public class TempoNotificationItemViewHolder extends RecyclerView.ViewHolder {
 
     public void addToBlockList(String applicationInfo, boolean ischecked, Set<String> blockedApps, Context context) {
 
-        if (ischecked && blockedApps.contains(applicationInfo)) {
+        if (ischecked) {
             blockedApps.remove(applicationInfo);
         }
-        if (!ischecked && !blockedApps.contains(applicationInfo)) {
+        if (!ischecked) {
             blockedApps.add(applicationInfo);
         }
         PrefSiempo.getInstance(context).write(PrefSiempo.BLOCKED_APPLIST, blockedApps);

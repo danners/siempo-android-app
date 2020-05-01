@@ -149,7 +149,7 @@ public class AlarmService extends IntentService {
                         .ONLY_AT, "12:01");
                 Tracer.d("AlarmService: onlyAt start");
                 if (!strTimeData.equalsIgnoreCase("")) {
-                    String strTime[] = strTimeData.split(",");
+                    String[] strTime = strTimeData.split(",");
                     Tracer.d("AlarmService: onlyAt strTime.length" + strTime.length);
                     for (String str : strTime) {
                         int hours = Integer.parseInt(str.split(":")[0]);

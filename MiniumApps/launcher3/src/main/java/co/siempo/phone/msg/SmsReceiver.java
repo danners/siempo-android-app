@@ -46,8 +46,8 @@ public class SmsReceiver extends BroadcastReceiver {
             Bundle bundle = intent.getExtras();
             if (bundle != null) {
                 Tracer.d("SmsReceiver: onReceive" + bundle.toString());
-                Object messages[] = (Object[]) bundle.get("pdus");
-                SmsMessage smsMessage[] = new SmsMessage[0];
+                Object[] messages = (Object[]) bundle.get("pdus");
+                SmsMessage[] smsMessage = new SmsMessage[0];
                 if (messages != null) {
                     smsMessage = new SmsMessage[messages.length];
                 }
