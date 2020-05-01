@@ -34,8 +34,6 @@ public class TempoSettingsFragment extends CoreFragment {
     RelativeLayout relAccount;
     @ViewById
     RelativeLayout relAlphaSettings;
-    @ViewById
-    TextView titleActionBar;
 
     public TempoSettingsFragment() {
         // Required empty public constructor

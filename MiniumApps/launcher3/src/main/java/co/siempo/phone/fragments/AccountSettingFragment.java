@@ -30,9 +30,6 @@ public class AccountSettingFragment extends CoreFragment {
     @ViewById
     Toolbar toolbar;
 
-    @ViewById
-    TextView titleActionBar;
-
 
     @ViewById
     RelativeLayout relChangeHome;

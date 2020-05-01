@@ -27,9 +27,6 @@ public class TempoNotificationFragment extends CoreFragment {
     Toolbar toolbar;
 
     @ViewById
-    TextView titleActionBar;
-
-    @ViewById
     TextView txtAllowAppsText;
     @ViewById
     TextView txtAllowApps;

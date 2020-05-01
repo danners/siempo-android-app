@@ -30,19 +30,6 @@
     </declare-styleable>
 
     <!-- default style for text -->
-    <style name="default_chips_text_style">
-        <item name="ctvTextSize">@dimen/default_chips_text_size</item>
-        <item name="ctvTextColor">@color/default_chips_text_color</item>
-        <item name="lineSpacing2">@dimen/default_chips_line_spacing</item>
-        <item name="maxLines">@integer/default_chips_max_lines</item>
-        <item name="truncated">false</item>
-        <item name="debug">false</item>
-        <item name="moreText">@string/default_chips_more_text</item>
-        <item name="moreTextColor">@color/default_chips_more_text_color</item>
-        <item name="moreTextColorActive">
-            @color/default_chips_more_text_color_active
-        </item>
-    </style>
 
     <!-- Below is the attributes/resources/style that forms the bubble styling
     ========================================================================== -->
