@@ -16,7 +16,6 @@
     <string name="pinch_hint" >Pinch-to-zoom to adjust the wallpaper</string>
     <string name="double_tap_hint">You can also double-tap to zoom</string>
 
-    <string name="title_feedback">Feedback</string>
     <string name="title_faq">FAQ</string>
     <string name="title_suppressedNotifications">View Suppressed Notification</string>
     <string name="title_siempoPermissions">Siempo Permissions</string>
