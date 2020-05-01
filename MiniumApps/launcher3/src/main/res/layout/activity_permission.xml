@@ -98,21 +98,6 @@
             </TableRow>
 
             <TableRow
-                android:id="@+id/tblLocation"
-                android:layout_marginTop="16dp"
-                android:visibility="gone">
-
-                <co.siempo.phone.customviews.RobotoCondensedTextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/location_permission"
-                    android:textSize="@dimen/text.size.large" />
-
-
-            </TableRow>
-
-
-            <TableRow
                 android:id="@+id/tblNotification"
                 android:layout_marginTop="16dp"
                 android:visibility="gone">

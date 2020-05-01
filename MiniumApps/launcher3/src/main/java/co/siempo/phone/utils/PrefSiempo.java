@@ -90,7 +90,6 @@ public class PrefSiempo {
 
 
     public static final String LOCK_COUNTER_STATUS = "LOCK_COUNTER_STATUS";
-    public static final String LOCATION_TIMER_TIME = "LOCATION_TIMER_TIME";
     //Preference for DeterUser
     public static final String DETER_AFTER = "deterAfter";
     public static final String BREAK_PERIOD = "break_period";
@@ -109,7 +108,6 @@ public class PrefSiempo {
     public static String APPLAND_TOUR_SEEN = "appland_tour_seen";
     public static String JUNK_RESTRICTED = "junk_restricted";
     public static String USER_VOLUME = "user_volume";
-    public static String LOCATION_STATUS = "location_status";
     public static String JUNKFOOD_USAGE_TIME = "junkfood_usage_time";
     public static String JUNKFOOD_USAGE_COVER_TIME = "junkfood_usage_cover_time";
     public static String CURRENT_DATE = "current_date";

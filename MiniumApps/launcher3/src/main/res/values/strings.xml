@@ -21,7 +21,6 @@
     <string name="title_suppressedNotifications">View Suppressed Notification</string>
     <string name="title_siempoPermissions">Siempo Permissions</string>
     <string name="title_siempoRestrictions">Restrictions</string>
-    <string name="title_siempoLocation">Location</string>
     <string name="title_inbox" tools:ignore="UnusedResources">Google Inbox</string>
     <string name="title_defaultLauncher">Set default home app</string>
     <string name="title_tracking" tools:ignore="UnusedResources">Tracking</string>
@@ -162,11 +161,8 @@
     <string name="personal_settings_key">key_personal</string>
     <string name="personal_settings_summary">Personal Settings</string>
     <string name="personal_settings_title">Personal</string>
-    <string name="pref_location">Location</string>
-    <string name="location_key">key_location</string>
     <string name="security_key">key_security</string>
     <string name="account_key">key_account</string>
-    <string name="location_settings_summary">Location Settings</string>
     <string name="pref_security">Security</string>
     <string name="pref_accounts">Accounts</string>
     <string name="pref_language_input"><![CDATA[Language & input]]></string>

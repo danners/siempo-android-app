@@ -55,8 +55,6 @@ public class SiempoPermissionActivity extends CoreActivity {
     @ViewById
     TextView txtPermissionLabel;
     @ViewById
-    TableRow tblLocation;
-    @ViewById
     TableRow tblContact;
     @ViewById
     TableRow tblNotification;
@@ -172,7 +170,6 @@ public class SiempoPermissionActivity extends CoreActivity {
             switchNotificationAccess.setVisibility(View.VISIBLE);
             switchOverlayAccess.setVisibility(View.VISIBLE);
             btnContinue.setVisibility(View.VISIBLE);
-            tblLocation.setVisibility(View.GONE);
             txtPermissionLabel.setText(getString(R.string.permission_title));
 
             if (Build.VERSION.SDK_INT >= 23) {

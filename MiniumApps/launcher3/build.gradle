@@ -121,7 +121,6 @@ dependencies {
     implementation "androidx.multidex:multidex:2.0.0"
 
     implementation "com.google.android.material:material:1.0.0"
-    implementation "com.google.android.gms:play-services-location:$playServicesLocationVersion"
 
 
     implementation "org.androidannotations:androidannotations-api:$annotationsVersion"

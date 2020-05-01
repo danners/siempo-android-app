@@ -5,11 +5,6 @@
     android:title="@string/personal_settings_title">
 
     <Preference
-        android:key="@string/location_key"
-        android:summary="@string/location_settings_summary"
-        android:title="@string/pref_location" />
-
-    <Preference
         android:key="@string/security_key"
         android:title="@string/pref_security" />
 

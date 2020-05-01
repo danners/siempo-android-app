@@ -26,7 +26,6 @@ public class PermissionUtil {
     public static final int CONTACT_PERMISSION = 4;
     public static final int CAMERA_PERMISSION = 7;
     public static final int WRITE_EXTERNAL_STORAGE_PERMISSION = 8;
-    public static final int LOCATION_PERMISSION = 9;
     public static final int ACCOUNT_PERMISSION = 10;
     public static final int SYSTEM_WINDOW_ALERT = 11;
 
@@ -57,9 +56,6 @@ public class PermissionUtil {
                 return hasAppPermissions(Manifest.permission
                         .WRITE_EXTERNAL_STORAGE) && hasAppPermissions
                         (Manifest.permission.READ_EXTERNAL_STORAGE);
-            case LOCATION_PERMISSION:
-                return hasAppPermissions(Manifest.permission.ACCESS_FINE_LOCATION) &&
-                        hasAppPermissions(Manifest.permission.ACCESS_FINE_LOCATION);
             case SYSTEM_WINDOW_ALERT:
                 return hasAppPermissions(Manifest.permission.SYSTEM_ALERT_WINDOW);
         }

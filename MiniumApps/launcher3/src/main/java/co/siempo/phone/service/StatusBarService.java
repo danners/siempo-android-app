@@ -1,6 +1,5 @@
 package co.siempo.phone.service;
 
-import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.app.Service;
 import android.content.BroadcastReceiver;
@@ -13,7 +12,6 @@ import android.database.ContentObserver;
 import android.graphics.Bitmap;
 import android.graphics.PixelFormat;
 import android.graphics.Point;
-import android.location.Location;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -42,11 +40,6 @@ import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.target.Target;
 import com.github.rongi.rotate_layout.layout.RotateLayout;
-import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationCallback;
-import com.google.android.gms.location.LocationRequest;
-import com.google.android.gms.location.LocationResult;
-import com.google.android.gms.location.LocationServices;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.rvalerio.fgchecker.AppChecker;
@@ -59,7 +52,6 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
 import java.util.Set;
@@ -75,11 +67,9 @@ import co.siempo.phone.app.Constants;
 import co.siempo.phone.app.CoreApplication;
 import co.siempo.phone.db.DBClient;
 import co.siempo.phone.event.AppInstalledEvent;
-import co.siempo.phone.event.LocationUpdateEvent;
 import co.siempo.phone.event.NotifyBackgroundToService;
 import co.siempo.phone.event.NotifySearchRefresh;
 import co.siempo.phone.event.ReduceOverUsageEvent;
-import co.siempo.phone.event.StartLocationEvent;
 import co.siempo.phone.helper.ActivityHelper;
 import co.siempo.phone.log.Tracer;
 import co.siempo.phone.main.MainListItemLoader;
@@ -120,9 +110,6 @@ public class StatusBarService extends Service {
     private Context context;
     private MyObserver myObserver;
     private AppInstallUninstall appInstallUninstall;
-    private FusedLocationProviderClient mFusedLocationClient;
-    private LocationRequest locationRequest;
-    private LocationCallback mLocationCallback;
     private UserPresentBroadcastReceiver userPresentBroadcastReceiver;
     private CountDownTimer countDownTimerLockScreen, countDownTimerGrace, countDownTimerCover,
             countDownTimerBreak, countDownTimerAfterCover;
@@ -662,65 +649,6 @@ public class StatusBarService extends Service {
             }
         }.start();
 
-    }
-
-    @SuppressLint("MissingPermission")
-    public void getLocation() {
-        int timer_time = PrefSiempo.getInstance(context).read(PrefSiempo.LOCATION_TIMER_TIME, 1);
-        locationRequest = LocationRequest.create();
-        locationRequest.setInterval(timer_time * 60000);
-        locationRequest.setFastestInterval(500);
-        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(context);
-        if (mLocationCallback == null) {
-            mLocationCallback = new LocationCallback() {
-                @Override
-                public void onLocationResult(LocationResult locationResult) {
-                    if (locationResult == null) {
-                        //return;
-                        Location mlocation = null;
-                        if (locationResult != null) {
-                            mlocation = locationResult.getLastLocation();
-                        }
-                        latitude = mlocation.getLatitude();
-                        longitude = mlocation.getLongitude();
-                        EventBus.getDefault().postSticky(new LocationUpdateEvent(mlocation));
-                    }
-                    List<Location> locations = locationResult.getLocations();
-                    for (Location location : locations) {
-                        // Update UI with location data
-                        // ...
-                        if (location != null) {
-                            Log.e("location details", "long: " + location.getLongitude() + "lat: " + location
-                                    .getLatitude());
-                            latitude = location.getLatitude();
-                            longitude = location.getLongitude();
-                            EventBus.getDefault().postSticky(new LocationUpdateEvent(location));
-                        }
-
-                    }
-                }
-            };
-        }
-        mFusedLocationClient.requestLocationUpdates(locationRequest,
-                mLocationCallback,
-                null);
-    }
-
-    public void stopLocationUpdates() {
-        if (mLocationCallback != null) {
-            mFusedLocationClient.removeLocationUpdates(mLocationCallback);
-        }
-    }
-
-    @Subscribe
-    public void startLocationEvent(StartLocationEvent event) {
-        boolean isLocationOn = event.getIsLocationOn();
-        if (!isLocationOn) {
-            stopLocationUpdates();
-        } else {
-            getLocation();
-        }
     }
 
     @Subscribe
