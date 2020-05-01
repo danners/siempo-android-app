@@ -52,7 +52,7 @@ public class SuppressNotificationActivity extends CoreActivity {
     public static final String TAG = SuppressNotificationActivity.class.getName();
     Context context;
     List<Notification> notificationList = new ArrayList<>();
-    List<Notification> suggetionList = new ArrayList<>();
+    List<Notification> suggestionList = new ArrayList<>();
     ArrayList<String> disableNotificationApps = new ArrayList<>();
     long startTime = 0;
     private RecyclerView recyclerView;
@@ -86,7 +86,7 @@ public class SuppressNotificationActivity extends CoreActivity {
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setNestedScrollingEnabled(false);
         notificationList = new ArrayList<>();
-        suggetionList = new ArrayList<>();
+        suggestionList = new ArrayList<>();
         edt_search = findViewById(R.id.edt_search);
         try {
             Typeface myTypeface = Typeface.createFromAsset(getAssets(), "fonts/robotocondensedregular.ttf");
@@ -103,25 +103,25 @@ public class SuppressNotificationActivity extends CoreActivity {
             @Override
             public void beforeTextChanged(CharSequence s, int start,
                                           int count, int after) {
-                suggetionList.clear();
+                suggestionList.clear();
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start,
                                       int before, int count) {
-                suggetionList.clear();
+                suggestionList.clear();
                 for (int i = 0; i < notificationList.size(); i++) {
                     if (!TextUtils.isEmpty(notificationList.get(i).getPackageName())) {
                         if (CoreApplication.getInstance().getApplicationNameFromPackageName(notificationList.get(i).getPackageName()).toLowerCase().startsWith(s.toString().toLowerCase())) {
-                            suggetionList.add(notificationList.get(i));
+                            suggestionList.add(notificationList.get(i));
                         }
-                        if (suggetionList.size() == 0) {
+                        if (suggestionList.size() == 0) {
                             txtClearAll.setVisibility(View.GONE);
                         } else {
                             txtClearAll.setVisibility(View.VISIBLE);
                         }
                     }
-                    adapter = new SuppressNotificationAdapter(context, suggetionList);
+                    adapter = new SuppressNotificationAdapter(context, suggestionList);
                     recyclerView.setAdapter(adapter);
 
                 }

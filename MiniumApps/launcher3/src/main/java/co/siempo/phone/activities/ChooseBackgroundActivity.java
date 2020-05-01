@@ -196,7 +196,6 @@ public class ChooseBackgroundActivity extends CoreActivity {
 
     @Override
     public void onBackPressed() {
-        //super.onBackPressed();
         if (openSubFolder) {
             openSubFolder = false;
             toolbar.setTitle(getString(R.string.choose_background));
@@ -282,7 +281,6 @@ public class ChooseBackgroundActivity extends CoreActivity {
                 e.printStackTrace();
             }
         } else {
-            // CoreApplication.getInstance().downloadSiempoImages();
             bindGridView();
         }
     }
@@ -337,7 +335,6 @@ public class ChooseBackgroundActivity extends CoreActivity {
                             || imagePath.getName().contains(".jpeg") || imagePath.getName().contains(".JPEG")
                             || imagePath.getName().contains(".png") || imagePath.getName().contains(".PNG")
                             ) {
-                        String path = imagePath.getAbsolutePath();
                         resultIAV.add(imagePath);
                     }
                 } catch (Exception e) {
