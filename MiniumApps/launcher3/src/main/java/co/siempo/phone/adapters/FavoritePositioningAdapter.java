@@ -103,9 +103,7 @@ public class FavoritePositioningAdapter extends RecyclerView.Adapter<FavoritePos
             // based on user selected language, and in case of package nme
             // not available showing the default item name
             if (!TextUtils.isEmpty(item.getPackageName())) {
-                String applicationName = CoreApplication.getInstance()
-                        .getApplicationNameFromPackageName(item.getPackageName());
-                holder.text.setText(applicationName);
+                holder.text.setText(item.app.displayName);
             } else {
                 holder.text.setText(item.getTitle());
             }

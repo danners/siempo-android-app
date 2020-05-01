@@ -47,7 +47,6 @@ public class FavoriteAppsPositionActivity extends CoreActivity implements OnFavo
     private RecyclerView.LayoutManager mLayoutManager;
     private ItemOffsetDecoration itemDecoration;
     private ItemTouchHelper mItemTouchHelper;
-    private Parcelable mListState;
     private RecyclerView recyclerView;
     private Toolbar toolbar;
     private TextView txtSelectTools;
