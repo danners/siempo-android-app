@@ -206,14 +206,17 @@ public class TempoNotificationSectionAdapter extends SectionedRecyclerViewAdapte
 
 
             final AppListInfo messengerAppsItem = messengerList.get(position);
-            String appName = CoreApplication.getInstance().getApplicationName(messengerAppsItem.app.packageName);
-            holder.render(appName);
-            holder.enableViews();
+
+            final String appName = messengerAppsItem.app == null ? "" : CoreApplication.getInstance().getApplicationName(messengerAppsItem.app.packageName);
+            if (messengerAppsItem.app != null) {
+                holder.render(appName);
+                holder.enableViews();
+            }
             if (!TextUtils.isEmpty(messengerAppsItem.errorMessage)) {
                 holder.render(messengerAppsItem.errorMessage);
                 holder.disableViews();
             }
-            holder.displayImage(messengerAppsItem.app.packageName, messengerAppsItem.errorMessage);
+            holder.displayImage(appName, messengerAppsItem.errorMessage);
 
             holder.getLinearList().setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -234,7 +237,7 @@ public class TempoNotificationSectionAdapter extends SectionedRecyclerViewAdapte
 
                         popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                             public boolean onMenuItemClick(MenuItem item) {
-                                holder.addToBlockList(messengerAppsItem.app.packageName, false, pref_blockedList, context);
+                                holder.addToBlockList(appName, false, pref_blockedList, context);
                                 messengerList.remove(messengerAppsItem);
                                 blockedList.add(messengerAppsItem);
                                 int disableCount = PrefSiempo.getInstance
@@ -261,10 +264,15 @@ public class TempoNotificationSectionAdapter extends SectionedRecyclerViewAdapte
         if (headerList.get(section).headerName.equals("Helpful robots")) {
             final AppListInfo appListItem = helpfulRobot_List.get(position);
             holder.enableViews();
-            String appName = CoreApplication.getInstance().getApplicationName(appListItem.app.packageName);
-            holder.render(appName);
 
-            holder.displayImage(appListItem.app.packageName, appListItem.errorMessage);
+            String appName = "";
+            if (appListItem.app != null) {
+                appName = CoreApplication.getInstance().getApplicationName(appListItem.app.packageName);
+                holder.render(appName);
+            }
+
+
+            holder.displayImage(appName, appListItem.errorMessage);
             if (!TextUtils.isEmpty(appListItem.errorMessage)) {
                 holder.render(appListItem.errorMessage);
                 holder.disableViews();

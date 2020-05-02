@@ -173,7 +173,7 @@ public class NotificationActivity extends CoreActivity {
 
         for (App app : packages) {
             AppListInfo d = new AppListInfo();
-            d.app.packageName = app.packageName;
+            d.app = app;
 
             if (pref_blockedList.contains(d.app.packageName)) {
                 d.ischecked = !pref_blockedList.contains(d.app.packageName);
