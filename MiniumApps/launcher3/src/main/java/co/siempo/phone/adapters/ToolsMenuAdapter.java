@@ -176,7 +176,7 @@ public class ToolsMenuAdapter extends RecyclerView.Adapter<ToolsMenuAdapter.View
                                         if (id == 13) {
                                             LaunchDialer(strPackageName);
                                         } else {
-                                            new ActivityHelper(context).openAppWithPackageName(strPackageName);
+                                            new ActivityHelper(context).openAppWithApp(item.app);
                                         }
                                     } else {
                                         openAppAssignmentScreen(item);

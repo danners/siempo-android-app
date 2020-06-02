@@ -149,7 +149,7 @@ public class AppAssignmentAdapter extends RecyclerView.Adapter<AppAssignmentAdap
 
                         } else {
                             if (item != null) {
-                                new ActivityHelper(context).openAppWithPackageName(item.packageName);
+                                new ActivityHelper(context).openAppWithApp(item);
                             }
                             context.finish();
                         }
