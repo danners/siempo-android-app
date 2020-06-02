@@ -1,2 +1,3 @@
 TODO:
-- Work app icons in apps that allowed to interrupt
+- Make sure notification batching works
+- Try to implement screen shrinker for work apps

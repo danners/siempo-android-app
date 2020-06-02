@@ -149,7 +149,7 @@ public class TempoNotificationSectionAdapter extends SectionedRecyclerViewAdapte
                 holder.render(otherAppsItems.errorMessage);
                 holder.disableViews();
             }
-            holder.displayImage(otherAppsItems.app.packageName, otherAppsItems.errorMessage);
+            holder.displayImage(otherAppsItems.app, otherAppsItems.errorMessage);
             holder.getLinearList().setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -216,7 +216,7 @@ public class TempoNotificationSectionAdapter extends SectionedRecyclerViewAdapte
                 holder.render(messengerAppsItem.errorMessage);
                 holder.disableViews();
             }
-            holder.displayImage(appName, messengerAppsItem.errorMessage);
+            holder.displayImage(messengerAppsItem.app, messengerAppsItem.errorMessage);
 
             holder.getLinearList().setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -272,7 +272,7 @@ public class TempoNotificationSectionAdapter extends SectionedRecyclerViewAdapte
             }
 
 
-            holder.displayImage(appName, appListItem.errorMessage);
+            holder.displayImage(appListItem.app, appListItem.errorMessage);
             if (!TextUtils.isEmpty(appListItem.errorMessage)) {
                 holder.render(appListItem.errorMessage);
                 holder.disableViews();
