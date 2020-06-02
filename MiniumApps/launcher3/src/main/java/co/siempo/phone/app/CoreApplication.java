@@ -123,6 +123,15 @@ public abstract class CoreApplication extends MultiDexApplication {
         return "not found";
     }
 
+    public String getApplicationName(App app) {
+        for (App loadedApp: apps) {
+            if (loadedApp.packageName.equals(app.packageName) && loadedApp.isWorkApp == app.isWorkApp) {
+                return loadedApp.displayName;
+            }
+        }
+        return "not found";
+    }
+
     private List<App> apps = new LinkedList<>();
 
     public List<App> getApplications() {

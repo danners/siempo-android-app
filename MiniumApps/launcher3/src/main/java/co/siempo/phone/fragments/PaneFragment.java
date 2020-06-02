@@ -798,7 +798,6 @@ public class PaneFragment extends CoreFragment {
 
             } else {
                 listView.setOnTouchListener(null);
-                Log.d("Rajesh",""+adapter.getCount());
             }
 
 

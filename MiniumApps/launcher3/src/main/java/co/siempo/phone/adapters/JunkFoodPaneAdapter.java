@@ -69,7 +69,7 @@ public class JunkFoodPaneAdapter extends RecyclerView.Adapter<JunkFoodPaneAdapte
     public void onBindViewHolder(final ViewHolder holder, int position) {
         final App item = mainListItemList.get(position);
         holder.linearLayout.setVisibility(View.VISIBLE);
-        String applicationName = CoreApplication.getInstance().getApplicationNameFromPackageName(item.packageName);
+        String applicationName = CoreApplication.getInstance().getApplicationName(item);
         holder.text.setText(applicationName);
         if (isHideIconBranding) {
             holder.txtAppTextImage.setVisibility(View.VISIBLE);
