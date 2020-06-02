@@ -44,7 +44,7 @@ public class RowLayout extends ViewGroup {
         final int heightMode = MeasureSpec.getMode(heightMeasureSpec);
         final int maxInternalWidth = MeasureSpec.getSize(widthMeasureSpec) - getHorizontalPadding();
         final int maxInternalHeight = MeasureSpec.getSize(heightMeasureSpec) - getVerticalPadding();
-        @SuppressLint("DrawAllocation") List<RowMeasurement> rows = new ArrayList<RowMeasurement>();
+        @SuppressLint("DrawAllocation") List<RowMeasurement> rows = new ArrayList<>();
         @SuppressLint("DrawAllocation") RowMeasurement currentRow = new RowMeasurement(maxInternalWidth, widthMode);
         rows.add(currentRow);
         for (View child : getLayoutChildren()) {
@@ -115,7 +115,7 @@ public class RowLayout extends ViewGroup {
     }
 
     private List<View> getLayoutChildren() {
-        List<View> children = new ArrayList<View>();
+        List<View> children = new ArrayList<>();
         for (int index = 0; index < getChildCount(); index++) {
             View child = getChildAt(index);
             if (child.getVisibility() != View.GONE) {

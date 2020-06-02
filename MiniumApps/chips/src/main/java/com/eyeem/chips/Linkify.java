@@ -83,7 +83,7 @@ public class Linkify {
          * @return Ordered array of album entites of one type
          */
         public ArrayList<Linkify.Entity> subEntities(int type) {
-            ArrayList<Linkify.Entity> albums = new ArrayList<Linkify.Entity>();
+            ArrayList<Linkify.Entity> albums = new ArrayList<>();
             for (Linkify.Entity entity : this) {
                 if (entity.type == type)
                     albums.add(entity);

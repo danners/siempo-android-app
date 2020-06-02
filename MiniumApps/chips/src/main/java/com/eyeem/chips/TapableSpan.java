@@ -57,7 +57,7 @@ public class TapableSpan extends StyleSpan implements BubbleSpan {
 
     @Override
     public ArrayList<Rect> rect(ILayoutCallback callback) {
-        ArrayList<Rect> result = new ArrayList<Rect>();
+        ArrayList<Rect> result = new ArrayList<>();
         int spanStart = callback.getSpannable().getSpanStart(this);
         int spanEnd = callback.getSpannable().getSpanEnd(this);
         int startLine = callback.getLine(spanStart);

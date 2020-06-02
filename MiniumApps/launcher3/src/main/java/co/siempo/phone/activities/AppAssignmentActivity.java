@@ -209,7 +209,7 @@ public class AppAssignmentActivity extends CoreActivity {
     {
 
         // Create a new ArrayList
-        List<T> newList = new ArrayList<T>();
+        List<T> newList = new ArrayList<>();
 
         // Traverse through the first list
         for (T element : list) {

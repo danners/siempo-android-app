@@ -27,8 +27,8 @@ public class LayoutBuild implements ILayoutCallback {
     final Spannable text;
     final Spannable moreText;
     BubbleSpan selectedSpan;
-    ArrayList<BubbleSpan> spans = new ArrayList<BubbleSpan>();
-    HashMap<BubbleSpan, ArrayList<Rect>> positions = new HashMap<BubbleSpan, ArrayList<Rect>>();
+    ArrayList<BubbleSpan> spans = new ArrayList<>();
+    HashMap<BubbleSpan, ArrayList<Rect>> positions = new HashMap<>();
     TextPaint textPaint;
     float lineSpacing;
     int maxLines;

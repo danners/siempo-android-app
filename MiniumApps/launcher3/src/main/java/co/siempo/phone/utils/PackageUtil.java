@@ -15,9 +15,10 @@ import android.net.Uri;
 import android.os.Build;
 import android.provider.ContactsContract;
 import android.provider.Telephony;
-import androidx.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.Log;
+
+import androidx.annotation.Nullable;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -32,7 +33,6 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
@@ -713,7 +713,7 @@ public class PackageUtil {
         ArrayList<App> junkFoodAppList;
         LinkedList<App> junkFoodList = PrefSiempo
                 .getInstance(context).readAppList(PrefSiempo.JUNKFOOD_APPS);
-        junkFoodAppList = new ArrayList<App>(junkFoodList);
+        junkFoodAppList = new ArrayList<>(junkFoodList);
         List<MainListItem> junkListItems = new ArrayList<>();
 
         // Check if tools contain junkfood apps then remove assign from corresponding tool

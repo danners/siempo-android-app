@@ -181,7 +181,7 @@ public class DialogTempoSetting extends Dialog implements View.OnClickListener {
         String onlyAtValue = PrefSiempo.getInstance(context).read(PrefSiempo
                 .ONLY_AT, "12:01");
         String[] strTime = onlyAtValue.split(",");
-        final ArrayList listdata = new ArrayList(Arrays.asList(strTime));
+        final ArrayList<String> listdata = new ArrayList<>(Arrays.asList(strTime));
         listdata.remove("");
         String strPositiveText;
         String strNegativeText;

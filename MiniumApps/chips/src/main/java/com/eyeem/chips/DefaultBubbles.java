@@ -24,7 +24,7 @@ public class DefaultBubbles {
     public static int h_spacing;
     public static int long_bubble_workaround;
     @SuppressLint("UseSparseArrays")
-    private static HashMap<Integer, BubbleStyle[]> defaults = new HashMap<Integer, BubbleStyle[]>();
+    private static HashMap<Integer, BubbleStyle[]> defaults = new HashMap<>();
 
     @Deprecated
     public static BubbleStyle get(int type, Context context) {

@@ -48,7 +48,7 @@ public class CategoriesApp extends IntentService {
     }
 
     public void getCategoryApps(){
-        BlockingQueue<Runnable> workQueue = new LinkedBlockingQueue<Runnable>(NetworkUtil.maximumPoolSize);
+        BlockingQueue<Runnable> workQueue = new LinkedBlockingQueue<>(NetworkUtil.maximumPoolSize);
         Executor threadPoolExecutor = new ThreadPoolExecutor(NetworkUtil.corePoolSize, NetworkUtil.maximumPoolSize, NetworkUtil.keepAliveTime, TimeUnit.SECONDS, workQueue);
         Intent mainIntent = new Intent(Intent.ACTION_MAIN, null);
         mainIntent.addCategory(Intent.CATEGORY_LAUNCHER);

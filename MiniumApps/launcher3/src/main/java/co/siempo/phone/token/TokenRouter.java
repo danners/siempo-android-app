@@ -177,8 +177,8 @@ public class TokenRouter {
                                         (SMS_DELIVERED), 0);
                         ArrayList<String> smsBodyParts = smsManager
                                 .divideMessage(strMessage);
-                        ArrayList<PendingIntent> sentPendingIntents = new ArrayList<PendingIntent>();
-                        ArrayList<PendingIntent> deliveredPendingIntents = new ArrayList<PendingIntent>();
+                        ArrayList<PendingIntent> sentPendingIntents = new ArrayList<>();
+                        ArrayList<PendingIntent> deliveredPendingIntents = new ArrayList<>();
 
                         for (int i = 0; i < smsBodyParts.size(); i++) {
                             sentPendingIntents.add(sentPendingIntent);

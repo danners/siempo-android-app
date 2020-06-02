@@ -308,7 +308,7 @@ public class ChipsTextView extends View {
         final WeakReference<ChipsTextView> _tv;
 
         LayoutSubscription(ChipsTextView textView) {
-            _tv = new WeakReference<ChipsTextView>(textView);
+            _tv = new WeakReference<>(textView);
         }
 
         @Override

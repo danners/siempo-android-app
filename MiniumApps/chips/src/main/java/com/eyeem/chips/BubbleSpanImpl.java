@@ -84,7 +84,7 @@ public class BubbleSpanImpl extends ReplacementSpan implements BubbleSpan {
 
     @Override
     public ArrayList<Rect> rect(ILayoutCallback callback) {
-        ArrayList<Rect> result = new ArrayList<Rect>();
+        ArrayList<Rect> result = new ArrayList<>();
         Rect position = new Rect(bubble.rect());
         int spanStart = callback.getSpannable().getSpanStart(this);
         Point startPoint = callback.getCursorPosition(spanStart);

@@ -529,7 +529,7 @@ public class ChipsEditText extends MultilineEditText {
         WeakReference<ChipsEditText> _et;
 
         public CursorRunnable(ChipsEditText et) {
-            this._et = new WeakReference<ChipsEditText>(et);
+            this._et = new WeakReference<>(et);
         }
 
         @Override
