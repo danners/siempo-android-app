@@ -610,9 +610,9 @@ public class JunkfoodFlaggingActivity extends CoreActivity implements AdapterVie
                     if (!app.packageName.equalsIgnoreCase(getPackageName())) {
                         if (!TextUtils.isEmpty(app.displayName)) {
                             if (adapterlist.contains(app)) {
-                                flagAppList.add(new AppListInfo(app.packageName, app.displayName, false, false, true, false));
+                                flagAppList.add(new AppListInfo(app.packageName, app.displayName, false, false, true, app.isWorkApp));
                             } else {
-                                unflageAppList.add(new AppListInfo(app.packageName, app.displayName, false, false, false, false));
+                                unflageAppList.add(new AppListInfo(app.packageName, app.displayName, false, false, false, app.isWorkApp));
                             }
                         }
                     }

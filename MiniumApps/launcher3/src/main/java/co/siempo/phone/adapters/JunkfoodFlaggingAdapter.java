@@ -96,7 +96,6 @@ public class JunkfoodFlaggingAdapter extends BaseAdapter implements Filterable {
 
         try {
             final AppListInfo resolveInfo = filterList.get(position);
-            Log.d("Tetsing ", resolveInfo.toString());
             if (resolveInfo.isShowHeader && resolveInfo.isShowTitle) {
                 holder.txtHeader.setVisibility(View.VISIBLE);
                 holder.txtNoAppsMessage.setVisibility(View.VISIBLE);
@@ -121,7 +120,7 @@ public class JunkfoodFlaggingAdapter extends BaseAdapter implements Filterable {
                     holder.txtNoAppsMessage.setText(searchReference.equalsIgnoreCase("") ? context.getString(R.string.tap_apps_above_to_move_them_into_this_section) : context.getString(R
                             .string.no_apps));
                 }
-            } else if (resolveInfo.isShowHeader && !resolveInfo.isShowTitle) {
+            } else if (resolveInfo.isShowHeader) {
                 holder.txtHeader.setVisibility(View.VISIBLE);
                 holder.linTop.setVisibility(View.GONE);
                 if (resolveInfo.isFlagApp) {
