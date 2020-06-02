@@ -11,8 +11,7 @@ android {
         }
     }
     lintOptions {
-        disable 'GoogleAppIndexingApiWarning', 'IconDensities', 'Registered', 'MissingTranslation', 'SetTextI18n', 'RtlHardcoded', 'SelectableText', 'PermissionImpliesUnsupportedHardware'
-        ignoreWarnings true
+        ignoreWarnings false
     }
 }
 

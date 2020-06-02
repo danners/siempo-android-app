@@ -301,7 +301,6 @@ public class DataUtils {
      */
     public static void saveNotes(Context context, String title) {
 
-        JSONObject newNoteObject = null;
         File localPath = new File(context.getFilesDir() + "/" + DataUtils.NOTES_FILE_NAME);
 
         // Init notes array
@@ -316,6 +315,7 @@ public class DataUtils {
 
         Tracer.i("All notes: ", notes);
 
+        JSONObject newNoteObject;
         try {
             // Add new note to array
             newNoteObject = new JSONObject();

@@ -2,17 +2,11 @@ package co.siempo.phone.adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.provider.Settings;
-import androidx.annotation.NonNull;
-import androidx.core.graphics.drawable.RoundedBitmapDrawable;
-import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory;
-import androidx.appcompat.widget.PopupMenu;
 import android.telephony.PhoneNumberUtils;
 import android.text.TextUtils;
 import android.util.TypedValue;
@@ -27,8 +21,15 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.widget.PopupMenu;
+import androidx.core.graphics.drawable.RoundedBitmapDrawable;
+import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory;
+
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,7 +43,6 @@ import co.siempo.phone.token.TokenItem;
 import co.siempo.phone.token.TokenItemType;
 import co.siempo.phone.token.TokenManager;
 import co.siempo.phone.utils.DrawableProvider;
-import org.greenrobot.eventbus.EventBus;
 
 /**
  * Created by Shahab on 2/16/2017.
@@ -50,7 +50,6 @@ import org.greenrobot.eventbus.EventBus;
 public class MainListAdapter extends ArrayAdapter<MainListItem> {
 
     private final Context context;
-    private boolean isHideIconBranding;
     private List<MainListItem> originalData = null;
     private List<MainListItem> filteredData = null;
     private ItemFilter filter = new ItemFilter();
@@ -182,7 +181,7 @@ public class MainListAdapter extends ArrayAdapter<MainListItem> {
 
     private View getActionItemView(int position, View view, ViewGroup parent) {
         ActionViewHolder holder;
-        isHideIconBranding = CoreApplication.getInstance()
+        boolean isHideIconBranding = CoreApplication.getInstance()
                 .isHideIconBranding();
 
         if (view == null) {

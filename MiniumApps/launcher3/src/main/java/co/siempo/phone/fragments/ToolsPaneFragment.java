@@ -26,11 +26,9 @@ import org.greenrobot.eventbus.ThreadMode;
 
 public class ToolsPaneFragment extends CoreFragment {
 
-    private View view;
     private RecyclerView recyclerView;
     private ArrayList<MainListItem> items = new ArrayList<>();
     private ToolsMenuAdapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
     private ItemOffsetDecoration itemDecoration;
 
     public ToolsPaneFragment() {
@@ -49,7 +47,7 @@ public class ToolsPaneFragment extends CoreFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_tools_pane, container, false);
+        View view = inflater.inflate(R.layout.fragment_tools_pane, container, false);
         Log.d("Test", "T1");
         recyclerView = view.findViewById(R.id.recyclerView);
         initView();
@@ -82,7 +80,7 @@ public class ToolsPaneFragment extends CoreFragment {
     private void initView() {
         if (getActivity() != null && recyclerView != null) {
             items = CoreApplication.getInstance().getToolItemsList();
-            mLayoutManager = new GridLayoutManager(getActivity(), 4);
+            RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getActivity(), 4);
             recyclerView.setLayoutManager(mLayoutManager);
             if (itemDecoration != null) {
                 recyclerView.removeItemDecoration(itemDecoration);

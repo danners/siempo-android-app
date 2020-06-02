@@ -23,9 +23,7 @@ public abstract class PhoneCallReceiver extends BroadcastReceiver {
     private static boolean isIncoming;
     private static String savedNumber = "";  //because the passed incoming is only valid in ringing
     public static boolean isCallRunning = false;
-    private int tempoType;
     private Context mContext;
-    private int currentProfile = -1;
     private AudioManager audioManager;
 
     @Override
@@ -40,6 +38,7 @@ public abstract class PhoneCallReceiver extends BroadcastReceiver {
         Tracer.i("VolumeCheck Call Coming", sound);
         changeSoundProfile(true);
         if (intent != null) {
+            int currentProfile = -1;
             Log.d(TAG, "Phone Call Receiver :: " + intent.getAction() + currentProfile);
             if (intent.getAction().equals("android.intent.action.NEW_OUTGOING_CALL")) {
                 if (intent.getExtras() != null && intent.getExtras().containsKey("android.intent.extra.PHONE_NUMBER")) {
@@ -158,7 +157,7 @@ public abstract class PhoneCallReceiver extends BroadcastReceiver {
 
     private void changeSoundProfile(boolean isIncreaseSound) {
         if (PackageUtil.isSiempoLauncher(mContext)) {
-            tempoType = PrefSiempo.getInstance(mContext).read(PrefSiempo.TEMPO_TYPE, 0);
+            int tempoType = PrefSiempo.getInstance(mContext).read(PrefSiempo.TEMPO_TYPE, 0);
             if (isIncreaseSound) {
                 Tracer.i("VolumeCheck Call Coming When call comes");
                 if (tempoType == 1 || tempoType == 2) {

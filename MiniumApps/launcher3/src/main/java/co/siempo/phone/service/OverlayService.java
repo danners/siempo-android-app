@@ -30,7 +30,6 @@ public class OverlayService extends Service {
 
     private WindowManager wm;
     private View bottomView;
-    private Handler handler;
     private int heightWindow;
     private int maxHeightWindow;
     private int variableMaxHeightPortrait;
@@ -119,7 +118,7 @@ public class OverlayService extends Service {
                 wm.addView(bottomView, paramsBottom);
                 wm.addView(topView, paramsTop);
             }
-            handler = new Handler();
+            Handler handler = new Handler();
 
 
             //Code for timer to increase the height of cover

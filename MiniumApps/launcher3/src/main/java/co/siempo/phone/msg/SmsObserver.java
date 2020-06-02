@@ -19,14 +19,12 @@ public class SmsObserver extends ContentObserver {
     private static final Handler handler = new Handler();
     private static final Uri uri = Uri.parse("content://sms/");
 
-    private final Context context;
     private final ContentResolver resolver;
     private final String address;
     private final String body;
 
     public SmsObserver(Context context, String address, String body) {
         super(handler);
-        this.context = context;
         this.resolver = context.getContentResolver();
         this.address = address;
         this.body = body;
@@ -44,10 +42,8 @@ public class SmsObserver extends ContentObserver {
 
     @Override
     public void onChange(boolean selfChange, Uri uri) {
-        Cursor cursor = null;
 
-        try {
-            cursor = resolver.query(uri, null, null, null, null);
+        try (Cursor cursor = resolver.query(uri, null, null, null, null)) {
 
             if (cursor != null && cursor.moveToFirst()) {
                 final int type = cursor.getInt(
@@ -69,10 +65,6 @@ public class SmsObserver extends ContentObserver {
         } catch (IllegalStateException e) {
             CoreApplication.getInstance().logException(e);
             Tracer.e(e, e.getMessage());
-        } finally {
-            if (cursor != null) {
-                cursor.close();
-            }
         }
     }
 

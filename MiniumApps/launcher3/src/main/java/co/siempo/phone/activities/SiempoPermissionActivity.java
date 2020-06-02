@@ -8,7 +8,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.provider.Settings;
-import androidx.appcompat.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -16,6 +15,8 @@ import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.TableRow;
 import android.widget.TextView;
+
+import androidx.appcompat.widget.Toolbar;
 
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
@@ -27,7 +28,6 @@ import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.ViewById;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import co.siempo.phone.R;
@@ -98,7 +98,6 @@ public class SiempoPermissionActivity extends CoreActivity {
     };
     private PermissionUtil permissionUtil;
     private boolean isFromHome;
-    private ProgressDialog pd;
 
     private void askForPermission(String[] PERMISSIONS) {
         try {
@@ -148,7 +147,7 @@ public class SiempoPermissionActivity extends CoreActivity {
         if (intent != null) {
             isFromHome = intent.getBooleanExtra(DashboardActivity.IS_FROM_HOME, false);
         }
-        pd = new ProgressDialog(this);
+        ProgressDialog pd = new ProgressDialog(this);
         pd.setCanceledOnTouchOutside(false);
 
 

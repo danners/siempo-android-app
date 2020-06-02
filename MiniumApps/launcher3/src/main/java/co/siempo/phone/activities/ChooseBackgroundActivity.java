@@ -346,7 +346,7 @@ public class ChooseBackgroundActivity extends CoreActivity {
             try {
                 Collections.sort(resultIAV, new Comparator<File>() {
                     public int compare(File f1, File f2) {
-                        return Long.valueOf(f2.lastModified()).compareTo(Long.valueOf(f1.lastModified()));
+                        return Long.compare(f2.lastModified(), f1.lastModified());
                     }
                 });
 

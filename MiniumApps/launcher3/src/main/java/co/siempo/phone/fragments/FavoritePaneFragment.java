@@ -35,10 +35,8 @@ public class FavoritePaneFragment extends CoreFragment {
     private RecyclerView recyclerView;
     private ArrayList<MainListItem> items = new ArrayList<>();
     private FavoritesPaneAdapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
     private ItemOffsetDecoration itemDecoration;
     private LinearLayout linSelectFavouriteFood;
-    private Button btnSelect;
 
     public FavoritePaneFragment() {
         // Required empty public constructor
@@ -96,7 +94,7 @@ public class FavoritePaneFragment extends CoreFragment {
         if (getActivity() != null && view != null) {
             items = CoreApplication.getInstance().getFavoriteItemsList();
             recyclerView = view.findViewById(R.id.recyclerView);
-            btnSelect = view.findViewById(R.id.btnSelect);
+            Button btnSelect = view.findViewById(R.id.btnSelect);
             btnSelect.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -109,7 +107,7 @@ public class FavoritePaneFragment extends CoreFragment {
                 }
             });
             linSelectFavouriteFood = view.findViewById(R.id.linSelectFavouriteFood);
-            mLayoutManager = new GridLayoutManager(getActivity(), 4);
+            RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getActivity(), 4);
             recyclerView.setLayoutManager(mLayoutManager);
             if (itemDecoration != null) {
                 recyclerView.removeItemDecoration(itemDecoration);

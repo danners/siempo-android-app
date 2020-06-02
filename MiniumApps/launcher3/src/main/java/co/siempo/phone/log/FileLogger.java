@@ -33,21 +33,14 @@ public class FileLogger {
         executor.execute(new Runnable() {
             @Override
             public void run() {
-                PrintWriter out = null;
 
                 File file = GetFileFromPath(path);
-
-                try {
-                    out = new PrintWriter(new BufferedWriter(new FileWriter(file, true)));
+                try (PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(file, true)))) {
                     out.println(str);
                     out.flush();
                 } catch (IOException e) {
                     CoreApplication.getInstance().logException(e);
                     e.printStackTrace();
-                } finally {
-                    if (out != null) {
-                        out.close();
-                    }
                 }
             }
         });
@@ -64,14 +57,13 @@ public class FileLogger {
         boolean ret;
         boolean isExist;
         boolean isWritable;
-        File file = null;
 
         if (TextUtils.isEmpty(path)) {
             Log.e("Error", "The path of Log file is Null.");
             return null;
         }
 
-        file = new File(path);
+        File file = new File(path);
 
         isExist = file.exists();
         isWritable = file.canWrite();

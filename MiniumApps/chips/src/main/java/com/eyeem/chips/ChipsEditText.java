@@ -62,7 +62,7 @@ public class ChipsEditText extends MultilineEditText {
         public void onTextChanged(CharSequence s, int start, int before, int count) {
             if (!shouldShow())
                 return;
-            String textForAutocomplete = null;
+            String textForAutocomplete;
             try {
                 if (_manualModeOn && manualStart < start) {
                     // we do dis cause android gives us latest word and we operate on a sentence
@@ -403,11 +403,10 @@ public class ChipsEditText extends MultilineEditText {
             int maxBubbleWidth = widthSize - getPaddingLeft() - getPaddingTop();
             Editable e = getText();
             BubbleSpan[] spans = e.getSpans(0, getText().length(), BubbleSpan.class);
-            for (int i = 0; i < spans.length; i++) {
-                BubbleSpan span = spans[i];
+            for (BubbleSpan span : spans) {
                 span.resetWidth(maxBubbleWidth);
-                int start = getText().getSpanStart(spans[i]);
-                int end = getText().getSpanEnd(spans[i]);
+                int start = getText().getSpanStart(span);
+                int end = getText().getSpanEnd(span);
                 e.removeSpan(span);
                 e.setSpan(span, start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             }

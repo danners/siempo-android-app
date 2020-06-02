@@ -1,10 +1,10 @@
 package co.siempo.phone.fragments;
 
 import android.os.Bundle;
-import androidx.appcompat.widget.Toolbar;
 import android.view.View;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
+
+import androidx.appcompat.widget.Toolbar;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;

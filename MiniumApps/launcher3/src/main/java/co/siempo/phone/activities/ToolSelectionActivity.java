@@ -31,10 +31,7 @@ public class ToolSelectionActivity extends CoreActivity {
 
     public static final int TOOL_SELECTION = 100;
     private HashMap<Integer, AppMenu> map;
-    private Toolbar toolbar;
     private ArrayList<MainListItem> items = new ArrayList<>();
-    private LinearLayoutManager mLayoutManager;
-    private RecyclerView recyclerView;
     private ToolsListAdapter mAdapter;
     private ArrayList<MainListItem> adapterList;
 
@@ -91,12 +88,12 @@ public class ToolSelectionActivity extends CoreActivity {
     }
 
     private void initView() {
-        toolbar = findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle(R.string.select_tools);
         setSupportActionBar(toolbar);
-        recyclerView = findViewById(R.id.recyclerView);
+        RecyclerView recyclerView = findViewById(R.id.recyclerView);
         filterListData();
-        mLayoutManager = new LinearLayoutManager(this);
+        LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(mLayoutManager);
         mAdapter = new ToolsListAdapter(this, adapterList, map);
         recyclerView.setAdapter(mAdapter);

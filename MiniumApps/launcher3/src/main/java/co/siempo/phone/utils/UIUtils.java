@@ -39,7 +39,6 @@ import co.siempo.phone.app.Launcher3App;
 
 public class UIUtils {
     public static final String PACKAGE_NAME = "co.siempo.phone";
-    private static AlertDialog alertDialog;
 
     public static int dpToPx(Context context, int dp) {
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
@@ -69,7 +68,7 @@ public class UIUtils {
                 .setTitle(title)
                 .setMessage(msg)
                 .setPositiveButton(android.R.string.ok, null);
-        alertDialog = alertDialogBuilder.create();
+        AlertDialog alertDialog = alertDialogBuilder.create();
         alertDialog.show();
     }
 

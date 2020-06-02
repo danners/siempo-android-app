@@ -33,15 +33,11 @@ import org.greenrobot.eventbus.EventBus;
 public class SmsReceiver extends BroadcastReceiver {
 
     Set<String> blockedApps = new HashSet<>();
-    private String mAddress;
-    private String mBody;
-    private Date mDate;
-    private AudioManager audioManager;
 
     @Override
     public void onReceive(Context context, Intent intent) {
         Tracer.d("SmsReceiver: onReceive");
-        audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
+        AudioManager audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
         if (intent != null && intent.getAction() != null && intent.getAction().equals("android.provider.Telephony.SMS_RECEIVED")) {
             Bundle bundle = intent.getExtras();
             if (bundle != null) {
@@ -56,6 +52,7 @@ public class SmsReceiver extends BroadcastReceiver {
                 }
 
                 SmsMessage sms = smsMessage[0];
+                String mBody;
                 if (smsMessage.length == 1 || sms.isReplace()) {
                     mBody = sms.getDisplayMessageBody();
                 } else {
@@ -68,8 +65,8 @@ public class SmsReceiver extends BroadcastReceiver {
                     mBody = bodyText.toString();
                 }
 
-                mAddress = sms.getDisplayOriginatingAddress();
-                mDate = new Date(sms.getTimestampMillis());
+                String mAddress = sms.getDisplayOriginatingAddress();
+                Date mDate = new Date(sms.getTimestampMillis());
 
 
                 if (PackageUtil.isSiempoLauncher(context)) {

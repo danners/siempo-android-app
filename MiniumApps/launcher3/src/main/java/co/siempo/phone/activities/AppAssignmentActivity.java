@@ -49,7 +49,6 @@ public class AppAssignmentActivity extends CoreActivity {
     LinkedList<App> set = new LinkedList<>();
     List<App> appListAll = new ArrayList<>();
     ArrayList<App> mimeList = new ArrayList<>();
-    private Toolbar toolbar;
     private RecyclerView recyclerView;
     private TextView txtErrorMessage;
     private AppAssignmentAdapter appAssignmentAdapter;
@@ -285,7 +284,7 @@ public class AppAssignmentActivity extends CoreActivity {
 
     private void initView() {
         context = AppAssignmentActivity.this;
-        toolbar = findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setNavigationIcon(R.drawable.ic_arrow_back_blue_24dp);
         if (mainListItem != null) {
             toolbar.setTitle(getString(R.string.assign_an_app) + " " + mainListItem.getTitle());

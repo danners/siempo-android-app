@@ -17,8 +17,6 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
 
 import co.siempo.phone.R;
 import co.siempo.phone.adapters.JunkFoodPaneAdapter;
@@ -35,7 +33,6 @@ public class JunkFoodPaneFragment extends CoreFragment {
     private RecyclerView recyclerView;
     private ArrayList<App> items = new ArrayList<>();
     private JunkFoodPaneAdapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
     private ItemOffsetDecoration itemDecoration;
 
 
@@ -82,7 +79,7 @@ public class JunkFoodPaneFragment extends CoreFragment {
         if (getActivity() != null && view != null) {
             recyclerView = view.findViewById(R.id.recyclerView);
             items = new ArrayList<>();
-            mLayoutManager = new GridLayoutManager(getActivity(), 4);
+            RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getActivity(), 4);
             recyclerView.setLayoutManager(mLayoutManager);
             if (itemDecoration != null) {
                 recyclerView.removeItemDecoration(itemDecoration);

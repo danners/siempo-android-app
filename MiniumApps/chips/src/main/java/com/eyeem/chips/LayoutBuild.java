@@ -30,8 +30,8 @@ public class LayoutBuild implements ILayoutCallback {
     ArrayList<BubbleSpan> spans = new ArrayList<BubbleSpan>();
     HashMap<BubbleSpan, ArrayList<Rect>> positions = new HashMap<BubbleSpan, ArrayList<Rect>>();
     TextPaint textPaint;
-    float lineSpacing = 1.25f;
-    int maxLines = 0;
+    float lineSpacing;
+    int maxLines;
     boolean debug;
     boolean spansPositioned;
     /**

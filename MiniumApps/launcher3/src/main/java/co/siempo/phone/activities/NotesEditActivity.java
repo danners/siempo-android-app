@@ -547,7 +547,7 @@ public class NotesEditActivity extends CoreActivity implements Toolbar.OnMenuIte
             }
             // If current note is new -> request keyboard focus to note title and show keyboard
             else if (bundle.getInt(NOTE_REQUEST_CODE) == NEW_NOTE_REQUEST) {
-                JSONObject newNoteObject = null;
+                JSONObject newNoteObject;
                 try {
                     // Add new note to array
                     newNoteObject = new JSONObject();

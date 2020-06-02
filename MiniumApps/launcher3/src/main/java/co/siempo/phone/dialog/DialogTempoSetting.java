@@ -44,9 +44,7 @@ import co.siempo.phone.utils.PrefSiempo;
 public class DialogTempoSetting extends Dialog implements View.OnClickListener {
     private RadioButton radioIndividual, radioBatched, radioOnlyAt;
     private TextView txtBatch, txtOnlyAtTime1, txtOnlyAtTime2, txtOnlyAtTime3, txtSign1, txtSign2, txtAdd, txtMessage;
-    private ImageView imgMinus, imgPlus;
     private LinearLayout linear;
-    private RelativeLayout relIndividual, top, relBatched, relOnlyAt;
     private FloatingActionButton fabPlay;
     private String strMessage;
     private boolean isCancelButton = false;
@@ -54,7 +52,6 @@ public class DialogTempoSetting extends Dialog implements View.OnClickListener {
     private ArrayList<Integer> everyTwoHourList = new ArrayList<>();
     private ArrayList<Integer> everyFourHoursList = new ArrayList<>();
     private Context context;
-    private float heightForAnim;
 
     private OnDismissListener onDismissListener = new OnDismissListener() {
         @Override
@@ -104,7 +101,7 @@ public class DialogTempoSetting extends Dialog implements View.OnClickListener {
     private void initView() {
         audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
         radioIndividual = findViewById(R.id.radioIndividual);
-        top = findViewById(R.id.top);
+        RelativeLayout top = findViewById(R.id.top);
         radioBatched = findViewById(R.id.radioBatched);
         radioOnlyAt = findViewById(R.id.radioOnlyAt);
         txtBatch = findViewById(R.id.txtBatch);
@@ -115,12 +112,12 @@ public class DialogTempoSetting extends Dialog implements View.OnClickListener {
         txtSign2 = findViewById(R.id.txtSign2);
         txtAdd = findViewById(R.id.txtAdd);
         txtMessage = findViewById(R.id.txtMessage);
-        imgMinus = findViewById(R.id.imgMinus);
-        imgPlus = findViewById(R.id.imgPlus);
+        ImageView imgMinus = findViewById(R.id.imgMinus);
+        ImageView imgPlus = findViewById(R.id.imgPlus);
         linear = findViewById(R.id.linear);
-        relIndividual = findViewById(R.id.relIndividual);
-        relBatched = findViewById(R.id.relBatched);
-        relOnlyAt = findViewById(R.id.relOnlyAt);
+        RelativeLayout relIndividual = findViewById(R.id.relIndividual);
+        RelativeLayout relBatched = findViewById(R.id.relBatched);
+        RelativeLayout relOnlyAt = findViewById(R.id.relOnlyAt);
         fabPlay = findViewById(R.id.fabPlay);
 
         radioIndividual.setOnClickListener(this);
@@ -328,7 +325,7 @@ public class DialogTempoSetting extends Dialog implements View.OnClickListener {
             fabPlay.startAnimation(AnimationUtils.loadAnimation(context, R.anim.fab_scale_down));
             fabPlay.setVisibility(View.INVISIBLE);
             linear.setVisibility(View.INVISIBLE);
-            heightForAnim = findViewById(R.id.pauseContainer).getHeight();
+            float heightForAnim = findViewById(R.id.pauseContainer).getHeight();
             ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(txtMessage, "translationY",
                     0, -(heightForAnim / 2)).setDuration(400);
             objectAnimator.addListener(new Animator.AnimatorListener() {

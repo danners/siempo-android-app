@@ -32,7 +32,6 @@ public class SearchLayout extends CardView {
     private static final String TAG = "SearchLayout";
     public ChipsEditText txtSearchBox;
     ImageView btnClear;
-    private View inflateLayout;
     private StringBuilder formattedTxt = new StringBuilder();
     private boolean isWatching = true;
 
@@ -61,7 +60,7 @@ public class SearchLayout extends CardView {
 
     private void init(Context context) {
         isWatching = true;
-        inflateLayout = inflate(context, R.layout.search_layout, this);
+        View inflateLayout = inflate(context, R.layout.search_layout, this);
 
         txtSearchBox = inflateLayout.findViewById(R.id.txtSearchBox);
         btnClear = inflateLayout.findViewById(R.id.btnClear);
@@ -194,7 +193,7 @@ public class SearchLayout extends CardView {
         }
     }
 
-    public abstract class TextWatcherExtended implements TextWatcher {
+    public abstract static class TextWatcherExtended implements TextWatcher {
         private int lastLength;
 
         public abstract void onTextChanged(CharSequence charSequence, int start, int before, int count, boolean backSpace);

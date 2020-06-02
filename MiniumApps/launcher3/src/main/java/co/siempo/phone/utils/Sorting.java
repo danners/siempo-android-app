@@ -8,7 +8,6 @@ import java.util.Comparator;
 import java.util.List;
 
 import co.siempo.phone.app.App;
-import co.siempo.phone.app.CoreApplication;
 import co.siempo.phone.db.TableNotificationSms;
 import co.siempo.phone.models.AppListInfo;
 import co.siempo.phone.models.CustomNotification;

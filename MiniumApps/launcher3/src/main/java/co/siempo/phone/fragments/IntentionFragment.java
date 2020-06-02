@@ -64,13 +64,11 @@ public class IntentionFragment extends CoreFragment implements View.OnClickListe
 
     Context context;
     TextView txtIntention, txtHint;
-    private View view;
     private ImageView imgTempo;
     private ImageView imgOverFlow, imgPullTab;
     private CardView cardView;
     private PopupWindow mPopupWindow;
     private RelativeLayout relRootLayout;
-    private Window mWindow;
     private PermissionUtil permissionUtil;
     private DialogTempoSetting dialogTempo;
     final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 102;
@@ -91,8 +89,7 @@ public class IntentionFragment extends CoreFragment implements View.OnClickListe
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_intention, container, false);
-        mWindow = getActivity().getWindow();
+        View view = inflater.inflate(R.layout.fragment_intention, container, false);
         context = getActivity();
         permissionUtil = new PermissionUtil(context);
         Intent myService = new Intent(getActivity(), StatusBarService.class);
@@ -506,7 +503,7 @@ public class IntentionFragment extends CoreFragment implements View.OnClickListe
     private Long readLastDateFromMediaStore(Context context, Uri uri) {
         Cursor cursor = context.getContentResolver().query(uri, null, null, null, "date_added DESC");
 
-        Long dateAdded =-1l;
+        Long dateAdded =-1L;
         if (cursor.moveToNext()) {
             dateAdded = cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DATE_ADDED));
         }

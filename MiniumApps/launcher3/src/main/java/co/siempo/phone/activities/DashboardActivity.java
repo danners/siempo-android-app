@@ -258,9 +258,10 @@ public class DashboardActivity extends CoreActivity {
         mPager.setOnTouchListener(new View.OnTouchListener() {
             private float pointX;
             private float pointY;
-            private int tolerance = 50;
+
             @Override
             public boolean onTouch(View v, MotionEvent event) {
+                int tolerance = 50;
                 switch(event.getAction()) {
                     case MotionEvent.ACTION_MOVE:
                         return false; //This is important, if you return TRUE the action of swipe will not take place.

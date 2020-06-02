@@ -153,7 +153,7 @@ public class RowLayout extends ViewGroup {
         }
 
         public boolean wouldExceedMax(int childWidth) {
-            return widthMode == MeasureSpec.UNSPECIFIED ? false : getNewWidth(childWidth) > maxWidth;
+            return widthMode != MeasureSpec.UNSPECIFIED && getNewWidth(childWidth) > maxWidth;
         }
 
         public void addChildDimensions(int childWidth, int childHeight) {

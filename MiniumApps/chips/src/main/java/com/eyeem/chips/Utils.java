@@ -47,7 +47,7 @@ public class Utils {
     public static String flatten(CharSequence charSequence, HashMap<Class<?>, FlatteningFactory> factories) {
         Editable out = new SpannableStringBuilder(charSequence);
         for (Map.Entry<Class<?>, FlatteningFactory> e : factories.entrySet()) {
-            Object spans[] = out.getSpans(0, out.length(), e.getKey());
+            Object[] spans = out.getSpans(0, out.length(), e.getKey());
             for (Object span : spans) {
                 int start = out.getSpanStart(span);
                 int end = out.getSpanEnd(span);
@@ -109,7 +109,7 @@ public class Utils {
         SpannableStringBuilder e = new SpannableStringBuilder(ss);
         boolean firstiesEnded = false;
         for (int i = 1; i <= e.length(); i++) {
-            char c[] = new char[1];
+            char[] c = new char[1];
             e.getChars(i - 1, i, c, 0);
             if (Character.isWhitespace(c[0]))
                 continue;

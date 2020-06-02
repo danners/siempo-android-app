@@ -1,7 +1,8 @@
 package co.siempo.phone.service;
 
 import android.os.AsyncTask;
-import android.text.TextUtils;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 
@@ -10,7 +11,6 @@ import co.siempo.phone.event.NotifyFavoriteView;
 import co.siempo.phone.models.MainListItem;
 import co.siempo.phone.utils.PackageUtil;
 import co.siempo.phone.utils.PrefSiempo;
-import org.greenrobot.eventbus.EventBus;
 
 /**
  * Created by rajeshjadi on 14/3/18.

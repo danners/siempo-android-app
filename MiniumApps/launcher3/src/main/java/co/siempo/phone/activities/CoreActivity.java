@@ -80,10 +80,8 @@ public abstract class CoreActivity extends AppCompatActivity implements GestureD
     public boolean isOnStopCalled = false;
     UserPresentBroadcastReceiver userPresentBroadcastReceiver;
 
-    private IntentFilter mFilter;
     private InnerRecevier mReceiver;
     private String state = "";
-    private String TAG = "CoreActivity";
     private DownloadReceiver mDownloadReceiver;
 
     public GestureDetector gestureDetector;
@@ -124,7 +122,7 @@ public abstract class CoreActivity extends AppCompatActivity implements GestureD
         windowManager = (WindowManager) getBaseContext().getSystemService(Context.WINDOW_SERVICE);
 
         mReceiver = new InnerRecevier();
-        mFilter = new IntentFilter(Intent.ACTION_CLOSE_SYSTEM_DIALOGS);
+        IntentFilter mFilter = new IntentFilter(Intent.ACTION_CLOSE_SYSTEM_DIALOGS);
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(Intent.ACTION_USER_PRESENT);
         intentFilter.addAction(Intent.ACTION_SCREEN_OFF);
@@ -373,6 +371,7 @@ public abstract class CoreActivity extends AppCompatActivity implements GestureD
             if (action != null && action.equals(Intent.ACTION_CLOSE_SYSTEM_DIALOGS)) {
                 String reason = intent.getStringExtra(SYSTEM_DIALOG_REASON_KEY);
                 if (reason != null) {
+                    String TAG = "CoreActivity";
                     Log.e(TAG, "action:" + action + ",reason:" + reason);
                     if (!state.equalsIgnoreCase(SYSTEM_DIALOG_REASON_RECENT_APPS) && reason.equals(SYSTEM_DIALOG_REASON_HOME_KEY)) {
                         DashboardActivity.currentIndexDashboard = 1;
@@ -384,7 +383,7 @@ public abstract class CoreActivity extends AppCompatActivity implements GestureD
         }
     }
 
-    public class DownloadReceiver extends BroadcastReceiver {
+    public static class DownloadReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
             long receivedID = intent.getLongExtra(

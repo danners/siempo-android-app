@@ -22,13 +22,8 @@ import co.siempo.phone.activities.HelpActivity;
 
 public class HelpFragment extends Fragment {
 
-    private Toolbar toolbar;
-    private TextView txtVersionValue;
     private View view;
-    private String TAG = "HelpFragment";
     private HelpActivity mActivity;
-    private ProgressDialog progressDialog;
-    private RelativeLayout relVersion;
 
 
     @Override
@@ -41,13 +36,13 @@ public class HelpFragment extends Fragment {
 
     private void initView() {
         if (null != mActivity) {
-            progressDialog = new ProgressDialog(mActivity);
+            ProgressDialog progressDialog = new ProgressDialog(mActivity);
             progressDialog.setCanceledOnTouchOutside(false);
             progressDialog.setCancelable(false);
         }
 
 
-        toolbar = view.findViewById(R.id.toolbar);
+        Toolbar toolbar = view.findViewById(R.id.toolbar);
         toolbar.setNavigationIcon(R.drawable.ic_arrow_back_blue_24dp);
         toolbar.setTitle(R.string.help);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -58,11 +53,7 @@ public class HelpFragment extends Fragment {
         });
 
 
-        txtVersionValue = view.findViewById(R.id.txtVersionValue);
-        relVersion = view.findViewById(R.id.relVersion);
-
-
-
+        TextView txtVersionValue = view.findViewById(R.id.txtVersionValue);
 
         String version = "";
         if (BuildConfig.FLAVOR.equalsIgnoreCase(getActivity().getString(R.string.alpha))) {

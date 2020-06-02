@@ -1,6 +1,5 @@
 package co.siempo.phone.app;
 
-import android.app.DownloadManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
@@ -11,12 +10,9 @@ import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
-import android.os.Environment;
 import android.os.UserHandle;
 import android.os.UserManager;
 import android.provider.AlarmClock;
@@ -39,7 +35,6 @@ import org.greenrobot.eventbus.EventBus;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -180,8 +175,6 @@ public abstract class CoreApplication extends MultiDexApplication {
     }
 
 
-
-    private Set<String> blockedApps = new HashSet<>();
     private ArrayList<App> junkFoodList = new ArrayList<>();
     private ArrayList<MainListItem> toolItemsList = new ArrayList<>();
     private ArrayList<MainListItem> toolBottomItemsList = new ArrayList<>();
@@ -334,7 +327,7 @@ public abstract class CoreApplication extends MultiDexApplication {
         setRandomize(PrefSiempo.getInstance(sInstance).read(PrefSiempo.IS_RANDOMIZE_JUNKFOOD, true));
 
 
-        /**
+        /*
          * Fetch Category App List
          */
         Intent intent = new Intent(this, CategoriesApp.class);
@@ -633,7 +626,7 @@ public abstract class CoreApplication extends MultiDexApplication {
 
     public void updateBlockedList() {
         try {
-            blockedApps = PrefSiempo.getInstance(this).read(PrefSiempo
+            Set<String> blockedApps = PrefSiempo.getInstance(this).read(PrefSiempo
                     .BLOCKED_APPLIST, new HashSet<String>());
 
 
@@ -829,6 +822,54 @@ public abstract class CoreApplication extends MultiDexApplication {
 
                 break;
             case TOOLS_RECORDER://Recorder
+
+            case TOOLS_LANGUAGES:
+
+            case TOOLS_JOURNAL:
+
+            case TOOLS_HEALTH:
+
+            case TOOLS_FLASH:
+
+            case TOOLS_FILES:
+
+            case TOOLS_DOC:
+
+            case TOOLS_COURCE:
+
+            case TOOLS_BANKING:
+
+            case TOOLS_ADDITIONAL_MESSAGE:
+
+            case TOOLS_ASSISTANT:
+
+            case TOOLS_AUTHENTICATION:
+
+            case TOOLS_BOOKS:
+
+            case TOOLS_CLOUD:
+
+            case TOOLS_LEARNING:
+
+            case TOOLS_MEDITATION:
+
+            case TOOLS_MICROPHONE:
+
+            case TOOLS_NEWS:
+
+            case TOOLS_VIDEO:
+
+            case TOOLS_TRANSLATE:
+
+            case TOOLS_CALCULATOR:
+
+            case TOOLS_SLEEP:
+
+            case TOOLS_VOICE:
+
+            case TOOLS_SETTINGS:
+
+            case TOOLS_SEARCH:
                 break;
             case TOOLS_CAMERA://Camera
                 Intent intentCamera = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
@@ -952,82 +993,6 @@ public abstract class CoreApplication extends MultiDexApplication {
                 break;
 
             case TOOLS_FITNESS://Fitness
-                break;
-
-            case TOOLS_TODO://
-                break;
-
-            case TOOLS_CLOUD://Recorder
-                break;
-
-            case TOOLS_BOOKS://Recorder
-                break;
-
-            case TOOLS_AUTHENTICATION://Recorder
-                break;
-
-            case TOOLS_ASSISTANT://Recorder
-                break;
-
-            case TOOLS_ADDITIONAL_MESSAGE://Recorder
-                break;
-
-            case TOOLS_BANKING://Recorder
-                break;
-
-            case TOOLS_COURCE://Recorder
-                break;
-
-            case TOOLS_DOC://Recorder
-                break;
-
-            case TOOLS_FILES://Recorder
-                break;
-
-            case TOOLS_FLASH://Recorder
-                break;
-
-            case TOOLS_HEALTH://Recorder
-                break;
-
-            case TOOLS_JOURNAL://Recorder
-                break;
-
-            case TOOLS_LANGUAGES://Recorder
-                break;
-
-
-            case TOOLS_LEARNING://Recorder
-                break;
-
-            case TOOLS_MEDITATION://Recorder
-                break;
-
-            case TOOLS_MICROPHONE://Recorder
-                break;
-
-            case TOOLS_NEWS://Recorder
-                break;
-
-            case TOOLS_SEARCH://Recorder
-                break;
-
-            case TOOLS_SETTINGS://Recorder
-                break;
-
-            case TOOLS_VOICE://Recorder
-                break;
-
-            case TOOLS_SLEEP://Recorder
-                break;
-
-            case TOOLS_CALCULATOR://Recorder
-                break;
-
-            case TOOLS_TRANSLATE://Recorder
-                break;
-
-            case TOOLS_VIDEO://Recorder
                 break;
 
             default:

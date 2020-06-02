@@ -3,7 +3,6 @@ package co.siempo.phone.main;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.ResolveInfo;
 import android.text.TextUtils;
 
 import java.util.ArrayList;

@@ -28,10 +28,11 @@ import com.github.chrisbanes.photoview.PhotoViewAttacher;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
-import java.util.ArrayList;
 import java.util.List;
 
 import co.siempo.phone.R;
@@ -39,13 +40,11 @@ import co.siempo.phone.event.NotifyBackgroundChange;
 import co.siempo.phone.event.NotifyBackgroundToService;
 import co.siempo.phone.utils.PermissionUtil;
 import co.siempo.phone.utils.PrefSiempo;
-import org.greenrobot.eventbus.EventBus;
 
 
 public class UpdateBackgroundActivity extends CoreActivity {
 
     String strImage;
-    private Toolbar toolbar;
     private PermissionUtil permissionUtil;
     private CircularProgressDrawable circularProgressDrawable;
 
@@ -58,7 +57,7 @@ public class UpdateBackgroundActivity extends CoreActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_update_background);
         permissionUtil = new PermissionUtil(this);
-        toolbar = findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle(R.string.update_background);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override

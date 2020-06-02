@@ -60,7 +60,7 @@ public abstract class LogFormatter {
                 return "";
             }
 
-            StringBuffer buffer = new StringBuffer();
+            StringBuilder buffer = new StringBuilder();
             buffer.append(formatter.format(System.currentTimeMillis()));
             buffer.append("\t");
             buffer.append(msg);

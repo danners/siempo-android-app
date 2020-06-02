@@ -44,25 +44,16 @@ public class ToolPositioningActivity extends CoreActivity implements OnToolItemL
         OnStartDragListener {
     HashMap<Integer, AppMenu> map = new HashMap<>();
     LinearLayout linMain;
-    private ArrayList<MainListItem> items = new ArrayList<>();
     private ArrayList<MainListItem> sortedList = new ArrayList<>();
-    private ToolPositioningAdapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
     private ItemOffsetDecoration itemDecoration;
     private ItemTouchHelper mItemTouchHelper;
-    private RecyclerView recyclerView;
-    private Toolbar toolbar;
-    private TextView txtSelectTools;
-    private RelativeLayout relTop;
-    private LinearLayout linearTop;
-    private ImageView imgBackground;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tool_positioning);
         linMain = findViewById(R.id.linMain);
-        imgBackground = findViewById(R.id.imgBackground);
+        ImageView imgBackground = findViewById(R.id.imgBackground);
         String filePath = PrefSiempo.getInstance(this).read(PrefSiempo
                 .DEFAULT_BAG, "");
 
@@ -140,16 +131,16 @@ public class ToolPositioningActivity extends CoreActivity implements OnToolItemL
 
     private void initView() {
 
-        toolbar = findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle(R.string.editing_tools);
         setSupportActionBar(toolbar);
-        items = new ArrayList<>();
+        ArrayList<MainListItem> items = new ArrayList<>();
         new MainListItemLoader().loadItemsDefaultApp(items);
         items = PackageUtil.getToolsMenuData(this, items);
-        recyclerView = findViewById(R.id.recyclerView);
-        txtSelectTools = findViewById(R.id.txtSelectTools);
+        RecyclerView recyclerView = findViewById(R.id.recyclerView);
+        TextView txtSelectTools = findViewById(R.id.txtSelectTools);
         recyclerView.setHasFixedSize(true);
-        mLayoutManager = new GridLayoutManager(this, 4);
+        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(this, 4);
 
         recyclerView.setLayoutManager(mLayoutManager);
         if (itemDecoration != null) {
@@ -157,7 +148,7 @@ public class ToolPositioningActivity extends CoreActivity implements OnToolItemL
         }
         itemDecoration = new ItemOffsetDecoration(this, R.dimen.dp_10);
         recyclerView.addItemDecoration(itemDecoration);
-        mAdapter = new ToolPositioningAdapter(this, items, this, this, CoreApplication.getInstance().isHideIconBranding());
+        ToolPositioningAdapter mAdapter = new ToolPositioningAdapter(this, items, this, this, CoreApplication.getInstance().isHideIconBranding());
         ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(mAdapter, this);
         mItemTouchHelper = new ItemTouchHelper(callback);
         mItemTouchHelper.attachToRecyclerView(recyclerView);
@@ -171,7 +162,7 @@ public class ToolPositioningActivity extends CoreActivity implements OnToolItemL
                 startActivity(intent);
             }
         });
-        linearTop = findViewById(R.id.linearTop);
+        LinearLayout linearTop = findViewById(R.id.linearTop);
         linearTop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -185,7 +176,7 @@ public class ToolPositioningActivity extends CoreActivity implements OnToolItemL
                 finish();
             }
         });
-        relTop = findViewById(R.id.relTop);
+        RelativeLayout relTop = findViewById(R.id.relTop);
         relTop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

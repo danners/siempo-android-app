@@ -14,12 +14,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings;
-import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
-import androidx.viewpager.widget.ViewPager;
-import androidx.cardview.widget.CardView;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import android.text.Html;
 import android.text.TextUtils;
 import android.util.Log;
@@ -43,14 +37,24 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewFlipper;
 
+import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
+
 import com.eyeem.chips.ChipsEditText;
 import com.eyeem.chips.Utils;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
@@ -87,9 +91,6 @@ import co.siempo.phone.token.TokenUpdateEvent;
 import co.siempo.phone.ui.SiempoViewPager;
 import co.siempo.phone.utils.PrefSiempo;
 import co.siempo.phone.utils.UIUtils;
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
 import me.relex.circleindicator.CircleIndicator;
 
 import static co.siempo.phone.utils.UIUtils.hasUsageStatsPermission;
@@ -142,7 +143,6 @@ public class PaneFragment extends CoreFragment {
     private RecyclerView recyclerViewBottomDoc;
     private List<MainListItem> items = new ArrayList<>();
     private ToolsMenuAdapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
     private ItemOffsetDecoration itemDecoration;
     private ChipsEditText chipsEditText;
     private ImageView imageClear;
@@ -478,7 +478,7 @@ public class PaneFragment extends CoreFragment {
 
     private void bindBottomDock() {
 
-        mLayoutManager = new GridLayoutManager(getActivity(), 4);
+        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getActivity(), 4);
         if (null != recyclerViewBottomDoc) {
             recyclerViewBottomDoc.setLayoutManager(mLayoutManager);
             if (itemDecoration != null) {

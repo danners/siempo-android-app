@@ -44,8 +44,7 @@ public class SimpleItemTouchHelperCallback extends ItemTouchHelper.Callback {
 
     private final ItemTouchHelperAdapter mAdapter;
     private int dragFrom = -1;
-    private int dragTo = -1;
-    private Context mContext = null;
+    private Context mContext;
 
     public SimpleItemTouchHelperCallback(ItemTouchHelperAdapter adapter, Context context) {
         mAdapter = adapter;
@@ -85,7 +84,6 @@ public class SimpleItemTouchHelperCallback extends ItemTouchHelper.Callback {
             dragFrom = fromPosition;
 
         }
-        dragTo = toPosition;
         // Notify the adapter of the move
         mAdapter.onItemMove(source.getAdapterPosition(), target.getAdapterPosition());
         return true;
@@ -151,7 +149,7 @@ public class SimpleItemTouchHelperCallback extends ItemTouchHelper.Callback {
 
         if (viewHolder instanceof ItemTouchHelperViewHolder) {
 
-            dragFrom = dragTo = -1;
+            dragFrom = -1;
             ItemTouchHelperViewHolder itemViewHolder = (ItemTouchHelperViewHolder) viewHolder;
             itemViewHolder.onItemClear();
         }

@@ -36,11 +36,7 @@ public class AlphaSettingsActivity extends CoreActivity {
     private LinearLayout ln_suppressedNotifications;
     private RelativeLayout rel_restrictions;
     private Switch switch_alphaRestriction;
-    private ImageView icon_SuppressedNotifications;
     private LinearLayout ln_permissions;
-    private ImageView icon_permissions;
-    private Toolbar toolbar;
-
 
 
     @AfterViews
@@ -50,7 +46,7 @@ public class AlphaSettingsActivity extends CoreActivity {
     }
 
     public void initView() {
-        toolbar = findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setNavigationIcon(R.drawable.ic_arrow_back_blue_24dp);
         toolbar.setTitle(R.string.alpha_settings);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -64,8 +60,8 @@ public class AlphaSettingsActivity extends CoreActivity {
         rel_restrictions = findViewById(R.id.rel_restrictions);
         switch_alphaRestriction = findViewById(R.id.switch_alphaRestriction);
         ln_permissions = findViewById(R.id.ln_permissions);
-        icon_SuppressedNotifications = findViewById(R.id.icon_SuppressedNotifications);
-        icon_permissions = findViewById(R.id.icon_permissions);
+        ImageView icon_SuppressedNotifications = findViewById(R.id.icon_SuppressedNotifications);
+        ImageView icon_permissions = findViewById(R.id.icon_permissions);
         icon_permissions.setImageDrawable(new IconDrawable(context, "fa-bell").colorRes(R.color.text_primary).sizeDp(18));
         try {
             icon_SuppressedNotifications.setImageDrawable(new IconDrawable(context, "fa-exclamation").colorRes(R.color.text_primary).sizeDp(18));

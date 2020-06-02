@@ -120,8 +120,12 @@ public class StatusBarService extends Service {
     private int minusculeHeightLandscape;
     private WindowManager.LayoutParams paramsTop;
     private AppChecker appChecker;
-    private TextView txtTime, txtCount, txtSettings, txtWellness;
-    private TextView txtTimeTop, txtCountTop, txtSettingsTop, txtWellnessTop;
+    private TextView txtTime;
+    private TextView txtCount;
+    private TextView txtSettings;
+    private TextView txtTimeTop;
+    private TextView txtCountTop;
+    private TextView txtSettingsTop;
     private LinearLayout linButtons, linProgress;
     private LinearLayout linButtonsTop, linProgressTop;
     private ProgressBar progressBar;
@@ -1021,7 +1025,7 @@ public class StatusBarService extends Service {
             boolean isSettingPressed = PrefSiempo.getInstance(context).read(PrefSiempo.IS_SETTINGS_PRESSED, false);
             final boolean isLandscape = getResources().getConfiguration()
                     .orientation == Configuration.ORIENTATION_LANDSCAPE;
-            int heightForParams = minusculeHeight;
+            int heightForParams;
             if (isLandscape) {
                 heightForParams = heightWindowLandscapeExclusive;
             } else {
@@ -1220,7 +1224,7 @@ public class StatusBarService extends Service {
                 progressBarTop.setMax(value);
                 txtCountTop = topView.findViewById(R.id.txtCount);
                 txtMessageTop = topView.findViewById(R.id.txtMessage);
-                txtWellnessTop = topView.findViewById(R.id.txtWellness);
+                TextView txtWellnessTop = topView.findViewById(R.id.txtWellness);
                 txtSettingsTop = topView.findViewById(R.id.txtSettings);
                 rotateLayoutTop = topView.findViewById(R.id.rotateLayout);
                 lnrRotateTop = topView.findViewById(R.id.lnrRotate);
@@ -1235,7 +1239,7 @@ public class StatusBarService extends Service {
 
                             if (paramsTop.gravity == Gravity.TOP) {
 
-                                int widthOfscreen = minusculeHeight;
+                                int widthOfscreen;
                                 if (isLandscape) {
                                     widthOfscreen = screenHeightExclusive;
                                 } else {
@@ -2024,7 +2028,7 @@ public class StatusBarService extends Service {
                 txtCount = bottomView.findViewById(R.id.txtCount);
                 txtMessageBottom = bottomView.findViewById(R.id.txtMessage);
                 lnrRotateBottom = bottomView.findViewById(R.id.lnrRotate);
-                txtWellness = bottomView.findViewById(R.id.txtWellness);
+                TextView txtWellness = bottomView.findViewById(R.id.txtWellness);
                 txtSettings = bottomView.findViewById(R.id.txtSettings);
                 lnrTime = bottomView.findViewById(R.id.lnrTime);
                 lnrSettingsNote = bottomView.findViewById(R.id.lnrSettingsNote);
@@ -3186,47 +3190,51 @@ public class StatusBarService extends Service {
         public void onReceive(Context context, Intent intent) {
             try {
                 if (intent != null && intent.getAction() != null) {
-                    if (intent.getAction().equals(Intent.ACTION_PACKAGE_ADDED)) {
-                        String installPackageName;
-                        if (intent.getData().getEncodedSchemeSpecificPart() != null) {
-                            if (!(intent.getExtras().containsKey(Intent.EXTRA_REPLACING) &&
-                                    intent.getExtras().getBoolean(Intent.EXTRA_REPLACING, false))) {
-                                installPackageName = intent.getData().getEncodedSchemeSpecificPart();
-                                addAppFromBlockedList(installPackageName);
-                                CoreApplication.getInstance().addOrRemoveApplicationInfo(true, installPackageName);
-                                reloadData();
-                            }
-                        }
-                    } else if (intent.getAction().equals(Intent.ACTION_PACKAGE_REMOVED)) {
-                        String uninstallPackageName;
-                        if (intent.getData().getEncodedSchemeSpecificPart() != null) {
-                            if (!(intent.getExtras().containsKey(Intent.EXTRA_REPLACING) &&
-                                    intent.getExtras().getBoolean(Intent.EXTRA_REPLACING, false))) {
-                                uninstallPackageName = intent.getData().getSchemeSpecificPart();
-                                if (!TextUtils.isEmpty(uninstallPackageName)) {
-                                    new DBClient().deleteMsgByPackageName(uninstallPackageName);
-                                    removeAppFromPreference(context, uninstallPackageName);
-                                    removeAppFromBlockedList(uninstallPackageName);
-                                    CoreApplication.getInstance().addOrRemoveApplicationInfo(false, uninstallPackageName);
+                    switch (intent.getAction()) {
+                        case Intent.ACTION_PACKAGE_ADDED:
+                            String installPackageName;
+                            if (intent.getData().getEncodedSchemeSpecificPart() != null) {
+                                if (!(intent.getExtras().containsKey(Intent.EXTRA_REPLACING) &&
+                                        intent.getExtras().getBoolean(Intent.EXTRA_REPLACING, false))) {
+                                    installPackageName = intent.getData().getEncodedSchemeSpecificPart();
+                                    addAppFromBlockedList(installPackageName);
+                                    CoreApplication.getInstance().addOrRemoveApplicationInfo(true, installPackageName);
                                     reloadData();
                                 }
                             }
-                        }
-                    } else if (intent.getAction().equals(Intent.ACTION_PACKAGE_CHANGED)) {
-                        String packageName;
-                        if (intent.getData().getEncodedSchemeSpecificPart() != null) {
-                            packageName = intent.getData().getSchemeSpecificPart();
-                            boolean isEnable = UIUtils.isAppInstalledAndEnabled(context, packageName);
-                            if (isEnable) {
+                            break;
+                        case Intent.ACTION_PACKAGE_REMOVED:
+                            String uninstallPackageName;
+                            if (intent.getData().getEncodedSchemeSpecificPart() != null) {
+                                if (!(intent.getExtras().containsKey(Intent.EXTRA_REPLACING) &&
+                                        intent.getExtras().getBoolean(Intent.EXTRA_REPLACING, false))) {
+                                    uninstallPackageName = intent.getData().getSchemeSpecificPart();
+                                    if (!TextUtils.isEmpty(uninstallPackageName)) {
+                                        new DBClient().deleteMsgByPackageName(uninstallPackageName);
+                                        removeAppFromPreference(context, uninstallPackageName);
+                                        removeAppFromBlockedList(uninstallPackageName);
+                                        CoreApplication.getInstance().addOrRemoveApplicationInfo(false, uninstallPackageName);
+                                        reloadData();
+                                    }
+                                }
+                            }
+                            break;
+                        case Intent.ACTION_PACKAGE_CHANGED:
+                            String packageName;
+                            if (intent.getData().getEncodedSchemeSpecificPart() != null) {
+                                packageName = intent.getData().getSchemeSpecificPart();
+                                boolean isEnable = UIUtils.isAppInstalledAndEnabled(context, packageName);
+                                if (isEnable) {
                                     addAppFromBlockedList(packageName);
                                     CoreApplication.getInstance().addOrRemoveApplicationInfo(true, packageName);
-                            } else {
-                                removeAppFromPreference(context, packageName);
-                                removeAppFromBlockedList(packageName);
-                                CoreApplication.getInstance().addOrRemoveApplicationInfo(false, packageName);
+                                } else {
+                                    removeAppFromPreference(context, packageName);
+                                    removeAppFromBlockedList(packageName);
+                                    CoreApplication.getInstance().addOrRemoveApplicationInfo(false, packageName);
+                                }
+                                reloadData();
                             }
-                            reloadData();
-                        }
+                            break;
                     }
                     PrefSiempo.getInstance(context).write
                             (PrefSiempo.IS_APP_UPDATED, true);

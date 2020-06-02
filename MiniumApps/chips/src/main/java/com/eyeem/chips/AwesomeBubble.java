@@ -31,10 +31,9 @@ public class AwesomeBubble {
         this.containerWidth = containerWidth;
         text_paint.setTextSize(style.textSize);
 
-        int correction = 0;
         // so with 4.3, StaticLayout.getDesiredWidth started giving bad results
         // adding 1px helps
-        correction = 1;
+        int correction = 1;
 
         int maximum_w = containerWidth - 4 * style.bubblePadding;
         int desired_w = (int) StaticLayout.getDesiredWidth(text, text_paint) + correction;

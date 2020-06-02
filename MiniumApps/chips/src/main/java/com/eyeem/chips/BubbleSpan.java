@@ -7,15 +7,15 @@ import android.text.Spannable;
 import java.util.ArrayList;
 
 public interface BubbleSpan {
-    public void setPressed(boolean value, Spannable s);
+    void setPressed(boolean value, Spannable s);
 
-    public void resetWidth(int width);
+    void resetWidth(int width);
 
-    public ArrayList<Rect> rect(ILayoutCallback callback);
+    ArrayList<Rect> rect(ILayoutCallback callback);
 
-    public void redraw(Canvas canvas);
+    void redraw(Canvas canvas);
 
-    public void setData(Object data);
+    void setData(Object data);
 
-    public Object data();
+    Object data();
 }

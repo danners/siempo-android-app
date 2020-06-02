@@ -188,7 +188,7 @@ public class MainListItem implements Serializable {
 
     public void addNumbers(String label, String number) {
         if (!isNumberExists(number))
-            getNumbers().add(new MainListItem.ContactNumber(number, label));
+            getNumbers().add(new ContactNumber(number, label));
 
     }
 
@@ -220,7 +220,7 @@ public class MainListItem implements Serializable {
         this.imageUri = imageUri;
     }
 
-    public class ContactNumber {
+    public static class ContactNumber {
         private String label;
         private String number;
 

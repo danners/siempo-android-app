@@ -265,7 +265,7 @@ public class TempoNotificationSectionAdapter extends SectionedRecyclerViewAdapte
             final AppListInfo appListItem = helpfulRobot_List.get(position);
             holder.enableViews();
 
-            String appName = "";
+            String appName;
             if (appListItem.app != null) {
                 appName = CoreApplication.getInstance().getApplicationName(appListItem.app);
                 holder.render(appName);

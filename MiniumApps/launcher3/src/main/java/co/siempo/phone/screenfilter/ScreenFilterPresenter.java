@@ -15,7 +15,6 @@ import android.view.WindowManager;
 import co.siempo.phone.R;
 import co.siempo.phone.receivers.OrientationChangeReceiver;
 import co.siempo.phone.service.ScreenFilterService;
-import co.siempo.phone.utils.NotificationUtils;
 
 import static co.siempo.phone.utils.NotificationUtils.ANDROID_CHANNEL_ID;
 
@@ -292,7 +291,7 @@ public class ScreenFilterPresenter implements OrientationChangeReceiver.OnOrient
         mSettingsModel.setShadesPauseState(isPaused());
     }
 
-    private abstract class State {
+    private abstract static class State {
         protected abstract void onScreenFilterCommand(int commandFlag);
 
         @Override

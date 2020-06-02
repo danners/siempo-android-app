@@ -9,9 +9,6 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import androidx.core.content.ContextCompat;
-import androidx.appcompat.widget.PopupMenu;
-import androidx.appcompat.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -28,8 +25,14 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import androidx.appcompat.widget.PopupMenu;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
+
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -55,8 +58,6 @@ import co.siempo.phone.service.LoadToolPane;
 import co.siempo.phone.utils.PackageUtil;
 import co.siempo.phone.utils.PrefSiempo;
 import co.siempo.phone.utils.Sorting;
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
 
 public class JunkfoodFlaggingActivity extends CoreActivity implements AdapterView.OnItemClickListener {
     public LinkedList<App> list = new LinkedList<>();
@@ -67,7 +68,6 @@ public class JunkfoodFlaggingActivity extends CoreActivity implements AdapterVie
     List<App> installedPackageList;
     int firstPosition;
     boolean isClickOnView = true;
-    private Toolbar toolbar;
     private ListView listAllApps;
     private PopupMenu popup;
     private List<AppListInfo> flagAppList = new ArrayList<>();
@@ -96,9 +96,7 @@ public class JunkfoodFlaggingActivity extends CoreActivity implements AdapterVie
         PrefSiempo.getInstance(JunkfoodFlaggingActivity.this).writeAppList(PrefSiempo.FAVORITE_APPS,
                 favoriteList);
 
-        for (App app: list) {
-            adapterlist.add(app);
-        }
+        adapterlist.addAll(list);
 
         Intent intent = getIntent();
         if (intent.getExtras() != null && intent.hasExtra("FromAppMenu")) {
@@ -111,7 +109,7 @@ public class JunkfoodFlaggingActivity extends CoreActivity implements AdapterVie
      * Initialize the view.
      */
     private void initView() {
-        toolbar = findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle(R.string.title_flagging_screen);
         setSupportActionBar(toolbar);
         listAllApps = findViewById(R.id.listAllApps);

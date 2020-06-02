@@ -6,7 +6,6 @@ import android.content.Context;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import co.siempo.phone.R;

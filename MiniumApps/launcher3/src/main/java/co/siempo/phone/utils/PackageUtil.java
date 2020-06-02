@@ -717,9 +717,8 @@ public class PackageUtil {
         List<MainListItem> junkListItems = new ArrayList<>();
 
         // Check if tools contain junkfood apps then remove assign from corresponding tool
-        Iterator it = toolSetting.entrySet().iterator();
-        while (it.hasNext()) {
-            Map.Entry pair = (Map.Entry) it.next();
+        for (Map.Entry<Integer, AppMenu> integerAppMenuEntry : toolSetting.entrySet()) {
+            Map.Entry pair = (Map.Entry) integerAppMenuEntry;
             for (App junkApp : junkFoodAppList) {
                 if (((AppMenu) (pair.getValue())).getApplicationName()
                         .equalsIgnoreCase(junkApp.packageName) || ((AppMenu) (pair.getValue())).getApplicationName()

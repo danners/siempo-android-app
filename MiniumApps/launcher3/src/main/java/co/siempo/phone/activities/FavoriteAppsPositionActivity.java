@@ -3,7 +3,6 @@ package co.siempo.phone.activities;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -42,16 +41,8 @@ import co.siempo.phone.utils.PrefSiempo;
 
 public class FavoriteAppsPositionActivity extends CoreActivity implements OnFavoriteItemListChangedListener,
         OnStartDragListener {
-    private ArrayList<MainListItem> items = new ArrayList<>();
-    private FavoritePositioningAdapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
     private ItemOffsetDecoration itemDecoration;
     private ItemTouchHelper mItemTouchHelper;
-    private RecyclerView recyclerView;
-    private Toolbar toolbar;
-    private TextView txtSelectTools;
-    private RelativeLayout relTop;
-    private RelativeLayout relPane;
 
     private View.OnClickListener onClickListener = new View.OnClickListener() {
         @Override
@@ -59,8 +50,6 @@ public class FavoriteAppsPositionActivity extends CoreActivity implements OnFavo
             finish();
         }
     };
-    private LinearLayout linMain;
-    private ImageView imgBackground;
 
 
     @Override
@@ -69,8 +58,8 @@ public class FavoriteAppsPositionActivity extends CoreActivity implements OnFavo
         setContentView(R.layout.activity_favorite_apps_positioning);
         String filePath = PrefSiempo.getInstance(this).read(PrefSiempo
                 .DEFAULT_BAG, "");
-        linMain = findViewById(R.id.linMain);
-        imgBackground = findViewById(R.id.imgBackground);
+        LinearLayout linMain = findViewById(R.id.linMain);
+        ImageView imgBackground = findViewById(R.id.imgBackground);
 
         try {
             if (!TextUtils.isEmpty(filePath)) {
@@ -135,17 +124,17 @@ public class FavoriteAppsPositionActivity extends CoreActivity implements OnFavo
 
     private void initView() {
 
-        toolbar = findViewById(R.id.toolbar);
-        relTop = findViewById(R.id.relTop);
-        relPane = findViewById(R.id.relPane);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        RelativeLayout relTop = findViewById(R.id.relTop);
+        RelativeLayout relPane = findViewById(R.id.relPane);
         toolbar.setTitle(R.string.editing_frequently_apps);
         setSupportActionBar(toolbar);
-        items = PackageUtil.getFavoriteList(this);
+        ArrayList<MainListItem> items = PackageUtil.getFavoriteList(this);
 
-        recyclerView = findViewById(R.id.recyclerView);
-        txtSelectTools = findViewById(R.id.txtSelectTools);
+        RecyclerView recyclerView = findViewById(R.id.recyclerView);
+        TextView txtSelectTools = findViewById(R.id.txtSelectTools);
         recyclerView.setHasFixedSize(true);
-        mLayoutManager = new GridLayoutManager(this, 4);
+        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(this, 4);
         recyclerView.setLayoutManager(mLayoutManager);
         if (itemDecoration != null) {
             recyclerView.removeItemDecoration(itemDecoration);
@@ -154,7 +143,7 @@ public class FavoriteAppsPositionActivity extends CoreActivity implements OnFavo
         recyclerView.addItemDecoration(itemDecoration);
 
 
-        mAdapter = new FavoritePositioningAdapter(this, CoreApplication.getInstance().isHideIconBranding(), items, this, this);
+        FavoritePositioningAdapter mAdapter = new FavoritePositioningAdapter(this, CoreApplication.getInstance().isHideIconBranding(), items, this, this);
         ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(mAdapter, this);
         mItemTouchHelper = new ItemTouchHelper(callback);
         mItemTouchHelper.attachToRecyclerView(recyclerView);

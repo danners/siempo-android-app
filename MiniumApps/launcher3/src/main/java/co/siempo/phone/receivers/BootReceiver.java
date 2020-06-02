@@ -12,10 +12,10 @@ import co.siempo.phone.utils.PrefSiempo;
  */
 
 public class BootReceiver extends BroadcastReceiver {
-    private String TAG = "BootReceiver";
 
     @Override
     public void onReceive(Context context, Intent intent) {
+        String TAG = "BootReceiver";
         Log.d(TAG, "Boot complete");
         try {
             PrefSiempo.getInstance(context).write(PrefSiempo.CALL_RUNNING, false);

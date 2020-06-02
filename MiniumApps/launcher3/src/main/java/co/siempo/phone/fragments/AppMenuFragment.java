@@ -40,12 +40,6 @@ public class AppMenuFragment extends CoreFragment implements View.OnClickListene
 
 
     boolean isFromFlag = false;
-    private View view;
-    private Toolbar toolbar;
-    private RelativeLayout relJunkFoodmize;
-    private RelativeLayout relHideIconBranding;
-    private RelativeLayout mRelChooseFlagapps;
-    private RelativeLayout mRelOverUseScreen;
     private RelativeLayout mRelOverUseFlaggedApp;
     private Switch switchJunkFoodmize, switchHideIcon, switchOveruseFlagged;
     private TextView mTxtReduceOveruseFlaggedDes;
@@ -79,7 +73,7 @@ public class AppMenuFragment extends CoreFragment implements View.OnClickListene
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         context = getActivity();
-        view = inflater.inflate(R.layout.fragment_app_menu, container, false);
+        View view = inflater.inflate(R.layout.fragment_app_menu, container, false);
         deterTime = PrefSiempo.getInstance(context).read(PrefSiempo.DETER_AFTER, -1);
 
 
@@ -122,7 +116,7 @@ public class AppMenuFragment extends CoreFragment implements View.OnClickListene
 
 
     private void initView(View view) {
-        toolbar = view.findViewById(R.id.toolbar);
+        Toolbar toolbar = view.findViewById(R.id.toolbar);
         toolbar.setNavigationIcon(R.drawable.ic_arrow_back_blue_24dp);
         toolbar.setTitle(R.string.app_menus);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -150,16 +144,16 @@ public class AppMenuFragment extends CoreFragment implements View.OnClickListene
             switchOveruseFlagged.setChecked(true);
         }
 
-        relJunkFoodmize = view.findViewById(R.id.relJunkFoodmize);
+        RelativeLayout relJunkFoodmize = view.findViewById(R.id.relJunkFoodmize);
         relJunkFoodmize.setOnClickListener(this);
 
-        relHideIconBranding = view.findViewById(R.id.relHideIconBranding);
+        RelativeLayout relHideIconBranding = view.findViewById(R.id.relHideIconBranding);
         relHideIconBranding.setOnClickListener(this);
 
-        mRelChooseFlagapps = view.findViewById(R.id.relChooseFlagApp);
+        RelativeLayout mRelChooseFlagapps = view.findViewById(R.id.relChooseFlagApp);
         mRelChooseFlagapps.setOnClickListener(this);
 
-        mRelOverUseScreen = view.findViewById(R.id.relReduceOveruseScreen);
+        RelativeLayout mRelOverUseScreen = view.findViewById(R.id.relReduceOveruseScreen);
         mRelOverUseScreen.setOnClickListener(this);
 
         mRelOverUseFlaggedApp = view.findViewById(R.id.relReduceOveruseFlagged);

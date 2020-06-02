@@ -168,7 +168,7 @@ public class AppAssignmentAdapter extends RecyclerView.Adapter<AppAssignmentAdap
         return filterList.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         // each data item is just a string in this case
         ImageView imgIcon;
         TextView txtAppName;
